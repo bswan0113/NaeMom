@@ -66,3 +66,5 @@
         (views/board/detail.jsp(추가)
         && kr/kh/Naemom/BoardController.java(수정)
         && src/main/resources/mappers/BoardMappers.xml(수정)))
+        
+        *규환확인
