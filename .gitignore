@@ -60,7 +60,12 @@ spring-test/test-output/
 target/
 
 # Eclipse artifacts, including WTP generated manifests
-
+bin
+.classpath
+.project
+.settings
+.springBeans
+*/src/main/java/META-INF/MANIFEST.MF
 
 # IDEA artifacts and output dirs
 *.iml
