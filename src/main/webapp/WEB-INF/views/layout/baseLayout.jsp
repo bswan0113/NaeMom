@@ -5,10 +5,10 @@
 <!doctype html> 
 <html>
 <head>
-	<link rel="stylesheet" href="<c:url value='/resources/css/bootstrap.min.css'></c:url>">
-	<script src="<c:url value='/resources/js/jquery.min.js'></c:url>"></script>
-	<script src="<c:url value='/resources/js/popper.min.js'></c:url>"></script>
-	<script src="<c:url value='/resources/js/bootstrap.bundle.min.js'></c:url>"></script>
+	<link rel="stylesheet" href="/Naemom/**/resources/css/bootstrap.min.css">
+	<script src="/Naemom/**/resources/js/jquery.min.js"></script>
+	<script src="/Naemom/**/resources/js/popper.min.js"></script>
+	<script src="/Naemom/**/resources/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 	<tiles:insertAttribute name="header"/>
