@@ -5,11 +5,10 @@
 <!doctype html> 
 <html>
 <head>
-	<title>스프링</title>
-	<link rel="stylesheet" href="/spring/resources/css/bootstrap.min.css">
-	<script src="/spring/resources/js/jquery.min.js"></script>
-	<script src="/spring/resources/js/popper.min.js"></script>
-	<script src="/spring/resources/js/bootstrap.bundle.min.js"></script>
+	<link rel="stylesheet" href="/Naemom/**/resources/css/bootstrap.min.css">
+	<script src="/Naemom/**/resources/js/jquery.min.js"></script>
+	<script src="/Naemom/**/resources/js/popper.min.js"></script>
+	<script src="/Naemom/**/resources/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 	<tiles:insertAttribute name="header"/>
