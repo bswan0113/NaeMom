@@ -30,4 +30,10 @@ public class ProductServiceImp implements ProductService{
 		return true;
 		
 	}
+
+	@Override
+	public ProductVO getProduct(int i) {
+		if(i<=0) return null;
+		return productDao.selectProductByNum(i);
+	}
 }

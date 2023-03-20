@@ -6,4 +6,6 @@ public interface ProductService {
 
 	boolean insertProduct(ProductVO product);
 
+	ProductVO getProduct(int i);
+
 }
