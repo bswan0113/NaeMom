@@ -4,7 +4,7 @@
     <title>임시 목록페이지입니다.</title>
 	<h1>목록 임시페이지입니다.</h1>
 <div style='height: 1500px;'>
-		<a href="<c:url value='/product/insert/insertProduct'></c:url>">insertProduct</a>
+		<a href="<c:url value='/admin/insert/insertProduct'></c:url>">insertProduct</a>
 		<br><a href="<c:url value='/product/detail/accomodation'></c:url>">accomodation</a>
 		<br><a href="<c:url value='/product/detail/festival'></c:url>">festival</a>
 		<br><a href="<c:url value='/product/detail/landMark'></c:url>">landMark</a>

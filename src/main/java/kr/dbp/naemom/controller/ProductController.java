@@ -20,17 +20,17 @@ public class ProductController {
 	ProductService productService;
 
 	//게시글 등록페이지 메서드
-	@RequestMapping(value="/product/insert/insertProduct", method=RequestMethod.POST)
+	@RequestMapping(value="/admin/insert/insertProduct", method=RequestMethod.POST)
 	public ModelAndView insertProductPost(ModelAndView mv, ProductVO product, MultipartFile[] files) {
 		productService.insertProduct(product, files);
-		mv.setViewName("/product/insert/insertProduct");
+		mv.setViewName("/admin/insert/insertProduct");
 		return mv;
 	}
-	@RequestMapping(value="/product/insert/insertProduct", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/insert/insertProduct", method=RequestMethod.GET)
 	public ModelAndView insertProductget(ModelAndView mv, ProductVO product) {
 		ArrayList<ProductCategoryVO> category  = productService.getCategory();
 		mv.addObject("category", category);
-		mv.setViewName("/product/insert/insertProduct");
+		mv.setViewName("/admin/insert/insertProduct");
 		return mv;
 	}
 	//임시 목로페이지
