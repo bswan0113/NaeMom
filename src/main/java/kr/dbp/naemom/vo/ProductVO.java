@@ -2,6 +2,8 @@ package kr.dbp.naemom.vo;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,9 +13,11 @@ public class ProductVO {
 
 	int pd_num;
 	int pd_capacity;
-	int pd_pc_num;
 	int pd_viewcount;
+	int pd_pc_num;
+	@DateTimeFormat(pattern = "HH:mm")
 	Date pd_open_time;
+	@DateTimeFormat(pattern = "HH:mm")
 	Date pd_close_time;
 	String pd_title;
 	String pd_subtitle;
