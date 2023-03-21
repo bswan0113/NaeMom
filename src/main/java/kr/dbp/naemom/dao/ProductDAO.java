@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.dbp.naemom.vo.FileVO;
+import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
 
 public interface ProductDAO {
@@ -14,7 +16,9 @@ public interface ProductDAO {
 
 	public ProductVO selectProductByNum(@Param("pd_num")int i);
 
-	public ArrayList<ProductVO> getCategoryList();
+	public ArrayList<ProductCategoryVO> getCategoryList();
+
+	public void insertFile(@Param("fi")FileVO fileVo);
 		
 
 }

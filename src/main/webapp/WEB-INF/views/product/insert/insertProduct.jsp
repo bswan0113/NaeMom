@@ -11,15 +11,18 @@
        }
        
        </style>
+	   <link href="<c:url value='/resources/css/summernote-bs4.min.css'></c:url>" rel="stylesheet">
+	   <script src="<c:url value='/resources/js/summernote-bs4.min.js'></c:url>"></script>
+	   
 	   	<h1 class="text-primary">관리자 게시글 등록페이지</h1> <br><hr>
 <div class="container-fluid mt-6 mb-6">
-	<form>
+	<form action="<c:url value='/product/insert/insertProduct'></c:url>" method="post" enctype="multipart/form-data">
 		<div class="form-group">
 			<label for="pc_num">카테고리선택:</label>
-			<select class="form-control" id="pc_num" name="pd_pc_num">
+			<select class="form-control" id="category" name="pd_pc_num">
 			<option value="0">-카테고리 선택</option>
 				<c:forEach items="${category}" var="cg">
-					<option value="${cg.pr_pc_num}">${cg.pc_category}</option>
+					<option value="${cg.pc_num}">${cg.pc_category}</option>
 				</c:forEach>
 			</select>
 		</div>
@@ -52,18 +55,41 @@
 			<input type="text" class="form-control" id="capacity" name="pd_capacity">
 		</div>
 		<div class="form-group">
-			<label for="open_time">오픈:</label>
+			<label for="open_time">오픈:(timepicker로 구현)</label>
 			<input type="text" class="form-control" id="open_time" name="pd_open_time">
 		</div>
 		<div class="form-group">
-			<label for="close_time">클로징:</label>
+			<label for="close_time">클로징:(timepicker로 구현)</label>
 			<input type="text" class="form-control" id="close_time" name="pd_close_time">
 		</div>
+		<div class="form-group">
+			<label>내용</label>
+			<textarea id="content"name="pd_content" class="form-control"></textarea>
+		</div>
 		<br><hr>
-		<button class="btn btn-success">등록</button>
-		<button class="btn btn-secondary">임시저장</button>
+		<div class="form-group">
+			(이미지 용도별 분류 방안 고민)
+			썸네일 이미지 등록<input type="file" name="files" class="form-control">
+			<br>대표 이미지 등록<br>
+			<input type="file" name="files" class="form-control">
+			<input type="file" name="files" class="form-control">
+			<input type="file" name="files" class="form-control">
+			<input type="file" name="files" class="form-control">
+			<input type="file" name="files" class="form-control">
+		</div>
+		<br><hr>
+		<button class="btn btn-success">옵션등록</button>
+		<button class="btn btn-secondary" type="submit">임시저장</button>
 		<button class="btn btn-danger">등록취소</button>
 		<br><hr>
 	</form>
 </div>
+
+<script>
+$('#content').summernote({
+	tabsize: 2,
+	height: 400
+});
+
+</script>
 
