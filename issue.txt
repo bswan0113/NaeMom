@@ -1,3 +1,10 @@
+안건우 브랜치 테스트
+        *규환확인
+
+pull request test
+// 브랜치 병합테스트 3/12
+---
+
 3/11
 
 - 스프링 프로젝트 생성
@@ -66,4 +73,8 @@
         (views/board/detail.jsp(추가)
         && kr/kh/Naemom/BoardController.java(수정)
         && src/main/resources/mappers/BoardMappers.xml(수정)))
- 
+
+
+        
+
+

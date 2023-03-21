@@ -65,7 +65,7 @@ bin
 .project
 .settings
 .springBeans
-spring-*/src/main/java/META-INF/MANIFEST.MF
+*/src/main/java/META-INF/MANIFEST.MF
 
 # IDEA artifacts and output dirs
 *.iml
