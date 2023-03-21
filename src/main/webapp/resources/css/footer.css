@@ -1,0 +1,62 @@
+@charset "UTF-8";
+*{
+  padding: 0; margin: 0;
+}
+
+#body{ 
+  min-width: 1190px;
+  font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
+  line-height: 16px; font-size: 12px; color: #202020; 
+  
+}
+ul,li{
+  list-style: none;
+}
+.clearfix::after{
+  content: ''; clear: both; display: block; 
+}
+a{
+  text-decoration: none;
+}
+
+/* 공통 적용 */
+
+
+
+footer{
+  width: 100%; margin-top: 60px; padding-bottom: 10px; background: #f7f7f7;
+  box-sizing: border-box;
+}
+footer .box-footer{
+  width: 940px; margin: 0 auto;
+}
+footer .box-footer .footer-data{
+  padding: 20px 0; border-top: 1px solid #e6e6e6; position: relative;
+}
+footer .box-footer .footer-data::after{
+  content: ''; display: block; clear: both;
+}
+footer .box-footer .footer-data .footer-menu{
+  width: 100%; padding-top: 10px; overflow: hidden;
+}
+footer .footer-data .footer-menu li{
+  float: left; line-height: 30px;
+}
+footer .footer-data .footer-menu li:first-child{
+  padding-left: 2px;
+}
+footer .footer-data .footer-menu a{
+  margin-right: 30px; color: #666; font-size: 13px; letter-spacing: -0.25px;
+}
+footer .footer-data .footer-menu a.personal-info{
+  color: #2c47dc; font-weight: bold;
+}
+footer .footer-data .footer-address{
+  clear: both; padding-top: 6px;
+}
+footer .footer-data .footer-address li{
+  display: inline-block; margin-right: 5px; line-height: 1.8; color: #666; font-size: 13px;
+}
+footer .footer-data .footer-address li>span{
+  padding-right: 10px;
+}
