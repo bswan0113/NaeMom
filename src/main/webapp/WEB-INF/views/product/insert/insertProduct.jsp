@@ -13,7 +13,9 @@
        </style>
 	   <link href="<c:url value='/resources/css/summernote-bs4.min.css'></c:url>" rel="stylesheet">
 	   <script src="<c:url value='/resources/js/summernote-bs4.min.js'></c:url>"></script>
-	   
+ 	<link href="<c:url value='/resources/css/jquery.timepicker.css'></c:url>" rel="stylesheet">
+	   <script src="<c:url value='/resources/js/jquery.timepicker.min.js'></c:url>"></script>
+ 	
 	   	<h1 class="text-primary">관리자 게시글 등록페이지</h1> <br><hr>
 <div class="container-fluid mt-6 mb-6">
 	<form action="<c:url value='/product/insert/insertProduct'></c:url>" method="post" enctype="multipart/form-data">
@@ -55,11 +57,11 @@
 			<input type="text" class="form-control" id="capacity" name="pd_capacity">
 		</div>
 		<div class="form-group">
-			<label for="open_time">오픈:(timepicker로 구현)</label>
+			<label for="open_time">오픈:</label>
 			<input type="text" class="form-control" id="open_time" name="pd_open_time">
 		</div>
 		<div class="form-group">
-			<label for="close_time">클로징:(timepicker로 구현)</label>
+			<label for="close_time">클로징:</label>
 			<input type="text" class="form-control" id="close_time" name="pd_close_time">
 		</div>
 		<div class="form-group">
@@ -68,7 +70,6 @@
 		</div>
 		<br><hr>
 		<div class="form-group">
-			(이미지 용도별 분류 방안 고민)
 			썸네일 이미지 등록<input type="file" name="files" class="form-control">
 			<br>대표 이미지 등록<br>
 			<input type="file" name="files" class="form-control">
@@ -90,6 +91,13 @@ $('#content').summernote({
 	tabsize: 2,
 	height: 400
 });
+$("#open_time, #close_time").timepicker({
 
+	step: 30,          
+	timeFormat: "H:i"    
+
+	
+
+});
 </script>
 
