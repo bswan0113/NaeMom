@@ -6,6 +6,9 @@
 	<select id="selectProductByNum" resultType="kr.dbp.naemom.vo.ProductVO">
 		select * from product where pd_num =#{pd_num}
 	</select>
+	<select id="getCategoryList" resultType="kr.dbp.naemom.vo.ProductVO">		
+		<![CDATA[select pc_category from product_category]]>
+	</select>
   	
 </mapper>
 

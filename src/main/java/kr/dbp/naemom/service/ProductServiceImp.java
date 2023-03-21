@@ -1,5 +1,7 @@
 package kr.dbp.naemom.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +37,11 @@ public class ProductServiceImp implements ProductService{
 	public ProductVO getProduct(int i) {
 		if(i<=0) return null;
 		return productDao.selectProductByNum(i);
+	}
+
+	@Override
+	public ArrayList<ProductVO> getCategory() {
+		ArrayList<ProductVO> ctList=productDao.getCategoryList();
+		return ctList;
 	}
 }

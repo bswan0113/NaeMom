@@ -22,5 +22,7 @@ public class ProductVO {
 	String pd_registerd_address;
 	String pd_detail_address;
 	String pd_parking;
+	String pc_category;
+	int pr_pc_num;
 	
 }

@@ -1,5 +1,7 @@
 package kr.dbp.naemom.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,19 +21,30 @@ public class ProductController {
 	
 	@RequestMapping(value="/product/insert/insertProduct")
 	public ModelAndView insertProduct(ModelAndView mv, ProductVO product) {
+		ArrayList<ProductVO> category  = productService.getCategory();
+		mv.addObject("category", category);
 		productService.insertProduct(product);
 		mv.setViewName("/product/insert/insertProduct");
 		return mv;
 	}
 	
-	
-	
+
+	/*
 	@RequestMapping(value="/product/detail/accomodation/{i}", method = RequestMethod.GET)
 	public ModelAndView viewProductAcommodation(ModelAndView mv, @PathVariable("i")int i) {
 		ProductVO product = productService.getProduct(i);
+		
 		mv.addObject("product",product);
 		mv.setViewName("/product/detail/accomodation");
 		return mv;
+	}*/
+
+	//임시 목로페이지
+	@RequestMapping(value="/product/listtmp")
+	public ModelAndView listtmp(ModelAndView mv) {
+		mv.setViewName("/product/listtmp");
+		return mv;
 	}
+	
 	
 }
