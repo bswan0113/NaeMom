@@ -3,5 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.dbp.naemom.dao.CourseDAO">
-  	
+  	<insert id="insertCourse">
+  		insert into course(co_me_id,co_title,co_content,co_cc_category,co_cs_schedule)
+  		values(#{id},#{cos.co_title},#{cos.co_content},#{cos.co_cc_category},#{cos.co_cs_schedule})
+  	</insert>
+  	<select id="selectSearchProduct" resultType="kr.dbp.naemom.vo.ProductVO">
+  		select * from product where pd_title = #{pr.pd_title}
+  	</select>
+  	<select id="selectHashTag" resultType="kr.dbp.naemom.vo.Hash_tagVO">
+  		select * from hash_tag where hg_pd_num = #{pd_num} 
+  	</select>
 </mapper>
