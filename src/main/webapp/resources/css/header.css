@@ -1,0 +1,135 @@
+@charset "UTF-8";
+
+*{
+  padding: 0; margin: 0;
+}
+
+#body{ 
+  min-width: 1190px;
+  font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
+  line-height: 16px; font-size: 12px; color: #202020; 
+  
+}
+ul,li{
+  list-style: none;
+}
+.clearfix::after{
+  content: ''; clear: both; display: block; 
+}
+a{
+  text-decoration: none;
+}
+
+/* 공통 적용 */
+
+
+
+.header{
+  position: fixed; height: 145px; width: 100%; top: 0; background-color: #fff;
+  box-shadow: 0 3px 5px 1px rgba(0,0,0,0.3);  z-index: 998;
+  
+}
+.header .head-box{
+  width: 1190px; margin: 0 auto; height: 100%;
+    position: relative;
+}
+
+.header .head-box .main-icon-box{
+  float: left; width: 380px; background-color: #fff; margin-top: 20px; height: 75px; text-align: center;
+  
+}
+
+.head-box .search-containerbox .search{
+  width: 560px; height: 50px; border: 1px solid black; background-color:#eef0f2;
+  font-size: 15px; float: left;  padding: 0 5px;
+}
+.header .head-box .search-containerbox{
+  float: left; background-color: #fff; height: 100px; 
+  
+}
+.head-box .search-containerbox .search-box{
+  position: relative; border-radius: 10px;
+  float: right; width: 580px; padding-top: 25px;
+}
+.head-box .search-containerbox .search-box>*{
+  border-radius: 10px;
+}
+.head-box .search-containerbox .search-box .btn-search{
+  width: 50px; height: 50px; position: absolute; border: none; 
+  top: 25px; right: 10px; bottom: 0; cursor: pointer; padding: 0; outline: 0;
+  font-size: 30px;line-height: 50px; color: black; text-align: center;
+}
+.header .head-box .main-menu-box{
+  width: 100%; 
+}
+.head-box .main-menu-box .list-menu{
+  width: 100%; height: 45px; max-width: 1190px; margin: 0 auto; display: flex;
+}
+.head-box .main-menu-box .item-menu{
+ display: flex; justify-content: space-around; width: 100%; height: 100%; background-color: #fff;
+ align-items: center;
+}
+.head-box .main-menu-box .link-menu{
+  display: flex; align-items: center; color: #000;
+  font-family: "SF Pro KR", "SF Pro Display", "SF Pro Icons", -apple-system, BlinkMacSystemFont, "Noto Sans KR", "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.head-box .main-menu-box .icon-menu{
+  width: 30px; height: 30px;
+}
+.head-box .main-menu-box .item-menu:hover{
+  border-bottom: 5px solid #0a97cd;
+}
+
+/* 메인 메뉴바 끝 */
+.search-containerbox .search-keyword{
+  position: absolute; right: 237px; top: 85px; width: 570px; border: 1px solid #666; background: #fff;
+  border-radius: 10px; z-index: 999; text-align: left; display: none; 
+}
+.search-containerbox .search-keyword h2{
+  height: 33px; line-height: 33px; margin-top: 20px; padding: 0 28px; font-weight: 800; 
+  font-size: 20px; color: #333; letter-spacing: -0.5px;
+}
+.search-containerbox .search-keyword .list-search{
+  float: left; width: 50%; padding-bottom: 32px;
+}
+.search-containerbox .search-keyword .list-search .item-search{
+  margin-top: 20px; padding-left: 28px;
+}
+.search-containerbox .search-keyword .num{
+  float: left; width: 20px; height: 20px; background: #666; border-radius: 3px; color: #fff;
+  font-size: 13px; text-align: center; vertical-align: middle;
+}
+.search-containerbox .search-keyword .link-search{
+  overflow: hidden;line-height: 20px; margin-left: 10px; color: #333;
+  font-size: 15px; font-weight: 700;text-overflow: ellipsis; white-space: nowrap;
+}
+.search-containerbox .search-keyword .list-search+.list-search .link-search{
+  font-weight: 400; color: #666;
+}
+.search-containerbox .search-keyword .list-search+.list-search .num{
+  background: #949494;
+}
+.search-containerbox .search-keyword .close-keyword{
+  width: 100%; overflow: hidden; height: 33px; background: #eef0f2; text-align: right;
+  border-radius: 0 0 10px 10px;
+}
+.search-containerbox .search-keyword button{
+  padding: 0 20px; line-height: 33px; font-size: 14px; color: #333; border-radius: 0 0 10px 0;
+  border: 0 none; cursor: pointer;
+}
+/* 서치바 클릭 박스 */
+
+.head-box .box-quickMenu{
+  float: right; width: 210px; background-color: #fff; height: 100px;
+}
+.head-box .box-quickMenu .box-menu{
+  width: 70px; float: left; text-align: center; line-height: 20px; padding-top: 30px;
+}
+
+.box-quickMenu .box-menu .btn-quick i{
+  font-size: 30px; color: #000;
+}
+.box-quickMenu .box-menu .text-quick{
+  display: block; font-size: 8px; color: #000;
+  font-family: "SF Pro KR", "SF Pro Display", "SF Pro Icons", -apple-system, BlinkMacSystemFont, "Noto Sans KR", "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
