@@ -93,4 +93,59 @@ public class ProductServiceImp implements ProductService{
 		ArrayList<ProductCategoryVO> ctList=productDao.getCategoryList();
 		return ctList;
 	}
+
+
+
+	@Override
+	public ArrayList<ProductVO> getProductList() {
+		return productDao.getProductList();
+	}
+
+
+
+	@Override
+	public ArrayList<FileVO> getFiles(int pd_num) {
+		if(pd_num<0) return null;
+		ArrayList<FileVO> files= productDao.getFile(pd_num);
+		files.remove(0);
+		return files ;
+	}
+
+
+
+	@Override
+	public ArrayList<FileVO> getRandomThumbNail() {
+		ArrayList<FileVO> list = new ArrayList<FileVO>();
+		int totalCount = productDao.getTotalCountOfProduct();
+		int random;
+		int amount =10;
+		String Thum = "썸네일";
+		FileVO file;
+		for(int i=0; i<amount; i++) {
+			random = (int)(Math.random()*totalCount+1);
+			file = productDao.getThumbNail(random, Thum);
+			list.add(file);
+			
+		}
+		
+		return list;
+	}
+
+
+
+	@Override
+	public ArrayList<ProductVO> getRandomProduct() {
+		ArrayList<ProductVO> list = new ArrayList<ProductVO>();
+		int totalCount = productDao.getTotalCountOfProduct();
+		int random;
+		int amount =10;
+		ProductVO file;
+		for(int i=0; i<amount; i++) {
+			random = (int)(Math.random()*totalCount+1);
+			file = productDao.selectProductByNum(random);
+			list.add(file);
+			
+		}
+		return list;	
+		}
 }
