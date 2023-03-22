@@ -13,6 +13,7 @@
   <script src="/js/jquery.min.js"></script>
   <script src="/js/jquery-ui.min.js"></script>
   <script src="/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=??"></script>
   <title>courseInsert</title>
   <style>
   	*{
@@ -214,6 +215,9 @@
   .textNum{
     color: #ed5643;
   }
+  .input-group{
+  	width:1190px;
+  }
   </style>
 </head>
 <body>
@@ -301,7 +305,7 @@
           </div>
         </li>
       </ul>
-      <form class="input-group ml-3 mb-3" action="">
+      <form class="input-group mb-3" action="">
         <input type="text" class="form-control" placeholder="상품검색" name="search" value="">
         <div class="input-group-append">
           <button class="btn btn-success" type="submit">검색</button>
@@ -313,6 +317,7 @@
           <p class="txtNum">현재 글자수 <span class="textNum">0</span>자 / 최대 글자수 2000자</p>
         </div>
       </div>
+      <div id="map" style="width:1190px;height:400px;"></div>
     </div>
   </div>
   <script>
@@ -324,6 +329,58 @@
         $(box).val(i + 1);
       });
     }
+    
+  </script>
+  <script>
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	mapOption = {
+	    center: new kakao.maps.LatLng(37.56525, 126.98963), // 지도의 중심좌표
+	    level: 5, // 지도의 확대 레벨
+	    mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
+	}; 
+	
+	// 지도를 생성한다 
+	var map = new kakao.maps.Map(mapContainer, mapOption); 
+	
+	// 지도에 확대 축소 컨트롤을 생성한다
+	var zoomControl = new kakao.maps.ZoomControl();
+	
+	// 지도의 우측에 확대 축소 컨트롤을 추가한다
+	map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+	
+	// 지도에 마커를 생성하고 표시한다
+	var marker = new kakao.maps.Marker({
+		 // 지도 중심좌표에 마커를 생성합니다 
+	    position: map.getCenter() 
+	});
+	// 지도에 마커를 표시합니다
+	marker.setMap(map);
+	// 지도에 선을 표시한다 
+	kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
+    
+    	// 클릭한 위도, 경도 정보를 가져옵니다 
+    	var latlng = mouseEvent.latLng;
+    	var markerPosition  = new kakao.maps.LatLng(latlng.getLat, latlng.getLng);
+    	marker = new kakao.maps.Marker({ 
+    	    // 지도 중심좌표에 마커를 생성합니다 
+    	    position: markerPosition 
+    	}); 
+    	marker.setMap(map);
+    });
+	var polyline = new kakao.maps.Polyline({
+		map: map, // 선을 표시할 지도 객체 
+		path: [ // 선을 구성하는 좌표 배열
+			new kakao.maps.LatLng(37.56525, 126.98163),
+			new kakao.maps.LatLng(37.56925, 126.98563),
+			new kakao.maps.LatLng(37.56925, 126.98163)
+		],
+		endArrow: true, // 선의 끝을 화살표로 표시되도록 설정한다
+		strokeWeight: 3, // 선의 두께
+		strokeColor: '#FF0000', // 선 색
+		strokeOpacity: 0.9, // 선 투명도
+		strokeStyle: 'solid' // 선 스타일
+	});	
+
   </script>
 </body>
 </html>
