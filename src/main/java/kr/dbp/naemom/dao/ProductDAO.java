@@ -19,6 +19,15 @@ public interface ProductDAO {
 	public ArrayList<ProductCategoryVO> getCategoryList();
 
 	public void insertFile(@Param("fi")FileVO fileVo);
+
+	public ArrayList<ProductVO> getProductList();
+
+	public ArrayList<FileVO> getFile(@Param("pd_num")int pd_num);
+
+	public int getTotalCountOfProduct();
+
+	public FileVO getThumbNail(@Param("random")int random, @Param("ThumbNail")String Thum);
+
 		
 
 }
