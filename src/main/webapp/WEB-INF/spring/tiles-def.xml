@@ -9,9 +9,15 @@
         <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
         <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
     </definition>
+      
+    <definition name="product" template="/WEB-INF/views/layout/baseLayout.jsp">
+        <put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+    </definition>
     
     <definition name=".root2" template="/WEB-INF/views/layout/adminLayout.jsp">
     </definition>
+    
     
    	<definition name="/*/*" extends=".root">      
       <put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
@@ -20,5 +26,10 @@
    	<definition name="/admin/*/*" extends=".root2">      
       <put-attribute name="body" value="/WEB-INF/views/admin/{1}/{2}.jsp" />
     </definition>
+    
+   	<definition name="/product/*/*" extends="product">      
+      <put-attribute name="body" value="/WEB-INF/views/product/{1}/{2}.jsp" />
+    </definition>
+    
 </tiles-definitions>
 

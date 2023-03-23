@@ -25,5 +25,18 @@
   		#{pd.pd_parking},#{pd.pd_open_time},#{pd.pd_close_time},#{pd.pd_pc_num},#{pd.pd_capacity})
   	</insert>
   	
+  	<select id="getProductList" resultType="kr.dbp.naemom.vo.ProductVO">
+  		select * from product
+  	</select>
+  	<select id="getFile" resultType="kr.dbp.naemom.vo.FileVO">
+  		select * from file where fi_pd_num=#{pd_num}
+  	</select>
+  	<select id="getThumbNail" resultType="kr.dbp.naemom.vo.FileVO">
+  		select * from file where fi_pd_num=#{random} and fi_category like concat('%',#{ThumbNail} ,'%')
+  	</select>
+  	<select id="getTotalCountOfProduct" resultType="int">
+  		select count(*) from product;
+  	</select>
+  	
 </mapper>
 
