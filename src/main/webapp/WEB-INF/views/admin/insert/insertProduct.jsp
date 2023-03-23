@@ -18,7 +18,7 @@
  	
 	   	<h1 class="text-primary">관리자 게시글 등록페이지</h1> <br><hr>
 <div class="container-fluid mt-6 mb-6">
-	<form action="<c:url value='/product/insert/insertProduct'></c:url>" method="post" enctype="multipart/form-data">
+	<form action="<c:url value='/admin/insert/insertProduct'></c:url>" method="post" enctype="multipart/form-data">
 		<div class="form-group">
 			<label for="pc_num">카테고리선택:</label>
 			<select class="form-control" id="category" name="pd_pc_num">
