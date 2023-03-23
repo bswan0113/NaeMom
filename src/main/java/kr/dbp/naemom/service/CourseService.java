@@ -14,4 +14,6 @@ public interface CourseService {
 
 	ArrayList<Hash_tagVO> getHashTag(int pd_num);
 
+	ProductVO getSelectProduct(int pd_num);
+
 }

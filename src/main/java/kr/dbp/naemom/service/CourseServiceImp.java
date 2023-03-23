@@ -21,7 +21,7 @@ public class CourseServiceImp implements CourseService{
 		if(id == null)
 			return;
 		if(cos == null || cos.getCo_title().trim().length() == 0 ||
-				cos.getCo_cc_category() == 0 || cos.getCo_cs_schedule() == 0 || 
+				cos.getCo_cc_category_num() == 0 || cos.getCo_cs_schedule_num() == 0 || 
 				cos.getCo_content().trim().length() ==0)
 			return;
 		courseDao.insertCourse(cos,id);
@@ -41,6 +41,13 @@ public class CourseServiceImp implements CourseService{
 		if(pd_num == 0)
 			return null;
 		return courseDao.selectHashTag(pd_num);
+	}
+
+	@Override
+	public ProductVO getSelectProduct(int pd_num) {
+		if(pd_num == 0)
+			return null;
+		return courseDao.selectProductNum(pd_num);
 	}
 	
 	

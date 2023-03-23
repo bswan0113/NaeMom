@@ -16,4 +16,6 @@ public interface CourseDAO {
 
 	ArrayList<Hash_tagVO> selectHashTag(@Param("pd_num")int pd_num);
 
+	ProductVO selectProductNum(@Param("pd_num")int pd_num);
+
 }

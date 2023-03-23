@@ -133,6 +133,12 @@
 	    border-bottom: 1px solid #e6e6e6;
 	    border-top: 1px solid #e6e6e6;
 	  }
+	  .cos-list .cos_item_origin{
+	  	position: relative;
+	    padding: 20px 0;
+	    border-bottom: 1px solid #e6e6e6;
+	    border-top: 1px solid #e6e6e6;
+	  }
 	  .cos-list .cos-item .cos-photo{
 	    position: absolute;
 	    left: 100px;
@@ -164,6 +170,11 @@
 	  .cos-list .cos-item .cos_text{
 	    min-height: 94px;
 	    padding-left: 340px;
+	    padding-right: 20px;
+	  }
+	  .cos-list .cos_item_origin .cos_text_origin{
+	  	min-height: 94px;
+	    padding-left: 500px;
 	    padding-right: 20px;
 	  }
 	  .title-area >a{
@@ -218,6 +229,11 @@
 	  .input-group{
 	  	width:1190px;
 	  }
+	  .cos_text_origin{
+	  	min-height: 94px;
+	    padding-left: 500px;
+	 
+	  }
   </style>
 </head>
 <body>
@@ -260,7 +276,7 @@
 	      <div class="total_check">
 	        <strong>
 	          총
-	          <span>7</span>
+	          <span class="totalCourseList">0</span>
 	          건
 	        </strong>
 	        <div class="total_distance">
@@ -268,44 +284,11 @@
 	        </div>
 	      </div>
 	      <ul class="cos-list" id="sortable">
-	        <li class="cos-item ui-state-default">
-              <em class="numbering">1</em>
-	          <div class="cos-photo">
-	            <a href="#">
-	              <img src="https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=83804651-01e0-4809-bde0-13bb26a33618" alt="궁리포구">
-	            </a>
-	          </div>
-	          <div class="cos_text">
-	          	<p style="display:none" id="pd_num">상품번호</p>
-	            <div class="title-area clearfix">
-	              <a href="#" id="pd_title">상품 이름(클릭시 상품으로)</a>
-	              <p id="pd_subtitle">지역들어갈거임</p>
-	            </div>
-	            <p class="sub_content" id="pd_content">상품 간단소개 들어갈거임</p>
-	            <p class="tag" id="hg_pd_num">
-	              <span>#해쉬태그 들어갈거임1</span>
-	              <span>#해쉬태그 들어갈거임2</span>
-	            </p>
-	          </div>
-	        </li>
-	        <li class="cos-item ui-state-default">
-              <em class="numbering">2</em>
-	          <div class="cos-photo">
-	            <a href="#">
-	              <img src="https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=83804651-01e0-4809-bde0-13bb26a33618" alt="궁리포구">
-	            </a>
-	          </div>
-	          <div class="cos_text">
-	          	<p style="display:none" id="pd_num">상품번호</p>
-	            <div class="title-area clearfix">
-	              <a href="#">상품 이름(클릭시 상품으로)2</a>
-	              <p>지역들어갈거임</p>
-	            </div>
-	            <p class="sub_content">상품 간단소개 들어갈거임</p>
-	            <p class="tag">
-	              <span>#해쉬태그 들어갈거임1</span>
-	              <span>#해쉬태그 들어갈거임2</span>
-	            </p>
+	        <li class="cos_item_origin ui-state-default">
+              <div class="cos_text_origin">
+	          	
+	            <p>등록된 상품이 없습니다.</p>
+	            
 	          </div>
 	        </li>
 	      </ul>
@@ -317,14 +300,14 @@
 	      </div>
 	      <table class="table table-hover search_table">
 			<thead>
-				<tr class="select_product">
+				<tr>
 					<th style="width:200px;">상품 카테고리</th>
 					<th style="width:200px;">상품</th>
 					<th>상세</th>
 				</tr>
 			</thead>
-			<tbody>
-					<tr>
+			<tbody class="search_productList">
+					<tr class="select_product">
 						<td>1
 						<td>1
 						<td>1
@@ -340,11 +323,14 @@
 	      </div>
 	      <div id="map" style="width:1190px;height:400px;"></div>
 	    </div>
-	    <button class="btn btn-outline-success col-12 mt-3">게시글 작성</button>
+	    <button class="btn btn-outline-success btn-insertCourse col-12 mt-3">게시글 작성</button>
 	</form>
   </div>
   <script>
+  
+  //상품검색 리스트 가리기
   $('.search_table').hide();
+  //저장전 유효성 검사
   $('form').submit(function(){
 		let co_title = $('[name=co_title]').val();
 		if(co_title.trim().length  == 0){
@@ -372,56 +358,107 @@
 		}
 		
 	});
+  	//코스및 코스 아이템 등록
+  	$('[name=co_title]').click(function(){
+  		let pd_num = [];
+		$('.cos-item').each(function(index){
+			let selectPdNum = $(this).find('#pd_num').text();
+			selectPdNum = Number(selectPdNum);
+			pd_num.push(selectPdNum);
+		});
+			console.log(pd_num);
+  	});
+  function insertCourseItemSuccess(data){
+	  alert('성공이요');
+  }
+  //리스트에 추가 위한 상품검색
   $('.btn_product_search').click(function(){
 	  let product_search = $('.product_search').val();
 	  let product = {
 			  pd_title : product_search
 	  }
-	  ajaxPost(product, '<c:url value="/searchProduct"></c:url>', searchSuccess);
+	  ajaxPost(product, '<c:url value="/course/searchProduct"></c:url>', searchSuccess);
+	  
   })
-  function searchSuccess(data){
+  //리스트에 추가 위한 상품검색2
+  function searchSuccess(data,e){
 	  str = '';
 	  for(i = 0; i<data.products.length; i++){
 		  str += searchProductTable(data.products[i]);
 	  }
-	  $('.select_product').html(str);
+	  $('.search_productList').html(str);
 	  $('.search_table').show();
 	  $('.select_product').click(function(){
-		  let pd_num = $(this).find('.find_pdNum').val();
-		  let product = {
-				  pd_num = pd_num
+		  let pd_num = $(this).find('.find_pdNum').text();
+		  if(pd_num == $('.cos_text').find('#pd_num').text()){
+			  //alert('이미 등록된 상품입니다.')
+			  //return;
 		  }
-		  //ajax에 담아서 보내서 리스트에 담아서 보관
-		  //받아온 리스트를 forEach로 화면에 출력
-		  //순서가 바뀔때 마다 
-		  ajaxPost(product, '<c:url value="/"></c:url>', searchSuccess);
+		  ajaxPost(pd_num, '<c:url value="/course/selectProduct"></c:url>', selectProductSuccess);
 	  })
   }
-  function selectProduct(product){
-	 	str='';
+  $(map)
+  //선택한 상품 리스트에 추가
+  function selectProductSuccess(data){
+	  	str='';
+	  	str += selectProduct(data);
+	  	$('.cos_item_origin').hide();
+		$('.cos-list').append(str);
+		str='';
+		
+		str='';
+		for(i = 0; i<data.tags.length; i++){
+			  str += selectProductHashTag(data.tags[i]);
+		  }
+		$('.tag').append(str);
+		$('.product_search').val('');
+		$('.search_table').hide();
+		
+  }
+  //상품리스트 저장위한 str
+  function selectProduct(data){
+	 	let pr = data.selectPr;
+	  	str='';
 	 	str +=
-	  	'<li class="cos-item ui-state-default">'+
-	      '<em class="numbering">1</em>'+
-	      '<div class="cos-photo">'+
-	        '<a href="#">'+
-	          '<img src="https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=83804651-01e0-4809-bde0-13bb26a33618" alt="궁리포구">'+
-	        '</a>'+
-	      '</div>'+
-	      '<div class="cos_text">'+
-	      	'<p style="display:none" id="pd_num">상품번호</p>'+
-	        '<div class="title-area clearfix">'+
-	          '<a href="#" id="pd_title">상품 이름(클릭시 상품으로)</a>'+
-	          '<p id="pd_subtitle">지역들어갈거임</p>'+
-	        '</div>'+
-	        '<p class="sub_content" id="pd_content">상품 간단소개 들어갈거임</p>'+
-	        '<p class="tag" id="hg_pd_num">'+
-	          '<span>#해쉬태그 들어갈거임1</span>'+
-	          '<span>#해쉬태그 들어갈거임2</span>'+
-	        '</p>'+
-	      '</div>'+
-	    '</li>'
+	 		'<li class="cos-item ui-state-default">'+
+	 			'<input type="text" value="'+pr.pd_num+'" hidden>';
+	 			
+	 			if('.numbering'.length){
+					let lastNum = $('.numbering').last().text();
+					lastNum = Number(lastNum)+1;
+					$('.totalCourseList').text(lastNum);
+			 		str+=
+			 			'<em class="numbering">'+lastNum+'</em>';
+					
+				}
+	 			str+=
+		      '<div class="cos-photo">'+
+		        '<a href="#">'+
+		          '<img src="https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=83804651-01e0-4809-bde0-13bb26a33618" alt="궁리포구">'+
+		        '</a>'+
+		      '</div>'+
+		      '<div class="cos_text">'+
+		      	'<p style="display:none" id="pd_num">'+pr.pd_num+'</p>'+
+		        '<div class="title-area clearfix">'+
+		          '<a href="#" id="pd_title">'+pr.pd_title+'</a>'+
+		          '<p id="pd_subtitle">'+pr.pd_subtitle+'</p>'+
+		        '</div>'+
+		        '<p class="sub_content" id="pd_content">'+pr.pd_content+'</p>'+
+		        '<p class="tag" id="hg_pd_num">'+
+		       
+		        
+		        '</p>'+
+		      '</div>'+
+		    '</li>'
 	    return str;
   }
+  function selectProductHashTag(tag){
+	  str='';
+	  str +=
+      	'<span>#'+tag.hg_name+'  </span>'
+      return str;
+  }
+  //검색했을때 상품리스트
   function searchProductTable(product){
 	  str='';
 	  str +=
@@ -434,6 +471,7 @@
 		
 	return str;
   };
+  //ajax
   function ajaxPost(obj, url, successFunction){
 		$.ajax({
 			async:false,
@@ -456,21 +494,21 @@
   
   
    
-      $( "#sortable" ).sortable({
-    	  start: function(event, ui) {
-          },
-    	  stop: function(event, ui) {
-	          reorder();
-    		  let productList=new Array(10);
-    		  for(let i; i<=productList.lingth() ; i++){
-	    		  if($('.numbering') == i){
-	    			  ('.cos_text').find('#pd_num').val()
-	    		  }
-    			  
-    		  }
-          }
-      });
-    
+    //상품리스트 이동
+  	$( "#sortable" ).sortable({
+    	 
+    	stop: function(event, ui) {
+	        reorder();
+    		let productList=new Array(10);
+    		$('.cos-item').each(function(i, box) {
+	            let listNum = $(this).find('.numbering');
+	            let pd_num = listNum.siblings('.cos_text').find('#pd_num').text();
+	            productList[i] = pd_num;
+            
+    		});
+    	}
+    });
+    //상품리스트 이동했을 때 번호 재정렬
     function reorder() {
       $('.numbering').each(function(i, box) {
         $(box).text(i + 1);

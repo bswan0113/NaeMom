@@ -9,8 +9,8 @@
 	<script src="<c:url value='/resources/js/jquery.min.js'></c:url>"></script>
 	<script src="<c:url value='/resources/js/popper.min.js'></c:url>"></script>
 	<script src="<c:url value='/resources/js/bootstrap.bundle.min.js'></c:url>"></script>	
-  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 	<style>
 		.body-container{
 		margin-top : 200px;}

@@ -11,7 +11,7 @@ public class CourseVO {
 	String co_me_id;
 	String co_title;
 	String co_content;
-	int co_cc_category;
-	int co_cs_schedule;
+	int co_cc_category_num;
+	int co_cs_schedule_num;
 	
 }
