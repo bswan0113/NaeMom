@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import kr.dbp.naemom.vo.FileVO;
+import kr.dbp.naemom.vo.LikeVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.WishVO;
 
 public interface ProductDAO {
 
@@ -27,6 +29,13 @@ public interface ProductDAO {
 	public int getTotalCountOfProduct();
 
 	public FileVO getThumbNail(@Param("random")int random, @Param("ThumbNail")String Thum);
+
+	public WishVO getWish(@Param("me_id")String me_id, @Param("pd_num")int pd_num);
+
+	public void insertWish(@Param("me_id")String me_id, @Param("pd_num")int pd_num);
+
+	public int deleteWish(@Param("me_id")String me_id, @Param("pd_num")int pd_num);
+
 
 		
 

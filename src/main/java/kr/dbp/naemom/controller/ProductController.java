@@ -2,6 +2,8 @@ package kr.dbp.naemom.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,8 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.service.ProductService;
 import kr.dbp.naemom.vo.FileVO;
+import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.WishVO;
 
 @Controller
 public class ProductController {
@@ -53,11 +57,16 @@ public class ProductController {
 	}
 	//상세페이지 레이아웃
 	@RequestMapping(value="/product/detail/detailLayoutTMP/{i}", method=RequestMethod.GET)
-	public ModelAndView detailLayout(ModelAndView mv, @PathVariable("i")int pd_num) {
+	public ModelAndView detailLayout(ModelAndView mv, @PathVariable("i")int pd_num, HttpSession session) {
+		MemberVO user = new MemberVO();   //임시로그인
+		user.setMe_id("abcd");	//임시로그인
+		session.setAttribute("user", user); //임시로그인
 		ProductVO product= productService.getProduct(pd_num);
 		ArrayList<FileVO> files = productService.getFiles(pd_num);
 		ArrayList<FileVO> random = productService.getRandomThumbNail();
 		ArrayList<ProductVO> randomProduct = productService.getRandomProduct();
+		WishVO wish = productService.getWish(user.getMe_id(), pd_num);		
+		mv.addObject("wish",wish);
 		mv.addObject("randomProduct", randomProduct);
 		mv.addObject("random", random);
 		mv.addObject("files", files);
@@ -65,6 +74,7 @@ public class ProductController {
 		mv.setViewName("/product/detail/detailLayoutTMP");
 		return mv;
 	}
+	
 	
 	
 	@RequestMapping(value="/product/detail/accomodation/{i}", method=RequestMethod.GET)

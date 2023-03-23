@@ -35,8 +35,18 @@
   		select * from file where fi_pd_num=#{random} and fi_category like concat('%',#{ThumbNail} ,'%')
   	</select>
   	<select id="getTotalCountOfProduct" resultType="int">
-  		select count(*) from product;
+  		select count(*) from product
   	</select>
+  	<select id="getWish" resultType="kr.dbp.naemom.vo.WishVO">
+  		select * from wishitem where  wi_pd_num = #{pd_num} and wi_me_id=#{me_id}
+  	</select>
+  	<insert id="insertWish">
+  		insert into wishitem(wi_pd_num,wi_me_id)
+  		value(#{pd_num},#{me_id})
+  	</insert>
+  	<delete id="deleteWish">
+  		delete from wishitem where wi_pd_num=#{pd_num} and wi_me_id=#{me_id}
+  	</delete>
   	
 </mapper>
 

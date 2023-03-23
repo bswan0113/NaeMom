@@ -9,8 +9,10 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.dbp.naemom.dao.ProductDAO;
 import kr.dbp.naemom.utils.UploadFileUtils;
 import kr.dbp.naemom.vo.FileVO;
+import kr.dbp.naemom.vo.LikeVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.WishVO;
 
 @Service
 public class ProductServiceImp implements ProductService{
@@ -148,4 +150,32 @@ public class ProductServiceImp implements ProductService{
 		}
 		return list;	
 		}
+
+
+
+	@Override
+	public WishVO getWish(String me_id, int pd_num) {
+		WishVO wish = productDao.getWish(me_id, pd_num);
+		return wish;
+	}
+
+
+
+	@Override
+	public int likeUpdate(String me_id, int pd_num, int li_state) {
+		if(me_id.trim().length()==0) return 0;
+		if(pd_num<0) return 0;
+		int res;
+		if(productDao.getWish(me_id, pd_num) ==null) {
+			res=1;
+			productDao.insertWish(me_id,pd_num);}
+		else {
+			res=-1;
+			productDao.deleteWish(me_id,pd_num);
+		}
+		return res;
+	}
+
+
+
 }

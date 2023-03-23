@@ -2,20 +2,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <title>임시 상세페이지 입니다.</title>
-
+${user }
 <div class="container-fluid">
-
-
 <h1 style="text-align: center; font-weight:bold">${product.pd_title}</h1><br>
 <h3 style="text-align: center;">${product.pd_subtitle}</h3>
-<div style="float: right;">${product.pd_viewcount}</div>
+<div style="float: right;" class="service-box">
+	
+<button style="color:
+		<c:if test="${wish.wi_num!=null}">red</c:if>
+		<c:if test="${wish.wi_num==null}">black</c:if>;" 
+		id="wish-btn"><i class="fas fa-heart"></i></button>
+	<i style="margin-right: 0;"class="fas fa-eye"></i>
+	<span class="view-count">${product.pd_viewcount}</span>
+</div>
 <br>
 <hr>
   <div class="swiper mySwiper">
     <div class="swiper-wrapper">
 		<c:forEach items="${files}" var="file">
 	    	<div id="image" class="swiper-slide">
-				<div class="form-group mt-3">
+				<div class="form-group mt-3" >
 					<img class="rounded" src="<c:url value="/download${file.fi_name}"></c:url>" height="800" width="auto">
 				</div>
 			</div>
@@ -56,25 +62,91 @@
 		<a class="comment-btn comment-cancle" href="#">등록 취소</a>
 	</div>
 	<div class="comment-list">
-		<span class="mt-6" style="color: #dae1e6; text-align: center;">현재 작성된 댓글이 없습니다.</span>
+		<span class="mt-6" style="color: #dae1e6; text-align: center; line-height:500px;">현재 작성된 댓글이 없습니다.</span>
 
 	</div>	
 </div>
 <hr>
 <br>
-<div class="recommend-box">랜덤추천 여행지 구현예정
-	<ul>
-		<c:forEach items="${random}" var="thum">
-			<img class="rounded" src="<c:url value="/download${thum.fi_name}"></c:url>" height="200" width="auto">
+<h4 style="margin-bottom:30px;">P들을 위한 콕콕추천!</h4>
+<div class="recommend-box">
+	<ul style="display: inline-block;" class="random-list">
+		<c:forEach begin="0" end="4" var="i">
+			<li class="random-item">
+				<a class="random-link" href="<c:url value='/product/detail/detailLayoutTMP/${randomProduct.get(i).pd_num}'></c:url>">
+					<img src="<c:url value="/download${random.get(i).fi_name}"></c:url>" height="200" width="auto">
+					<span class="random-title">${randomProduct.get(i).pd_title}</span>
+				</a>
+			</li>
 		</c:forEach>	
-		<c:forEach items="${randomProduct}" var="rm">
-			<a>${rm.pd_title}</a>
-		</c:forEach>
+	</ul>
+	<ul style="display: inline-block;" class="random-list">
+		<c:forEach begin="5" end="9" var="j">
+			<li class="random-item">
+				<a class="random-link" href="<c:url value='/product/detail/detailLayoutTMP/${randomProduct.get(j).pd_num}'></c:url>">
+					<img src="<c:url value="/download${random.get(j).fi_name}"></c:url>" height="200" width="auto">
+					<span class="random-title">${randomProduct.get(j).pd_title}</span>
+				</a>
+			</li>
+		</c:forEach>	
 	</ul>
 </div>
 <hr>
 <br>
 <style>
+	#wish-btn{
+		border:none;
+		background-color:white;
+	}
+	 .fa-heart:hover{
+	 opacity: 0.7;
+	}
+.comment-box{
+
+width: 100%;
+height : 700px;
+
+}
+
+.view-count{
+vertical-align: 5px;
+}
+
+h4{
+font-weight:bold;
+}
+	.comment-list{
+	text-align:center;
+	}
+
+	.random-item{
+		float: left;
+		border: 1px solid #dae1e6;
+		margin-left: 10px;
+	}
+	.random-list::after, .service-box::after{
+		content: ''; clear: both; display: block;
+	}
+	.random-link{
+	position: relative; width: 100%; height: 100%; display:inline-block; z-index:9;
+	}
+
+	.random-title{
+		width: 100%;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		text-align: center;
+		color: black;
+		font-weight: bold;
+		z-index: 10;
+		font-size:20px;
+	}
+
+	.fas{
+	font-size : 25px;
+	margin-right : 12px;
+	}
 .info-detail-box >div{
 	font-size: 15px;
 }
@@ -86,6 +158,9 @@
 	background-color:  #d4ebd4;
 	position: relative;
 	text-align: center;
+	margin : 0 auto;
+	border: 3px solid #29c16d72;
+	border-radius: 5px;
 }
 .insert-comment-box::after{
 	content: ''; clear: both; display: block;
@@ -119,10 +194,45 @@
 .recommend-box{
 	width: 100%;
 	height: 500px;
-	border: 1px solid #dae1e6;
+}
+
+.comment-list{
+min-height: 500px;
 }
 
 </style>
+
+<script>
+
+	$('#wish-btn').click(function(){
+		if('${user.me_id}' == ''){
+			
+			alert('로그인 하세요.');
+		}
+	let li_state=1
+	if('${wish.wi_num}'!='')li_state=-1;
+	let pd_num=${product.pd_num};
+	let url='<c:url value="/product/like/"></c:url>'+pd_num+'/'+ li_state;
+	ajaxGet('get',url,function(data){
+		
+		alert(data.res);
+		if(data.res==1) $('#wish-btn').css('color', 'red');
+		if(data.res==-1)$('#wish-btn').css('color', 'black');
+	})
+	});
+		
+	
+function ajaxGet(method, url, successFunc){
+	$.ajax({
+		async:false,
+		type: method,
+		url: url,
+		dataType:"json",
+		contentType:"application/json; charset=UTF-8",
+		success : successFunc
+	});
+}
+</script>
 
   <script>
     var swiper = new Swiper(".mySwiper", {
