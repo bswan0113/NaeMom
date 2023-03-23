@@ -161,7 +161,7 @@
 	    width: 200px;
 	    height: 164.5px;
 	  }
-	  .cos-list .cos-item .cos-text{
+	  .cos-list .cos-item .cos_text{
 	    min-height: 94px;
 	    padding-left: 340px;
 	    padding-right: 20px;
@@ -180,13 +180,13 @@
 	    float: right; 
 	    font-size: 14px;
 	  }
-	  .cos-text .sub_content{
+	  .cos_text .sub_content{
 	    overflow: hidden;
 	    padding-top: 5px;
 	    text-overflow: ellipsis;
 	    white-space: nowrap;
 	  }
-	  .cos-text .tag{
+	  .cos_text .tag{
 	    overflow: hidden;
 	    padding-top: 5px;
 	    text-overflow: ellipsis;
@@ -275,7 +275,8 @@
 	              <img src="https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=83804651-01e0-4809-bde0-13bb26a33618" alt="궁리포구">
 	            </a>
 	          </div>
-	          <div class="cos-text">
+	          <div class="cos_text">
+	          	<p style="display:none" id="pd_num">상품번호</p>
 	            <div class="title-area clearfix">
 	              <a href="#" id="pd_title">상품 이름(클릭시 상품으로)</a>
 	              <p id="pd_subtitle">지역들어갈거임</p>
@@ -294,7 +295,8 @@
 	              <img src="https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=83804651-01e0-4809-bde0-13bb26a33618" alt="궁리포구">
 	            </a>
 	          </div>
-	          <div class="cos-text">
+	          <div class="cos_text">
+	          	<p style="display:none" id="pd_num">상품번호</p>
 	            <div class="title-area clearfix">
 	              <a href="#">상품 이름(클릭시 상품으로)2</a>
 	              <p>지역들어갈거임</p>
@@ -326,6 +328,7 @@
 						<td>1
 						<td>1
 						<td>1
+						<td style="display:none;">1
 					</tr>
 			</tbody>
 		</table>
@@ -381,31 +384,54 @@
 	  for(i = 0; i<data.products.length; i++){
 		  str += searchProductTable(data.products[i]);
 	  }
-	  $('.search_table').html(str);
+	  $('.select_product').html(str);
 	  $('.search_table').show();
 	  $('.select_product').click(function(){
-		  
+		  let pd_num = $(this).find('.find_pdNum').val();
+		  let product = {
+				  pd_num = pd_num
+		  }
+		  //ajax에 담아서 보내서 리스트에 담아서 보관
+		  //받아온 리스트를 forEach로 화면에 출력
+		  //순서가 바뀔때 마다 
+		  ajaxPost(product, '<c:url value="/"></c:url>', searchSuccess);
 	  })
+  }
+  function selectProduct(product){
+	 	str='';
+	 	str +=
+	  	'<li class="cos-item ui-state-default">'+
+	      '<em class="numbering">1</em>'+
+	      '<div class="cos-photo">'+
+	        '<a href="#">'+
+	          '<img src="https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=83804651-01e0-4809-bde0-13bb26a33618" alt="궁리포구">'+
+	        '</a>'+
+	      '</div>'+
+	      '<div class="cos_text">'+
+	      	'<p style="display:none" id="pd_num">상품번호</p>'+
+	        '<div class="title-area clearfix">'+
+	          '<a href="#" id="pd_title">상품 이름(클릭시 상품으로)</a>'+
+	          '<p id="pd_subtitle">지역들어갈거임</p>'+
+	        '</div>'+
+	        '<p class="sub_content" id="pd_content">상품 간단소개 들어갈거임</p>'+
+	        '<p class="tag" id="hg_pd_num">'+
+	          '<span>#해쉬태그 들어갈거임1</span>'+
+	          '<span>#해쉬태그 들어갈거임2</span>'+
+	        '</p>'+
+	      '</div>'+
+	    '</li>'
+	    return str;
   }
   function searchProductTable(product){
 	  str='';
 	  str +=
-	  '<table class="table table-hover">'+
-		'<thead>'+
-			'<tr>'+
-				'<th style="width:200px;">상품 카테고리</th>'+
-				'<th style="width:200px;">상품</th>'+
-				'<th >상세</th>'+
-			'</tr>'+
-		'</thead>'+
-		'<tbody>'+
-				'<tr class="select_product">'+
-					'<td>'+product.pd_pc_num+
-					'<td>'+product.pd_title+
-					'<td>'+product.pd_subtitle+
-				'</tr>'+
-		'</tbody>'+
-	'</table>'
+		'<tr class="select_product">'+
+			'<td>'+product.pd_pc_num+
+			'<td>'+product.pd_title+
+			'<td>'+product.pd_subtitle+
+			'<td class="find_pdNum" style="display:none;">'+product.pd_num+
+		'</tr>'
+		
 	return str;
   };
   function ajaxPost(obj, url, successFunction){
@@ -429,16 +455,22 @@
   
   
   
-    $( function() {
+   
       $( "#sortable" ).sortable({
+    	  start: function(event, ui) {
+          },
     	  stop: function(event, ui) {
-
-          
 	          reorder();
-
+    		  let productList=new Array(10);
+    		  for(let i; i<=productList.lingth() ; i++){
+	    		  if($('.numbering') == i){
+	    			  ('.cos_text').find('#pd_num').val()
+	    		  }
+    			  
+    		  }
           }
       });
-    });
+    
     function reorder() {
       $('.numbering').each(function(i, box) {
         $(box).text(i + 1);

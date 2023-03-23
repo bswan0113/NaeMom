@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.service.CourseService;
+import kr.dbp.naemom.utils.MessageUtils;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
 import kr.dbp.naemom.vo.ProductVO;
@@ -40,9 +43,13 @@ public class CourseController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/searchProduct", method=RequestMethod.POST)
-	public Map<String, Object> courseSearchProduct(@RequestBody ProductVO pr) {
+	public Map<String, Object> courseSearchProduct(@RequestBody ProductVO pr,HttpServletResponse response) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<ProductVO> products = courseService.getSearchProduct(pr);
+		if(products == null) {
+			MessageUtils.alertAndMovePage(response,"일치하는 상품이 없습니다.", "/naemom", "/course/insert");
+			return map;
+		}
 		for(ProductVO tmp : products) {
 			ArrayList<Hash_tagVO> tags = courseService.getHashTag(tmp.getPd_num());
 			map.put("tags", tags);
