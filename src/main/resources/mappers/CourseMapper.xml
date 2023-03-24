@@ -3,9 +3,11 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.dbp.naemom.dao.CourseDAO">
-  	<insert id="insertCourse">
-  		insert into course(co_me_id,co_title,co_content,co_cc_category_num,co_cs_schedule_num)
-  		values(#{id},#{cos.co_title},#{cos.co_content},#{cos.co_cc_category_num},#{cos.co_cs_schedule_num})
+  	<insert id="insertCourse"  useGeneratedKeys="true" keyProperty="cos.co_num">
+  		insert into course(co_num,co_me_id,co_title,co_content,co_cc_category_num,co_cs_schedule_num)
+  		select ifnull(max(co_num), 0)+1, #{id},#{cos.co_title},#{cos.co_content},
+  			#{cos.co_cc_category_num},#{cos.co_cs_schedule_num}
+  		from course
   	</insert>
   	<select id="selectSearchProduct" resultType="kr.dbp.naemom.vo.ProductVO">
   		select * from product where pd_title = #{pr.pd_title}
@@ -16,4 +18,8 @@
   	<select id="selectProductNum" resultType="kr.dbp.naemom.vo.ProductVO">
   		select * from product where pd_num = #{pd_num}
   	</select>
+  	<insert id="insertCourseItem">
+  		insert into course_item(ci_index, ci_co_num, ci_pd_num)
+  		value(#{index},#{co_num},#{pd_num})
+  	</insert>
 </mapper>

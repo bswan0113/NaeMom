@@ -8,12 +8,14 @@ import kr.dbp.naemom.vo.ProductVO;
 
 public interface CourseService {
 
-	void insertCourse(CourseVO cos, String id);
+	int insertCourse(CourseVO cos, String id);
 
 	ArrayList<ProductVO> getSearchProduct(ProductVO pr);
 
 	ArrayList<Hash_tagVO> getHashTag(int pd_num);
 
 	ProductVO getSelectProduct(int pd_num);
+
+	void insertCourseItem(int co_num, String[] pd_num);
 
 }

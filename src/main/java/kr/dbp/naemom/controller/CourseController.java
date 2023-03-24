@@ -36,12 +36,20 @@ public class CourseController {
 		return mv;
 	}
 	@RequestMapping(value = "/course/insert", method=RequestMethod.POST)
-	public ModelAndView courseInsert(ModelAndView mv,CourseVO cos,@RequestParam("pd_num[]")String[] pd_num) {
+	public ModelAndView courseInsert(ModelAndView mv,CourseVO cos,@RequestParam("pd_num[]")String[] pd_num,
+			HttpServletResponse response) {
 		String id = "qwe";
-		//courseService.insertCourse(cos,id);
-		for(String tmp : pd_num) {
-			System.out.println(tmp);
+		int res = courseService.insertCourse(cos,id);
+		String msg;
+		if(res == 0 || pd_num.length == 0) {
+			msg = "코스 등록에 실패했습니다.";
+		}else {
+			msg = "코스 등록에 성공했습니다.";
 		}
+		courseService.insertCourseItem(cos.getCo_num(),pd_num);
+		mv.addObject("msg",msg);
+		mv.addObject("url","/course/insert");
+		mv.setViewName("/course/message");
 		mv.setViewName("/course/insert");
 		return mv;
 	}

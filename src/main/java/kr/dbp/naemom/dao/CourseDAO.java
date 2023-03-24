@@ -10,12 +10,14 @@ import kr.dbp.naemom.vo.ProductVO;
 
 public interface CourseDAO {
 
-	void insertCourse(@Param("cos")CourseVO cos,@Param("id")String id);
+	int insertCourse(@Param("cos")CourseVO cos,@Param("id")String id);
 
 	ArrayList<ProductVO> selectSearchProduct(@Param("pr")ProductVO pr);
 
 	ArrayList<Hash_tagVO> selectHashTag(@Param("pd_num")int pd_num);
 
 	ProductVO selectProductNum(@Param("pd_num")int pd_num);
+
+	void insertCourseItem(@Param("co_num")int co_num, @Param("pd_num")int pr_num,  @Param("index")int index);
 
 }

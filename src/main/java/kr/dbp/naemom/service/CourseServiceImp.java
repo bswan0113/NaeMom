@@ -17,14 +17,14 @@ public class CourseServiceImp implements CourseService{
 	CourseDAO courseDao;
 	
 	@Override
-	public void insertCourse(CourseVO cos, String id) {
+	public int insertCourse(CourseVO cos, String id) {
 		if(id == null)
-			return;
+			return 0;
 		if(cos == null || cos.getCo_title().trim().length() == 0 ||
 				cos.getCo_cc_category_num() == 0 || cos.getCo_cs_schedule_num() == 0 || 
 				cos.getCo_content().trim().length() ==0)
-			return;
-		courseDao.insertCourse(cos,id);
+			return 0;
+		return courseDao.insertCourse(cos,id);
 		
 	}
 
@@ -48,6 +48,24 @@ public class CourseServiceImp implements CourseService{
 		if(pd_num == 0)
 			return null;
 		return courseDao.selectProductNum(pd_num);
+	}
+
+	@Override
+	public void insertCourseItem(int co_num, String[] pd_num) {
+		if(co_num == 0)
+			return;
+		int index = 0;
+		for(String tmp : pd_num) {
+			if(tmp == null)
+				return;
+			int pr_num = Integer.parseInt(tmp);
+			if(pr_num == 0)
+				return;
+			index++;
+			courseDao.insertCourseItem(co_num,pr_num,index);
+			
+		}
+		
 	}
 	
 	

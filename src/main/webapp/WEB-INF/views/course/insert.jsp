@@ -248,7 +248,7 @@
 	      <div class="cos-type1">
 	        <span>
 	          <label for="category">코스 테마</label>
-	          <select id="category" title="코스 테마 선택" name="co_cc_category">
+	          <select id="category" title="코스 테마 선택" name="co_cc_category_num">
 	            <option value="0">테마 선택</option>
 	            <option value="1">가족코스</option>
 	            <option value="2">혼자여행</option>
@@ -263,7 +263,7 @@
 	      <div class="cos-type2">
 	        <span>
 	          <label for="schedule">코스 일정</label>
-	          <select id="schedule" title="코스 일정 선택" name="co_cs_schedule">
+	          <select id="schedule" title="코스 일정 선택" name="co_cs_schedule_num">
 	            <option value="0">일정 선택</option>
 	            <option value="1">당일여행</option>
 	            <option value="2">1박2일</option>
@@ -308,7 +308,7 @@
 			</thead>
 			<tbody class="search_productList">
 					<tr class="select_product">
-						<td>1
+						<td>1 select * from where pr_address like %keyword%
 						<td>1
 						<td>1
 						<td style="display:none;">1
@@ -331,8 +331,9 @@
   //상품검색 리스트 가리기
   $('.search_table').hide();
   //저장전 유효성 검사
-  var pd_num = [];
+  
   $('form').submit(function(){
+		
 		let co_title = $('[name=co_title]').val();
 		if(co_title.trim().length  == 0){
 			alert('코스제목을 작성하세요.');
@@ -351,23 +352,22 @@
 			$('[name=co_cs_schedule]').focus();
 			return false;
 		}
+		let listNum = $('#pd_num').text();
+		if(listNum == ''){
+			alert('코스에 상품이 등록되지 않았습니다.');
+			return false;
+		}
 		let co_content = $('[name=co_content]').val();
 		if(co_content.trim().length  == 0 ){
 			alert('내용을 입력하세요.');
 			$('[name=co_content]').focus();
 			return false;
 		}
-		submitPdNum(pd_num);
+		
 	});
   	
   	//코스및 코스 아이템 등록
-  	function submitPdNum(pd_num){
-		$('.cos-item').each(function(index){
-			let selectPdNum = $(this).find('input').val();
-			pd_num.push(selectPdNum);
-		});
-		return pd_num
-  	};
+  	
   function insertCourseItemSuccess(data){
 	  alert('성공이요');
   }
@@ -437,7 +437,7 @@
 	 			str+=
 		      '<div class="cos-photo">'+
 		        '<a href="#">'+
-		          '<img src="https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=83804651-01e0-4809-bde0-13bb26a33618" alt="궁리포구">'+
+		          '<img src="https://raw.githubusercontent.com/kdw6052/naemomImg/main/food/%EC%A4%91%EA%B5%AD%EC%A7%91.jpg" alt="궁리포구">'+
 		        '</a>'+
 		      '</div>'+
 		      '<div class="cos_text">'+
