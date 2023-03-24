@@ -331,6 +331,7 @@
   //상품검색 리스트 가리기
   $('.search_table').hide();
   //저장전 유효성 검사
+  var pd_num = [];
   $('form').submit(function(){
 		let co_title = $('[name=co_title]').val();
 		if(co_title.trim().length  == 0){
@@ -356,18 +357,17 @@
 			$('[name=co_content]').focus();
 			return false;
 		}
-		
+		submitPdNum(pd_num);
 	});
+  	
   	//코스및 코스 아이템 등록
-  	$('[name=co_title]').click(function(){
-  		let pd_num = [];
+  	function submitPdNum(pd_num){
 		$('.cos-item').each(function(index){
-			let selectPdNum = $(this).find('#pd_num').text();
-			selectPdNum = Number(selectPdNum);
+			let selectPdNum = $(this).find('input').val();
 			pd_num.push(selectPdNum);
 		});
-			console.log(pd_num);
-  	});
+		return pd_num
+  	};
   function insertCourseItemSuccess(data){
 	  alert('성공이요');
   }
@@ -389,12 +389,12 @@
 	  $('.search_productList').html(str);
 	  $('.search_table').show();
 	  $('.select_product').click(function(){
-		  let pd_num = $(this).find('.find_pdNum').text();
-		  if(pd_num == $('.cos_text').find('#pd_num').text()){
+		  let pd_nums = $(this).find('.find_pdNum').text();
+		  if(pd_nums == $('.cos_text').find('#pd_num').text()){
 			  //alert('이미 등록된 상품입니다.')
 			  //return;
 		  }
-		  ajaxPost(pd_num, '<c:url value="/course/selectProduct"></c:url>', selectProductSuccess);
+		  ajaxPost(pd_nums, '<c:url value="/course/selectProduct"></c:url>', selectProductSuccess);
 	  })
   }
   $(map)
@@ -403,14 +403,17 @@
 	  	str='';
 	  	str += selectProduct(data);
 	  	$('.cos_item_origin').hide();
-		$('.cos-list').append(str);
-		str='';
-		
-		str='';
 		for(i = 0; i<data.tags.length; i++){
+			if(data.selectPr.pd_num == data.tags[i].hg_pd_num){
 			  str += selectProductHashTag(data.tags[i]);
+				
+			}
 		  }
-		$('.tag').append(str);
+		str+=
+			'</p>'+
+		      '</div>'+
+		    '</li>';
+		$('.cos-list').append(str);
 		$('.product_search').val('');
 		$('.search_table').hide();
 		
@@ -421,7 +424,7 @@
 	  	str='';
 	 	str +=
 	 		'<li class="cos-item ui-state-default">'+
-	 			'<input type="text" value="'+pr.pd_num+'" hidden>';
+	 			'<input type="hidden" name="pd_num[]" value="'+pr.pd_num+'">';
 	 			
 	 			if('.numbering'.length){
 					let lastNum = $('.numbering').last().text();
@@ -444,17 +447,16 @@
 		          '<p id="pd_subtitle">'+pr.pd_subtitle+'</p>'+
 		        '</div>'+
 		        '<p class="sub_content" id="pd_content">'+pr.pd_content+'</p>'+
-		        '<p class="tag" id="hg_pd_num">'+
+		        '<p class="tag" id="hg_pd_num">'
 		       
 		        
-		        '</p>'+
-		      '</div>'+
-		    '</li>'
+		        
 	    return str;
   }
   function selectProductHashTag(tag){
 	  str='';
 	  str +=
+		
       	'<span>#'+tag.hg_name+'  </span>'
       return str;
   }

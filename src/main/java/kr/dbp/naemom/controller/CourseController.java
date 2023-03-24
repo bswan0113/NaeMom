@@ -3,7 +3,6 @@ package kr.dbp.naemom.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -36,10 +36,12 @@ public class CourseController {
 		return mv;
 	}
 	@RequestMapping(value = "/course/insert", method=RequestMethod.POST)
-	public ModelAndView courseInsert(ModelAndView mv,CourseVO cos,ArrayList<String> pd_num) {
+	public ModelAndView courseInsert(ModelAndView mv,CourseVO cos,@RequestParam("pd_num[]")String[] pd_num) {
 		String id = "qwe";
 		//courseService.insertCourse(cos,id);
-		System.out.println(pd_num);
+		for(String tmp : pd_num) {
+			System.out.println(tmp);
+		}
 		mv.setViewName("/course/insert");
 		return mv;
 	}
