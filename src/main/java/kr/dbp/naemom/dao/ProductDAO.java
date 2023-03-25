@@ -36,6 +36,8 @@ public interface ProductDAO {
 
 	public int deleteWish(@Param("me_id")String me_id, @Param("pd_num")int pd_num);
 
+	public void updateViewCount(@Param("pd_num")int pd_num);
+
 
 		
 

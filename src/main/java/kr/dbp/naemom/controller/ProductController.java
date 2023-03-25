@@ -2,6 +2,9 @@ package kr.dbp.naemom.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +31,12 @@ public class ProductController {
 	//게시글 등록페이지 메서드
 	@RequestMapping(value="/admin/insert/insertProduct", method=RequestMethod.POST)
 	public ModelAndView insertProductPost(ModelAndView mv, ProductVO product, MultipartFile[] files) {
-		productService.insertProduct(product, files);
+		if(productService.insertProduct(product, files))
+		
 		mv.setViewName("/admin/insert/insertProduct");
+		else {
+			mv.setViewName("redirect:/product/listtmp");
+		}
 		return mv;
 	}
 	@RequestMapping(value="/admin/insert/insertProduct", method=RequestMethod.GET)
@@ -57,15 +64,35 @@ public class ProductController {
 	}
 	//상세페이지 레이아웃
 	@RequestMapping(value="/product/detail/detailLayoutTMP/{i}", method=RequestMethod.GET)
-	public ModelAndView detailLayout(ModelAndView mv, @PathVariable("i")int pd_num, HttpSession session) {
+	public ModelAndView detailLayout(ModelAndView mv, @PathVariable("i")int pd_num, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		MemberVO user = new MemberVO();   //임시로그인
 		user.setMe_id("abcd");	//임시로그인
 		session.setAttribute("user", user); //임시로그인
+		
 		ProductVO product= productService.getProduct(pd_num);
 		ArrayList<FileVO> files = productService.getFiles(pd_num);
 		ArrayList<FileVO> random = productService.getRandomThumbNail();
 		ArrayList<ProductVO> randomProduct = productService.getRandomProduct();
 		WishVO wish = productService.getWish(user.getMe_id(), pd_num);		
+		
+		Cookie[] cookies = request.getCookies();
+		Cookie abuseCheck = null;
+		ArrayList<String> check = new ArrayList<String>();
+		if (cookies != null && cookies.length > 0){
+			for(int i=0; i<cookies.length; i++) {
+				check.add(cookies[i].getName());
+			}
+            for (int i = 0; i < cookies.length; i++){
+            	if(check.indexOf("viewcount"+pd_num+user.getMe_id())<0) {
+            		abuseCheck= new Cookie("viewcount"+pd_num+user.getMe_id(), session.getId());
+            		abuseCheck.setMaxAge(60 * 60 * 24);
+            		response.addCookie(abuseCheck);
+            	}
+            	
+            }
+            if(abuseCheck!=null)productService.updateViewCount(pd_num);
+        }
+		
 		mv.addObject("wish",wish);
 		mv.addObject("randomProduct", randomProduct);
 		mv.addObject("random", random);

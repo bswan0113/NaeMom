@@ -48,5 +48,12 @@
   		delete from wishitem where wi_pd_num=#{pd_num} and wi_me_id=#{me_id}
   	</delete>
   	
+  	<update id="updateViewCount">
+  		update product 
+  			set 
+  				pd_viewcount = pd_viewcount+1 
+  			where 
+  				pd_num = #{pd_num}
+  	</update>
 </mapper>
 

@@ -30,6 +30,8 @@ public interface ProductService {
 
 	int likeUpdate(String me_id, int pd_num, int li_state);
 
+	void updateViewCount(int pd_num);
+
 
 
 }

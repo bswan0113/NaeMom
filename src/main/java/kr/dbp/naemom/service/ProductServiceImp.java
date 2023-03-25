@@ -2,6 +2,7 @@ package kr.dbp.naemom.service;
 
 import java.util.ArrayList;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -9,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.dbp.naemom.dao.ProductDAO;
 import kr.dbp.naemom.utils.UploadFileUtils;
 import kr.dbp.naemom.vo.FileVO;
-import kr.dbp.naemom.vo.LikeVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.WishVO;
@@ -21,7 +21,8 @@ public class ProductServiceImp implements ProductService{
 	ProductDAO productDao;
 	
 	String uploadPath = "D:\\uploadfiles";
-
+	
+	
 	@Override
 	public boolean insertProduct(ProductVO product, MultipartFile[] files) {
 		if(product ==null) return false;
@@ -87,8 +88,15 @@ public class ProductServiceImp implements ProductService{
 	@Override
 	public ProductVO getProduct(int i) {
 		if(i<=0) return null;
-		return productDao.selectProductByNum(i);
+		ProductVO product =productDao.selectProductByNum(i);
+		return product;
 	}
+
+
+
+
+
+
 
 	@Override
 	public ArrayList<ProductCategoryVO> getCategory() {
@@ -174,6 +182,14 @@ public class ProductServiceImp implements ProductService{
 			productDao.deleteWish(me_id,pd_num);
 		}
 		return res;
+	}
+
+
+
+	@Override
+	public void updateViewCount(int pd_num) {
+		productDao.updateViewCount(pd_num);
+		
 	}
 
 
