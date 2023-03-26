@@ -234,6 +234,10 @@
 	    padding-left: 500px;
 	 
 	  }
+	  .btn_remove_list{
+	    float: right; position: absolute; top: 10px; right: 0;
+	   
+	  }
   </style>
 </head>
 <body>
@@ -308,12 +312,13 @@
 			</thead>
 			<tbody class="search_productList">
 					<tr class="select_product">
-						<td>1 select * from where pr_address like %keyword%
+						<td>1
 						<td>1
 						<td>1
 						<td style="display:none;">1
 					</tr>
 			</tbody>
+			
 		</table>
 	      <div class="mapIntoduce">
 	        <div class="introduce_text">
@@ -331,7 +336,6 @@
   //상품검색 리스트 가리기
   $('.search_table').hide();
   //저장전 유효성 검사
-  
   $('form').submit(function(){
 		
 		let co_title = $('[name=co_title]').val();
@@ -365,12 +369,20 @@
 		}
 		
 	});
+	//상품리스트 삭제 버튼 클릭이벤트
+	$(document).on('click','.btn_remove_list',function(){
+		$(this).parent().remove();
+        if($('.numbering').length){
+          	$('.numbering').each(function(i,box){
+            	$(box).text(i + 1);
+          	})
+       		let lastNum = $('.numbering').last().text();
+			lastNum = ''+Number(lastNum);
+			$('.totalCourseList').text(lastNum);
+        }
+	 
+	});
   	
-  	//코스및 코스 아이템 등록
-  	
-  function insertCourseItemSuccess(data){
-	  alert('성공이요');
-  }
   //리스트에 추가 위한 상품검색
   $('.btn_product_search').click(function(){
 	  let product_search = $('.product_search').val();
@@ -380,11 +392,17 @@
 	  ajaxPost(product, '<c:url value="/course/searchProduct"></c:url>', searchSuccess);
 	  
   })
-  //리스트에 추가 위한 상품검색2
+  //검색한 상품 검색리스트
   function searchSuccess(data,e){
 	  str = '';
+	  if(data.products == ''){
+		  alert('일치하는 상품이 없습니다.')
+		  return;
+	  }
 	  for(i = 0; i<data.products.length; i++){
-		  str += searchProductTable(data.products[i]);
+		  for(j=0; j<data.pdCategory.length;j++){
+		  	str += searchProductTable(data.products[i],data.pdCategory[j]);
+		  }
 	  }
 	  $('.search_productList').html(str);
 	  $('.search_table').show();
@@ -397,7 +415,7 @@
 		  ajaxPost(pd_nums, '<c:url value="/course/selectProduct"></c:url>', selectProductSuccess);
 	  })
   }
-  $(map)
+  
   //선택한 상품 리스트에 추가
   function selectProductSuccess(data){
 	  	str='';
@@ -410,14 +428,16 @@
 			}
 		  }
 		str+=
-			'</p>'+
-		      '</div>'+
+					'</p>'+
+			      '</div>'+
+			      '<button type="button" class="btn btn-outline-danger btn_remove_list">X</button>'+
 		    '</li>';
 		$('.cos-list').append(str);
 		$('.product_search').val('');
 		$('.search_table').hide();
 		
   }
+  
   //상품리스트 저장위한 str
   function selectProduct(data){
 	 	let pr = data.selectPr;
@@ -461,15 +481,18 @@
       return str;
   }
   //검색했을때 상품리스트
-  function searchProductTable(product){
+  function searchProductTable(product,pdCategory){
 	  str='';
-	  str +=
-		'<tr class="select_product">'+
-			'<td>'+product.pd_pc_num+
-			'<td>'+product.pd_title+
-			'<td>'+product.pd_subtitle+
-			'<td class="find_pdNum" style="display:none;">'+product.pd_num+
-		'</tr>'
+	  if(product.pd_pc_num == pdCategory.pc_num){
+		  let pd_pc_name = pdCategory.pc_category
+		  str +=
+			'<tr class="select_product">'+
+				'<td>'+pd_pc_name+
+				'<td>'+product.pd_title+
+				'<td>'+product.pd_subtitle+
+				'<td class="find_pdNum" style="display:none;">'+product.pd_num+
+			'</tr>'
+	  }
 		
 	return str;
   };
@@ -543,31 +566,33 @@
 	});
 	// 지도에 마커를 표시합니다
 	marker.setMap(map);
-	// 지도에 선을 표시한다 
-	kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
-    
-    	// 클릭한 위도, 경도 정보를 가져옵니다 
-    	var latlng = mouseEvent.latLng;
-    	var markerPosition  = new kakao.maps.LatLng(latlng.getLat, latlng.getLng);
-    	marker = new kakao.maps.Marker({ 
-    	    // 지도 중심좌표에 마커를 생성합니다 
-    	    position: markerPosition 
-    	}); 
-    	marker.setMap(map);
-    });
-	var polyline = new kakao.maps.Polyline({
-		map: map, // 선을 표시할 지도 객체 
-		path: [ // 선을 구성하는 좌표 배열
-			new kakao.maps.LatLng(37.56525, 126.98163),
-			new kakao.maps.LatLng(37.56925, 126.98563),
-			new kakao.maps.LatLng(37.56925, 126.98163)
-		],
-		endArrow: true, // 선의 끝을 화살표로 표시되도록 설정한다
-		strokeWeight: 3, // 선의 두께
-		strokeColor: '#FF0000', // 선 색
-		strokeOpacity: 0.9, // 선 투명도
-		strokeStyle: 'solid' // 선 스타일
-	});	
+	
+	// 주소-좌표 변환 객체를 생성합니다
+	var geocoder = new kakao.maps.services.Geocoder();
+	// 주소로 좌표를 검색합니다
+	geocoder.addressSearch('경남 남해군 남면 홍현리 남면로 679번길 21', function(result, status) {
+
+    // 정상적으로 검색이 완료됐으면 
+    if (status === kakao.maps.services.Status.OK) {
+
+       var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+       // 결과값으로 받은 위치를 마커로 표시합니다
+       var marker = new kakao.maps.Marker({
+           map: map,
+           position: coords
+       });
+
+       // 인포윈도우로 장소에 대한 설명을 표시합니다
+       var infowindow = new kakao.maps.InfoWindow({
+           content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
+       });
+       infowindow.open(map, marker);
+
+       // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+       map.setCenter(coords);
+    } 
+});
 
   </script>-->
 </body>

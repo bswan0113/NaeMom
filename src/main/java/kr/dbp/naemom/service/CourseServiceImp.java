@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import kr.dbp.naemom.dao.CourseDAO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
+import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
 
 @Service
@@ -66,6 +67,12 @@ public class CourseServiceImp implements CourseService{
 			
 		}
 		
+	}
+
+	@Override
+	public ArrayList<ProductCategoryVO> getProductCategory() {
+		
+		return courseDao.selectProductCategory();
 	}
 	
 	

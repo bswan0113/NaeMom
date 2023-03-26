@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.service.CourseService;
-import kr.dbp.naemom.utils.MessageUtils;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
+import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
 
 @Controller
@@ -58,11 +58,8 @@ public class CourseController {
 	public Map<String, Object> courseSearchProduct(@RequestBody ProductVO pr,HttpServletResponse response) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<ProductVO> products = courseService.getSearchProduct(pr);
-		if(products == null) {
-			MessageUtils.alertAndMovePage(response,"일치하는 상품이 없습니다.", "/naemom", "/course/insert");
-			return map;
-		}
-		
+		ArrayList<ProductCategoryVO> pdCategory = courseService.getProductCategory();
+		map.put("pdCategory", pdCategory);
 		map.put("products", products);
 		return map;
 	}

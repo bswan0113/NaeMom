@@ -10,7 +10,7 @@
   		from course
   	</insert>
   	<select id="selectSearchProduct" resultType="kr.dbp.naemom.vo.ProductVO">
-  		select * from product where pd_title = #{pr.pd_title}
+  		select * from product where pd_title like concat('%',#{pr.pd_title},'%')
   	</select>
   	<select id="selectHashTag" resultType="kr.dbp.naemom.vo.Hash_tagVO">
   		select * from hash_tag where hg_pd_num = #{pd_num} 
@@ -22,4 +22,7 @@
   		insert into course_item(ci_index, ci_co_num, ci_pd_num)
   		value(#{index},#{co_num},#{pd_num})
   	</insert>
+  	<select id="selectProductCategory" resultType="kr.dbp.naemom.vo.ProductCategoryVO">
+  		select * from product_category
+  	</select>
 </mapper>

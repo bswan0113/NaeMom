@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
+import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
 
 public interface CourseDAO {
@@ -19,5 +20,7 @@ public interface CourseDAO {
 	ProductVO selectProductNum(@Param("pd_num")int pd_num);
 
 	void insertCourseItem(@Param("co_num")int co_num, @Param("pd_num")int pr_num,  @Param("index")int index);
+
+	ArrayList<ProductCategoryVO> selectProductCategory();
 
 }
