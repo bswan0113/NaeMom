@@ -44,11 +44,15 @@ ${user }
 			<div>지번 주소 : ${product.pd_registerd_address} ${product.pd_detail_address}</div>			
 			<div>주차 가능 여부 : ${product.pd_parking}</div>
 			<div>최대 인원 : ${product.pd_capacity}명</div>		
-			<div>오픈 시간 : ${product.pd_open_time}</div>
-			<div>마감 시간 : ${product.pd_close_time}</div>
+			<div>오픈 시간 : ${product.pd_open_time_str}</div>
+			<div>마감 시간 : ${product.pd_close_time_str}</div>
 		</div>
 		<div style="height:600px">
 			기타 상세 옵션 정보 노출 예정↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+			${option}
+			옵션 배치하고 jsp 나누기만하면되는데 왜 옵션을 못가져오니 ㅠㅠ
+			
+			
 		</div>
 	</div>
 	<hr>
@@ -62,8 +66,9 @@ ${user }
 		<a class="comment-btn comment-cancle" href="#">등록 취소</a>
 	</div>
 	<div class="comment-list">
+		<c:if test="">
 		<span class="mt-6" style="color: #dae1e6; text-align: center; line-height:500px;">현재 작성된 댓글이 없습니다.</span>
-
+		</c:if>
 	</div>	
 </div>
 <hr>

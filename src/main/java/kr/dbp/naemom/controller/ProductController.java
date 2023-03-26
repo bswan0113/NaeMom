@@ -18,6 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.dbp.naemom.service.ProductService;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
+import kr.dbp.naemom.vo.Option_accomodationVO;
+import kr.dbp.naemom.vo.Option_festivalVO;
+import kr.dbp.naemom.vo.Option_landMarkVO;
+import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.WishVO;
@@ -75,6 +79,7 @@ public class ProductController {
 		ArrayList<ProductVO> randomProduct = productService.getRandomProduct();
 		WishVO wish = productService.getWish(user.getMe_id(), pd_num);		
 		
+		
 		Cookie[] cookies = request.getCookies();
 		Cookie abuseCheck = null;
 		ArrayList<String> check = new ArrayList<String>();
@@ -92,7 +97,9 @@ public class ProductController {
             }
             if(abuseCheck!=null)productService.updateViewCount(pd_num);
         }
-		
+		Object option =getOption(product.getPd_pc_num(), product.getPd_num());
+		System.out.println(option);
+		mv.addObject("option",option);
 		mv.addObject("wish",wish);
 		mv.addObject("randomProduct", randomProduct);
 		mv.addObject("random", random);
@@ -104,6 +111,34 @@ public class ProductController {
 	
 	
 	
+	private Object getOption(int pd_pc_num, int pd_num) {
+		Object option=null;
+		System.out.println("메서드진입성공");
+		if(pd_pc_num>5 || pd_num<0) return null;
+		System.out.println("예외통과성공");
+		switch (pd_pc_num) {
+		case 1:
+			 option= (Option_landMarkVO)productService.getLandMarkOption(pd_num);
+			 System.out.println(option +"랜드마크");
+			break;
+		case 2:
+			option= (Option_restrauntVO)productService.getRestrauntOption(pd_num);
+			System.out.println(option+"레스토랑");
+			break;
+		case 3:
+			 option=(Option_accomodationVO)productService.getAcomodationOption(pd_num);
+			 System.out.println(option+"숙박");
+			break;
+		case 4:
+			 option =(Option_festivalVO)productService.getFestivalOption(pd_num);
+			 System.out.println(option+"축제");
+			break;
+
+		default:
+			break;
+		}
+		return option;
+	}
 	@RequestMapping(value="/product/detail/accomodation/{i}", method=RequestMethod.GET)
 	public ModelAndView accomodationGet(ModelAndView mv, ProductVO product, @PathVariable("i")int pr_num) {
 		
@@ -125,7 +160,7 @@ public class ProductController {
 		mv.setViewName("/product/detail/landMark/{i}");
 		return mv;
 	}
-	@RequestMapping(value="/product/detail/detailLayoutTMP")
+	@RequestMapping(value="/product/detail/**/{i}")
 	public ModelAndView detailLayoutTMP(ModelAndView mv, ProductVO product) {
 		mv.setViewName("/product/detail/detailLayoutTMP");
 		return mv;

@@ -10,6 +10,10 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.dbp.naemom.dao.ProductDAO;
 import kr.dbp.naemom.utils.UploadFileUtils;
 import kr.dbp.naemom.vo.FileVO;
+import kr.dbp.naemom.vo.Option_accomodationVO;
+import kr.dbp.naemom.vo.Option_festivalVO;
+import kr.dbp.naemom.vo.Option_landMarkVO;
+import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.WishVO;
@@ -190,6 +194,35 @@ public class ProductServiceImp implements ProductService{
 	public void updateViewCount(int pd_num) {
 		productDao.updateViewCount(pd_num);
 		
+	}
+
+
+
+	@Override
+	public Option_landMarkVO getLandMarkOption(int pd_num) {
+		return productDao.getLandMarkOption(pd_num);
+	}
+
+
+
+	@Override
+	public Option_restrauntVO getRestrauntOption(int pd_num) {
+				 
+		return productDao.getRestrauntOption(pd_num);
+	}
+
+
+
+	@Override
+	public Option_accomodationVO getAcomodationOption(int pd_num) {
+		return productDao.getAcomodationOption(pd_num);
+	}
+
+
+
+	@Override
+	public Option_festivalVO getFestivalOption(int pd_num) {
+		return productDao.getFestivalOption(pd_num);
 	}
 
 
