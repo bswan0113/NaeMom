@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kr.dbp.naemom.dao.CourseDAO;
 import kr.dbp.naemom.vo.CourseVO;
+import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
@@ -73,6 +74,18 @@ public class CourseServiceImp implements CourseService{
 	public ArrayList<ProductCategoryVO> getProductCategory() {
 		
 		return courseDao.selectProductCategory();
+	}
+
+	@Override
+	public FileVO getProductImg(int pd_num) {
+		String fi_category = "게시글 썸네일";
+		return courseDao.selectProductImg(pd_num, fi_category);
+	}
+
+	@Override
+	public ArrayList<CourseVO> getCourseList() {
+		//cri = cri == null ? new Criteria() : cri;
+		return courseDao.selectCourseList();
 	}
 	
 	

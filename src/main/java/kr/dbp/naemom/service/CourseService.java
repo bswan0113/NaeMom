@@ -3,6 +3,7 @@ package kr.dbp.naemom.service;
 import java.util.ArrayList;
 
 import kr.dbp.naemom.vo.CourseVO;
+import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
@@ -20,5 +21,9 @@ public interface CourseService {
 	void insertCourseItem(int co_num, String[] pd_num);
 
 	ArrayList<ProductCategoryVO> getProductCategory();
+
+	FileVO getProductImg(int pd_num);
+
+	ArrayList<CourseVO> getCourseList();
 
 }

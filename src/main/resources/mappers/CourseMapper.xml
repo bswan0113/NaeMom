@@ -4,9 +4,9 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.dbp.naemom.dao.CourseDAO">
   	<insert id="insertCourse"  useGeneratedKeys="true" keyProperty="cos.co_num">
-  		insert into course(co_num,co_me_id,co_title,co_content,co_cc_category_num,co_cs_schedule_num)
+  		insert into course(co_num,co_me_id,co_title,co_content,co_cc_category_num,co_cs_schedule_num,co_total_distance)
   		select ifnull(max(co_num), 0)+1, #{id},#{cos.co_title},#{cos.co_content},
-  			#{cos.co_cc_category_num},#{cos.co_cs_schedule_num}
+  			#{cos.co_cc_category_num},#{cos.co_cs_schedule_num},#{cos.co_total_distance}
   		from course
   	</insert>
   	<select id="selectSearchProduct" resultType="kr.dbp.naemom.vo.ProductVO">
@@ -24,5 +24,12 @@
   	</insert>
   	<select id="selectProductCategory" resultType="kr.dbp.naemom.vo.ProductCategoryVO">
   		select * from product_category
+  	</select>
+  	<select id="selectProductImg" resultType="kr.dbp.naemom.vo.FileVO">
+  		select * from file where fi_pd_num = #{pd_num} and fi_category like concat('%',#{fi_category},'%')
+  	</select>
+  	<select id="selectCourseList" resultType="kr.dbp.naemom.vo.CourseVO">
+  		select * from course
+  			order by co_num desc
   	</select>
 </mapper>

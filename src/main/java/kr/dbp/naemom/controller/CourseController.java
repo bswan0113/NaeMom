@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.service.CourseService;
 import kr.dbp.naemom.vo.CourseVO;
+import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
@@ -29,8 +30,7 @@ public class CourseController {
 	CourseService courseService;
 	
 	@RequestMapping(value = "/course/insert", method=RequestMethod.GET)
-	public ModelAndView course(ModelAndView mv,ProductVO pr) {
-		
+	public ModelAndView course(ModelAndView mv) {
 		
 		mv.setViewName("/course/insert");
 		return mv;
@@ -41,16 +41,15 @@ public class CourseController {
 		String id = "qwe";
 		int res = courseService.insertCourse(cos,id);
 		String msg;
-		if(res == 0 || pd_num.length == 0) {
+		if(res == 0 || pd_num.length == 0 || pd_num.length >10) {
 			msg = "코스 등록에 실패했습니다.";
 		}else {
 			msg = "코스 등록에 성공했습니다.";
 		}
 		courseService.insertCourseItem(cos.getCo_num(),pd_num);
 		mv.addObject("msg",msg);
-		mv.addObject("url","/course/insert");
+		mv.addObject("url","/course/list");
 		mv.setViewName("/course/message");
-		mv.setViewName("/course/insert");
 		return mv;
 	}
 	@ResponseBody
@@ -69,8 +68,17 @@ public class CourseController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ProductVO selectPr = courseService.getSelectProduct(pd_num);
 		ArrayList<Hash_tagVO> tags = courseService.getHashTag(pd_num);
+		FileVO file = courseService.getProductImg(pd_num);
+		map.put("file", file);
 		map.put("tags", tags);
 		map.put("selectPr", selectPr);
 		return map;
+	}
+	@RequestMapping(value = "/course/list", method=RequestMethod.GET)
+	public ModelAndView courseList(ModelAndView mv) {
+		ArrayList<CourseVO> list = courseService.getCourseList();
+		
+		mv.setViewName("/course/list");
+		return mv;
 	}
 }

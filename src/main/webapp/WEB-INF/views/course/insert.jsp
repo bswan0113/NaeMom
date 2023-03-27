@@ -283,8 +283,9 @@
 	          <span class="totalCourseList">0</span>
 	          건
 	        </strong>
-	        <div class="total_distance">
-	          <span class="distance_name">코스 총거리 : <em>56.7km</em></span>
+	        <div class="total_distance" >
+	        	<input type="hidden" name="co_total_distance" value="56.7">
+	          	<span class="distance_name">코스 총거리 : <em class="products_distance">56.7</em> km</span>
 	        </div>
 	      </div>
 	      <ul class="cos-list" id="sortable">
@@ -379,6 +380,9 @@
        		let lastNum = $('.numbering').last().text();
 			lastNum = ''+Number(lastNum);
 			$('.totalCourseList').text(lastNum);
+        }else{
+        	$('.totalCourseList').text('0');
+        	$('.cos_item_origin').show();
         }
 	 
 	});
@@ -408,17 +412,42 @@
 	  $('.search_table').show();
 	  $('.select_product').click(function(){
 		  let pd_nums = $(this).find('.find_pdNum').text();
-		  if(pd_nums == $('.cos_text').find('#pd_num').text()){
-			  //alert('이미 등록된 상품입니다.')
-			  //return;
+		  
+			    
+		  if(!checkPd_num_list(pd_nums)){
+			  $('.product_search').val('');
+			  $('.search_table').hide();
+			  alert('이미 등록된 상품입니다.');
+			  return;
 		  }
+		  
 		  ajaxPost(pd_nums, '<c:url value="/course/selectProduct"></c:url>', selectProductSuccess);
 	  })
   }
-  
+  //리스트내에 선택한 상품과 같은 번호가 있는지 체크
+  function checkPd_num_list(pd_nums){
+	  let returnNow = false;
+	  $('.cos-item').each(function(i, box) {
+          let checkPd_num = $(this).find('#pd_num').text();
+          if(Number(pd_nums) == Number(checkPd_num)){
+				returnNow = true;
+				return false;
+		    }
+	  });
+	  if(returnNow){
+		  return false;
+	  }
+	  return true;
+  }
   //선택한 상품 리스트에 추가
   function selectProductSuccess(data){
 	  	str='';
+	  	let totalCourseList = $('.totalCourseList').text();
+	  	totalCourseList = Number(totalCourseList)+1
+	  	if(totalCourseList > 10){
+			alert('상품은 최대 10개만 등록가능합니다.');
+			return;			
+		}
 	  	str += selectProduct(data);
 	  	$('.cos_item_origin').hide();
 		for(i = 0; i<data.tags.length; i++){
@@ -441,6 +470,7 @@
   //상품리스트 저장위한 str
   function selectProduct(data){
 	 	let pr = data.selectPr;
+	 	let fi = data.file;
 	  	str='';
 	 	str +=
 	 		'<li class="cos-item ui-state-default">'+
@@ -457,7 +487,7 @@
 	 			str+=
 		      '<div class="cos-photo">'+
 		        '<a href="#">'+
-		          '<img src="https://raw.githubusercontent.com/kdw6052/naemomImg/main/food/%EC%A4%91%EA%B5%AD%EC%A7%91.jpg" alt="궁리포구">'+
+		          '<img src="<c:url value="/download'+fi.fi_name+'"></c:url>" alt="궁리포구">'+
 		        '</a>'+
 		      '</div>'+
 		      '<div class="cos_text">'+
@@ -543,56 +573,120 @@
   </script>
 <!--  
   <script>
-	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-	mapOption = {
-	    center: new kakao.maps.LatLng(37.56525, 126.98963), // 지도의 중심좌표
-	    level: 5, // 지도의 확대 레벨
-	    mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
-	}; 
-	
-	// 지도를 생성한다 
-	var map = new kakao.maps.Map(mapContainer, mapOption); 
-	
-	// 지도에 확대 축소 컨트롤을 생성한다
-	var zoomControl = new kakao.maps.ZoomControl();
-	
-	// 지도의 우측에 확대 축소 컨트롤을 추가한다
-	map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-	
-	// 지도에 마커를 생성하고 표시한다
-	var marker = new kakao.maps.Marker({
-		 // 지도 중심좌표에 마커를 생성합니다 
-	    position: map.getCenter() 
-	});
-	// 지도에 마커를 표시합니다
-	marker.setMap(map);
-	
-	// 주소-좌표 변환 객체를 생성합니다
-	var geocoder = new kakao.maps.services.Geocoder();
-	// 주소로 좌표를 검색합니다
-	geocoder.addressSearch('경남 남해군 남면 홍현리 남면로 679번길 21', function(result, status) {
+	var mapContainer = document.getElementById('map'); 
+var mapOption = { 
+  center: new kakao.maps.LatLng(33.450701, 126.570667), 
+  level: 8 
+}; 
 
-    // 정상적으로 검색이 완료됐으면 
-    if (status === kakao.maps.services.Status.OK) {
+var map = new kakao.maps.Map(mapContainer, mapOption); 
+var geocoder = new kakao.maps.services.Geocoder(); 
 
-       var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+var addresses = [
+  '서울특별시 성북구 정릉로 77', 
+  '서울특별시 노원구 공릉로 264', 
+  '서울특별시 동대문구 회기로 106', 
+  '서울특별시 마포구 양화로 45', 
+  '서울특별시 강남구 도산대로 327', 
+  '서울특별시 중구 세종대로 136'
+]; 
 
-       // 결과값으로 받은 위치를 마커로 표시합니다
-       var marker = new kakao.maps.Marker({
-           map: map,
-           position: coords
-       });
+var markers = []; 
+var lines = []; 
+var distances = []; // Array to store distances between markers
+var totalDistance = 0; // Total distance between all markers
 
-       // 인포윈도우로 장소에 대한 설명을 표시합니다
-       var infowindow = new kakao.maps.InfoWindow({
-           content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
-       });
-       infowindow.open(map, marker);
+function distanceBetween(p1, p2) {
+  function deg2rad(deg) {
+    return deg * (Math.PI/180)
+  }
 
-       // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-       map.setCenter(coords);
+  var lat1 = p1.getLat();
+  var lon1 = p1.getLng();
+  var lat2 = p2.getLat();
+  var lon2 = p2.getLng();
+
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2-lat1);
+  var dLon = deg2rad(lon2-lon1);
+  var a =
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+    Math.sin(dLon/2) * Math.sin(dLon/2)
+    ;
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  var d = R * c; // Distance in km
+  return d * 1000; // Distance in m
+}
+
+async function addMarkers() { 
+  for (var i = 0; i < addresses.length; i++) { 
+    await new Promise(function(resolve, reject) { 
+      geocoder.addressSearch(addresses[i], function(result, status) { 
+        if (status === kakao.maps.services.Status.OK) { 
+          var coords = new kakao.maps.LatLng(result[0].y, result[0].x); 
+
+          var marker = new kakao.maps.Marker({ 
+            position: coords 
+          }); 
+
+          marker.setMap(map); 
+          markers.push(marker); 
+
+          if (markers.length > 1) { 
+            var linePath = [markers[markers.length - 2].getPosition(), coords]; 
+            var line = new kakao.maps.Polyline({ 
+              path: linePath, 
+              strokeWeight: 3, 
+              strokeColor: '#db4040', 
+              strokeOpacity: 0.7, 
+              strokeStyle: 'solid' 
+            }); 
+            line.setMap(map); 
+            lines.push(line); 
+
+            var distance = distanceBetween(markers[markers.length - 2].getPosition(), coords);
+
+        // Add distance information to InfoWindow
+              var iwContent = '<div style="padding:5px;"> 거리 : ' + distance.toFixed(0) + 'm</div>';
+        var iwPosition = coords;
+
+        var infowindow = new kakao.maps.InfoWindow({
+          position: iwPosition, 
+          content: iwContent 
+        });
+
+        infowindow.open(map, markers[markers.length - 1]); 
+
+        // Save distance between markers
+        distances.push(distance);
+        totalDistance += distance;
+
+        // Add total distance to InfoWindow
+        var totalIwContent = '<div style="padding:5px;">총 거리 : ' + (totalDistance / 1000).toFixed(1) + 'km</div>';
+
+        var totalInfowindow = new kakao.maps.InfoWindow({
+          position: markers[0].getPosition(), 
+          content: totalIwContent 
+        });
+
+        // Open total distance InfoWindow only after all markers are added
+        if (markers.length === addresses.length) {
+          totalInfowindow.open(map, markers[0]);
+        }
+      }
+
+      map.setCenter(coords); 
+      resolve(); 
+    } else { 
+      reject(); 
     } 
-});
+  }); 
+}); 
+}
+}
+
+addMarkers();
 
   </script>-->
 </body>
