@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.dbp.naemom.dao.ProductDAO;
+import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.utils.UploadFileUtils;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
@@ -16,6 +17,7 @@ import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.ReviewVO;
 import kr.dbp.naemom.vo.WishVO;
 
 @Service
@@ -127,24 +129,9 @@ public class ProductServiceImp implements ProductService{
 
 
 
-	@Override
-	public ArrayList<FileVO> getRandomThumbNail() {
-		ArrayList<FileVO> list = new ArrayList<FileVO>();
-		int totalCount = productDao.getTotalCountOfProduct();
-		int random;
-		int amount =10;
-		String Thum = "썸네일";
-		FileVO file;
-		for(int i=0; i<amount; i++) {
-			random = (int)(Math.random()*totalCount+1);
-			file = productDao.getThumbNail(random, Thum);
-			list.add(file);
 			
-		}
-		
-		return list;
-	}
 
+	
 
 
 	@Override
@@ -161,7 +148,20 @@ public class ProductServiceImp implements ProductService{
 			
 		}
 		return list;	
+	}
+	
+	@Override
+	public ArrayList<FileVO> getThumbNailByRandomProduct(ArrayList<ProductVO> randomProduct) {
+		if(randomProduct==null || randomProduct.size()<0) return null;
+		ArrayList<FileVO> fileList = new ArrayList<FileVO>();
+		FileVO file =null;
+		String Thum ="썸네일";
+		for(int i=0; i<randomProduct.size(); i++) {
+			file=productDao.getThumbNail(randomProduct.get(i).getPd_num(), Thum);
+			fileList.add(file);
 		}
+		return fileList;
+	}
 
 
 
@@ -199,14 +199,14 @@ public class ProductServiceImp implements ProductService{
 
 
 	@Override
-	public Option_landMarkVO getLandMarkOption(int pd_num) {
+	public ArrayList<Object> getLandMarkOption(int pd_num) {
 		return productDao.getLandMarkOption(pd_num);
 	}
 
 
 
 	@Override
-	public Option_restrauntVO getRestrauntOption(int pd_num) {
+	public ArrayList<Object> getRestrauntOption(int pd_num) {
 				 
 		return productDao.getRestrauntOption(pd_num);
 	}
@@ -214,16 +214,37 @@ public class ProductServiceImp implements ProductService{
 
 
 	@Override
-	public Option_accomodationVO getAcomodationOption(int pd_num) {
+	public ArrayList<Object> getAcomodationOption(int pd_num) {
 		return productDao.getAcomodationOption(pd_num);
 	}
 
 
 
 	@Override
-	public Option_festivalVO getFestivalOption(int pd_num) {
+	public ArrayList<Object> getFestivalOption(int pd_num) {
 		return productDao.getFestivalOption(pd_num);
 	}
+
+
+
+
+
+
+
+	@Override
+	public double getRatingAvg(int pd_num) {
+		if(pd_num<0) return -1;
+		Double rating = productDao.getReviewAvg(pd_num);
+		return rating;
+	}
+
+
+
+
+
+
+
+
 
 
 

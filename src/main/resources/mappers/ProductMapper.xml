@@ -68,5 +68,13 @@
   	<select id="getFestivalOption" resultType="kr.dbp.naemom.vo.Option_festivalVO">
   		select * from festival_option where fo_pd_num=#{pd_num}
   	</select>
+  	
+  	<select id="getReviewAvg" resultType="double">  	
+		select ifnull(avg(re_rating),-1) from review where re_pd_num= #{pd_num}
+  	</select>
+  	<insert id="insertReview" useGeneratedKeys="true" keyProperty="re.re_num">
+  		insert into review(re_me_id, re_content, re_date, re_rating, re_pd_num)
+  		value(#{re.re_me_id}, #{re.re_content}, now(), #{re.re_rating}, #{re.re_pd_num})
+  	</insert>
 </mapper>
 

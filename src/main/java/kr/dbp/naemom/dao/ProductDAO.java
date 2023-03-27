@@ -12,6 +12,7 @@ import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.ReviewVO;
 import kr.dbp.naemom.vo.WishVO;
 
 public interface ProductDAO {
@@ -42,13 +43,17 @@ public interface ProductDAO {
 
 	public void updateViewCount(@Param("pd_num")int pd_num);
 
-	public Option_landMarkVO getLandMarkOption(@Param("pd_num")int pd_num);
+	public ArrayList<Object> getLandMarkOption(@Param("pd_num")int pd_num);
 
-	public Option_restrauntVO getRestrauntOption(@Param("pd_num")int pd_num);
+	public ArrayList<Object> getRestrauntOption(@Param("pd_num")int pd_num);
 
-	public Option_accomodationVO getAcomodationOption(@Param("pd_num")int pd_num);
+	public ArrayList<Object> getAcomodationOption(@Param("pd_num")int pd_num);
 
-	public Option_festivalVO getFestivalOption(@Param("pd_num")int pd_num);
+	public ArrayList<Object> getFestivalOption(@Param("pd_num")int pd_num);
+
+	public double getReviewAvg(@Param("pd_num")int pd_num);
+
+	public boolean insertReview(@Param("re")ReviewVO review);
 
 
 		

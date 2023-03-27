@@ -75,10 +75,10 @@ public class ProductController {
 		
 		ProductVO product= productService.getProduct(pd_num);
 		ArrayList<FileVO> files = productService.getFiles(pd_num);
-		ArrayList<FileVO> random = productService.getRandomThumbNail();
 		ArrayList<ProductVO> randomProduct = productService.getRandomProduct();
-		WishVO wish = productService.getWish(user.getMe_id(), pd_num);		
-		
+		ArrayList<FileVO> random = productService.getThumbNailByRandomProduct(randomProduct);
+		WishVO wish = productService.getWish(user.getMe_id(), pd_num);
+		Double rating =productService.getRatingAvg(pd_num);
 		
 		Cookie[] cookies = request.getCookies();
 		Cookie abuseCheck = null;
@@ -97,8 +97,9 @@ public class ProductController {
             }
             if(abuseCheck!=null)productService.updateViewCount(pd_num);
         }
-		Object option =getOption(product.getPd_pc_num(), product.getPd_num());
-		System.out.println(option);
+		ArrayList<Object> option =getOption(product.getPd_pc_num(), product.getPd_num());
+		if(rating >=0)mv.addObject("rating", (double)Math.round(rating*10)/10);
+		else mv.addObject("rating", "등록된 별점이 없습니다.");
 		mv.addObject("option",option);
 		mv.addObject("wish",wish);
 		mv.addObject("randomProduct", randomProduct);
@@ -111,27 +112,21 @@ public class ProductController {
 	
 	
 	
-	private Object getOption(int pd_pc_num, int pd_num) {
-		Object option=null;
-		System.out.println("메서드진입성공");
+	private ArrayList<Object> getOption(int pd_pc_num, int pd_num) {
+		ArrayList<Object> option=null;
 		if(pd_pc_num>5 || pd_num<0) return null;
-		System.out.println("예외통과성공");
 		switch (pd_pc_num) {
 		case 1:
-			 option= (Option_landMarkVO)productService.getLandMarkOption(pd_num);
-			 System.out.println(option +"랜드마크");
+			 option= productService.getLandMarkOption(pd_num);
 			break;
 		case 2:
-			option= (Option_restrauntVO)productService.getRestrauntOption(pd_num);
-			System.out.println(option+"레스토랑");
+			option= productService.getRestrauntOption(pd_num);
 			break;
 		case 3:
-			 option=(Option_accomodationVO)productService.getAcomodationOption(pd_num);
-			 System.out.println(option+"숙박");
+			 option=productService.getAcomodationOption(pd_num);
 			break;
 		case 4:
-			 option =(Option_festivalVO)productService.getFestivalOption(pd_num);
-			 System.out.println(option+"축제");
+			 option =productService.getFestivalOption(pd_num);
 			break;
 
 		default:

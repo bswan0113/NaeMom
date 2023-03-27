@@ -3,15 +3,20 @@
     pageEncoding="UTF-8"%>
     <title>임시 상세페이지 입니다.</title>
 ${user }
+${data.list}
 <div class="container-fluid">
 <h1 style="text-align: center; font-weight:bold">${product.pd_title}</h1><br>
 <h3 style="text-align: center;">${product.pd_subtitle}</h3>
 <div style="float: right;" class="service-box">
 	
-<button style="color:
+	
+	<button style="color:
 		<c:if test="${wish.wi_num!=null}">red</c:if>
 		<c:if test="${wish.wi_num==null}">black</c:if>;" 
-		id="wish-btn"><i class="fas fa-heart"></i></button>
+		id="wish-btn"><i class="fas fa-heart"></i>
+	</button>
+	<i class="fas fa-star" style="margin-right: 0;"></i>
+	<span class="star-rating">${rating}</span>
 	<i style="margin-right: 0;"class="fas fa-eye"></i>
 	<span class="view-count">${product.pd_viewcount}</span>
 </div>
@@ -48,9 +53,8 @@ ${user }
 			<div>마감 시간 : ${product.pd_close_time_str}</div>
 		</div>
 		<div style="height:600px">
-			기타 상세 옵션 정보 노출 예정↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+			옵션 Get완료// jsp분할 후 배치 진행
 			${option}
-			옵션 배치하고 jsp 나누기만하면되는데 왜 옵션을 못가져오니 ㅠㅠ
 			
 			
 		</div>
@@ -59,17 +63,41 @@ ${user }
 </div>
 </div>
 <h4>  내맘대로 톡톡</h4>
-<div class="comment-box">
+<div class="comment-box"> 
 	<div class="insert-comment-box">
-		<input class="insert-window" type="text" name="comment" id="comment" placeholder="댓글을 남겨주세요">
-		<a class="comment-btn comment-ins" href="#">댓글 등록</a>
-		<a class="comment-btn comment-cancle" href="#">등록 취소</a>
+	 	<div class="star-rating-box" style="float:left; margin:8px;">	 	
+	        <div class="stars">
+	        	<span>평점 : </span>
+	            <i class="fa fa-star"></i>
+	            <i class="fa fa-star"></i>
+	            <i class="fa fa-star"></i>
+	            <i class="fa fa-star"></i>
+	            <i class="fa fa-star"></i>
+	        </div>
+	    </div>
+		<textarea class="insert-window" name="comment" id="comment" placeholder="댓글을 남겨주세요"></textarea>
+		<input type="file" class="form-control" id="insert-re-file">
+		<button class="comment-btn comment-ins">톡톡 등록</button>
+		<button class="comment-btn comment-cancle" type="reset">등록 취소</button>
 	</div>
 	<div class="comment-list">
-		<c:if test="">
-		<span class="mt-6" style="color: #dae1e6; text-align: center; line-height:500px;">현재 작성된 댓글이 없습니다.</span>
+		<c:if test="${review==null}">
+		<span class="mt-6" style="color: #dae1e6; text-align: center; line-height:500px;">현재 작성된 리뷰가 없습니다.</span>
 		</c:if>
-	</div>	
+		
+	</div>
+	<ul class="comment-pagination pagination justify-content-center">
+		<li class="page-item">
+			<a class="page-link" href="#">이전</a>
+		</li>
+	    <li class="page-item">
+	    	<a class="page-link" href="#">1</a>
+	    </li>
+	    <li class="page-item">
+	    	<a class="page-link" href="#">다음</a>
+	    </li>
+	</ul>
+<hr>	
 </div>
 <hr>
 <br>
@@ -79,7 +107,7 @@ ${user }
 		<c:forEach begin="0" end="4" var="i">
 			<li class="random-item">
 				<a class="random-link" href="<c:url value='/product/detail/detailLayoutTMP/${randomProduct.get(i).pd_num}'></c:url>">
-					<img src="<c:url value="/download${random.get(i).fi_name}"></c:url>" height="200" width="auto">
+					<img src="<c:url value="/download${random.get(i).fi_name}"></c:url>" height="200" width="200">
 					<span class="random-title">${randomProduct.get(i).pd_title}</span>
 				</a>
 			</li>
@@ -89,7 +117,7 @@ ${user }
 		<c:forEach begin="5" end="9" var="j">
 			<li class="random-item">
 				<a class="random-link" href="<c:url value='/product/detail/detailLayoutTMP/${randomProduct.get(j).pd_num}'></c:url>">
-					<img src="<c:url value="/download${random.get(j).fi_name}"></c:url>" height="200" width="auto">
+					<img src="<c:url value="/download${random.get(j).fi_name}"></c:url>" height="200" width="200">
 					<span class="random-title">${randomProduct.get(j).pd_title}</span>
 				</a>
 			</li>
@@ -99,6 +127,30 @@ ${user }
 <hr>
 <br>
 <style>
+
+.star-rating div {
+    float: left;
+    width: 50%;
+}
+.stars {
+}
+.stars .fa {
+    font-size: 18px;
+    cursor: pointer;
+}
+.stars .fa.active {
+    color: gold;
+    text-shadow: 0 0 5px yellow;
+}
+
+
+	.stars .fa-star{
+	color:white;
+	}
+	#insert-re-file{
+		background-color: #d4ebd4;
+		border: none;
+	}
 	#wish-btn{
 		border:none;
 		background-color:white;
@@ -113,7 +165,7 @@ height : 700px;
 
 }
 
-.view-count{
+.view-count, .star-rating{
 vertical-align: 5px;
 }
 
@@ -158,7 +210,7 @@ font-weight:bold;
 
 
 .insert-comment-box{
-	height: 170px;
+	height: 200px;
 	width: 900px;
 	background-color:  #d4ebd4;
 	position: relative;
@@ -179,6 +231,8 @@ font-weight:bold;
 	margin: 30px;
 	font-size: 16px;
 	line-height: 16px;
+	margin-bottom: 10px;
+	margin-top:10px;
 }
 .comment-box .comment-btn{
 	border-radius: 4px;
@@ -207,7 +261,26 @@ min-height: 500px;
 
 </style>
 
+
 <script>
+let cri = {
+		page : 1,
+		perPageNum : 5
+	};
+selectReviewList(cri);
+
+let starRate=0;
+$('.stars .fa').click(function() {
+    $(this).addClass('active');
+
+    // 클릭한 별을 기준으로 (.fa) 그 이전 별은 보이게 그 뒤에 별들은 안보이게
+    $(this).prevAll().addClass('active');
+    $(this).nextAll().removeClass('active');
+
+    // 순서를 찾는 메서드 index 0 1 2 3 4
+    // 텍스트내용을 출력 text, 태그+텍스트 html
+    starRate = $(this).index();
+});
 
 	$('#wish-btn').click(function(){
 		if('${user.me_id}' == ''){
@@ -220,11 +293,141 @@ min-height: 500px;
 	let url='<c:url value="/product/like/"></c:url>'+pd_num+'/'+ li_state;
 	ajaxGet('get',url,function(data){
 		
-		alert(data.res);
-		if(data.res==1) $('#wish-btn').css('color', 'red');
-		if(data.res==-1)$('#wish-btn').css('color', 'black');
+		if(data.res==1) {
+			$('#wish-btn').css('color', 'red');
+			alert('찜목록에 추가되었어요!');
+			};
+		if(data.res==-1){
+			$('#wish-btn').css('color', 'black');
+			alert('찜을 취소했어요!');
+			};
 	})
 	});
+	
+	
+	$('.comment-ins').click(function(){
+		if('${user.me_id}' == ''){			
+			alert('로그인 하세요!');
+			return;
+		}
+		re_content = $('.insert-window').val();
+		if(re_content.trim().length==0){
+			alert('내용을 입력해주세요!');
+			return;
+		}
+		let review={
+			re_me_id : "${user.me_id}",
+			re_content : re_content,
+			re_rating : starRate,
+			re_pd_num : "${product.pd_num}" 
+			
+		};
+		if(starRate==0){
+			alert('별점이 없으면 리뷰등록이 불가능해요!');
+		}
+		if($('.insert-window').val().trim().lenth ==0){
+			alert('내용을 입력해주세요!');
+			return;
+		}
+		ajaxPost(true,review,'<c:url value="/review/insert"></c:url>',function(data){
+			
+			var formData = new FormData();
+			var inputFile = $('#insert-re-file');
+			var files = inputFile[0].files;
+			for( var i=0; i<files.length;i++){
+				formData.append("uploadFile",files[i]);
+			}
+			$.ajax({
+				url :'<c:url value="/review/insert/file/'+data.re_num+'/'+data.re_pd_num+'"></c:url>',
+				processData : false,
+				contentType : false,
+				data : formData,
+				type: "POST",
+				success : insertSuccess
+			});
+		})
+	})
+	
+function addPagination(pm){
+		let prev = pm.prev ? '' : 'disabled';
+		let next = pm.next ? '' : 'disabled';
+		str = '';
+		str += 
+		'<li class="page-item '+prev+'">'+
+			'<a class="page-link" href="#" data-page="'+(pm.startPage-1)+'">이전</a>'+
+		'</li>';
+		for(i=pm.startPage; i<=pm.endPage; i++){
+			let page = pm.cri.page == i ? 'active' : '';
+			str +=
+			'<li class="page-item '+page+'">'+
+				'<a class="page-link" href="#" data-page="'+i+'">'+i+'</a>'+
+			'</li>';
+		}
+		str +=
+		'<li class="page-item '+next+'">'+
+			'<a class="page-link" href="#" data-page="'+(pm.endPage+1)+'">다음</a>'+
+		'</li>';
+		$('.comment-pagination').html(str);
+		//페이지네이션 이벤트 등록
+		$('.comment-pagination .page-link').click(function(e){
+			e.preventDefault();
+			let page = $(this).data('page');
+			cri.page = page;
+			selectReviewList(cri);
+		});
+	}
+
+function addReviewList(list){
+	str = ''
+		for(i = 0; i<list.length; i++){
+			str += createReview(list[i]);
+			$('.comment-list').html(str);
+		}
+}
+function createReview(review){
+	str = '';
+	str += 
+	'<div class="">'+
+		'<div class="">'+review.re_me_id+'</div>'+
+		'<div class="">'+review.re_content+'</div>'+
+		'<div class="">'+review.re_rating+'</div>'+
+		'<div class="">'+review.re_date+'</div>'+
+		'<div class="">'+review.re_update_date+'</div>'+
+	'</div>';
+	return str;
+}
+	
+function listSuccess(data){
+	addReviewList(data.list);
+	addPagination(data.pm);
+}
+	
+function selectReviewList(cri){
+		ajaxPost(false,cri,'<c:url value="/review/list/'+${product.pd_num}+'"></c:url>', listSuccess)
+	}
+function insertSuccess(data){
+	if(data.res){
+		alert('댓글을 등록했습니다.');
+	}else{
+		alert('댓글 등록에 실패했어요!');
+	}
+	cri.page = 1;
+	selectReviewList(cri);
+}
+	
+	
+//ajax메서드
+function ajaxPost(async, obj, url, successFunction){
+	$.ajax({
+		async:async,
+		type: 'POST',
+		data: JSON.stringify(obj),
+		url: url,
+		dataType:"json",
+		contentType:"application/json; charset=UTF-8",
+		success : successFunction
+	});
+}
 		
 	
 function ajaxGet(method, url, successFunc){
@@ -246,4 +449,6 @@ function ajaxGet(method, url, successFunc){
         prevEl: ".swiper-button-prev",
       },
     });
+    
+    
   </script>

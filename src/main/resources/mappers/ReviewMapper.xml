@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.dbp.naemom.dao.ReviewDAO">
+  	<insert id="insertReview" useGeneratedKeys="true" keyProperty="re.re_num">
+  		insert into review(re_me_id, re_content, re_date, re_rating, re_pd_num)
+  		value(#{re.re_me_id}, #{re.re_content}, now(), #{re.re_rating}, #{re.re_pd_num})
+  	</insert>
+  	
+ 	<insert id="insertFile">
+  		insert into file(fi_ori_name, fi_name, fi_pd_num, fi_category)
+  		values(#{fi.fi_ori_name},#{fi.fi_name},#{fi.fi_pd_num}, #{fi.fi_category})
+  	</insert>
+  	
+  	 <select id="selectReviewList" resultType="kr.dbp.naemom.vo.ReviewVO">
+  	select * from review where
+  		re_pd_num = #{pd_num}
+  		order by re_num desc
+  		limit
+  			#{cri.pageStart}, #{cri.perPageNum}
+  </select>
+  <select id="selectTotalCountReviewList" resultType="int">
+  	select 
+  		count(*) 
+  	from 
+  		review
+  	where
+  		re_pd_num = #{pd_num}
+  </select>
+</mapper>
+

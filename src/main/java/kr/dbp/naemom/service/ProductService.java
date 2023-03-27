@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.LikeVO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
@@ -12,6 +13,7 @@ import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.ReviewVO;
 import kr.dbp.naemom.vo.WishVO;
 
 public interface ProductService {
@@ -28,7 +30,7 @@ public interface ProductService {
 
 	ArrayList<ProductVO> getRandomProduct();
 
-	ArrayList<FileVO> getRandomThumbNail();
+	ArrayList<FileVO> getThumbNailByRandomProduct(ArrayList<ProductVO> randomProduct);
 
 	WishVO getWish(String string, int pd_num);
 
@@ -36,13 +38,17 @@ public interface ProductService {
 
 	void updateViewCount(int pd_num);
 
-	Option_landMarkVO getLandMarkOption(int pd_pc_num);
+	ArrayList<Object> getLandMarkOption(int pd_pc_num);
 
-	Option_restrauntVO getRestrauntOption(int pd_pc_num);
+	ArrayList<Object> getRestrauntOption(int pd_pc_num);
 
-	Option_accomodationVO getAcomodationOption(int pd_pc_num);
+	ArrayList<Object> getAcomodationOption(int pd_pc_num);
 
-	Option_festivalVO getFestivalOption(int pd_pc_num);
+	ArrayList<Object> getFestivalOption(int pd_pc_num);
+
+	double getRatingAvg(int pd_num);
+
+
 
 
 
