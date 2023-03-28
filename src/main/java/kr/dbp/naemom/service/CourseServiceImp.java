@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.dbp.naemom.dao.CourseDAO;
+import kr.dbp.naemom.pagination.Criteria;
+import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
@@ -78,14 +80,38 @@ public class CourseServiceImp implements CourseService{
 
 	@Override
 	public FileVO getProductImg(int pd_num) {
+		if(pd_num == 0) {
+			return null;
+		}
 		String fi_category = "게시글 썸네일";
-		return courseDao.selectProductImg(pd_num, fi_category);
+		String fi_table = "product";
+		return courseDao.selectProductImg(pd_num, fi_category, fi_table);
 	}
 
 	@Override
-	public ArrayList<CourseVO> getCourseList() {
-		//cri = cri == null ? new Criteria() : cri;
-		return courseDao.selectCourseList();
+	public ArrayList<CourseVO> getCourseList(Criteria cri) {
+		cri = cri == null ? new Criteria() : cri;
+		return courseDao.selectCourseList(cri);
+	}
+
+	@Override
+	public int getTotalCountBoard(Criteria cri) {
+		cri = cri == null ? new Criteria() : cri;
+		return courseDao.selectTotalCountCourse(cri);
+	}
+
+	@Override
+	public ArrayList<CourseItemVO> getCourseItem(int co_num) {
+		if(co_num == 0)
+			return null;
+		return courseDao.selectCourseItem(co_num);
+	}
+
+	@Override
+	public ArrayList<FileVO> getProductImgList() {
+		String fi_category = "게시글 썸네일";
+		String fi_table = "product";
+		return courseDao.selectProductImgList(fi_category, fi_table);
 	}
 	
 	

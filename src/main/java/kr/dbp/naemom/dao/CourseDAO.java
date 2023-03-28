@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.dbp.naemom.pagination.Criteria;
+import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
@@ -24,8 +26,14 @@ public interface CourseDAO {
 
 	ArrayList<ProductCategoryVO> selectProductCategory();
 
-	FileVO selectProductImg(@Param("pd_num")int pd_num, @Param("fi_category")String fi_category);
+	FileVO selectProductImg(@Param("pd_num")int pd_num, @Param("fi_category")String fi_category, @Param("fi_table")String fi_table);
 
-	ArrayList<CourseVO> selectCourseList();
+	ArrayList<CourseVO> selectCourseList(@Param("cri")Criteria cri);
+
+	int selectTotalCountCourse(@Param("cri")Criteria cri);
+
+	ArrayList<CourseItemVO> selectCourseItem(@Param("co_num")int co_num);
+
+	ArrayList<FileVO> selectProductImgList(@Param("fi_category")String fi_category, @Param("fi_table")String fi_table);
 
 }

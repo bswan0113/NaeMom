@@ -52,19 +52,20 @@
 	
 	
 	.box_cosList{
-		width: 1190px;
+		width: 1190px; display: flex; flex-wrap: wrap;
 		padding-bottom: 20px; border-bottom: 1px solid #ccc;
 	}
 	.course_list{
 		width: 300px; margin-right: 48px; margin-left: 48px; margin-top: 48px; 
-		float: left;
+		
 	}
 	.course_desk{
-		height: 125px; background: grey; position: relative;
+		width: 300px; height: 125px; background: grey; position: relative;
 	}
+	
 	.course_desk > a{
 		position: absolute; left: 0; top: 0; right: 0; bottom: 0; text-decoration: none;
-		background: rgba(0, 0, 0, 0.3); box-sizing: border-box; padding: 20px 20px;
+		background: rgba(0, 0, 0, 0.5); box-sizing: border-box; padding: 20px 20px;
 	}
 	.course_desk strong{
 		overflow: hidden; height: 47px; font-size: 20px; color: #fff;
@@ -72,7 +73,7 @@
 		display: block;
 	}
 	.box_distance{
-		width: 120px; position: absolute; bottom: 0;
+		width: 180px; position: absolute; bottom: 0;
 	}
 	.box_distance > li{
 		width: 100%; overflow: hidden; display: inline-block; text-overflow: ellipsis;
@@ -108,6 +109,9 @@
 	.box_cosList .course_list > ul li > span a{
 		text-decoration: none; color: #333;
 	}
+	.content_null_box{
+		width : 1190px; height : 300px; text-align:center; padding-top:100px;
+	}
   </style>
   
 </head>
@@ -116,215 +120,73 @@
 		<label class="cos-title-name ml-5">코스제목</label>
 		<div class="box_listSort clearfix">
 			<div class="sort_list">
-				<button type="button" class="btn btn-outline-success">등록시간순</button>
-				<button type="button" class="btn btn btn-outline-success">추천수</button>
-				<button type="button" class="btn btn btn-outline-success">조회수</button>
+				<button type="button" class="btn btn-outline-success">최신순</button>
+				<button type="button" class="btn btn-outline-success">추천수</button>
+				<button type="button" class="btn btn-outline-success">조회수</button>
 			</div>
 		</div>
 		<div class="box_cosList clearfix">
-			<div class="course_list">
-				<div class="course_desk">
-					<a href="#"><strong>코스이름 들어감</strong>
-						<ul class="box_distance">
-							<li>
-								총거리 : <span>59.7</span>km
-							</li>
-						</ul>
-						<span class="userInfo">
-							<em>유저 아이디</em>
-						</span>
-					</a>
-					<img src="https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=83804651-01e0-4809-bde0-13bb26a33618" alt="" class="course_item_img">
+			<c:if test="${list.size() == 0 }">
+				<div class="content_null_box">
+					<span style="font-size: 50px">해당하는 코스가 없습니다</span>
 				</div>
-				<ul>
-					<li>
-						<span>
-							<a href="#">1</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">2</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">3</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">4</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">5</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">6</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">7</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">8</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">9</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">10</a>
-						</span>
-					</li>
-				</ul>
-			</div>
-			<div class="course_list">
-				<div class="course_desk">
-					<a href="#"><strong>코스이름 들어감</strong>
-						<ul class="box_distance">
-							<li>
-								총거리 : <span>59.7</span>km
-							</li>
-						</ul>
-						<span class="userInfo">
-							<em>유저 아이디</em>
-						</span>
-					</a>
-					<img src="https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=83804651-01e0-4809-bde0-13bb26a33618" alt="" class="course_item_img">
+			</c:if>
+			<c:forEach items="${list}" var="co">
+				<div class="course_list">
+					<div class="course_desk">
+						<a href="<c:url value='/course/detail/${co.co_num }'></c:url>"><strong>${co.co_title}</strong>
+							<ul class="box_distance">
+								<li>
+									조회수 : <span>${co.co_views }</span> 추천수 : <span>${co.co_up }</span>
+								</li>
+								<li>
+									총거리 : <span>${co.co_total_distance }</span>km
+								</li>
+							</ul>
+							<span class="userInfo">
+								<em>${co.co_me_id }</em>
+							</span>
+						</a>
+						<c:forEach items="${files}" var="fi">
+							<c:forEach items="${items}" var="item">
+								<c:if test="${fi.fi_table_key == item.ci_pd_num && co.co_num == item.ci_co_num && item.ci_index == 1}">
+									<img src="<c:url value='/download${fi.fi_name }'></c:url>" alt="" class="course_item_img">
+								</c:if>
+							</c:forEach>
+						</c:forEach>
+					</div>
+					<ul>
+						<c:forEach items="${items}" var="item">
+							<c:if test="${co.co_num == item.ci_co_num}">
+								<li>
+									<span>
+											<a href="#">${item.pd_title }</a>
+									</span>
+								</li>
+							</c:if>
+						</c:forEach>
+						
+					</ul>
 				</div>
-				<ul>
-					<li>
-						<span>
-							<a href="#">1</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">2</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">3</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">4</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">5</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">6</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">7</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">8</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">9</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">10</a>
-						</span>
-					</li>
-				</ul>
-			</div>
-			<div class="course_list">
-				<div class="course_desk">
-					<a href="#"><strong>코스이름 들어감</strong>
-						<ul class="box_distance">
-							<li>
-								총거리 : <span>59.7</span>km
-							</li>
-						</ul>
-						<span class="userInfo">
-							<em>유저 아이디</em>
-						</span>
-					</a>
-					<img src="https://cdn.visitkorea.or.kr/img/call?cmd=VIEW&id=83804651-01e0-4809-bde0-13bb26a33618" alt="" class="course_item_img">
-				</div>
-				<ul>
-					<li>
-						<span>
-							<a href="#">1</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">2</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">3</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">4</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">5</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">6</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">7</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">8</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">9</a>
-						</span>
-					</li>
-					<li>
-						<span>
-							<a href="#">10</a>
-						</span>
-					</li>
-				</ul>
-			</div>
+			</c:forEach>
+			
+			
 			
 		</div>
+		<ul class="pagination justify-content-center mt-5">
+			<li class="page-item <c:if test="${!pm.prev }"> disabled</c:if>">
+				<a href="<c:url value='/course/list?page=${pm.startPage-1}&search=${pm.cri.search }&type=${pm.cri.type }'></c:url>" class="page-link">이전</a>
+			</li>
+			<c:forEach begin="${pm.startPage }" end="${pm.endPage }" var="i">
+				<li class="page-item <c:if test="${i==pm.cri.page }"> active</c:if>">
+					<a href="<c:url value='/course/list?page=${i}&search=${pm.cri.search }&type=${pm.cri.type }'></c:url>" class="page-link">${i}</a>
+				</li>
+			</c:forEach>
+			
+			<li class="page-item <c:if test="${!pm.next }"> disabled</c:if>">
+				<a href="<c:url value='/course/list?page=${pm.endPage+1}&search=${pm.cri.search }&type=${pm.cri.type }'></c:url>" class="page-link">다음</a>
+			</li>
+		</ul>
 		<form class="input-group mb-3 mt-5" style="width: 1190px;" action="#">
 			<div class="input-group mb-3">
 				<div class="input-group-prepend">
@@ -335,14 +197,14 @@
 						<option value="3">2박3일 이상</option>
 					</select>
 				</div>
-				<input type="text" class="form-control" placeholder="검색어를 입력하세요." name="search" value="">
+				<input type="text" class="form-control" placeholder="검색어를 입력하세요." name="search" value="${pm.cri.search}">
 				<div class="input-group-append">
 					<button class="btn btn-success" type="submit">검색</button>
 				</div> 
 			</div>
 		</form>
 		
-			<a class="btn btn-outline-success" href="">글쓰기</a>
+			<a class="btn btn-outline-success" href="<c:url value='/course/insert'></c:url>">글쓰기</a>
 		
 	</div>
   

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.dbp.naemom.pagination.Criteria;
+import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.CourseService;
+import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
@@ -75,10 +79,31 @@ public class CourseController {
 		return map;
 	}
 	@RequestMapping(value = "/course/list", method=RequestMethod.GET)
-	public ModelAndView courseList(ModelAndView mv) {
-		ArrayList<CourseVO> list = courseService.getCourseList();
-		
+	public ModelAndView courseList(ModelAndView mv, Criteria cri) {
+		cri.setPerPageNum(6);
+		ArrayList<CourseVO> list = courseService.getCourseList(cri);
+		ArrayList<CourseItemVO> items = new ArrayList<CourseItemVO>();
+		for(int i=0;i<list.size();i++) {
+			items.addAll(courseService.getCourseItem(list.get(i).getCo_num()));
+			
+		}
+		ArrayList<FileVO> files = courseService.getProductImgList();;
+		int totalCount = courseService.getTotalCountBoard(cri);
+		int displayPageNum = 3;
+		PageMaker pm = 
+			new PageMaker(totalCount, displayPageNum, cri);
+		mv.addObject("items", items);
+		mv.addObject("files", files);
+		mv.addObject("list", list);
+		mv.addObject("pm", pm);
 		mv.setViewName("/course/list");
 		return mv;
 	}
+	@RequestMapping(value = "/course/detail/{co_num}", method=RequestMethod.GET)
+	public ModelAndView courseDetail(ModelAndView mv,@PathVariable("co_num")int co_num) {
+		
+		mv.setViewName("/course/detail");
+		return mv;
+	}
+	
 }

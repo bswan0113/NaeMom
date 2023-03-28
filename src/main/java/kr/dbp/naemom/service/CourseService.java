@@ -2,6 +2,8 @@ package kr.dbp.naemom.service;
 
 import java.util.ArrayList;
 
+import kr.dbp.naemom.pagination.Criteria;
+import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
@@ -24,6 +26,12 @@ public interface CourseService {
 
 	FileVO getProductImg(int pd_num);
 
-	ArrayList<CourseVO> getCourseList();
+	ArrayList<CourseVO> getCourseList(Criteria cri);
+
+	int getTotalCountBoard(Criteria cri);
+
+	ArrayList<CourseItemVO> getCourseItem(int co_num);
+
+	ArrayList<FileVO> getProductImgList();
 
 }

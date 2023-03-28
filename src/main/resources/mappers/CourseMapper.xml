@@ -26,10 +26,32 @@
   		select * from product_category
   	</select>
   	<select id="selectProductImg" resultType="kr.dbp.naemom.vo.FileVO">
-  		select * from file where fi_pd_num = #{pd_num} and fi_category like concat('%',#{fi_category},'%')
+  		select * from file where fi_table_key = #{pd_num} and fi_category like concat('%',#{fi_category},'%') 
+  			and fi_table = #{fi_table}
   	</select>
   	<select id="selectCourseList" resultType="kr.dbp.naemom.vo.CourseVO">
   		select * from course
+  			where (co_title like concat('%',#{cri.search},'%') or co_content like concat('%',#{cri.search},'%')) 
+  			<if test="cri.type != 0">
+  				and co_cs_schedule_num = #{cri.type}
+  			</if>
   			order by co_num desc
+  			limit #{cri.pageStart}, #{cri.perPageNum}
+  	</select>
+  	<select id="selectTotalCountCourse" resultType = "int">
+  		select count(*) from course
+  			where (co_title like concat('%',#{cri.search},'%') or co_content like concat('%',#{cri.search},'%')) 
+  			<if test="cri.type != 0">
+  				and co_cs_schedule_num = #{cri.type}
+  			</if>
+  	</select>
+  	<select id="selectCourseItem" resultType="kr.dbp.naemom.vo.CourseItemVO">
+  		select * from course_item 
+  			join product on pd_num = ci_pd_num
+  			where ci_co_num = #{co_num} 
+  	</select>
+  	<select id="selectProductImgList" resultType="kr.dbp.naemom.vo.FileVO">
+  		select * from file where fi_category like concat('%',#{fi_category},'%')
+  			and fi_table = #{fi_table}
   	</select>
 </mapper>
