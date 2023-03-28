@@ -2,8 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <title>임시 상세페이지 입니다.</title>
-${user }
-${data.list}
 <div class="container-fluid">
 <h1 style="text-align: center; font-weight:bold">${product.pd_title}</h1><br>
 <h3 style="text-align: center;">${product.pd_subtitle}</h3>
@@ -40,7 +38,7 @@ ${data.list}
 <div class="form-group detail-box">
 	<h4 style="font-weight: bold;">상세정보</h4>
 	<hr style="font-weight: bold;">
-	<div>${product.pd_content}</div>
+	<div style="min-height:500px;">${product.pd_content}</div>
 	<hr>
 	<div class="information-box">
 		<div style="height: 300px; width:100%;display:inline-block; border:1px black solid">지도배치 예정</div>
@@ -81,9 +79,6 @@ ${data.list}
 		<button class="comment-btn comment-cancle" type="reset">등록 취소</button>
 	</div>
 	<div class="comment-list">
-		<c:if test="${review==null}">
-		<span class="mt-6" style="color: #dae1e6; text-align: center; line-height:500px;">현재 작성된 리뷰가 없습니다.</span>
-		</c:if>
 		
 	</div>
 	<ul class="comment-pagination pagination justify-content-center">
@@ -127,12 +122,21 @@ ${data.list}
 <hr>
 <br>
 <style>
+.review-comment-box{
+width: 600px;
+height: 250px;
+background-color: #dae1e6;
+}
 
+.comment-list{
+margin: 20px;
+}
+.comment-list>div{
+	margin: 0 auto;
+}
 .star-rating div {
     float: left;
     width: 50%;
-}
-.stars {
 }
 .stars .fa {
     font-size: 18px;
@@ -161,7 +165,7 @@ ${data.list}
 .comment-box{
 
 width: 100%;
-height : 700px;
+min-height : 700px;
 
 }
 
@@ -260,6 +264,46 @@ min-height: 500px;
 }
 
 </style>
+<style>
+.review-box{
+    border: 2px solid #d4ebd4;
+    background-color: #29c16d72;
+    width: 800px;
+    min-height: 150px;
+    border-radius: 4px;
+    position: relative;
+}
+
+.review-box>*{
+    margin: 5px;
+    padding: 2px;
+}
+.review-btn-box{
+    margin: 7px;
+    position: absolute;
+    right: 4px;
+    bottom: 0;
+}
+.report-btn{
+    top: 4px;
+    right: 4px;
+    position: absolute;
+    color: black;
+    font-weight: bold;
+}
+.review-content{
+    min-height: 90px;
+    width: 90%;
+    background-color: #d4ebd4;;
+    margin-bottom: 54px;
+    border-radius: 6px;
+    
+}
+
+.review-box::after{
+content:''; clear:both; display:block;
+}
+</style>
 
 
 <script>
@@ -270,6 +314,13 @@ let cri = {
 selectReviewList(cri);
 
 let starRate=0;
+
+
+$('.review-comment-btn').click(function(){
+	alert('힘을내!')
+})
+
+
 $('.stars .fa').click(function() {
     $(this).addClass('active');
 
@@ -338,7 +389,7 @@ $('.stars .fa').click(function() {
 				formData.append("uploadFile",files[i]);
 			}
 			$.ajax({
-				url :'<c:url value="/review/insert/file/'+data.re_num+'/'+data.re_pd_num+'"></c:url>',
+				url :'<c:url value="/review/insert/file/'+data.re_num+'"></c:url>',
 				processData : false,
 				contentType : false,
 				data : formData,
@@ -379,26 +430,53 @@ function addPagination(pm){
 
 function addReviewList(list){
 	str = ''
-		for(i = 0; i<list.length; i++){
-			str += createReview(list[i]);
-			$('.comment-list').html(str);
-		}
+	if(list.length==0){
+		str='<span style="color:#dae1e6; text-align:center; line-height:500px;"> 등록된 리뷰가 없어요! </span>';
+		$('.comment-list').html(str);
+	}
+	for(i = 0; i<list.length; i++){
+		str += createReview(list[i]);
+	}
+	$('.comment-list').html(str);
 }
 function createReview(review){
 	str = '';
 	str += 
-	'<div class="">'+
-		'<div class="">'+review.re_me_id+'</div>'+
-		'<div class="">'+review.re_content+'</div>'+
-		'<div class="">'+review.re_rating+'</div>'+
-		'<div class="">'+review.re_date+'</div>'+
-		'<div class="">'+review.re_update_date+'</div>'+
-	'</div>';
+	'<div class="review-box">';
+	if(review.re_file != null){
+		str+='<img class="rounded" src="<c:url value="/download'+review.re_file.fi_name+'"></c:url>" height="300" width="300">'
+	}
+	str+=
+    	'<a href="#" class="report-btn" style="text-decoration:none;">신고하기</a>'+
+	    '<div class="review-info">'+
+	        '<span style="float:left; margin-right:15px;">작성자 : '+review.re_me_id+'</span>&nbsp'+
+	        '<span style="float:left; margin-right:15px;">등록날짜 : '+review.re_date_str+'</span>&nbsp'+
+	        '<c:if test="'+review.re_update_date!=null+'">'+
+	            '<span>수정날짜 : '+review.re_update_date_str+'</span>&nbsp'+
+	        '</c:if>'+
+	        '<i class="fas fa-star" style="float:left;"></i>'+
+	        '<span style="float:left;">: '+review.re_rating+'</span>&nbsp'+
+	    '</div>'+
+	    '<div class="review-content">'+
+	        '<hr>'+
+	        '<p>'+review.re_content+
+	        '</p>'+
+	        '<hr>'+
+	    '</div>'+
+    	'<div class="review-btn-box">'+
+    		'<button class="btn btn-outline-dark review-comment-btn">댓글펼치기</button>'+
+    		
+            '<button class="btn btn-outline-dark review-comment-insert" data-num="'+review.re_num+'">댓글달기</button>';
+            if(review.re_me_id=="${user.me_id}"){
+            	str+=
+            		'<button class="btn btn-outline-dark review-delete-btn" data-num="'+review.re_num+'">삭제하기</button>'}	   
+            str+='</div>'+
+	'</div><div class="review-comment-box"></div>'
 	return str;
 }
 	
 function listSuccess(data){
-	addReviewList(data.list);
+	addReviewList(data.list, data.reFile);
 	addPagination(data.pm);
 }
 	
@@ -414,6 +492,28 @@ function insertSuccess(data){
 	cri.page = 1;
 	selectReviewList(cri);
 }
+
+$('.review-delete-btn').click(function(){
+	let re_num = $(this).data('num');
+	let review ={
+			re_num : re_num,
+			re_pd_num : ${product.pd_num},
+	}
+	let url = '<c:url value="/review/delete"></c:url>'
+	if(confirm('정말 삭제하시겠어요?')){
+		ajaxPost(true,review,url,function(data){
+			
+			if(data.res){
+				alert('댓글 삭제 성공!');
+				selectReviewList(cri);
+			}else{
+				alert('댓글 삭제 실패!');
+			}
+			
+		} )
+		
+	}
+})
 	
 	
 //ajax메서드

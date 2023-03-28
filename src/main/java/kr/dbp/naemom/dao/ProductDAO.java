@@ -29,11 +29,11 @@ public interface ProductDAO {
 
 	public ArrayList<ProductVO> getProductList();
 
-	public ArrayList<FileVO> getFile(@Param("pd_num")int pd_num);
+	public ArrayList<FileVO> getFile(@Param("pd_num")int pd_num, @Param("product")String string);
 
 	public int getTotalCountOfProduct();
 
-	public FileVO getThumbNail(@Param("random")int random, @Param("ThumbNail")String Thum);
+	public FileVO getThumbNail(@Param("random")int random, @Param("ThumbNail")String Thum, @Param("product")String string);
 
 	public WishVO getWish(@Param("me_id")String me_id, @Param("pd_num")int pd_num);
 

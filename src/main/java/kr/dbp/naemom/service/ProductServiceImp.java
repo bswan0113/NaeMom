@@ -122,7 +122,7 @@ public class ProductServiceImp implements ProductService{
 	@Override
 	public ArrayList<FileVO> getFiles(int pd_num) {
 		if(pd_num<0) return null;
-		ArrayList<FileVO> files= productDao.getFile(pd_num);
+		ArrayList<FileVO> files= productDao.getFile(pd_num,"product");
 		files.remove(0);
 		return files ;
 	}
@@ -157,7 +157,7 @@ public class ProductServiceImp implements ProductService{
 		FileVO file =null;
 		String Thum ="썸네일";
 		for(int i=0; i<randomProduct.size(); i++) {
-			file=productDao.getThumbNail(randomProduct.get(i).getPd_num(), Thum);
+			file=productDao.getThumbNail(randomProduct.get(i).getPd_num(), Thum,"product");
 			fileList.add(file);
 		}
 		return fileList;

@@ -9,8 +9,8 @@
   	</insert>
   	
  	<insert id="insertFile">
-  		insert into file(fi_ori_name, fi_name, fi_pd_num, fi_category)
-  		values(#{fi.fi_ori_name},#{fi.fi_name},#{fi.fi_pd_num}, #{fi.fi_category})
+  		insert into file(fi_ori_name, fi_name, fi_table_key, fi_table)
+  		values(#{fi.fi_ori_name},#{fi.fi_name},#{fi.fi_table_key}, #{fi.fi_table})
   	</insert>
   	
   	 <select id="selectReviewList" resultType="kr.dbp.naemom.vo.ReviewVO">
@@ -28,5 +28,13 @@
   	where
   		re_pd_num = #{pd_num}
   </select>
+  
+  <select id="getFileByReview" resultType="kr.dbp.naemom.vo.FileVO">
+  	select * from file left join review on fi_table_key=re_num where fi_table =#{review} and re_num=#{re_num}
+  </select>
+  
+  <delete id="deleteReview">
+  	delete from review where re_num=#{re_num} and re_me_id=#{me_id}
+  </delete>
 </mapper>
 

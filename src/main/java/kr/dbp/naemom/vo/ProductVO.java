@@ -32,9 +32,10 @@ public class ProductVO {
 		SimpleDateFormat format = 
 			new SimpleDateFormat("HH:mm");
 		return format.format(pd_open_time);
-	}public String getPd_close_time_str() {
+	}
+	public String getPd_close_time_str() {
 		SimpleDateFormat format = 
 				new SimpleDateFormat("HH:mm");
 			return format.format(pd_close_time);
-		}
+	}
 }

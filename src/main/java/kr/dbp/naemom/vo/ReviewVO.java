@@ -1,9 +1,9 @@
 package kr.dbp.naemom.vo;
 
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +19,17 @@ public class ReviewVO {
 	String re_content;
 	Date re_date;
 	Date re_update_date;
+	FileVO re_file;
+
+	public String getRe_date_str() {
+		SimpleDateFormat format = 
+			new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+		return format.format(re_date);
+	}
+	public String getRe_update_date_str() {
+		SimpleDateFormat format = 
+			new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+		if(re_update_date ==null) return null;
+		return format.format(re_update_date);
+	}
 }

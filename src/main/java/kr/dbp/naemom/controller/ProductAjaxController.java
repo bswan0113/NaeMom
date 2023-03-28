@@ -18,6 +18,7 @@ import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.ProductService;
 import kr.dbp.naemom.service.ReviewService;
+import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.ReviewVO;
 
@@ -46,8 +47,6 @@ public class ProductAjaxController {
 	public Map<String, Object> reviewList(@RequestBody Criteria cri,
 		@PathVariable("pd_num")int pd_num){
 		Map<String, Object> map = new HashMap<String, Object>();
-		System.out.println(cri);
-		System.out.println(pd_num);
 		
 		ArrayList<ReviewVO> list = reviewService.getReviewList(pd_num, cri);
 		map.put("list", list);
@@ -66,13 +65,21 @@ public class ProductAjaxController {
 		map.put("re_pd_num", review.getRe_pd_num());
 		return  map;
 	}
-	@RequestMapping(value="/review/insert/file/{re_num}/{re_pd_num}", method=RequestMethod.POST)
+	@RequestMapping(value="/review/insert/file/{re_num}", method=RequestMethod.POST)
 	public  Map<String, Object> commentInsertFile(@RequestBody MultipartFile[] uploadFile, 
-			@PathVariable("re_num")int re_num, 
-			@PathVariable("re_pd_num") int re_pd_num){
+			@PathVariable("re_num")int re_num){
 		Map<String, Object> map = new HashMap<String, Object>();
-		boolean res= reviewService.insertReviewFile(re_num,re_pd_num, uploadFile);
+		boolean res= reviewService.insertReviewFile(re_num, uploadFile);
 		map.put("res", res);
 		return map;
 	}
+	@RequestMapping(value="/review/delete", method=RequestMethod.POST)
+	public  Map<String, Object> commentInsertFile(@RequestBody ReviewVO review, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res= reviewService.deleteReview("abcd", review);
+		map.put("res", res);
+		return map;
+	}
+	
+
 }
