@@ -13,7 +13,7 @@
 	
   	<insert id="insertFile">
   		insert into file(fi_ori_name, fi_name, fi_table_key, fi_category, fi_table)
-  		values(#{fi.fi_ori_name},#{fi.fi_name},#{fi.fi_table_key}, #{fi.fi_category},'product')
+  		values(#{fi.fi_ori_name},#{fi.fi_name},#{fi.fi_table_key}, #{fi.fi_category},#{fi.fi_table})
   	</insert>
   	
   	<insert id="insertProduct" useGeneratedKeys="true" keyProperty="pd.pd_num">

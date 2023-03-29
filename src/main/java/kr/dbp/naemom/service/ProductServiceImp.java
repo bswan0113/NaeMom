@@ -66,6 +66,7 @@ public class ProductServiceImp implements ProductService{
 			e.printStackTrace();
 		}
 		FileVO fileVo = new FileVO("게시글 썸네일", thm.getOriginalFilename(), fileName, pd_num);
+		fileVo.setFi_table("product");
 		productDao.insertFile(fileVo);
 		return true;
 	}
@@ -82,6 +83,7 @@ public class ProductServiceImp implements ProductService{
 						file.getOriginalFilename(), file.getBytes());
 				FileVO fileVo = new FileVO("게시글 대표이미지",file.getOriginalFilename(),path, 
 						i);
+				fileVo.setFi_table("product");
 				productDao.insertFile(fileVo);
 			} catch (Exception e) {
 				e.printStackTrace();
