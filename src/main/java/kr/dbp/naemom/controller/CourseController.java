@@ -115,17 +115,7 @@ public class CourseController {
 		mv.setViewName("/course/detail");
 		return mv;
 	}
-	private void selectList(ArrayList<CourseItemVO> items, ArrayList<FileVO> files, ArrayList<ProductVO> prlist,
-			ArrayList<Hash_tagVO> tags) {
-		for(CourseItemVO tmp : items) {
-			ProductVO pr = courseService.getSelectProduct(tmp.getCi_pd_num());
-			tags.addAll(courseService.getHashTag(tmp.getCi_pd_num()));
-			FileVO file = courseService.getProductImg(tmp.getCi_pd_num());
-			prlist.add(pr);
-			files.add(file);
-		}
-		
-	}
+	
 	@RequestMapping(value = "/course/delete/{co_num}", method=RequestMethod.POST)
 	public ModelAndView courseDelete(ModelAndView mv,@PathVariable("co_num")int co_num) {
 		boolean res = courseService.deleteCourse(co_num);
@@ -148,6 +138,7 @@ public class CourseController {
 		ArrayList<FileVO> files = new ArrayList<FileVO>();
 		ArrayList<ProductVO> prlist = new ArrayList<ProductVO>();
 		ArrayList<Hash_tagVO> tags = new ArrayList<Hash_tagVO>();
+		selectList(items,files,prlist,tags);
 		mv.addObject("tags", tags);
 		mv.addObject("prlist", prlist);
 		mv.addObject("course",course);
@@ -155,5 +146,27 @@ public class CourseController {
 		mv.addObject("files", files);
 		mv.setViewName("/course/update");
 		return mv;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	private void selectList(ArrayList<CourseItemVO> items, ArrayList<FileVO> files, ArrayList<ProductVO> prlist,
+			ArrayList<Hash_tagVO> tags) {
+		for(CourseItemVO tmp : items) {
+			ProductVO pr = courseService.getSelectProduct(tmp.getCi_pd_num());
+			tags.addAll(courseService.getHashTag(tmp.getCi_pd_num()));
+			FileVO file = courseService.getProductImg(tmp.getCi_pd_num());
+			prlist.add(pr);
+			files.add(file);
+		}
+		
 	}
 }

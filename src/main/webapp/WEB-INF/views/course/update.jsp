@@ -248,21 +248,20 @@
   	<form action="<c:url value='/course/insert'></c:url>" method="post">
 	    <div class="form-group">
 	      <label class="cos-title-name">코스제목</label>
-	      <input type="text" class="form-control mt-4 mb-3" name="co_title">
+	      <input type="text" class="form-control mt-4 mb-3" name="co_title" value="${course.co_title }">
 	    </div>
 	    <div class="cos_section">
 	      <div class="cos-type1">
 	        <span>
 	          <label for="category">코스 테마</label>
 	          <select id="category" title="코스 테마 선택" name="co_cc_category_num">
-	            <option value="0">테마 선택</option>
-	            <option value="1">가족코스</option>
-	            <option value="2">혼자여행</option>
-	            <option value="3">도보코스</option>
-	            <option value="4">힐링코스</option>
-	            <option value="5">맛 코스</option>
-	            <option value="6">캠핑코스</option>
-	            <option value="7">반려동물과 함께</option>
+	            <option value="1" <c:if test="${course.co_cc_category_num == 1 }">selected</c:if>>가족코스</option>
+	            <option value="2" <c:if test="${course.co_cc_category_num == 2 }">selected</c:if>>혼자여행</option>
+	            <option value="3" <c:if test="${course.co_cc_category_num == 3 }">selected</c:if>>도보코스</option>
+	            <option value="4" <c:if test="${course.co_cc_category_num == 4 }">selected</c:if>>힐링코스</option>
+	            <option value="5" <c:if test="${course.co_cc_category_num == 5 }">selected</c:if>>맛 코스</option>
+	            <option value="6" <c:if test="${course.co_cc_category_num == 6 }">selected</c:if>>캠핑코스</option>
+	            <option value="7" <c:if test="${course.co_cc_category_num == 7 }">selected</c:if>>반려동물과 함께</option>
 	          </select>
 	        </span>
 	      </div>
