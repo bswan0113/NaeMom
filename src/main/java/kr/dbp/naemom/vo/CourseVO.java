@@ -23,7 +23,8 @@ public class CourseVO {
 	int co_down;
 	int co_views;
 	int cs_schedule_num;
-	String cs_scedule_name;
+	String cs_schedule_name;
+	String cc_category_name;
 	
 	public String getCo_register_date_str() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -34,4 +34,8 @@ public interface CourseService {
 
 	ArrayList<FileVO> getProductImgList();
 
+	CourseVO getcourseByNum(int co_num);
+
+	boolean deleteCourse(int co_num);
+
 }

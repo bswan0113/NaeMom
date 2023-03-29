@@ -120,9 +120,9 @@
 		<label class="cos-title-name ml-5">코스제목</label>
 		<div class="box_listSort clearfix">
 			<div class="sort_list">
-				<button type="button" class="btn btn-outline-success">최신순</button>
-				<button type="button" class="btn btn-outline-success">추천수</button>
-				<button type="button" class="btn btn-outline-success">조회수</button>
+				<button type="button" class="btn btn-outline-success" onclick="location.href='/naemom/course/list?orderBy=co_num'">최신순</button>
+				<button type="button" class="btn btn-outline-success" onclick="location.href='/naemom/course/list?orderBy=co_up'">추천순</button>
+				<button type="button" class="btn btn-outline-success" onclick="location.href='/naemom/course/list?orderBy=co_views'">조회순</button>
 			</div>
 		</div>
 		<div class="box_cosList clearfix">
@@ -212,7 +212,10 @@
 	
 	
 <script>
-	
+	$('.btn_date').click(function(){
+		
+		
+	})
 </script>
 	
 </body>

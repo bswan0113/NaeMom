@@ -14,7 +14,7 @@
   <script src="<c:url value='/resources/js/jquery-ui.min.js'></c:url>"></script>
   <script src="<c:url value='/resources/js/bootstrap.bundle.min.js'></c:url>"></script>
   <!-- <script type="text/javascript" src="<c:url value='//dapi.kakao.com/v2/maps/sdk.js?appkey=??'></c:url>"></script> -->
-  <title>courseDetail</title>
+  <title>courseUpdate</title>
   <style>
   	*{
 		padding: 0; margin: 0;
@@ -136,6 +136,7 @@
 	  .cos-list .cos_item_origin{
 	  	position: relative;
 	    padding: 20px 0;
+	    margin-bottom: 30px;
 	    border-bottom: 1px solid #e6e6e6;
 	    border-top: 1px solid #e6e6e6;
 	  }
@@ -218,7 +219,7 @@
 	    text-align: left;
 	    border: 1px solid #ccc;
 	    box-sizing: border-box;
-	    margin-top:30px;
+	    margin-top:30px
 	  }
 	  .txtNum{
 	    font-size: 16px;
@@ -239,97 +240,103 @@
 	    float: right; position: absolute; top: 10px; right: 0;
 	   
 	  }
-	  
   </style>
 </head>
 <body>
   <div class="contents">
-    <div class="form-group">
-      <label class="cos-title-name">코스제목</label>
-      <div class="form-control mt-4 mb-3">${course.co_title }</div>
-    </div>
-    <div class="cos_section">
-      <div class="cos-type1 form-inline">
-          <label for="category">코스 테마</label>
-          <div class="form-control">${course.cc_category_name }</div>
-      </div>
-      <div class="cos-type2 form-inline">
-          <label for="schedule">코스 일정</label>
-          <div class="form-control">${course.cs_schedule_name }</div>
-      </div>
-    </div>
-    <div class="cos_content_box">
-      <div class="total_check">
-        <strong>
-          총
-          <span class="totalCourseList">${items.size()}</span>
-          건
-        </strong>
-        <div class="total_distance" >
-        	<input type="hidden" name="co_total_distance" value="56.7">
-          	<span class="distance_name">코스 총거리 : <em class="products_distance">${course.co_total_distance}</em> km</span>
-        </div>
-      </div>
-      <ul class="cos-list" id="sortable">
-      	<c:forEach items="${items }" var="item">
-	      	<li class="cos-item ui-state-default">
-		 		<input type="hidden" name="pd_num[]" value="'+pr.pd_num+'">
-	            <em class="numbering">${item.ci_index }</em>
-	          	<div class="cos-photo">
-			        <a href="#">
-		        		<c:forEach items="${files}" var="fi">
-							<c:if test="${fi.fi_table_key == item.ci_pd_num && course.co_num == item.ci_co_num}">
-								<img src="<c:url value='/download${fi.fi_name }'></c:url>" alt="" class="course_item_img">
-							</c:if>
-						</c:forEach>
-			        </a>
-			    </div>
-			    <div class="cos_text">
-			    	<c:forEach items="${prlist }" var="pr">
-				    	<c:if test="${item.ci_pd_num == pr.pd_num }">
-					      	<p style="display:none" id="pd_num">${pr.pd_num}</p>
-					        <div class="title-area clearfix">
-					          <a href="#" id="pd_title">${pr.pd_title}</a>
-					          <p id="pd_subtitle">${pr.pd_subtitle}</p>
-					        </div>
-					        <p class="sub_content" id="pd_content">${pr.pd_content}</p>
-					        <p class="tag" id="hg_pd_num">
-					        	<span>
-							        <c:forEach items="${tags}" var="tags">
-							        	<c:if test="${tags.hg_pd_num == pr.pd_num }">
-								        	${tags.hg_name}  
-							        	</c:if>
-							        </c:forEach>
-					       		</span>
-					        </p>
-				    	</c:if>
-				    </c:forEach>
-		        </div>
-		    </li>
-	       
-      	</c:forEach>
-      </ul>
-      
-      <div class="mapIntoduce">
-        <div class="introduce_text">
-          <label class="cos-title-name mb-3">코스설명</label>
-          <textarea name="co_content" id="csdesc" maxlength="2000" class="co_content" title="코스소개" disabled>${course.co_content }</textarea>
-        </div>
-      </div>
-      <div id="map" style="width:1190px;height:400px;"></div>
-    </div>
-    <div style="justify-content:center; width: 1190px;">
-	    
-		<button class="btn btn-outline-danger btn-updateCourse" style="width: 500px;float: left;margin-left: 90px;"
-			onclick="location.href='/naemom/course/update/${course.co_num}'">게시글 수정</button>
-	   
-	    <form action="<c:url value='/course/delete/${course.co_num}'></c:url>" method="post">
-	    	<button class="btn btn-outline-danger btn-deleteCourse" style="width:500px; margin-left:10px">게시글 삭제</button>
-	    </form>
-    </div>
-	
+  
+  	<form action="<c:url value='/course/insert'></c:url>" method="post">
+	    <div class="form-group">
+	      <label class="cos-title-name">코스제목</label>
+	      <input type="text" class="form-control mt-4 mb-3" name="co_title">
+	    </div>
+	    <div class="cos_section">
+	      <div class="cos-type1">
+	        <span>
+	          <label for="category">코스 테마</label>
+	          <select id="category" title="코스 테마 선택" name="co_cc_category_num">
+	            <option value="0">테마 선택</option>
+	            <option value="1">가족코스</option>
+	            <option value="2">혼자여행</option>
+	            <option value="3">도보코스</option>
+	            <option value="4">힐링코스</option>
+	            <option value="5">맛 코스</option>
+	            <option value="6">캠핑코스</option>
+	            <option value="7">반려동물과 함께</option>
+	          </select>
+	        </span>
+	      </div>
+	      <div class="cos-type2">
+	        <span>
+	          <label for="schedule">코스 일정</label>
+	          <select id="schedule" title="코스 일정 선택" name="co_cs_schedule_num">
+	            <option value="0">일정 선택</option>
+	            <option value="1">당일여행</option>
+	            <option value="2">1박2일</option>
+	            <option value="3">2박3일 이상</option>
+	          </select>
+	        </span>
+	      </div>
+	    </div>
+	    <div class="cos_content_box">
+	      <div class="total_check">
+	        <strong>
+	          총
+	          <span class="totalCourseList">0</span>
+	          건
+	        </strong>
+	        <div class="total_distance" >
+	        	<input type="hidden" name="co_total_distance" value="56.7">
+	          	<span class="distance_name">코스 총거리 : <em class="products_distance">56.7</em> km</span>
+	        </div>
+	      </div>
+	      <ul class="cos-list" id="sortable">
+	        <li class="cos_item_origin ui-state-default">
+              <div class="cos_text_origin">
+	          	
+	            <p>등록된 상품이 없습니다.</p>
+	            
+	          </div>
+	        </li>
+	      </ul>
+	      <div class="input-group">
+	        <input type="text" class="form-control product_search" placeholder="상품검색" name="search">
+	        <div class="input-group-append">
+	          <button class="btn btn-success btn_product_search" type="button" >검색</button>
+	        </div>
+	      </div>
+	      <table class="table table-hover search_table">
+			<thead>
+				<tr>
+					<th style="width:200px;">상품 카테고리</th>
+					<th style="width:200px;">상품</th>
+					<th>상세</th>
+				</tr>
+			</thead>
+			<tbody class="search_productList">
+					<tr class="select_product">
+						<td>1
+						<td>1
+						<td>1
+						<td style="display:none;">1
+					</tr>
+			</tbody>
+			
+		</table>
+	      <div class="mapIntoduce">
+	        <div class="introduce_text form-group">
+	          <label class="cos-title-name mb-3">코스설명</label>
+	          <textarea name="co_content" id="text_box" maxlength="200" class="co_content" title="코스소개" placeholder="코스에 대한 설명을 작성하세요."></textarea>
+	          <p class="txtNum">현재 글자수 <span class="textNum">0</span>자 / 최대 글자수 200자</p>
+	        </div>
+	      </div>
+	      <div id="map" style="width:1190px;height:400px;"></div>
+	    </div>
+	    <button class="btn btn-outline-success btn-insertCourse col-12 mt-3">게시글 작성</button>
+	</form>
   </div>
   <script>
+  
   //상품검색 리스트 가리기
   $('.search_table').hide();
   //저장전 유효성 검사
@@ -503,7 +510,7 @@
 	  str='';
 	  str +=
 		
-      	'<span>#'+tag.hg_name+'  </span>'
+      	'<span>'+tag.hg_name+'  </span>'
       return str;
   }
   //검색했을때 상품리스트
@@ -534,7 +541,24 @@
 			success : successFunction
 		});
 	}
-  
+  $('.co_content').keyup(function (e) {
+		let content = $(this).val();
+	    
+	    // 글자수 세기
+	    if (content.length == 0 || content == '') {
+	    	$('.textNum').text('0');
+	    } else {
+	    	$('.textNum').text(content.length);
+	    }
+	    
+	    // 글자수 제한
+	    if (content.length > 199) {
+	        // 200자 넘으면 알림창 뜨도록
+	        alert('글자수는 200자까지 입력 가능합니다.');
+	    	// 200자 부터는 타이핑 되지 않도록
+	        $(this).val($(this).val().substring(0, 200));
+	    };
+	});
   
   
   

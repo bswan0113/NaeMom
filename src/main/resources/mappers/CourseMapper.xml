@@ -35,7 +35,7 @@
   			<if test="cri.type != 0">
   				and co_cs_schedule_num = #{cri.type}
   			</if>
-  			order by co_num desc
+  			order by ${cri.orderBy} desc
   			limit #{cri.pageStart}, #{cri.perPageNum}
   	</select>
   	<select id="selectTotalCountCourse" resultType = "int">
@@ -54,4 +54,16 @@
   		select * from file where fi_category like concat('%',#{fi_category},'%')
   			and fi_table = #{fi_table}
   	</select>
+  	<select id="selectCourseByNum" resultType="kr.dbp.naemom.vo.CourseVO">
+  		select * from course 
+  			join course_schedule on cs_schedule_num = co_cs_schedule_num
+  			join course_category on cc_category_num = co_cc_category_num
+  			where co_num = #{co_num}
+  	</select>
+  	<delete id="deleteCourseItem">
+  		delete from course_item where ci_co_num = #{ci_co_num}
+  	</delete>
+  	<delete id="deleteCourse">
+  		delete from course where co_num = #{co_num}
+  	</delete>
 </mapper>

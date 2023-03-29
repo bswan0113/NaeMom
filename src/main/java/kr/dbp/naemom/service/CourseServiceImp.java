@@ -113,6 +113,35 @@ public class CourseServiceImp implements CourseService{
 		String fi_table = "product";
 		return courseDao.selectProductImgList(fi_category, fi_table);
 	}
+
+	@Override
+	public CourseVO getcourseByNum(int co_num) {
+		if(co_num == 0)
+			return null;
+		return courseDao.selectCourseByNum(co_num);
+	}
+
+	@Override
+	public boolean deleteCourse(int co_num) {
+		CourseVO cos = courseDao.selectCourseByNum(co_num);
+		if(cos == null)
+			return false;
+		ArrayList<CourseItemVO> cosItem = courseDao.selectCourseItem(co_num);
+		deleteCourse(cosItem);
+		int res = courseDao.deleteCourse(co_num);
+		if(res==0)
+			return false;
+		return true;
+	}
+
+	private void deleteCourse(ArrayList<CourseItemVO> cosItem) {
+		if(cosItem == null || cosItem.size()==0)
+			return;
+		for(CourseItemVO tmp : cosItem) {
+			courseDao.deleteCourseItem(tmp.getCi_co_num());
+		}
+		
+	}
 	
 	
 }

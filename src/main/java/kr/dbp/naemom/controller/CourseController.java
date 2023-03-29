@@ -101,9 +101,59 @@ public class CourseController {
 	}
 	@RequestMapping(value = "/course/detail/{co_num}", method=RequestMethod.GET)
 	public ModelAndView courseDetail(ModelAndView mv,@PathVariable("co_num")int co_num) {
-		
+		CourseVO course = courseService.getcourseByNum(co_num);
+		ArrayList<CourseItemVO> items = courseService.getCourseItem(co_num);
+		ArrayList<FileVO> files = new ArrayList<FileVO>();
+		ArrayList<ProductVO> prlist = new ArrayList<ProductVO>();
+		ArrayList<Hash_tagVO> tags = new ArrayList<Hash_tagVO>();
+		selectList(items,files,prlist,tags);
+		mv.addObject("tags", tags);
+		mv.addObject("prlist", prlist);
+		mv.addObject("course",course);
+		mv.addObject("items", items);
+		mv.addObject("files", files);
 		mv.setViewName("/course/detail");
 		return mv;
 	}
-	
+	private void selectList(ArrayList<CourseItemVO> items, ArrayList<FileVO> files, ArrayList<ProductVO> prlist,
+			ArrayList<Hash_tagVO> tags) {
+		for(CourseItemVO tmp : items) {
+			ProductVO pr = courseService.getSelectProduct(tmp.getCi_pd_num());
+			tags.addAll(courseService.getHashTag(tmp.getCi_pd_num()));
+			FileVO file = courseService.getProductImg(tmp.getCi_pd_num());
+			prlist.add(pr);
+			files.add(file);
+		}
+		
+	}
+	@RequestMapping(value = "/course/delete/{co_num}", method=RequestMethod.POST)
+	public ModelAndView courseDelete(ModelAndView mv,@PathVariable("co_num")int co_num) {
+		boolean res = courseService.deleteCourse(co_num);
+		String url = "/course/list";
+		String msg;
+		if(res) {
+			msg = "코스 삭제 성공!";
+		}else {
+			msg = "코스 삭제 실패!";
+		}
+		mv.addObject("msg",msg);
+		mv.addObject("url", url);
+		mv.setViewName("/course/message");
+		return mv;
+	}
+	@RequestMapping(value = "/course/update/{co_num}", method=RequestMethod.GET)
+	public ModelAndView courseUpdate(ModelAndView mv,@PathVariable("co_num")int co_num) {
+		CourseVO course = courseService.getcourseByNum(co_num);
+		ArrayList<CourseItemVO> items = courseService.getCourseItem(co_num);
+		ArrayList<FileVO> files = new ArrayList<FileVO>();
+		ArrayList<ProductVO> prlist = new ArrayList<ProductVO>();
+		ArrayList<Hash_tagVO> tags = new ArrayList<Hash_tagVO>();
+		mv.addObject("tags", tags);
+		mv.addObject("prlist", prlist);
+		mv.addObject("course",course);
+		mv.addObject("items", items);
+		mv.addObject("files", files);
+		mv.setViewName("/course/update");
+		return mv;
+	}
 }

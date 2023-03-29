@@ -36,4 +36,10 @@ public interface CourseDAO {
 
 	ArrayList<FileVO> selectProductImgList(@Param("fi_category")String fi_category, @Param("fi_table")String fi_table);
 
+	CourseVO selectCourseByNum(@Param("co_num")int co_num);
+
+	void deleteCourseItem(@Param("ci_co_num")int ci_co_num);
+
+	int deleteCourse(@Param("co_num")int co_num);
+
 }

@@ -136,6 +136,7 @@
 	  .cos-list .cos_item_origin{
 	  	position: relative;
 	    padding: 20px 0;
+	    margin-bottom: 30px;
 	    border-bottom: 1px solid #e6e6e6;
 	    border-top: 1px solid #e6e6e6;
 	  }
@@ -218,6 +219,7 @@
 	    text-align: left;
 	    border: 1px solid #ccc;
 	    box-sizing: border-box;
+	    margin-top:30px
 	  }
 	  .txtNum{
 	    font-size: 16px;
@@ -297,7 +299,7 @@
 	          </div>
 	        </li>
 	      </ul>
-	      <div class="input-group mb-3">
+	      <div class="input-group">
 	        <input type="text" class="form-control product_search" placeholder="상품검색" name="search">
 	        <div class="input-group-append">
 	          <button class="btn btn-success btn_product_search" type="button" >검색</button>
@@ -322,9 +324,10 @@
 			
 		</table>
 	      <div class="mapIntoduce">
-	        <div class="introduce_text">
-	          <textarea name="co_content" id="csdesc" maxlength="2000" class="co_content" title="코스소개" placeholder="코스에 대한 설명을 작성하세요."></textarea>
-	          <p class="txtNum">현재 글자수 <span class="textNum">0</span>자 / 최대 글자수 2000자</p>
+	        <div class="introduce_text form-group">
+	          <label class="cos-title-name mb-3">코스설명</label>
+	          <textarea name="co_content" id="text_box" maxlength="200" class="co_content" title="코스소개" placeholder="코스에 대한 설명을 작성하세요."></textarea>
+	          <p class="txtNum">현재 글자수 <span class="textNum">0</span>자 / 최대 글자수 200자</p>
 	        </div>
 	      </div>
 	      <div id="map" style="width:1190px;height:400px;"></div>
@@ -507,7 +510,7 @@
 	  str='';
 	  str +=
 		
-      	'<span>#'+tag.hg_name+'  </span>'
+      	'<span>'+tag.hg_name+'  </span>'
       return str;
   }
   //검색했을때 상품리스트
@@ -538,7 +541,24 @@
 			success : successFunction
 		});
 	}
-  
+  $('.co_content').keyup(function (e) {
+		let content = $(this).val();
+	    
+	    // 글자수 세기
+	    if (content.length == 0 || content == '') {
+	    	$('.textNum').text('0');
+	    } else {
+	    	$('.textNum').text(content.length);
+	    }
+	    
+	    // 글자수 제한
+	    if (content.length > 199) {
+	        // 200자 넘으면 알림창 뜨도록
+	        alert('글자수는 200자까지 입력 가능합니다.');
+	    	// 200자 부터는 타이핑 되지 않도록
+	        $(this).val($(this).val().substring(0, 200));
+	    };
+	});
   
   
   
