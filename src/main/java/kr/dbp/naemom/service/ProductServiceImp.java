@@ -2,15 +2,23 @@ package kr.dbp.naemom.service;
 
 import java.util.ArrayList;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.dbp.naemom.dao.ProductDAO;
+import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.utils.UploadFileUtils;
 import kr.dbp.naemom.vo.FileVO;
+import kr.dbp.naemom.vo.Option_accomodationVO;
+import kr.dbp.naemom.vo.Option_festivalVO;
+import kr.dbp.naemom.vo.Option_landMarkVO;
+import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.ReviewVO;
+import kr.dbp.naemom.vo.WishVO;
 
 @Service
 public class ProductServiceImp implements ProductService{
@@ -19,7 +27,8 @@ public class ProductServiceImp implements ProductService{
 	ProductDAO productDao;
 	
 	String uploadPath = "D:\\uploadfiles";
-
+	
+	
 	@Override
 	public boolean insertProduct(ProductVO product, MultipartFile[] files) {
 		if(product ==null) return false;
@@ -85,8 +94,15 @@ public class ProductServiceImp implements ProductService{
 	@Override
 	public ProductVO getProduct(int i) {
 		if(i<=0) return null;
-		return productDao.selectProductByNum(i);
+		ProductVO product =productDao.selectProductByNum(i);
+		return product;
 	}
+
+
+
+
+
+
 
 	@Override
 	public ArrayList<ProductCategoryVO> getCategory() {
@@ -106,31 +122,16 @@ public class ProductServiceImp implements ProductService{
 	@Override
 	public ArrayList<FileVO> getFiles(int pd_num) {
 		if(pd_num<0) return null;
-		ArrayList<FileVO> files= productDao.getFile(pd_num);
+		ArrayList<FileVO> files= productDao.getFile(pd_num,"product");
 		files.remove(0);
 		return files ;
 	}
 
 
 
-	@Override
-	public ArrayList<FileVO> getRandomThumbNail() {
-		ArrayList<FileVO> list = new ArrayList<FileVO>();
-		int totalCount = productDao.getTotalCountOfProduct();
-		int random;
-		int amount =10;
-		String Thum = "썸네일";
-		FileVO file;
-		for(int i=0; i<amount; i++) {
-			random = (int)(Math.random()*totalCount+1);
-			file = productDao.getThumbNail(random, Thum);
-			list.add(file);
 			
-		}
-		
-		return list;
-	}
 
+	
 
 
 	@Override
@@ -147,5 +148,104 @@ public class ProductServiceImp implements ProductService{
 			
 		}
 		return list;	
+	}
+	
+	@Override
+	public ArrayList<FileVO> getThumbNailByRandomProduct(ArrayList<ProductVO> randomProduct) {
+		if(randomProduct==null || randomProduct.size()<0) return null;
+		ArrayList<FileVO> fileList = new ArrayList<FileVO>();
+		FileVO file =null;
+		String Thum ="썸네일";
+		for(int i=0; i<randomProduct.size(); i++) {
+			file=productDao.getThumbNail(randomProduct.get(i).getPd_num(), Thum,"product");
+			fileList.add(file);
 		}
+		return fileList;
+	}
+
+
+
+	@Override
+	public WishVO getWish(String me_id, int pd_num) {
+		WishVO wish = productDao.getWish(me_id, pd_num);
+		return wish;
+	}
+
+
+
+	@Override
+	public int likeUpdate(String me_id, int pd_num, int li_state) {
+		if(me_id.trim().length()==0) return 0;
+		if(pd_num<0) return 0;
+		int res;
+		if(productDao.getWish(me_id, pd_num) ==null) {
+			res=1;
+			productDao.insertWish(me_id,pd_num);}
+		else {
+			res=-1;
+			productDao.deleteWish(me_id,pd_num);
+		}
+		return res;
+	}
+
+
+
+	@Override
+	public void updateViewCount(int pd_num) {
+		productDao.updateViewCount(pd_num);
+		
+	}
+
+
+
+	@Override
+	public ArrayList<Object> getLandMarkOption(int pd_num) {
+		return productDao.getLandMarkOption(pd_num);
+	}
+
+
+
+	@Override
+	public ArrayList<Object> getRestrauntOption(int pd_num) {
+				 
+		return productDao.getRestrauntOption(pd_num);
+	}
+
+
+
+	@Override
+	public ArrayList<Object> getAcomodationOption(int pd_num) {
+		return productDao.getAcomodationOption(pd_num);
+	}
+
+
+
+	@Override
+	public ArrayList<Object> getFestivalOption(int pd_num) {
+		return productDao.getFestivalOption(pd_num);
+	}
+
+
+
+
+
+
+
+	@Override
+	public double getRatingAvg(int pd_num) {
+		if(pd_num<0) return -1;
+		Double rating = productDao.getReviewAvg(pd_num);
+		return rating;
+	}
+
+
+
+
+
+
+
+
+
+
+
 }

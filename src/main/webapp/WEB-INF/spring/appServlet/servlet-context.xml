@@ -37,6 +37,16 @@
 		
 	
 	<context:component-scan base-package="kr.dbp.naemom.*" />
+		<!-- 인터셉터 등록 -->
+	<beans:bean id="baseInterceptor" 
+		class="kr.dbp.naemom.interceptor.BaseInterceptor"></beans:bean>
+	<!-- 어느 url에서 인터셉터들이 동작할 건지를 설정 -->
+	<interceptors>
+	    <interceptor>
+	        <mapping path="/**"/>
+	        <beans:ref bean="baseInterceptor"/>
+	    </interceptor>
+	</interceptors>	
 	
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
     <!-- 업로드 최대 크기 10Mb -->
