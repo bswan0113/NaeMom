@@ -14,7 +14,7 @@
   <script src="<c:url value='/resources/js/jquery-ui.min.js'></c:url>"></script>
   <script src="<c:url value='/resources/js/bootstrap.bundle.min.js'></c:url>"></script>
   <!-- <script type="text/javascript" src="<c:url value='//dapi.kakao.com/v2/maps/sdk.js?appkey=??'></c:url>"></script> -->
-  <title>courseInsert</title>
+  <title>courseUpdate</title>
   <style>
   	*{
 		padding: 0; margin: 0;

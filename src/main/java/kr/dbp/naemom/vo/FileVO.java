@@ -13,6 +13,7 @@ public class FileVO {
 		String fi_name;
 		String fi_table;
 		int fi_table_key;
+
 		
 		public FileVO(String fi_category, String fi_ori_name, String fi_name, int fi_table_key) {
 			this.fi_category = fi_category;

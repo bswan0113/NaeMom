@@ -11,5 +11,6 @@ public class CourseItemVO {
 	String ci_index;
 	int ci_co_num;
 	int ci_pd_num;
+	String pd_title;
 	
 }

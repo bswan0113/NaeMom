@@ -10,7 +10,6 @@
 <title>Document</title>
 <link rel="stylesheet" href="<c:url value ='/resources/css/header.css'></c:url>"></link>
 
-</style>
 </head>
 <body>
 	<div class="header">
