@@ -36,5 +36,26 @@
   <delete id="deleteReview">
   	delete from review where re_num=#{re_num} and re_me_id=#{me_id}
   </delete>
+  
+  <select id="selectRCommentList" resultType="kr.dbp.naemom.vo.ReviewCommentVO">
+  	select * from review_comment where rc_re_num = #{rc_re_num}  		
+  		order by rc_num desc limit #{cri.pageStart}, #{cri.perPageNum}
+  </select>
+  <select id="selectTotalCountReviewCommentList" resultType="int">
+  	  	select 
+	  		count(*) 
+	  	from 
+	  		review_comment
+	  	where
+	  		rc_re_num = #{rc_re_num}
+  </select>
+  <insert id="insertReviewComment">
+  	insert into review_comment(rc_re_num,rc_me_id,rc_content,rc_date)
+  	value(#{rc.rc_re_num},#{rc_me_id},#{rc.rc_content},now())
+  </insert>
+  
+  <delete id="deleteReviewComment">
+  	delete from review_comment where rc_num=#{rc_num} and rc_me_id=#{rc_me_id}
+  </delete>
 </mapper>
 

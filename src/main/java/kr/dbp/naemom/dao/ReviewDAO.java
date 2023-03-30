@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.FileVO;
+import kr.dbp.naemom.vo.ReviewCommentVO;
 import kr.dbp.naemom.vo.ReviewVO;
 
 public interface ReviewDAO {
@@ -23,6 +24,14 @@ public interface ReviewDAO {
 	FileVO getFileByReview(@Param("re_num")int re_num, @Param("review")String string);
 
 	int deleteReview(@Param("me_id")String me_id, @Param("re_num")int re_num);
+
+	ArrayList<ReviewCommentVO> selectRCommentList(@Param("rc_re_num")int rc_re_num, @Param("cri")Criteria cri);
+
+	int selectTotalCountReviewCommentList(@Param("rc_re_num")int rc_re_num);
+
+	boolean insertReviewComment(@Param("rc")ReviewCommentVO reviewComment, @Param("rc_me_id")String me_id);
+
+	boolean deleteReviewComment(@Param("rc_me_id")String me_id, @Param("rc_num")int rc_num);
 
 
 }

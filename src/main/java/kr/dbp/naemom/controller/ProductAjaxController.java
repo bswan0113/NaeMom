@@ -18,8 +18,8 @@ import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.ProductService;
 import kr.dbp.naemom.service.ReviewService;
-import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
+import kr.dbp.naemom.vo.ReviewCommentVO;
 import kr.dbp.naemom.vo.ReviewVO;
 
 
@@ -81,5 +81,37 @@ public class ProductAjaxController {
 		return map;
 	}
 	
+	@RequestMapping(value="/review/comment/list/{rc_re_num}", method=RequestMethod.POST)
+	public Map<String, Object> reviewCommentList(@RequestBody Criteria cri,
+		@PathVariable("rc_re_num")int rc_re_num){
+		Map<String, Object> map = new HashMap<String, Object>();
+		cri.setRc_re_num(rc_re_num);
+		ArrayList<ReviewCommentVO> rCList = reviewService.getRCommentList(rc_re_num, cri);
+		map.put("rCList",rCList);
+		int commentTotalCount = reviewService.getTotalCountReviewCommentList(rc_re_num);
+		PageMaker rCPm = new PageMaker(commentTotalCount, 5, cri);
+		map.put("rCPm", rCPm);
+		return map;
+	}	
+
+	@RequestMapping(value="/review/comment/insert", method=RequestMethod.POST)
+	public Map<String, Object> reviewCommentInsert(@RequestBody ReviewCommentVO reviewComment, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println(reviewComment);
+		MemberVO user = new MemberVO();
+		user.setMe_id("abcd");
+		boolean res= reviewService.insertReviewComment(reviewComment, user.getMe_id());
+		map.put("res", res);
+		return map;
+	}	
+	@RequestMapping(value="/review/comment/delete", method=RequestMethod.POST)
+	public Map<String, Object> reviewCommentDelete(@RequestBody ReviewCommentVO reviewComment, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = new MemberVO();
+		user.setMe_id("abcd");
+		boolean res= reviewService.deleteReviewComment(reviewComment, user.getMe_id());
+		map.put("res", res);
+		return map;
+	}	
 
 }

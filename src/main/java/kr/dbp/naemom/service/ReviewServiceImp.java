@@ -10,6 +10,7 @@ import kr.dbp.naemom.dao.ReviewDAO;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.utils.UploadFileUtils;
 import kr.dbp.naemom.vo.FileVO;
+import kr.dbp.naemom.vo.ReviewCommentVO;
 import kr.dbp.naemom.vo.ReviewVO;
 
 @Service
@@ -77,6 +78,36 @@ public class ReviewServiceImp implements ReviewService {
 		if(me_id.trim().length()<0) return false;
 		if(reviewDao.deleteReview(me_id,review.getRe_num())==0) return false;
 		return true;
+	}
+
+	@Override
+	public ArrayList<ReviewCommentVO> getRCommentList(int rc_re_num, Criteria cri) {
+		if(cri==null) cri= new Criteria();
+		if(rc_re_num<=0) return null;
+		
+		ArrayList<ReviewCommentVO> rComment =reviewDao.selectRCommentList(rc_re_num,cri);
+		return rComment;
+	}
+
+	@Override
+	public int getTotalCountReviewCommentList(int rc_re_num) {
+		return reviewDao.selectTotalCountReviewCommentList(rc_re_num);
+	}
+
+	@Override
+	public boolean insertReviewComment(ReviewCommentVO reviewComment, String me_id) {
+		if(me_id==null) return false;
+		if(reviewComment==null ||
+			reviewComment.getRc_content().trim().length()<=0) return false;
+		System.out.println(reviewComment);
+		return reviewDao.insertReviewComment(reviewComment, me_id);
+	}
+
+	@Override
+	public boolean deleteReviewComment(ReviewCommentVO reviewComment, String me_id) {
+		if(reviewComment==null) return false;
+		if(me_id==null) return false;
+		return reviewDao.deleteReviewComment(me_id, reviewComment.getRc_num());
 	}
 
 	

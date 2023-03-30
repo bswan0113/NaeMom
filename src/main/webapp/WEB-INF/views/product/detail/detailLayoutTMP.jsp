@@ -122,10 +122,41 @@
 <hr>
 <br>
 <style>
+.re-comment-item{
+position:relative;
+}
+.re-comment-item .rc-delete-btn{
+position:absolute;
+top:0;
+right:0;
+}
+.rc-content{
+text-align:start;
+
+}
+.rc-info{
+text-align:start;
+}
+
+.re-comment-list{
+}
+.re-comment-item{
+    margin: 10px;
+    height: 20%;
+}
+.re-comment-item>hr{
+    margin: 0;
+}
+.re-comment-item>button{
+    border: none;
+    background: none;
+    font-weight: bold;
+}
+
 .review-comment-box{
 width: 600px;
-height: 250px;
 background-color: #dae1e6;
+margin: 0 auto;
 }
 
 .comment-list{
@@ -272,6 +303,7 @@ min-height: 500px;
     min-height: 150px;
     border-radius: 4px;
     position: relative;
+    margin: 0 auto;
 }
 
 .review-box>*{
@@ -303,6 +335,13 @@ min-height: 500px;
 .review-box::after{
 content:''; clear:both; display:block;
 }
+
+.report-modal{
+
+height: 500px;
+width:500px;
+border:1px solid black;
+}
 </style>
 
 
@@ -311,14 +350,15 @@ let cri = {
 		page : 1,
 		perPageNum : 5
 	};
+let rCri = {
+			page : 1,
+			perPageNum : 5
+};
 selectReviewList(cri);
 
 let starRate=0;
 
 
-$('.review-comment-btn').click(function(){
-	alert('힘을내!')
-})
 
 
 $('.stars .fa').click(function() {
@@ -439,15 +479,18 @@ function addReviewList(list){
 	}
 	$('.comment-list').html(str);
 }
+
 function createReview(review){
 	str = '';
 	str += 
+	'<div class="review-comment-container"  data-num="'+review.re_num+'">'+
 	'<div class="review-box">';
 	if(review.re_file != null){
 		str+='<img class="rounded" src="<c:url value="/download'+review.re_file.fi_name+'"></c:url>" height="300" width="300">'
 	}
 	str+=
-    	'<a href="#" class="report-btn" style="text-decoration:none;">신고하기</a>'+
+    	'<button class="report-btn" style="background:none; border:none;">신고하기</button>'+
+    	'<dialog class="report-modal"></dialog>'+
 	    '<div class="review-info">'+
 	        '<span style="float:left; margin-right:15px;">작성자 : '+review.re_me_id+'</span>&nbsp'+
 	        '<span style="float:left; margin-right:15px;">등록날짜 : '+review.re_date_str+'</span>&nbsp'+
@@ -464,16 +507,158 @@ function createReview(review){
 	        '<hr>'+
 	    '</div>'+
     	'<div class="review-btn-box">'+
-    		'<button class="btn btn-outline-dark review-comment-btn">댓글펼치기</button>'+
-    		
-            '<button class="btn btn-outline-dark review-comment-insert" data-num="'+review.re_num+'">댓글달기</button>';
+    		'<button class="btn btn-outline-dark review-comment-btn" data-num="'+review.re_num+'">댓글펼치기</button>';    		
             if(review.re_me_id=="${user.me_id}"){
             	str+=
             		'<button class="btn btn-outline-dark review-delete-btn" data-num="'+review.re_num+'">삭제하기</button>'}	   
             str+='</div>'+
-	'</div><div class="review-comment-box"></div>'
+	'</div><div class="review-comment-box" style="display:none;">'+
+			 '<div class="re-insert-box">'+
+			    '<textarea class="form-control rc-insert-window"></textarea>'+
+			    '<button class="rc-insert btn btn-success"  data-num="'+review.re_num+'">댓글 달기</button>'+
+			    '<hr>'+
+			  '</div>'+
+			  '<div class="re-comment-list"  data-num="'+review.re_num+'">'+
+		'</div><ul class="comment-pagination pagination justify-content-center">'+
+				'<li class="page-item">'+
+				'<a class="page-link" href="#">이전</a>'+
+			'</li>'+
+		    '<li class="page-item">'+
+		    	'<a class="page-link" href="#">1</a>'+
+		    '</li>'+
+		    '<li class="page-item">'+
+		    	'<a class="page-link" href="#">다음</a>'+
+		    '</li>'+
+		'</ul></div></div>'
+	return str;
+};
+
+$('.rc-insert').click(function(){
+	if('${user.me_id}' == ''){
+		
+		alert('로그인 하세요.');
+	}
+	let rc_content=$(this).prev().val();
+	let rc_num=$(this).data('num');
+	if(rc_content.trim().length==0){
+		alert('내용을 입력해주세요!');
+		return;
+	}
+	let rComment ={
+			rc_re_num :rc_num,
+			rc_content:rc_content
+			
+	}
+	ajaxPost(false,rComment,'<c:url value="/review/comment/insert"></c:url>', insertCommentSuccess, rComment)
+})
+
+
+
+
+
+$(document).on("click","#rc-delete-btn",function(){
+	if('${user.me_id}' == ''){
+		
+		alert('로그인 하세요.');
+	}
+	let rc_num = $(this).data('num');
+	let rc_re_num = $(this).parent().parent().data('num');
+	let rComment={
+			rc_num : rc_num,
+			rc_re_num : rc_re_num
+	}
+	ajaxPost(false,rComment,'<c:url value="/review/comment/delete"></c:url>', function(data){
+		if(data.res){
+			alert('삭제완료');
+			selectReviewCommentList(rCri,rc_re_num);
+		}else{
+			alert('삭제실패했어요!');
+			return;
+		}
+		
+	})
+
+	
+})
+
+$('.review-comment-btn').click(function(){
+	let rc_re_num= $(this).data('num');
+	selectReviewCommentList(rCri,rc_re_num);
+	$('.review-comment-box').hide();
+	$(this).parent().parent().next().show();
+})
+
+function insertCommentSuccess(data, rComment){
+	if(data.res){
+		alert('댓글등록성공!')
+	}else{
+		alert('댓글등록실패 ㅠ')
+	}
+	selectReviewCommentList(rCri,rComment.rc_re_num);
+}
+
+function selectReviewCommentList(rCri,rc_re_num){
+	ajaxPost(false,rCri,'<c:url value="/review/comment/list/'+rc_re_num+'"></c:url>', listCommentSuccess)
+}
+
+function listCommentSuccess(data){
+	addRCList(data.rCList);
+	addRCPagination(data.rCPm);
+}
+
+function addRCList(rCList){
+		str ='';
+		for(i = 0; i<rCList.length; i++){
+			str += createRComment(rCList[i]);
+		}
+		$('.re-comment-list').html(str);
+		
+}		
+
+function createRComment(rComment){
+	str='';
+	str+=   	
+				    '<div class="re-comment-item" data-num="'+rComment.rc_re_num+'">'+
+				        '<div class="rc-info""><span"> 작성자 : '+rComment.rc_me_id+'&nbsp</span>'+
+				        '<span"> 작성 날짜 : '+rComment.rc_date_str+'&nbsp</span></div>'+
+				        '<div class="rc-content"><span>'+rComment.rc_content+'</span></div>';
+				 if(rComment.rc_me_id=="${user.me_id}"){
+					 str+="<button class='rc-delete-btn' id='rc-delete-btn' data-num='"+rComment.rc_num+"'>X</button>"
+				 } 
+				str+= '</div><hr>';
 	return str;
 }
+
+function addRCPagination(rCPm){
+	let prev = rCPm.prev ? '' : 'disabled';
+	let next = rCPm.next ? '' : 'disabled';
+	str = '';
+	str += 
+	'<li class="page-item '+prev+'">'+
+		'<a class="page-link" href="#" data-page="'+(rCPm.startPage-1)+'">이전</a>'+
+	'</li>';
+	for(i=rCPm.startPage; i<=rCPm.endPage; i++){
+		let page = rCri.page == i ? 'active' : '';
+		str +=
+		'<li class="page-item '+page+'">'+
+			'<a class="page-link" href="#" data-page="'+i+'">'+i+'</a>'+
+		'</li>';
+	}
+	str +=
+	'<li class="page-item '+next+'">'+
+		'<a class="page-link" href="#" data-page="'+(rCPm.endPage+1)+'">다음</a>'+
+	'</li>';
+	$('.comment-pagination').html(str);
+	//페이지네이션 이벤트 등록
+	$('.comment-pagination .page-link').click(function(e){
+		e.preventDefault();
+		let page = $(this).data('page');
+		rCri.page = page;
+		selectReviewCommentList(rCri,rCPm.cri.rc_re_num);
+	});
+}
+
+
 	
 function listSuccess(data){
 	addReviewList(data.list, data.reFile);
@@ -514,10 +699,16 @@ $('.review-delete-btn').click(function(){
 		
 	}
 })
+
+$('.report-btn').click(function(){
+	modal();
+	console.log(1);
+})
+
 	
 	
 //ajax메서드
-function ajaxPost(async, obj, url, successFunction){
+function ajaxPost(async, obj, url, successFunction, obj2){
 	$.ajax({
 		async:async,
 		type: 'POST',
@@ -525,7 +716,10 @@ function ajaxPost(async, obj, url, successFunction){
 		url: url,
 		dataType:"json",
 		contentType:"application/json; charset=UTF-8",
-		success : successFunction
+		success : function(data){
+			successFunction(data,obj2)
+			
+		} 
 	});
 }
 		
@@ -540,6 +734,15 @@ function ajaxGet(method, url, successFunc){
 		success : successFunc
 	});
 }
+
+function modal(){
+    let report_btn =document.querySelector('.report-btn');
+    let report_modal=document.querySelector('.report-modal');
+    report_btn.addEventListener("click",()=>{
+        report_modal.showModal();
+    })
+    
+}
 </script>
 
   <script>
@@ -549,6 +752,6 @@ function ajaxGet(method, url, successFunc){
         prevEl: ".swiper-button-prev",
       },
     });
-    
-    
+
+
   </script>

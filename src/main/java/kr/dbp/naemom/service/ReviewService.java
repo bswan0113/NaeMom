@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.FileVO;
+import kr.dbp.naemom.vo.ReviewCommentVO;
 import kr.dbp.naemom.vo.ReviewVO;
 
 public interface ReviewService {
@@ -19,6 +20,14 @@ public interface ReviewService {
 	int getTotalCountReviewList(int pd_num);
 
 	boolean deleteReview(String me_id, ReviewVO review);
+
+	ArrayList<ReviewCommentVO> getRCommentList(int rc_re_num, Criteria cri);
+
+	int getTotalCountReviewCommentList(int rc_re_num);
+
+	boolean insertReviewComment(ReviewCommentVO reviewComment, String me_id);
+
+	boolean deleteReviewComment(ReviewCommentVO reviewComment, String me_id);
 
 
 
