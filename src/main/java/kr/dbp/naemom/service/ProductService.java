@@ -48,6 +48,8 @@ public interface ProductService {
 
 	double getRatingAvg(int pd_num);
 
+	ArrayList<FileVO> getOptFile(ProductVO product);
+
 
 
 

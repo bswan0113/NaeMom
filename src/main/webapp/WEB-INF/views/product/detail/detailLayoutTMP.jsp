@@ -5,6 +5,7 @@
 <div class="container-fluid">
 <h1 style="text-align: center; font-weight:bold">${product.pd_title}</h1><br>
 <h3 style="text-align: center;">${product.pd_subtitle}</h3>
+
 <div style="float: right;" class="service-box">
 	
 	
@@ -50,11 +51,70 @@
 			<div>오픈 시간 : ${product.pd_open_time_str}</div>
 			<div>마감 시간 : ${product.pd_close_time_str}</div>
 		</div>
-		<div style="height:600px">
-			옵션 Get완료// jsp분할 후 배치 진행
-			${option}
-			
-			
+		<br>
+		<div class="option-box">
+			<c:if test="${product.pd_pc_num==1}">
+					<strong>요금표</strong>
+					<table class="table">
+						<thead>
+							<tr>
+								<th> 구분 </th>
+								<th> 가격 </th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${option}" var="opt">
+								<tr>
+									<td>${opt.lo_age}</td>
+									<td>${opt.lo_price}원</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+			</c:if>
+			<c:if test="${product.pd_pc_num==2}">
+				<c:forEach items="${option}" var="opt">
+					<strong>요금표</strong>
+					<table class="table">
+						<thead>
+							<tr>
+								<th> 구분 </th>
+								<th> 가격 </th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${option}" var="opt">
+								<tr>
+									<td>${opt.fo_age}</td>
+									<td>${opt.fo_price}원</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</c:forEach>			
+			</c:if>
+			<c:if test="${product.pd_pc_num==3}">
+				<strong>메뉴표</strong>
+				<c:forEach  begin="0" end="${option.size()-1}" var="opt">
+					<div class="reo-box">
+						<span>${option.reo_name}</span><br>
+						<img alt="" src='"<c:url value="/download'+${optFile.fi_name}'"></c:url>" height="300" width="300"'><br>
+						<p>${option.reo_content}</p><br>
+						<span>${option.reo_price}원</span>
+					</div>
+					<hr>
+				</c:forEach>			
+			</c:if>
+			<c:if test="${product.pd_pc_num==4}">
+				<c:forEach begin="0" end="${option.size()-1}" var="opt">
+					<div class="ao-box">
+						<span>${option.ao_name}</span>
+						<img alt="" src='"<c:url value="/download'+${optFile.fi_name}'"></c:url>" height="300" width="300"'><br>
+						<span>인원 : ${option.ao_capacity}</span>
+						<p>${option.ao_room_detail}</p>
+					</div>
+				</c:forEach>			
+			</c:if>			
 		</div>
 	</div>
 	<hr>

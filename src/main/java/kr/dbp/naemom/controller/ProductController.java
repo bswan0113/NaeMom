@@ -100,6 +100,8 @@ public class ProductController {
 		ArrayList<Object> option =getOption(product.getPd_pc_num(), product.getPd_num());
 		if(rating >=0)mv.addObject("rating", (double)Math.round(rating*10)/10);
 		else mv.addObject("rating", "등록된 별점이 없습니다.");
+		ArrayList<FileVO> optFile = productService.getOptFile(product);
+		mv.addObject("optFile",optFile);
 		mv.addObject("option",option);
 		mv.addObject("wish",wish);
 		mv.addObject("randomProduct", randomProduct);
@@ -109,6 +111,7 @@ public class ProductController {
 		mv.setViewName("/product/detail/detailLayoutTMP");
 		return mv;
 	}
+	
 	
 	
 	
