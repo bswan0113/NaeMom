@@ -18,7 +18,9 @@ import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.ProductService;
 import kr.dbp.naemom.service.ReviewService;
+import kr.dbp.naemom.vo.LikeVO;
 import kr.dbp.naemom.vo.MemberVO;
+import kr.dbp.naemom.vo.ReportVO;
 import kr.dbp.naemom.vo.ReviewCommentVO;
 import kr.dbp.naemom.vo.ReviewVO;
 
@@ -97,7 +99,6 @@ public class ProductAjaxController {
 	@RequestMapping(value="/review/comment/insert", method=RequestMethod.POST)
 	public Map<String, Object> reviewCommentInsert(@RequestBody ReviewCommentVO reviewComment, HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
-		System.out.println(reviewComment);
 		MemberVO user = new MemberVO();
 		user.setMe_id("abcd");
 		boolean res= reviewService.insertReviewComment(reviewComment, user.getMe_id());
@@ -114,4 +115,43 @@ public class ProductAjaxController {
 		return map;
 	}	
 
+	@RequestMapping(value="/review/report", method=RequestMethod.POST)
+	public Map<String, Object> reportReview(@RequestBody ReportVO report, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = new MemberVO();
+		user.setMe_id("abcd");
+		boolean res= reviewService.reportReview(report,user);
+		map.put("res", res);
+		return map;
+	}
+	@RequestMapping(value="/comment/report", method=RequestMethod.POST)
+	public Map<String, Object> reportComment(@RequestBody ReportVO report, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = new MemberVO();
+		user.setMe_id("abcd");
+		boolean res= reviewService.reportComment(report,user);
+		map.put("res", res);
+		return map;
+	}	
+	@RequestMapping(value="/review/like", method=RequestMethod.POST)
+	public Map<String, Object> likeReview(@RequestBody LikeVO like, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = new MemberVO();
+		user.setMe_id("abcd");
+		like.setLi_me_id(user.getMe_id());
+		boolean res= reviewService.insertReviewLike(like);
+		map.put("res", res);
+		return map;
+	}
+	@RequestMapping(value="/view/like", method=RequestMethod.POST)
+	public Map<String, Object> viewLike(@RequestBody Integer re_num, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = new MemberVO();
+		user.setMe_id("abcd");
+		int like= reviewService.getLikeCount(re_num);
+		int dislike= reviewService.getDislikeCount(re_num);
+		map.put("dislike", dislike);
+		map.put("like", like);
+		return map;
+	}	
 }

@@ -15,6 +15,7 @@ public class ReviewCommentVO {
 	String rc_me_id;
 	String rc_content;
 	Date rc_date;
+	int reportCount;
 	
 	public String getRc_date_str() {
 		SimpleDateFormat format = 

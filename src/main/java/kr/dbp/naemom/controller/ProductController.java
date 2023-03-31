@@ -101,6 +101,8 @@ public class ProductController {
 		if(rating >=0)mv.addObject("rating", (double)Math.round(rating*10)/10);
 		else mv.addObject("rating", "등록된 별점이 없습니다.");
 		ArrayList<FileVO> optFile = productService.getOptFile(product);
+		
+		
 		mv.addObject("optFile",optFile);
 		mv.addObject("option",option);
 		mv.addObject("wish",wish);
@@ -137,27 +139,7 @@ public class ProductController {
 		}
 		return option;
 	}
-	@RequestMapping(value="/product/detail/accomodation/{i}", method=RequestMethod.GET)
-	public ModelAndView accomodationGet(ModelAndView mv, ProductVO product, @PathVariable("i")int pr_num) {
-		
-		mv.setViewName("/product/detail/accomodation/{i}");
-		return mv;
-	}
-	@RequestMapping(value="/product/detail/restraunt/{i}", method=RequestMethod.GET)
-	public ModelAndView restrauntGet(ModelAndView mv, ProductVO product, @PathVariable("i")int pr_num) {
-			mv.setViewName("/product/detail/restraunt/{i}");
-		return mv;
-	}
-	@RequestMapping(value="/product/detail/festival/{i}", method=RequestMethod.GET)
-	public ModelAndView festivalGet(ModelAndView mv, ProductVO product, @PathVariable("i")int pr_num) {
-		mv.setViewName("/product/detail/festival/{i}");
-		return mv;
-	}
-	@RequestMapping(value="/product/detail/landMark/{i}", method=RequestMethod.GET)
-	public ModelAndView landMarkGet(ModelAndView mv, ProductVO product, @PathVariable("i")int pr_num) {
-		mv.setViewName("/product/detail/landMark/{i}");
-		return mv;
-	}
+
 	@RequestMapping(value="/product/detail/**/{i}")
 	public ModelAndView detailLayoutTMP(ModelAndView mv, ProductVO product) {
 		mv.setViewName("/product/detail/detailLayoutTMP");

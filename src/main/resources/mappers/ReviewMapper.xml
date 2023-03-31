@@ -57,5 +57,19 @@
   <delete id="deleteReviewComment">
   	delete from review_comment where rc_num=#{rc_num} and rc_me_id=#{rc_me_id}
   </delete>
+  <insert id="insertReportReview">
+  	insert into report(rep_table_key, rep_content, rep_date, rep_category, rep_table)
+  		value(#{rep.rep_table_key}, #{rep.rep_content},now(), #{rep.rep_category}, #{rep.rep_table})
+  </insert>
+  <select id="getReportCount" resultType="int">
+  select count(*) from report left join review on rep_table_key=re_num where rep_table=#{rep_table} and rep_table_key=#{re.re_num} 
+  </select>
+  <insert id="insertReviewLike">
+  	insert into `like`(li_me_id, li_table_key, li_updown, li_table)
+  		value(#{li.li_me_id}, #{li.li_table_key}, #{li.li_updown}, #{li.li_table})
+  </insert>
+  <select id="getLikeCount" resultType="int">
+  	select count(*) from `like` where li_table_key=#{li_table_key} and li_updown=#{li_updown} and li_table=#{li_table}
+  </select>
 </mapper>
 

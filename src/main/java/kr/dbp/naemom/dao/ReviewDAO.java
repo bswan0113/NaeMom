@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Param;
 
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.FileVO;
+import kr.dbp.naemom.vo.LikeVO;
+import kr.dbp.naemom.vo.ReportVO;
 import kr.dbp.naemom.vo.ReviewCommentVO;
 import kr.dbp.naemom.vo.ReviewVO;
 
@@ -32,6 +34,18 @@ public interface ReviewDAO {
 	boolean insertReviewComment(@Param("rc")ReviewCommentVO reviewComment, @Param("rc_me_id")String me_id);
 
 	boolean deleteReviewComment(@Param("rc_me_id")String me_id, @Param("rc_num")int rc_num);
+
+	boolean insertReportReview(@Param("rep")ReportVO report, @Param("rep_me_id")String me_id);
+
+	int getReportCount(@Param("re")ReviewVO review, @Param("rep_table")String string);
+
+	boolean insertReviewLike(@Param("li")LikeVO like);
+
+	int getLikeCount(@Param("li_table_key")Integer re_num, @Param("li_updown")int i, @Param("li_table")String string);
+
+
+
+
 
 
 }

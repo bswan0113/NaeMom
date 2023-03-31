@@ -54,6 +54,7 @@
 		<br>
 		<div class="option-box">
 			<c:if test="${product.pd_pc_num==1}">
+				<c:if test="${option!=null}">
 					<strong>요금표</strong>
 					<table class="table">
 						<thead>
@@ -71,50 +72,61 @@
 							</c:forEach>
 						</tbody>
 					</table>
+				</c:if>
 			</c:if>
 			<c:if test="${product.pd_pc_num==2}">
-				<c:forEach items="${option}" var="opt">
-					<strong>요금표</strong>
-					<table class="table">
-						<thead>
-							<tr>
-								<th> 구분 </th>
-								<th> 가격 </th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${option}" var="opt">
-								<tr>
-									<td>${opt.fo_age}</td>
-									<td>${opt.fo_price}원</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</c:forEach>			
+				<c:if test="${option!=null  && option.size()!=0}">
+					<strong>메뉴표</strong>
+					<c:forEach  begin="0" end="${option.size()-1}" var="opt">
+						<div class="reo-box">
+							<span>${option.get(opt).reo_name}</span><br>
+							<c:if test="${optFile!=null && optFile.size()!=0 }">
+								<img alt="" src='"<c:url value="/download'+${optFile.get(opt).fi_name}'"></c:url>" height="300" width="300"'><br>
+							</c:if>
+							<p>${option.get(opt).reo_content}</p><br>
+							<span>${option.get(opt).reo_price}원</span>
+						</div>
+						<hr>
+					</c:forEach>
+				</c:if>			
 			</c:if>
 			<c:if test="${product.pd_pc_num==3}">
-				<strong>메뉴표</strong>
-				<c:forEach  begin="0" end="${option.size()-1}" var="opt">
-					<div class="reo-box">
-						<span>${option.reo_name}</span><br>
-						<img alt="" src='"<c:url value="/download'+${optFile.fi_name}'"></c:url>" height="300" width="300"'><br>
-						<p>${option.reo_content}</p><br>
-						<span>${option.reo_price}원</span>
-					</div>
-					<hr>
-				</c:forEach>			
-			</c:if>
-			<c:if test="${product.pd_pc_num==4}">
-				<c:forEach begin="0" end="${option.size()-1}" var="opt">
-					<div class="ao-box">
-						<span>${option.ao_name}</span>
-						<img alt="" src='"<c:url value="/download'+${optFile.fi_name}'"></c:url>" height="300" width="300"'><br>
-						<span>인원 : ${option.ao_capacity}</span>
-						<p>${option.ao_room_detail}</p>
-					</div>
-				</c:forEach>			
+				<c:if test="${option!=null && option.size()!=0}">
+					<c:forEach begin="0" end="${option.size()-1}" var="opt">
+						<div class="ao-box">
+							<span>${option.get(opt).ao_name}</span>
+							<c:if test="${optFile!=null && optFile.size()!=0 }">
+								<img alt="" src='"<c:url value="/download'+${optFile.get(opt).fi_name}'"></c:url>" height="300" width="300"'><br>
+							</c:if>
+							<span>인원 : ${option.get(opt).ao_capacity}</span>
+							<p>${option.get(opt).ao_room_detail}</p>
+						</div>
+					</c:forEach>
+				</c:if>			
 			</c:if>			
+			<c:if test="${product.pd_pc_num==4}">
+				<c:if test="${option!=null}">
+					<c:forEach items="${option}" var="opt">
+						<strong>요금표</strong>
+						<table class="table">
+							<thead>
+								<tr>
+									<th> 구분 </th>
+									<th> 가격 </th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach items="${option}" var="opt">
+									<tr>
+										<td>${opt.fo_age}</td>
+										<td>${opt.fo_price}원</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+					</c:forEach>
+				</c:if>			
+			</c:if>
 		</div>
 	</div>
 	<hr>
@@ -181,7 +193,82 @@
 </div>
 <hr>
 <br>
+<!-- 신고 모달 -->
+  <div class="modal common-modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">신고하기</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+        	신고사유
+          <select class="form-control" id="report-category">
+          <option value="광고 및 홍보성 게시물">광고 및 홍보성 게시물</option>
+          <option value="욕설 및 혐오 표현">욕설 및 혐오 표현</option>
+          <option value="음란한 표현이 담긴 게시물">음란한 표현이 담긴 게시물</option>
+          <option value="도배">도배 </option>
+          <option value="기타">기타</option>
+          </select>
+          상세내용 : <textarea class="form-control" id="report-content"></textarea>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" id="report-modal" data-num='' data-table=''>신고하기</button>
+          <button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+
 <style>
+.review-like-box{
+position:absolute;
+bottom:0;
+left:0;
+}
+
+.like-btns{
+border:none;
+background:none;
+display:none;
+}
+
+.review-like-box .like-active{
+display:inline-block;
+}
+
+
+#like-btn{
+color:blue;
+}
+#dislike-btn{
+margin-left:10px;
+color:red;
+}
+#rc-report-btn{
+position:absolute;
+top:0;
+right:2px;
+
+
+}
+
+#rc-report-btn #rc-report-icon{
+font-size:14px;
+}
+
+.report-btn{
+background:none;
+border:none;
+}
 .re-comment-item{
 position:relative;
 }
@@ -396,7 +483,6 @@ min-height: 500px;
 content:''; clear:both; display:block;
 }
 
-.report-modal{
 
 height: 500px;
 width:500px;
@@ -414,12 +500,58 @@ let rCri = {
 			page : 1,
 			perPageNum : 5
 };
+let likes={
+		like:0,
+		dislike:0
+}	
 selectReviewList(cri);
 
 let starRate=0;
 
 
+$('.like-btns').click(function(){
+	if('${user.me_id}' == ''){
+		
+		alert('로그인 하세요.');
+	}
+	let li_re_num = $(this).parents('.review-comment-container').data('num');
+	let li_updown= $(this).data('like');
+	let li_table="like";
+	let like ={
+			li_table_key:li_re_num,
+			li_updown:li_updown,
+			li_table:li_table
+			
+	}
+	ajaxPost(false,like,'<c:url value="/review/like"></c:url>',function(data){
+		if(data.res){
+			viewLike(li_re_num);
+			alert('좋아요 성공!');
+			selectReviewList(cri);
+		}else{
+			alert('좋아요 실패!');
+		}
+		
+	});
+	if(li_updown=='1'){
+		$(this).parent().find('#dislike-btn').removeClass('like-active');
+		$(this).parent().find('.dislike-num').hide();
+	}
+	if(li_updown=='-1'){
+		$(this).parent().find('#like-btn').removeClass('like-active');
+		$(this).parent().find('.like-num').hide();
+	}
+});
 
+
+function viewLike(re_num){
+
+	ajaxPost(false,re_num,'<c:url value="/view/like"></c:url>',function(data){
+		likes.like=data.like;
+		likes.dislike=data.dislike;
+	
+	});
+}
 
 $('.stars .fa').click(function() {
     $(this).addClass('active');
@@ -540,8 +672,10 @@ function addReviewList(list){
 	$('.comment-list').html(str);
 }
 
+
 function createReview(review){
 	str = '';
+	viewLike(review.re_num);
 	str += 
 	'<div class="review-comment-container"  data-num="'+review.re_num+'">'+
 	'<div class="review-box">';
@@ -549,8 +683,8 @@ function createReview(review){
 		str+='<img class="rounded" src="<c:url value="/download'+review.re_file.fi_name+'"></c:url>" height="300" width="300">'
 	}
 	str+=
-    	'<button class="report-btn" style="background:none; border:none;">신고하기</button>'+
-    	'<dialog class="report-modal"></dialog>'+
+    	'<button type="button" class="report-btn" data-toggle="modal" data-target="#myModal" data-num="'+review.re_num+'">'+
+    	'<i class="fas fa-bell" style="color:red;"></i></button>'+
 	    '<div class="review-info">'+
 	        '<span style="float:left; margin-right:15px;">작성자 : '+review.re_me_id+'</span>&nbsp'+
 	        '<span style="float:left; margin-right:15px;">등록날짜 : '+review.re_date_str+'</span>&nbsp'+
@@ -566,6 +700,10 @@ function createReview(review){
 	        '</p>'+
 	        '<hr>'+
 	    '</div>'+
+    	'<div class="review-like-box">'+
+      	'<button data-like="1" data-num="'+review.re_num+'"class="like-btns like-active" id="like-btn"><i class="fas fa-thumbs-up"></i></button><strong class="like-num" style="color:blue;">'+likes.like+'</strong>'+
+      	'<button data-like="-1" data-num="'+review.re_num+'"class="like-btns like-active" id="dislike-btn"><i class="fas fa-thumbs-down"></i></button><strong class="dislike-num"  style="color:red;">'+likes.dislike+'</strong>'+
+    	'</div>'+
     	'<div class="review-btn-box">'+
     		'<button class="btn btn-outline-dark review-comment-btn" data-num="'+review.re_num+'">댓글펼치기</button>';    		
             if(review.re_me_id=="${user.me_id}"){
@@ -590,8 +728,67 @@ function createReview(review){
 		    	'<a class="page-link" href="#">다음</a>'+
 		    '</li>'+
 		'</ul></div></div>'
+		if(review.reportCount>=10) str='';
 	return str;
 };
+
+
+$('#report-modal').click(function(){
+		let table_key= $(this).data('num');
+		let content = $('#report-content').val();
+		let category= $('#report-category').val();
+		let table= $(this).data('table');
+		let report={
+				rep_table_key : table_key,
+				rep_table : table,
+				rep_content : content,
+				rep_category : category
+		}
+		if(content.trim().length<=0){
+			alert('신고 사유를 정확히 입력해주세요.');
+			return;
+		}
+		if(table=="review"){
+		ajaxPost(false,report,'<c:url value="/review/report"></c:url>', function(data){
+			if(data.res){
+				alert('신고가 완료되었습니다. 감사합니다.');
+				$('#report-modal').data('num','');
+				$('#report-modal').data('table','');
+				}
+			
+			})
+		}
+		if(table=="reviewComment"){
+			ajaxPost(false,report,'<c:url value="/comment/report"></c:url>', function(data){
+				if(data.res){
+					alert('신고가 완료되었습니다. 감사합니다.');
+					$('#report-modal').data('num','');
+					$('#report-modal').data('table','');
+				}
+				
+			})
+		}
+	});
+
+
+$(document).on("click","#rc-report-btn",function(){
+	if('${user.me_id}' == ''){
+		
+		alert('로그인 하세요.');
+	}
+	$('#report-modal').data('num', $(this).data('num'));
+	$('#report-modal').data("table", "reviewComment");
+})
+	
+$('.report-btn').click(function(){
+	if('${user.me_id}' == ''){
+		
+		alert('로그인 하세요.');
+	}
+	$('#report-modal').data('num', $(this).data('num'));
+	$('#report-modal').data("table", "review");
+})
+
 
 $('.rc-insert').click(function(){
 	if('${user.me_id}' == ''){
@@ -627,6 +824,7 @@ $(document).on("click","#rc-delete-btn",function(){
 			rc_num : rc_num,
 			rc_re_num : rc_re_num
 	}
+	if(!confirm('정말 삭제하시겠습니까?')) return;
 	ajaxPost(false,rComment,'<c:url value="/review/comment/delete"></c:url>', function(data){
 		if(data.res){
 			alert('삭제완료');
@@ -647,6 +845,7 @@ $('.review-comment-btn').click(function(){
 	$('.review-comment-box').hide();
 	$(this).parent().parent().next().show();
 })
+
 
 function insertCommentSuccess(data, rComment){
 	if(data.res){
@@ -681,7 +880,8 @@ function createRComment(rComment){
 				    '<div class="re-comment-item" data-num="'+rComment.rc_re_num+'">'+
 				        '<div class="rc-info""><span"> 작성자 : '+rComment.rc_me_id+'&nbsp</span>'+
 				        '<span"> 작성 날짜 : '+rComment.rc_date_str+'&nbsp</span></div>'+
-				        '<div class="rc-content"><span>'+rComment.rc_content+'</span></div>';
+				        '<div class="rc-content"><span>'+rComment.rc_content+'</span></div>'+
+				        '<button data-num="'+rComment.rc_num+'"class="rc-report-btn" id="rc-report-btn"  data-toggle="modal" data-target="#myModal"><i class="fas fa-bell" style="color:red;" id="rc-report-icon"></i></button>';
 				 if(rComment.rc_me_id=="${user.me_id}"){
 					 str+="<button class='rc-delete-btn' id='rc-delete-btn' data-num='"+rComment.rc_num+"'>X</button>"
 				 } 
@@ -760,10 +960,6 @@ $('.review-delete-btn').click(function(){
 	}
 })
 
-$('.report-btn').click(function(){
-	modal();
-	console.log(1);
-})
 
 	
 	
@@ -795,14 +991,7 @@ function ajaxGet(method, url, successFunc){
 	});
 }
 
-function modal(){
-    let report_btn =document.querySelector('.report-btn');
-    let report_modal=document.querySelector('.report-modal');
-    report_btn.addEventListener("click",()=>{
-        report_modal.showModal();
-    })
-    
-}
+
 </script>
 
   <script>

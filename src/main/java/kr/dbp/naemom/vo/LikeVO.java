@@ -8,9 +8,10 @@ import lombok.NoArgsConstructor;
 public class LikeVO {
 	
 	int li_num;
-	int li_re_num;
+	int li_table_key;
+	String li_table;
 	String li_me_id;
-	String li_updown;
+	int li_updown;
 	
 
 }

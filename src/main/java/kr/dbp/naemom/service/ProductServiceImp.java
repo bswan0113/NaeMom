@@ -245,17 +245,12 @@ public class ProductServiceImp implements ProductService{
 	@Override
 	public ArrayList<FileVO> getOptFile(ProductVO product) {
 		if(product==null || product.getPd_num()<0) return null;
-		ArrayList<FileVO> fileList = new ArrayList<FileVO>();
 		switch (product.getPd_pc_num()) {
-		case 3: fileList=productDao.getAoOpt("accomodation_option", product.getPd_num());
-			break;
-		case 4: fileList=productDao.getReoOpt("restraunt_option", product.getPd_num());
-			break;
+		case 3:  return productDao.getAoOpt("accomodation_option", product.getPd_num());
+		case 2:  return productDao.getReoOpt("restraunt_option", product.getPd_num());
 		default:
 			return null;
 		}
-		
-		return null;
 	}
 
 

@@ -10,7 +10,7 @@ public class Option_restrauntVO {
 
 	int reo_num;
 	int reo_price;
-	int red_pd_num;
+	int reo_pd_num;
 	String reo_name;
 	String reo_content;
 	
