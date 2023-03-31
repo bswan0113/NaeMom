@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,8 +25,11 @@ import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
+import kr.dbp.naemom.vo.LikeVO;
+import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.ReportVO;
 
 @Controller
 public class CourseController {
@@ -41,10 +45,14 @@ public class CourseController {
 	}
 	@RequestMapping(value = "/course/insert", method=RequestMethod.POST)
 	public ModelAndView courseInsert(ModelAndView mv,CourseVO cos,@RequestParam("pd_num[]")String[] pd_num,
-			HttpServletResponse response) {
+			HttpSession session){
+		//지워야될코드
 		String id = "qwe";
-		
-		int res = courseService.insertCourse(cos,id);
+		MemberVO user = new MemberVO();
+		//MemberVO user = (MemberVO)session.getAttribute("user");
+		//지워야될코드
+		user.setMe_id(id);
+		int res = courseService.insertCourse(cos,user.getMe_id());
 		String msg;
 		if(res == 0 || pd_num.length == 0 || pd_num.length >10) {
 			msg = "코스 등록에 실패했습니다.";
@@ -101,13 +109,21 @@ public class CourseController {
 		return mv;
 	}
 	@RequestMapping(value = "/course/detail/{co_num}", method=RequestMethod.GET)
-	public ModelAndView courseDetail(ModelAndView mv,@PathVariable("co_num")int co_num) {
+	public ModelAndView courseDetail(ModelAndView mv,@PathVariable("co_num")int co_num,HttpSession session) {
+		//지워야될코드
+		String id = "qwe";
+		MemberVO user = new MemberVO();
+		//MemberVO user = (MemberVO)session.getAttribute("user");
+		//지워야될코드
+		user.setMe_id(id);
 		CourseVO course = courseService.getcourseByNum(co_num);
 		ArrayList<CourseItemVO> items = courseService.getCourseItem(co_num);
 		ArrayList<FileVO> files = new ArrayList<FileVO>();
 		ArrayList<ProductVO> prlist = new ArrayList<ProductVO>();
 		ArrayList<Hash_tagVO> tags = new ArrayList<Hash_tagVO>();
+		LikeVO likeVo = courseService.getLikes(user, co_num);
 		selectList(items,files,prlist,tags);
+		mv.addObject("like", likeVo);
 		mv.addObject("tags", tags);
 		mv.addObject("prlist", prlist);
 		mv.addObject("course",course);
@@ -118,8 +134,14 @@ public class CourseController {
 	}
 	
 	@RequestMapping(value = "/course/delete/{co_num}", method=RequestMethod.POST)
-	public ModelAndView courseDelete(ModelAndView mv,@PathVariable("co_num")int co_num) {
-		boolean res = courseService.deleteCourse(co_num);
+	public ModelAndView courseDelete(ModelAndView mv,@PathVariable("co_num")int co_num,HttpSession session) {
+		//지워야될코드
+		String id = "qwe";
+		MemberVO user = new MemberVO();
+		//MemberVO user = (MemberVO)session.getAttribute("user");
+		//지워야될코드
+		user.setMe_id(id);
+		boolean res = courseService.deleteCourse(co_num,user);
 		String url = "/course/list";
 		String msg;
 		if(res) {
@@ -134,6 +156,7 @@ public class CourseController {
 	}
 	@RequestMapping(value = "/course/update/{co_num}", method=RequestMethod.GET)
 	public ModelAndView courseUpdate(ModelAndView mv,@PathVariable("co_num")int co_num) {
+		
 		CourseVO course = courseService.getcourseByNum(co_num);
 		ArrayList<CourseItemVO> items = courseService.getCourseItem(co_num);
 		ArrayList<FileVO> files = new ArrayList<FileVO>();
@@ -150,10 +173,14 @@ public class CourseController {
 	}
 	@RequestMapping(value = "/course/update/{co_num}", method=RequestMethod.POST)
 	public ModelAndView courseUpdatePost(ModelAndView mv,@PathVariable("co_num")int co_num,CourseVO cos,@RequestParam("pd_num[]")String[] pd_num,
-			HttpServletResponse response) {
+			HttpSession session) {
+		//지워야될코드
 		String id = "qwe";
-		
-		int res = courseService.updateCourse(cos,id,co_num,pd_num);
+		MemberVO user = new MemberVO();
+		//MemberVO user = (MemberVO)session.getAttribute("user");
+		//지워야될코드
+		user.setMe_id(id);
+		int res = courseService.updateCourse(cos,user,co_num,pd_num);
 		String msg;
 		if(res == 0 || pd_num.length == 0 || pd_num.length >10) {
 			msg = "코스 수정에 실패했습니다.";
@@ -166,8 +193,40 @@ public class CourseController {
 		
 		return mv;
 	}
-	
-	
+	@ResponseBody
+	@RequestMapping(value="/course/like/{li_co_num}/{li_updown}", 
+			method=RequestMethod.GET)
+	public Map<String, Object> courseLike(
+			@PathVariable("li_co_num")int li_co_num,
+			@PathVariable("li_updown")int li_updown,
+			HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		//지워야될코드
+		String id = "qwe";
+		MemberVO user = new MemberVO();
+		//MemberVO user = (MemberVO)session.getAttribute("user");
+		//지워야될코드
+		user.setMe_id(id);
+		int res = courseService.updateLike(li_co_num, li_updown, user);
+		map.put("state", res);
+		CourseVO cosLike = courseService.getcourseByNum(li_co_num);
+		map.put("cosLike", cosLike);
+		return map;
+	}
+	@ResponseBody
+	@RequestMapping(value="/course/reportCourse", 
+			method=RequestMethod.POST)
+	public Map<String, Object> courseReport(@RequestBody ReportVO rep,HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		int res = courseService.insertReportCourse(rep);
+		CourseVO reCourse = new CourseVO();
+		if(res != 0)
+			courseService.updateCourseByReport(rep.getRep_table_key());
+		reCourse = courseService.getcourseByNum(rep.getRep_table_key());
+		map.put("res", res);
+		map.put("reCourse", reCourse);
+		return map;
+	}
 	
 	
 	

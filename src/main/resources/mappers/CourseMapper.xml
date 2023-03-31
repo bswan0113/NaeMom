@@ -79,4 +79,49 @@
   			where
   				co_me_id = #{id} and co_num = #{co_num}
   	</update>
+  	<select id="selectLike" resultType="kr.dbp.naemom.vo.LikeVO">
+  		select * from `like` where li_me_id = #{me_id} and li_table_key = #{li_co_num} and li_table = #{table}
+  	</select>
+  	<insert id="insertLike">
+  		insert into `like`(li_me_id, li_table_key, li_updown, li_table)
+  		values(#{li.li_me_id}, #{li.li_table_key}, #{li.li_updown}, #{li.li_table})
+  	</insert>
+  	<update id="updateLike">
+  		update `like` 
+  			set
+  				li_updown = #{li.li_updown} 
+  			where 
+  				li_me_id = #{li.li_me_id} and li_table_key = #{li.li_table_key} and li_table = #{li.li_table}
+  	</update>
+  	<update id="updateCourseUpAndDown">
+  		update course
+  			set
+		  		co_up = (
+		  			select 
+		  				count(*) 
+		  			from 
+		  				`like` 
+		  			where 
+		  				li_table_key = #{li_co_num} and li_updown = 1 and li_table = 'course'),
+		  		co_down = (
+		  			select 
+		  				count(*) 
+		  			from 
+		  				`like` 
+		  			where 
+		  				li_table_key = #{li_co_num} and li_updown = -1 and li_table = 'course')
+		  	where 
+		  		co_num = #{li_co_num}
+  	</update>
+  	<insert id="insertReportCourse">
+  		insert into report(rep_table_key, rep_content, rep_category, rep_table)
+  		values(#{rep.rep_table_key},#{rep.rep_content},#{rep.rep_category},#{rep.rep_table})
+  	</insert>
+  	<update id="updateCourseByReport">
+  		update course
+  			set
+  				co_report = co_report+1
+  			where
+  				co_num = #{co_num}
+  	</update>
 </mapper>

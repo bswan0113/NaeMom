@@ -9,8 +9,10 @@ import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
+import kr.dbp.naemom.vo.LikeVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.ReportVO;
 
 public interface CourseDAO {
 
@@ -43,5 +45,17 @@ public interface CourseDAO {
 	int deleteCourse(@Param("co_num")int co_num);
 
 	int updateCourse(@Param("cos")CourseVO cos, @Param("id")String id, @Param("co_num")int co_num);
+
+	LikeVO selectLike(@Param("li_co_num")int li_co_num, @Param("me_id")String me_id, @Param("table")String table);
+
+	void insertLike(@Param("li")LikeVO likeVo);
+
+	void updateLike(@Param("li")LikeVO likeVo);
+
+	void updateCourseUpAndDown(@Param("li_co_num")int li_co_num);
+
+	int insertReportCourse(@Param("rep")ReportVO rep);
+
+	void updateCourseByReport(@Param("co_num")int co_num);
 
 }
