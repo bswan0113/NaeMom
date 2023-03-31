@@ -38,4 +38,6 @@ public interface CourseService {
 
 	boolean deleteCourse(int co_num);
 
+	int updateCourse(CourseVO cos, String id, int co_num, String[] pd_num);
+
 }

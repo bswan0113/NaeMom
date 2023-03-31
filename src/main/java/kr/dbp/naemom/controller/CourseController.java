@@ -43,6 +43,7 @@ public class CourseController {
 	public ModelAndView courseInsert(ModelAndView mv,CourseVO cos,@RequestParam("pd_num[]")String[] pd_num,
 			HttpServletResponse response) {
 		String id = "qwe";
+		
 		int res = courseService.insertCourse(cos,id);
 		String msg;
 		if(res == 0 || pd_num.length == 0 || pd_num.length >10) {
@@ -145,6 +146,24 @@ public class CourseController {
 		mv.addObject("items", items);
 		mv.addObject("files", files);
 		mv.setViewName("/course/update");
+		return mv;
+	}
+	@RequestMapping(value = "/course/update/{co_num}", method=RequestMethod.POST)
+	public ModelAndView courseUpdatePost(ModelAndView mv,@PathVariable("co_num")int co_num,CourseVO cos,@RequestParam("pd_num[]")String[] pd_num,
+			HttpServletResponse response) {
+		String id = "qwe";
+		
+		int res = courseService.updateCourse(cos,id,co_num,pd_num);
+		String msg;
+		if(res == 0 || pd_num.length == 0 || pd_num.length >10) {
+			msg = "코스 수정에 실패했습니다.";
+		}else {
+			msg = "코스 수정에 성공했습니다.";
+		}
+		mv.addObject("msg",msg);
+		mv.addObject("url","/course/list");
+		mv.setViewName("/course/message");
+		
 		return mv;
 	}
 	

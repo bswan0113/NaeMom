@@ -49,6 +49,7 @@
   		select * from course_item 
   			join product on pd_num = ci_pd_num
   			where ci_co_num = #{co_num} 
+  			order by ci_num asc
   	</select>
   	<select id="selectProductImgList" resultType="kr.dbp.naemom.vo.FileVO">
   		select * from file where fi_category like concat('%',#{fi_category},'%')
@@ -66,4 +67,16 @@
   	<delete id="deleteCourse">
   		delete from course where co_num = #{co_num}
   	</delete>
+  	<update id="updateCourse">
+  		update course
+  			set
+  				co_title = #{cos.co_title},
+  				co_content = #{cos.co_content},
+  				co_cc_category_num = #{cos.co_cc_category_num},
+  				co_cs_schedule_num = #{cos.co_cs_schedule_num},
+  				co_total_distance = #{cos.co_total_distance},
+  				co_update_date = now()
+  			where
+  				co_me_id = #{id} and co_num = #{co_num}
+  	</update>
 </mapper>

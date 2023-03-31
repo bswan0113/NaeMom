@@ -42,4 +42,6 @@ public interface CourseDAO {
 
 	int deleteCourse(@Param("co_num")int co_num);
 
+	int updateCourse(@Param("cos")CourseVO cos, @Param("id")String id, @Param("co_num")int co_num);
+
 }

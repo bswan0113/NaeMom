@@ -13,7 +13,7 @@
   <script src="<c:url value='/resources/js/jquery.min.js'></c:url>"></script>
   <script src="<c:url value='/resources/js/jquery-ui.min.js'></c:url>"></script>
   <script src="<c:url value='/resources/js/bootstrap.bundle.min.js'></c:url>"></script>
-  <!-- <script type="text/javascript" src="<c:url value='//dapi.kakao.com/v2/maps/sdk.js?appkey=??'></c:url>"></script> -->
+  <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=&libraries=services"></script> -->
   <title>courseDetail</title>
   <style>
   	*{
@@ -219,6 +219,7 @@
 	    border: 1px solid #ccc;
 	    box-sizing: border-box;
 	    margin-top:30px;
+	    margin-bottom:30px;
 	  }
 	  .txtNum{
 	    font-size: 16px;
@@ -248,6 +249,10 @@
       <label class="cos-title-name">코스제목</label>
       <div class="form-control mt-4 mb-3">${course.co_title }</div>
     </div>
+    <div class="form-group">
+      <label class="cos-title-name">작성자</label>
+      <div class="form-control mt-4 mb-3">${course.co_me_id }</div>
+    </div>
     <div class="cos_section">
       <div class="cos-type1 form-inline">
           <label for="category">코스 테마</label>
@@ -266,7 +271,7 @@
           건
         </strong>
         <div class="total_distance" >
-        	<input type="hidden" name="co_total_distance" value="56.7">
+        	<input type="hidden" name="co_total_distance" value="${course.co_total_distance}">
           	<span class="distance_name">코스 총거리 : <em class="products_distance">${course.co_total_distance}</em> km</span>
         </div>
       </div>
@@ -288,6 +293,7 @@
 			    	<c:forEach items="${prlist }" var="pr">
 				    	<c:if test="${item.ci_pd_num == pr.pd_num }">
 					      	<p style="display:none" id="pd_num">${pr.pd_num}</p>
+					      	<input type="hidden" class="pd_street_address" value="${ pr.pd_street_address}">
 					        <div class="title-area clearfix">
 					          <a href="#" id="pd_title">${pr.pd_title}</a>
 					          <p id="pd_subtitle">${pr.pd_subtitle}</p>
@@ -316,7 +322,7 @@
           <textarea name="co_content" id="csdesc" maxlength="2000" class="co_content" title="코스소개" disabled>${course.co_content }</textarea>
         </div>
       </div>
-      <div id="map" style="width:1190px;height:400px;"></div>
+      <div id="map" style="width:1190px;height:400px;margin-bottom:30px;"></div>
     </div>
     <div style="justify-content:center; width: 1190px;">
 	    
@@ -545,20 +551,7 @@
   
   
    
-    //상품리스트 이동
-  	$( "#sortable" ).sortable({
-    	 
-    	stop: function(event, ui) {
-	        reorder();
-    		let productList=new Array(10);
-    		$('.cos-item').each(function(i, box) {
-	            let listNum = $(this).find('.numbering');
-	            let pd_num = listNum.siblings('.cos_text').find('#pd_num').text();
-	            productList[i] = pd_num;
-            
-    		});
-    	}
-    });
+    reorder();
     //상품리스트 이동했을 때 번호 재정렬
     function reorder() {
       $('.numbering').each(function(i, box) {
@@ -567,8 +560,8 @@
     }
     
   </script>
-<!--  
-  <script>
+  
+  <!-- <script>
 	var mapContainer = document.getElementById('map'); 
 var mapOption = { 
   center: new kakao.maps.LatLng(33.450701, 126.570667), 
@@ -578,15 +571,10 @@ var mapOption = {
 var map = new kakao.maps.Map(mapContainer, mapOption); 
 var geocoder = new kakao.maps.services.Geocoder(); 
 
-var addresses = [
-  '서울특별시 성북구 정릉로 77', 
-  '서울특별시 노원구 공릉로 264', 
-  '서울특별시 동대문구 회기로 106', 
-  '서울특별시 마포구 양화로 45', 
-  '서울특별시 강남구 도산대로 327', 
-  '서울특별시 중구 세종대로 136'
-]; 
-
+var addresses = new Array();
+$('.pd_street_address').each(function(item){
+	addresses.push($(this).val())
+}); 
 var markers = []; 
 var lines = []; 
 var distances = []; // Array to store distances between markers
@@ -644,7 +632,7 @@ async function addMarkers() {
             var distance = distanceBetween(markers[markers.length - 2].getPosition(), coords);
 
         // Add distance information to InfoWindow
-              var iwContent = '<div style="padding:5px;"> 거리 : ' + distance.toFixed(0) + 'm</div>';
+              var iwContent = '<div style="padding:5px; width: max-content;">다음주소까지 거리 : ' + distance.toFixed(0) + 'm</div>';
         var iwPosition = coords;
 
         var infowindow = new kakao.maps.InfoWindow({
@@ -659,7 +647,7 @@ async function addMarkers() {
         totalDistance += distance;
 
         // Add total distance to InfoWindow
-        var totalIwContent = '<div style="padding:5px;">총 거리 : ' + (totalDistance / 1000).toFixed(1) + 'km</div>';
+        var totalIwContent = '<div style="padding:5px; ">총 거리 : ' + (totalDistance / 1000).toFixed(1) + 'km</div>';
 
         var totalInfowindow = new kakao.maps.InfoWindow({
           position: markers[0].getPosition(), 
@@ -684,6 +672,6 @@ async function addMarkers() {
 
 addMarkers();
 
-  </script>-->
+  </script> -->
 </body>
 </html>

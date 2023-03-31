@@ -142,6 +142,34 @@ public class CourseServiceImp implements CourseService{
 		}
 		
 	}
+
+	@Override
+	public int updateCourse(CourseVO cos, String id, int co_num, String[] pd_num) {
+		if(id == null)
+			return 0;
+		if(cos == null || cos.getCo_title().trim().length() == 0 ||
+				cos.getCo_cc_category_num() == 0 || cos.getCo_cs_schedule_num() == 0 || 
+				cos.getCo_content().trim().length() ==0)
+			return 0;
+		if(co_num != cos.getCo_num())
+			return 0;
+		int res = courseDao.updateCourse(cos,id,co_num);
+		if(res ==0)
+			return 0;
+		int index=0;
+		courseDao.deleteCourseItem(co_num);
+		for(String tmp : pd_num) {
+			if(tmp == null)
+				return 0;
+			int pr_num = Integer.parseInt(tmp);
+			if(pr_num == 0)
+				return 0;
+			index++;
+			courseDao.insertCourseItem(co_num,pr_num,index);
+			
+		}
+		return res;
+	}
 	
 	
 }

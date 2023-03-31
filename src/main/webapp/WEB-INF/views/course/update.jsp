@@ -13,7 +13,7 @@
   <script src="<c:url value='/resources/js/jquery.min.js'></c:url>"></script>
   <script src="<c:url value='/resources/js/jquery-ui.min.js'></c:url>"></script>
   <script src="<c:url value='/resources/js/bootstrap.bundle.min.js'></c:url>"></script>
-  <!-- <script type="text/javascript" src="<c:url value='//dapi.kakao.com/v2/maps/sdk.js?appkey=??'></c:url>"></script> -->
+  <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=&libraries=services"></script> -->
   <title>courseUpdate</title>
   <style>
   	*{
@@ -245,7 +245,7 @@
 <body>
   <div class="contents">
   
-  	<form action="<c:url value='/course/insert'></c:url>" method="post">
+  	<form action="<c:url value='/course/update/${course.co_num }'></c:url>" method="post">
 	    <div class="form-group">
 	      <label class="cos-title-name">코스제목</label>
 	      <input type="text" class="form-control mt-4 mb-3" name="co_title" value="${course.co_title }">
@@ -269,10 +269,9 @@
 	        <span>
 	          <label for="schedule">코스 일정</label>
 	          <select id="schedule" title="코스 일정 선택" name="co_cs_schedule_num">
-	            <option value="0">일정 선택</option>
-	            <option value="1">당일여행</option>
-	            <option value="2">1박2일</option>
-	            <option value="3">2박3일 이상</option>
+	            <option value="1" <c:if test="${course.co_cs_schedule_num == 1 }">selected</c:if>>당일여행</option>
+	            <option value="2" <c:if test="${course.co_cs_schedule_num == 2 }">selected</c:if>>1박2일</option>
+	            <option value="3" <c:if test="${course.co_cs_schedule_num == 3 }">selected</c:if>>2박3일 이상</option>
 	          </select>
 	        </span>
 	      </div>
@@ -281,12 +280,12 @@
 	      <div class="total_check">
 	        <strong>
 	          총
-	          <span class="totalCourseList">0</span>
+	          <span class="totalCourseList">${items.size()}</span>
 	          건
 	        </strong>
 	        <div class="total_distance" >
-	        	<input type="hidden" name="co_total_distance" value="56.7">
-	          	<span class="distance_name">코스 총거리 : <em class="products_distance">56.7</em> km</span>
+	        	<input type="hidden" name="co_total_distance" value="${course.co_total_distance}">
+	          	<span class="distance_name">코스 총거리 : <em class="products_distance">${course.co_total_distance}</em> km</span>
 	        </div>
 	      </div>
 	      <ul class="cos-list" id="sortable">
@@ -296,7 +295,51 @@
 	            <p>등록된 상품이 없습니다.</p>
 	            
 	          </div>
+	          
 	        </li>
+	        <c:forEach items="${items }" var="item">
+		      	<li class="cos-item ui-state-default">
+		      		<c:forEach items="${prlist }" var="pr">
+					    	<c:if test="${item.ci_pd_num == pr.pd_num }">
+			 					<input type="hidden" name="pd_num[]" value="${pr.pd_num}">
+		 					</c:if>
+				    </c:forEach>
+		            <em class="numbering">${item.ci_index }</em>
+		          	<div class="cos-photo">
+				        <a href="#">
+			        		<c:forEach items="${files}" var="fi">
+								<c:if test="${fi.fi_table_key == item.ci_pd_num && course.co_num == item.ci_co_num}">
+									<img src="<c:url value='/download${fi.fi_name }'></c:url>" alt="" class="course_item_img">
+								</c:if>
+							</c:forEach>
+				        </a>
+				    </div>
+				    <div class="cos_text">
+				    	<c:forEach items="${prlist }" var="pr">
+					    	<c:if test="${item.ci_pd_num == pr.pd_num }">
+						      	<p style="display:none" id="pd_num">${pr.pd_num}</p>
+						      	<input type="hidden" class="pd_street_address" value="${ pr.pd_street_address}">
+						        <div class="title-area clearfix">
+						          <a href="#" id="pd_title">${pr.pd_title}</a>
+						          <p id="pd_subtitle">${pr.pd_subtitle}</p>
+						        </div>
+						        <p class="sub_content" id="pd_content">${pr.pd_content}</p>
+						        <p class="tag" id="hg_pd_num">
+						        	<span>
+								        <c:forEach items="${tags}" var="tags">
+								        	<c:if test="${tags.hg_pd_num == pr.pd_num }">
+									        	${tags.hg_name}  
+								        	</c:if>
+								        </c:forEach>
+						       		</span>
+						        </p>
+					    	</c:if>
+					    </c:forEach>
+			        </div>
+			        <button type="button" class="btn btn-outline-danger btn_remove_list">X</button>
+			    </li>
+	       
+      		</c:forEach>
 	      </ul>
 	      <div class="input-group">
 	        <input type="text" class="form-control product_search" placeholder="상품검색" name="search">
@@ -325,19 +368,20 @@
 	      <div class="mapIntoduce">
 	        <div class="introduce_text form-group">
 	          <label class="cos-title-name mb-3">코스설명</label>
-	          <textarea name="co_content" id="text_box" maxlength="200" class="co_content" title="코스소개" placeholder="코스에 대한 설명을 작성하세요."></textarea>
+	          <textarea name="co_content" id="text_box" maxlength="200" class="co_content" title="코스소개" placeholder="코스에 대한 설명을 작성하세요.">${course.co_content }</textarea>
 	          <p class="txtNum">현재 글자수 <span class="textNum">0</span>자 / 최대 글자수 200자</p>
 	        </div>
 	      </div>
 	      <div id="map" style="width:1190px;height:400px;"></div>
 	    </div>
-	    <button class="btn btn-outline-success btn-insertCourse col-12 mt-3">게시글 작성</button>
+	    <button class="btn btn-outline-success btn-insertCourse col-12 mt-3">게시글 수정</button>
 	</form>
   </div>
   <script>
   
   //상품검색 리스트 가리기
   $('.search_table').hide();
+  $('.cos_item_origin').hide();
   //저장전 유효성 검사
   $('form').submit(function(){
 		
@@ -387,6 +431,7 @@
         	$('.cos_item_origin').show();
         }
 	 
+		//reorderMap();
 	});
   	
   //리스트에 추가 위한 상품검색
@@ -466,7 +511,7 @@
 		$('.cos-list').append(str);
 		$('.product_search').val('');
 		$('.search_table').hide();
-		
+		//reorderMap();
   }
   
   //상품리스트 저장위한 str
@@ -476,8 +521,8 @@
 	  	str='';
 	 	str +=
 	 		'<li class="cos-item ui-state-default">'+
-	 			'<input type="hidden" name="pd_num[]" value="'+pr.pd_num+'">';
-	 			
+	 			'<input type="hidden" name="pd_num[]" value="'+pr.pd_num+'">'+
+	 			'<input type="hidden" class="pd_street_address" value="'+pr.pd_street_address+'">';
 	 			if('.numbering'.length){
 					let lastNum = $('.numbering').last().text();
 					lastNum = Number(lastNum)+1;
@@ -558,7 +603,7 @@
 	        $(this).val($(this).val().substring(0, 200));
 	    };
 	});
-  
+  $('.textNum').text($('.co_content').val().length);
   
   
   
@@ -573,6 +618,7 @@
     	 
     	stop: function(event, ui) {
 	        reorder();
+	      	//reorderMap();
     		let productList=new Array(10);
     		$('.cos-item').each(function(i, box) {
 	            let listNum = $(this).find('.numbering');
@@ -588,11 +634,22 @@
         $(box).text(i + 1);
       });
     }
+	function reorderMap() {
+		map = new kakao.maps.Map(mapContainer, mapOption);
+    	addresses = new Array();
+    	$('.pd_street_address').each(function(item){
+    		addresses.push($(this).val())
+    	});   
+    	lines = [];
+    	markers = [];
+    	distances = [];
+        totalDistance = 0;
     
-  </script>
-<!--  
-  <script>
-	var mapContainer = document.getElementById('map'); 
+    	addMarkers();
+    	
+   	}
+  
+	/* var mapContainer = document.getElementById('map'); 
 var mapOption = { 
   center: new kakao.maps.LatLng(33.450701, 126.570667), 
   level: 8 
@@ -600,15 +657,7 @@ var mapOption = {
 
 var map = new kakao.maps.Map(mapContainer, mapOption); 
 var geocoder = new kakao.maps.services.Geocoder(); 
-
-var addresses = [
-  '서울특별시 성북구 정릉로 77', 
-  '서울특별시 노원구 공릉로 264', 
-  '서울특별시 동대문구 회기로 106', 
-  '서울특별시 마포구 양화로 45', 
-  '서울특별시 강남구 도산대로 327', 
-  '서울특별시 중구 세종대로 136'
-]; 
+var addresses = new Array();
 
 var markers = []; 
 var lines = []; 
@@ -651,7 +700,10 @@ async function addMarkers() {
 
           marker.setMap(map); 
           markers.push(marker); 
-
+		  if(markers.length == 1){
+	          $('.products_distance').text(0);
+	          $('[name=co_total_distance]').val($('.products_distance').text(0));
+          }
           if (markers.length > 1) { 
             var linePath = [markers[markers.length - 2].getPosition(), coords]; 
             var line = new kakao.maps.Polyline({ 
@@ -667,7 +719,7 @@ async function addMarkers() {
             var distance = distanceBetween(markers[markers.length - 2].getPosition(), coords);
 
         // Add distance information to InfoWindow
-              var iwContent = '<div style="padding:5px;"> 거리 : ' + distance.toFixed(0) + 'm</div>';
+              var iwContent = '<div style="padding:5px; width: max-content;">다음주소까지 거리 : ' + distance.toFixed(0) + 'm</div>';
         var iwPosition = coords;
 
         var infowindow = new kakao.maps.InfoWindow({
@@ -680,7 +732,8 @@ async function addMarkers() {
         // Save distance between markers
         distances.push(distance);
         totalDistance += distance;
-
+		var course_distance = $('.products_distance').text((totalDistance / 1000).toFixed(1));
+		$('[name=co_total_distance]').val($('.products_distance').text());
         // Add total distance to InfoWindow
         var totalIwContent = '<div style="padding:5px;">총 거리 : ' + (totalDistance / 1000).toFixed(1) + 'km</div>';
 
@@ -705,8 +758,8 @@ async function addMarkers() {
 }
 }
 
-addMarkers();
+addMarkers(); */
 
-  </script>-->
+  </script>
 </body>
 </html>
