@@ -43,6 +43,16 @@ public interface ReviewDAO {
 
 	int getLikeCount(@Param("li_table_key")Integer re_num, @Param("li_updown")int i, @Param("li_table")String string);
 
+	boolean updateReview(@Param("re")ReviewVO review);
+
+	boolean updateFile(@Param("fi")FileVO fileVo);
+
+	LikeVO selectReview(@Param("li")LikeVO like);
+
+	LikeVO getReviewLike(@Param("re")ReviewVO review, @Param("review")String string);
+
+	boolean deleteReviewLike(@Param("li")LikeVO like);
+
 
 
 

@@ -13,5 +13,6 @@ public class Option_restrauntVO {
 	int reo_pd_num;
 	String reo_name;
 	String reo_content;
+	FileVO file;
 	
 }

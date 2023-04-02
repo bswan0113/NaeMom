@@ -19,8 +19,6 @@ import kr.dbp.naemom.service.ProductService;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
-import kr.dbp.naemom.vo.Option_festivalVO;
-import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
@@ -100,10 +98,22 @@ public class ProductController {
 		ArrayList<Object> option =getOption(product.getPd_pc_num(), product.getPd_num());
 		if(rating >=0)mv.addObject("rating", (double)Math.round(rating*10)/10);
 		else mv.addObject("rating", "등록된 별점이 없습니다.");
-		ArrayList<FileVO> optFile = productService.getOptFile(product);
+		Option_accomodationVO optAcc= new Option_accomodationVO();
+		Option_restrauntVO optReo = new Option_restrauntVO();
 		
+		for(int i=0; i<option.size(); i++) {
+		    if(option.get(i) instanceof Option_accomodationVO) {
+		        optAcc = (Option_accomodationVO)option.get(i);
+		        optAcc.setFile(productService.getAoFileByOption(optAcc));
+		        option.set(i, optAcc);
+		    }
+		    if(option.get(i) instanceof Option_restrauntVO) {
+		        optReo = (Option_restrauntVO)option.get(i);
+		        optReo.setFile(productService.getReoFileByOption(optReo));
+		        option.set(i, optReo);
+		    }
+		}
 		
-		mv.addObject("optFile",optFile);
 		mv.addObject("option",option);
 		mv.addObject("wish",wish);
 		mv.addObject("randomProduct", randomProduct);

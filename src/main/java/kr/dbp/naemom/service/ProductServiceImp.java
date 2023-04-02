@@ -242,15 +242,25 @@ public class ProductServiceImp implements ProductService{
 
 
 
+
+
+
 	@Override
-	public ArrayList<FileVO> getOptFile(ProductVO product) {
-		if(product==null || product.getPd_num()<0) return null;
-		switch (product.getPd_pc_num()) {
-		case 3:  return productDao.getAoOpt("accomodation_option", product.getPd_num());
-		case 2:  return productDao.getReoOpt("restraunt_option", product.getPd_num());
-		default:
-			return null;
-		}
+	public FileVO getAoFileByOption(Option_accomodationVO optAcc) {
+		if(optAcc==null) return new FileVO();
+		FileVO file = productDao.getAoFileByOption(optAcc.getAo_num(),"accomodation_option");
+		if(file==null) return new FileVO();
+		return file;
+	}
+
+
+
+	@Override
+	public FileVO getReoFileByOption(Option_restrauntVO optReo) {
+		if(optReo==null) return new FileVO();
+		FileVO file = productDao.getReoFileByOption(optReo.getReo_num(),"restraunt_option");
+		if(file==null) return new FileVO();
+		return file;
 	}
 
 

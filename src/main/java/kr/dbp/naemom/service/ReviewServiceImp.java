@@ -140,21 +140,76 @@ public class ReviewServiceImp implements ReviewService {
 	public boolean insertReviewLike(LikeVO like) {
 		if(like==null||
 				like.getLi_me_id()==null||
-				!like.getLi_table().contains("like")||
+				!like.getLi_table().contains("review")||
 				like.getLi_table_key()<=0)return false;
+		if(reviewDao.selectReview(like)!=null) return false;
 		return reviewDao.insertReviewLike(like);
 	}
 
 	@Override
 	public int getLikeCount(Integer re_num) {
 		if(re_num<0) return 0;
-		return reviewDao.getLikeCount(re_num,1,"like");
+		return reviewDao.getLikeCount(re_num,1,"review");
 	}
 
 	@Override
 	public int getDislikeCount(Integer re_num) {
 		if(re_num<0) return 0;
-		return reviewDao.getLikeCount(re_num,-1,"like");
+		return reviewDao.getLikeCount(re_num,-1,"review");
+	}
+
+	@Override
+	public boolean updateReview(ReviewVO review) {
+		if(review.getRe_me_id()==null) return false;
+		if(review==null ||
+			review.getRe_content().trim().length()<=0) return false;
+		return reviewDao.updateReview(review);
+	}
+
+	@Override
+	public boolean updateReviewFile(MultipartFile[] uploadFile, int table_key) {
+		if(table_key<=0) return false;
+		for(MultipartFile file : uploadFile) {
+			if(file == null || file.getOriginalFilename().length() == 0)
+				return true;
+			try {
+				
+				String path = UploadFileUtils.uploadFile(uploadPath, 
+						file.getOriginalFilename(), file.getBytes());
+				FileVO fileVo = new FileVO(table_key, "review",file.getOriginalFilename(),path);
+				if(reviewDao.getFileByReview(table_key, "review")==null) {
+					reviewDao.insertFile(fileVo);
+					return true;
+				}
+				return reviewDao.updateFile(fileVo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public int getLike(ReviewVO review) {
+		if(review==null) return -2;
+		if(review.getRe_content().trim().length()<=0 ||
+				review.getRe_me_id()==null||
+				review.getRe_num()<=0 ||
+				review.getRe_pd_num()<=0||
+				review.getRe_rating()<=0||
+				review.getRe_date()==null) return -2;
+		
+	if(reviewDao.getReviewLike(review, "review") != null) return reviewDao.getReviewLike(review, "review").getLi_updown();
+		return 0;
+	}
+
+	@Override
+	public boolean deleteReviewLike(LikeVO like) {
+		if(like.getLi_table()==null||
+				like.getLi_table_key()<=0) return false;
+		
+		boolean res = reviewDao.deleteReviewLike(like);
+		return	res;
 	}
 
 	

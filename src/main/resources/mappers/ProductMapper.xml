@@ -73,12 +73,13 @@
 		select ifnull(avg(re_rating),-1) from review where re_pd_num= #{pd_num}
   	</select>
   	
-  	<select id="getAoOpt" resultType="kr.dbp.naemom.vo.FileVO">
+  	<select id="getAoFileByOption" resultType="kr.dbp.naemom.vo.FileVO">
   		SELECT * FROM file left join accomodation_option  on  fi_table_key =ao_pd_num where fi_table=#{fi_table} and fi_table_key=#{fi_table_key}
   	</select>
-  	<select id="getReoOpt" resultType="kr.dbp.naemom.vo.FileVO">
+  	<select id="getReoFileByOption" resultType="kr.dbp.naemom.vo.FileVO">
   		SELECT * FROM file left join restraunt_option  on  fi_table_key =reo_pd_num where fi_table=#{fi_table} and fi_table_key=#{fi_table_key}
   	</select>
+  	
   	
 </mapper>
 

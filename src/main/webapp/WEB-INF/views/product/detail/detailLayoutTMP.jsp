@@ -77,31 +77,32 @@
 			<c:if test="${product.pd_pc_num==2}">
 				<c:if test="${option!=null  && option.size()!=0}">
 					<strong>메뉴표</strong>
-					<c:forEach  begin="0" end="${option.size()-1}" var="opt">
+					<hr>
+					<c:forEach  items="${option}" var="opt">
 						<div class="reo-box">
-							<span>${option.get(opt).reo_name}</span><br>
-							<c:if test="${optFile!=null && optFile.size()!=0 }">
-								<img alt="" src='"<c:url value="/download'+${optFile.get(opt).fi_name}'"></c:url>" height="300" width="300"'><br>
-							</c:if>
-							<p>${option.get(opt).reo_content}</p><br>
-							<span>${option.get(opt).reo_price}원</span>
+							<span>${opt.reo_name}</span><br>
+							<img alt="" src='"<c:url value="/download'+${opt.file.fi_name}'"></c:url>" height="300" width="300"'><br>
+							<p>${opt.reo_content}</p><br>
+							<span>${opt.reo_price}원</span>
+							<hr>
 						</div>
-						<hr>
 					</c:forEach>
 				</c:if>			
 			</c:if>
 			<c:if test="${product.pd_pc_num==3}">
 				<c:if test="${option!=null && option.size()!=0}">
-					<c:forEach begin="0" end="${option.size()-1}" var="opt">
 						<div class="ao-box">
-							<span>${option.get(opt).ao_name}</span>
-							<c:if test="${optFile!=null && optFile.size()!=0 }">
-								<img alt="" src='"<c:url value="/download'+${optFile.get(opt).fi_name}'"></c:url>" height="300" width="300"'><br>
-							</c:if>
-							<span>인원 : ${option.get(opt).ao_capacity}</span>
-							<p>${option.get(opt).ao_room_detail}</p>
+							<select class="form-control" id="ao-option" data-size="${option.size()}">
+								<option value="0">-선택-</option>
+								<c:forEach items="${option}" var="opt">
+									<option value="${opt.ao_num}"
+									data-ao_capacity="${opt.ao_capacity}" data-ao_price="${opt.ao_price}" data-ao_name="${opt.ao_name}"
+									data-ao_room_number="${opt.ao_room_number}" data-ao_room_detail="${opt.ao_room_detail}" data-file="${opt.file.fi_name}">${opt.ao_name} (${opt.ao_capacity})인</option>
+								</c:forEach>
+							</select>
+							<div id="ao-detail">
+							</div>
 						</div>
-					</c:forEach>
 				</c:if>			
 			</c:if>			
 			<c:if test="${product.pd_pc_num==4}">
@@ -128,6 +129,7 @@
 				</c:if>			
 			</c:if>
 		</div>
+	<a href="#" class="btn btn-dark">예약하러가기</a>
 	</div>
 	<hr>
 </div>
@@ -229,6 +231,10 @@
 
 
 <style>
+.display-none{
+display:none;
+}
+
 .review-like-box{
 position:absolute;
 bottom:0;
@@ -500,57 +506,72 @@ let rCri = {
 			page : 1,
 			perPageNum : 5
 };
-let likes={
-		like:0,
-		dislike:0
-}	
+
 selectReviewList(cri);
 
 let starRate=0;
 
 
-$('.like-btns').click(function(){
-	if('${user.me_id}' == ''){
-		
-		alert('로그인 하세요.');
-	}
+$(document).on("click",".like-btns",function(){
 	let li_re_num = $(this).parents('.review-comment-container').data('num');
 	let li_updown= $(this).data('like');
-	let li_table="like";
+	let li_table="review";
 	let like ={
 			li_table_key:li_re_num,
 			li_updown:li_updown,
 			li_table:li_table
 			
 	}
+	if($(this).hasClass('like-state')){
+		let res = confirm('취소하시겠어요?')
+		if(res){
+			ajaxPost(false,like,'<c:url value="/like/delete"></c:url>',function(data){
+				selectReviewList(cri);
+				alert('취소되었어요!')
+			});
+			return;
+		}else{
+			return;
+		}
+	}
+	if('${user.me_id}' == ''){
+		
+		alert('로그인 하세요.');
+	}
 	ajaxPost(false,like,'<c:url value="/review/like"></c:url>',function(data){
 		if(data.res){
-			viewLike(li_re_num);
 			alert('좋아요 성공!');
 			selectReviewList(cri);
+			
 		}else{
-			alert('좋아요 실패!');
+			return;
 		}
 		
 	});
-	if(li_updown=='1'){
-		$(this).parent().find('#dislike-btn').removeClass('like-active');
+	
+	if($(this).data('like')==1){
+		$(this).parent().find('#dislike-btn').hide();
 		$(this).parent().find('.dislike-num').hide();
-	}
-	if(li_updown=='-1'){
-		$(this).parent().find('#like-btn').removeClass('like-active');
+	}else{
+		$(this).parent().find('#like-btn').hide();
 		$(this).parent().find('.like-num').hide();
 	}
-});
+	
+})
+
 
 
 function viewLike(re_num){
-
+	let likes={
+			like:0,
+			dislike:0
+	}	
 	ajaxPost(false,re_num,'<c:url value="/view/like"></c:url>',function(data){
 		likes.like=data.like;
 		likes.dislike=data.dislike;
 	
 	});
+	return likes;
 }
 
 $('.stars .fa').click(function() {
@@ -614,10 +635,10 @@ $('.stars .fa').click(function() {
 		}
 		ajaxPost(true,review,'<c:url value="/review/insert"></c:url>',function(data){
 			
-			var formData = new FormData();
-			var inputFile = $('#insert-re-file');
-			var files = inputFile[0].files;
-			for( var i=0; i<files.length;i++){
+			let formData = new FormData();
+			let inputFile = $('#insert-re-file');
+			let files = inputFile[0].files;
+			for( let i=0; i<files.length;i++){
 				formData.append("uploadFile",files[i]);
 			}
 			$.ajax({
@@ -675,7 +696,7 @@ function addReviewList(list){
 
 function createReview(review){
 	str = '';
-	viewLike(review.re_num);
+	let likes = viewLike(review.re_num);
 	str += 
 	'<div class="review-comment-container"  data-num="'+review.re_num+'">'+
 	'<div class="review-box">';
@@ -686,12 +707,10 @@ function createReview(review){
     	'<button type="button" class="report-btn" data-toggle="modal" data-target="#myModal" data-num="'+review.re_num+'">'+
     	'<i class="fas fa-bell" style="color:red;"></i></button>'+
 	    '<div class="review-info">'+
-	        '<span style="float:left; margin-right:15px;">작성자 : '+review.re_me_id+'</span>&nbsp'+
-	        '<span style="float:left; margin-right:15px;">등록날짜 : '+review.re_date_str+'</span>&nbsp'+
-	        '<c:if test="'+review.re_update_date!=null+'">'+
-	            '<span>수정날짜 : '+review.re_update_date_str+'</span>&nbsp'+
-	        '</c:if>'+
-	        '<i class="fas fa-star" style="float:left;"></i>'+
+	        '<span style="float:left; margin-right:15px;">작성자 : '+review.re_me_id+ '</span>&nbsp'+
+	        '<span style="float:left; margin-right:15px;">등록날짜 : '+review.re_date_str+'</span>&nbsp';       
+	        if(review.re_update_date!=null) str+='<span style="float:left; margin-right:15px;">수정날짜 : '+review.re_update_date_str+'</span>&nbsp';	        	
+	      	  str+='<i class="fas fa-star" style="float:left;"></i>'+
 	        '<span style="float:left;">: '+review.re_rating+'</span>&nbsp'+
 	    '</div>'+
 	    '<div class="review-content">'+
@@ -700,14 +719,31 @@ function createReview(review){
 	        '</p>'+
 	        '<hr>'+
 	    '</div>'+
-    	'<div class="review-like-box">'+
-      	'<button data-like="1" data-num="'+review.re_num+'"class="like-btns like-active" id="like-btn"><i class="fas fa-thumbs-up"></i></button><strong class="like-num" style="color:blue;">'+likes.like+'</strong>'+
-      	'<button data-like="-1" data-num="'+review.re_num+'"class="like-btns like-active" id="dislike-btn"><i class="fas fa-thumbs-down"></i></button><strong class="dislike-num"  style="color:red;">'+likes.dislike+'</strong>'+
+    	'<div class="review-like-box">';
+    	
+    	let likeState = selectLike(review);
+    	if(likeState==1) {
+    		str+='<button date-state="1" data-like="1" data-num="'+review.re_num+'"class="like-btns like-active like-state" id="like-btn">'+
+    	'<i class="fas fa-thumbs-up"></i></button><strong class="like-num" style="color:blue;">'+likes.like+'</strong>';
+    	}
+    	if(likeState==-1){
+    		str+='<button date-state="-1" data-like="-1" data-num="'+review.re_num+'"class="like-btns like-active like-state" id="dislike-btn"><i class="fas fa-thumbs-down"></i>'+
+    		'</button><strong class="dislike-num" style="color:red;">'+likes.dislike+'</strong>';
+    	}	
+    	if(likeState==0) {
+    		str+='<button data-like="1" data-num="'+review.re_num+'"class="like-btns like-active" id="like-btn">'+
+        	'<i class="fas fa-thumbs-up"></i></button><strong class="like-num" style="color:blue;">'+likes.like+'</strong>'+
+        	'<button data-like="-1" data-num="'+review.re_num+'"class="like-btns like-active" id="dislike-btn"><i class="fas fa-thumbs-down"></i>'+
+    		'</button><strong class="dislike-num"  style="color:red;">'+likes.dislike+'</strong>';
+        	}
+        	
+      	str+=
     	'</div>'+
     	'<div class="review-btn-box">'+
-    		'<button class="btn btn-outline-dark review-comment-btn" data-num="'+review.re_num+'">댓글펼치기</button>';    		
+    		'<button class="btn btn-outline-dark review-comment-btn" data-num="'+review.re_num+'" >댓글펼치기</button>';    		
             if(review.re_me_id=="${user.me_id}"){
             	str+=
+            		'<button class="btn btn-outline-dark review-update-btn" data-num="'+review.re_num+'">리뷰수정하기</button>'+
             		'<button class="btn btn-outline-dark review-delete-btn" data-num="'+review.re_num+'">삭제하기</button>'}	   
             str+='</div>'+
 	'</div><div class="review-comment-box" style="display:none;">'+
@@ -731,6 +767,77 @@ function createReview(review){
 		if(review.reportCount>=10) str='';
 	return str;
 };
+
+
+function selectLike(review){
+	let likeInt=0;
+	ajaxPost(false,review,'<c:url value="/view/userLike"></c:url>',function(data){
+		likeInt=data.like;
+	});
+	return likeInt;
+}
+
+
+$('.review-update-btn').click(function(){
+	let re_num = $(this).data('num');
+	str='';
+	str+=
+		'<div class="insert-comment-box update-box">'+
+			'<textarea class="insert-window" id="update-window"></textarea>'+
+			'<input type="file" class="form-control" id="update-re-file" style="background-color:#d4ebd4; border:none;">'+
+			'<button class="comment-btn comment-ins" id="update-re-btn" data-num='+re_num+'>톡톡 수정</button>'+
+			'<button class="comment-btn comment-cancle update-cancle-btn" type="reset">수정 취소</button>'+
+		'</div>';
+	
+	$(this).parents('.review-comment-container').children().addClass('display-none');
+	$(this).parents('.review-comment-container').prepend(str);
+	
+});
+
+$(document).on("click","#update-re-btn",function(){
+	let num =$(this).data('num');
+	let content =$(this).parent('.update-box').children('#update-window').val();
+	let review={
+			re_num : num,
+			re_content : content
+			
+	}
+	
+	ajaxPost(false,review,'<c:url value="/review/update"></c:url>',function(data){
+		let formData = new FormData();
+		let inputFile = $('#update-re-file');
+		let files = inputFile[0].files;
+		for( let i=0; i<files.length;i++){
+			formData.append("uploadFile",files[i]);
+		}
+		$.ajax({
+			url :'<c:url value="/review/update/file/'+data.table_key+'"></c:url>',
+			processData : false,
+			contentType : false,
+			data : formData,
+			type: "POST",
+			success : function(data){
+				if(data.res){
+					alert('수정에 성공했습니다.')
+				}
+				else{
+					alert('수정에 실패했습니다.')
+				}
+				
+			}
+		});
+	});
+	selectReviewList(cri);
+	
+	
+})
+
+
+
+$(document).on("click",".update-cancle-btn",function(){
+	$(this).parents('.review-comment-container').children('.update-box').hide();
+	$(this).parents('.review-comment-container').children().removeClass('display-none');
+})
 
 
 $('#report-modal').click(function(){
@@ -839,12 +946,25 @@ $(document).on("click","#rc-delete-btn",function(){
 	
 })
 
-$('.review-comment-btn').click(function(){
+$(document).on("click",'.review-comment-btn',function(){
+	if($(this).hasClass('review-comment-close')){
+		$(this).removeClass('review-comment-close');
+		$(this).text('댓글펼치기');
+		$(this).parents('.review-comment-container').children('.review-comment-box').hide();
+		return;
+	}
+	$('.review-comment-btn').text('댓글펼치기');
 	let rc_re_num= $(this).data('num');
 	selectReviewCommentList(rCri,rc_re_num);
 	$('.review-comment-box').hide();
-	$(this).parent().parent().next().show();
+	$(this).parents('.review-comment-container').children('.review-comment-box').show();
+	$(this).text('댓글접기');
+	$(this).addClass('review-comment-close');
 })
+	
+
+
+
 
 
 function insertCommentSuccess(data, rComment){
@@ -991,6 +1111,37 @@ function ajaxGet(method, url, successFunc){
 	});
 }
 
+
+
+
+
+$("#ao-option").on("change", function(){
+	$('#ao-detail').html('');
+	
+	if($(this).val()==0) return;
+	
+	let ao_capacity = $('#ao-option option:selected').data("ao_capacity");
+	let ao_room_detail = $('#ao-option option:selected').data("ao_room_detail");
+	let ao_name = $('#ao-option option:selected').data("ao_name");
+	let ao_room_number = $('#ao-option option:selected').data("ao_room_number");
+	let file = $('#ao-option option:selected').data("file");
+	let ao_price = $('#ao-option option:selected').data("ao_price");
+	
+	console.log(file);
+	
+
+	option='';
+	option+= '<span>'+ao_name+'</span><br>'+
+	'<img height="400" width="400" src="/download/'+file+'"><br>'+
+				'<span> 호실 : '+ao_room_number+'</span><br>'+
+				'<span> 최대인원 : '+ao_capacity+'명</span><br>'+
+				'<span> 가격 : '+ao_price+'원</span><br>'+
+				'<p>'+ao_room_detail+'</p><br>';
+	
+				
+	$('#ao-detail').html(option);	
+
+  });
 
 </script>
 

@@ -143,6 +143,16 @@ public class ProductAjaxController {
 		map.put("res", res);
 		return map;
 	}
+	@RequestMapping(value="/view/userLike", method=RequestMethod.POST)
+	public Map<String, Object> userLikeView(@RequestBody ReviewVO review, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = new MemberVO();
+		user.setMe_id("abcd");
+		review.setRe_me_id(user.getMe_id());
+		int like =reviewService.getLike(review);
+		map.put("like", like);
+		return map;
+	}
 	@RequestMapping(value="/view/like", method=RequestMethod.POST)
 	public Map<String, Object> viewLike(@RequestBody Integer re_num, HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -154,4 +164,37 @@ public class ProductAjaxController {
 		map.put("like", like);
 		return map;
 	}	
+	
+	@RequestMapping(value="/review/update", method=RequestMethod.POST)
+	public Map<String, Object> updateReview(@RequestBody ReviewVO review, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = new MemberVO();
+		user.setMe_id("abcd");
+		review.setRe_me_id(user.getMe_id());
+		boolean res= reviewService.updateReview(review);
+		map.put("res", res);
+		map.put("table_key", review.getRe_num());
+		return map;
+	}
+	
+	@RequestMapping(value="/review/update/file/{table_key}", method=RequestMethod.POST)
+	public  Map<String, Object> updateFile(@RequestBody MultipartFile[] uploadFile, 
+			@PathVariable("table_key")int table_key){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res= reviewService.updateReviewFile(uploadFile, table_key);		
+		System.out.println(res);
+		map.put("res", res);
+		return map;
+	}
+	
+	@RequestMapping(value="/like/delete", method=RequestMethod.POST)
+	public Map<String, Object> likeDelete(@RequestBody LikeVO like, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = new MemberVO();
+		user.setMe_id("abcd");
+		like.setLi_me_id(user.getMe_id());
+		boolean res= reviewService.deleteReviewLike(like);
+		map.put("res", res);
+		return map;
+	}
 }

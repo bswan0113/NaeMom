@@ -42,6 +42,14 @@ public interface ReviewService {
 
 	int getDislikeCount(Integer re_num);
 
+	boolean updateReview(ReviewVO review);
+
+	boolean updateReviewFile(MultipartFile[] uploadFile, int table_key);
+
+	int getLike(ReviewVO review);
+
+	boolean deleteReviewLike(LikeVO like);
+
 
 
 
