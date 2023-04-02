@@ -15,5 +15,6 @@ public class Option_accomodationVO {
 	String ao_name;
 	String ao_room_number;
 	String ao_room_detail;
+	FileVO file;
 	
 }

@@ -66,6 +66,7 @@ public class ProductServiceImp implements ProductService{
 			e.printStackTrace();
 		}
 		FileVO fileVo = new FileVO("게시글 썸네일", thm.getOriginalFilename(), fileName, pd_num);
+		fileVo.setFi_table("product");
 		productDao.insertFile(fileVo);
 		return true;
 	}
@@ -82,6 +83,7 @@ public class ProductServiceImp implements ProductService{
 						file.getOriginalFilename(), file.getBytes());
 				FileVO fileVo = new FileVO("게시글 대표이미지",file.getOriginalFilename(),path, 
 						i);
+				fileVo.setFi_table("product");
 				productDao.insertFile(fileVo);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -236,6 +238,29 @@ public class ProductServiceImp implements ProductService{
 		if(pd_num<0) return -1;
 		Double rating = productDao.getReviewAvg(pd_num);
 		return rating;
+	}
+
+
+
+
+
+
+	@Override
+	public FileVO getAoFileByOption(Option_accomodationVO optAcc) {
+		if(optAcc==null) return new FileVO();
+		FileVO file = productDao.getAoFileByOption(optAcc.getAo_num(),"accomodation_option");
+		if(file==null) return new FileVO();
+		return file;
+	}
+
+
+
+	@Override
+	public FileVO getReoFileByOption(Option_restrauntVO optReo) {
+		if(optReo==null) return new FileVO();
+		FileVO file = productDao.getReoFileByOption(optReo.getReo_num(),"restraunt_option");
+		if(file==null) return new FileVO();
+		return file;
 	}
 
 

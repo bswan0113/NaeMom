@@ -55,6 +55,10 @@ public interface ProductDAO {
 
 	public boolean insertReview(@Param("re")ReviewVO review);
 
+	public FileVO getAoFileByOption(@Param("fi_table_key")int num,@Param("fi_table")String string);
+
+	public FileVO getReoFileByOption(@Param("fi_table_key")int num,@Param("fi_table")String string);
+
 
 		
 

@@ -48,6 +48,10 @@ public interface ProductService {
 
 	double getRatingAvg(int pd_num);
 
+	FileVO getAoFileByOption(Option_accomodationVO optAcc);
+
+	FileVO getReoFileByOption(Option_restrauntVO optReo);
+
 
 
 

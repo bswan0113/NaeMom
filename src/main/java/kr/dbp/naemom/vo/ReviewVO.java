@@ -20,6 +20,7 @@ public class ReviewVO {
 	Date re_date;
 	Date re_update_date;
 	FileVO re_file;
+	int reportCount;
 
 	public String getRe_date_str() {
 		SimpleDateFormat format = 
