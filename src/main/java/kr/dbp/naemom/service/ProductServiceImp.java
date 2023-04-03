@@ -45,17 +45,14 @@ public class ProductServiceImp implements ProductService{
 		if(files.length>0) {
 			uploadThumbnail(files[1], product.getPd_num());
 		}
-		insertProductOption(product.getPd_num());
 		if(uploadFilesDetail(files, product.getPd_num())) return false;
+		System.out.println("인써트 프로덕트 리턴 트루");
 		return true;
 		
 	}
 
 	
 
-	private void insertProductOption(int pd_pc_num) {
-		
-	}
 	//썸네일 등록메서드
 	private boolean uploadThumbnail(MultipartFile thm, int pd_num) {
 		if(thm==null) return false;

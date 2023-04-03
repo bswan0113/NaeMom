@@ -79,14 +79,28 @@
 			<input type="file" name="files" class="form-control">
 		</div>
 		<br><hr>
-		<button class="btn btn-success">옵션등록</button>
-		<button class="btn btn-secondary" type="submit">임시저장</button>
+		<input type="hidden" name="redirect" value="savetmp">
+		<button class="btn btn-success" id="save-link-addOption">저장 후 옵션등록</button>
+		<button class="btn btn-secondary" type="submit">저장</button>
 		<button class="btn btn-danger">등록취소</button>
 		<br><hr>
 	</form>
+	<button id="test">test</button>
 </div>
 
 <script>
+$('#test').click(function(){
+	console.log($("input[name=redirect]").val());
+	$("input[name=redirect]").val("redirect");
+	console.log($("input[name=redirect]").val());
+})
+
+
+$('#save-link-addOption').click(function(){
+	$("input[name=redirect]").val("redirect");
+	console.log($("input[name=redirect]").val())
+})
+
 $('#content').summernote({
 	tabsize: 2,
 	height: 400
