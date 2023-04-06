@@ -75,6 +75,15 @@ public class ProductController {
 		mv.setViewName("/admin/insert/insertProduct");
 		return mv;
 	}
+	
+	@RequestMapping(value="/admin/list/productList")
+	public ModelAndView adminProductList(ModelAndView mv) {
+		ArrayList<ProductVO> list = productService.getProductList();
+		mv.addObject("list", list);
+		mv.setViewName("/admin/list/productList");
+		return mv;
+	}
+	
 	//임시 목록페이지
 	@RequestMapping(value="/product/listtmp")
 	public ModelAndView listtmp(ModelAndView mv) {
