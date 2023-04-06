@@ -414,7 +414,7 @@
     </div>
   </div>
   <script>
-  	if(${course.co_report} > 10){
+  	if(${course.co_report} >= 10){
   		confirm('블라인드된 게시글입니다.');
   		location.replace('<c:url value="/course/list"></c:url>');
   	}
@@ -477,8 +477,14 @@
 			$('#report-content').focus();
 			return false;
 		}
+		let me_id = 'qwe';//'${user.me_id}';
+		if(me_id == null){
+			alert('로그인을 하신 후 신고하실 수 있습니다');
+			return false;
+		}
 		let co_num = '${course.co_num}';
 		let reCourse = {
+			rep_me_id : me_id,
 			rep_table_key : co_num,
 			rep_content : reContent,
 			rep_category : reCategory,
@@ -493,6 +499,9 @@
   		if(data.reCourse.co_report > 10){
   			confirm('블라인드된 게시글입니다.');
   			location.replace('<c:url value="/course/list"></c:url>');
+  		}
+  		if(data.selectReport != 0){
+  			alert('이미 신고를 접수하였습니다.');
   		}
   	}
   	

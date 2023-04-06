@@ -58,4 +58,6 @@ public interface CourseDAO {
 
 	void updateCourseByReport(@Param("co_num")int co_num);
 
+	int selectReportById(@Param("rep")ReportVO rep);
+
 }

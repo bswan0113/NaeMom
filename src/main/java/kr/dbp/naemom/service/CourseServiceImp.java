@@ -215,8 +215,9 @@ public class CourseServiceImp implements CourseService{
 	@Override
 	public int insertReportCourse(ReportVO rep) {
 		if(rep == null || rep.getRep_category().trim().length() ==0 || rep.getRep_content().trim().length() ==0 ||
-				rep.getRep_table_key() == 0 || !rep.getRep_table().equals("course"))
+				rep.getRep_table_key() == 0 || !rep.getRep_table().equals("course") || rep.getRep_me_id().trim().length() == 0)
 			return 0;
+		
 		return courseDao.insertReportCourse(rep);
 	}
 
@@ -226,6 +227,13 @@ public class CourseServiceImp implements CourseService{
 			return;
 		courseDao.updateCourseByReport(co_num);
 		return; 
+	}
+
+	@Override
+	public int selectReport(ReportVO rep) {
+		int res = courseDao.selectReportById(rep);
+		
+		return res;
 	}
 	
 	

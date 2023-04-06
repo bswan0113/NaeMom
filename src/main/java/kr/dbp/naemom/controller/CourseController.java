@@ -218,11 +218,16 @@ public class CourseController {
 			method=RequestMethod.POST)
 	public Map<String, Object> courseReport(@RequestBody ReportVO rep,HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
-		int res = courseService.insertReportCourse(rep);
+		int selectReport = courseService.selectReport(rep);
+		int res = 0;
+		if(selectReport == 0) {
+			res = courseService.insertReportCourse(rep);
+		}
 		CourseVO reCourse = new CourseVO();
 		if(res != 0)
 			courseService.updateCourseByReport(rep.getRep_table_key());
 		reCourse = courseService.getcourseByNum(rep.getRep_table_key());
+		map.put("selectReport", selectReport);
 		map.put("res", res);
 		map.put("reCourse", reCourse);
 		return map;

@@ -51,4 +51,6 @@ public interface CourseService {
 
 	void updateCourseByReport(int co_num);
 
+	int selectReport(ReportVO rep);
+
 }

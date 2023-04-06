@@ -16,6 +16,7 @@ public class ReportVO {
 	Date rep_date;
 	String rep_category;
 	String rep_table;
+	String rep_me_id;
 	
 	public String getRep_date_str() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

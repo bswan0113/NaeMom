@@ -114,8 +114,8 @@
 		  		co_num = #{li_co_num}
   	</update>
   	<insert id="insertReportCourse">
-  		insert into report(rep_table_key, rep_content, rep_category, rep_table)
-  		values(#{rep.rep_table_key},#{rep.rep_content},#{rep.rep_category},#{rep.rep_table})
+  		insert into report(rep_table_key, rep_content, rep_category, rep_table, rep_me_id)
+  		values(#{rep.rep_table_key},#{rep.rep_content},#{rep.rep_category},#{rep.rep_table},#{rep.rep_me_id})
   	</insert>
   	<update id="updateCourseByReport">
   		update course
@@ -124,4 +124,8 @@
   			where
   				co_num = #{co_num}
   	</update>
+  	<select id="selectReportById" resultType="int">
+  		select count(*) from report where rep_me_id = #{rep.rep_me_id} and rep_table = #{rep.rep_table} 
+  			and rep_table_key = #{rep.rep_table_key}
+  	</select>
 </mapper>
