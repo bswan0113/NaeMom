@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.service.ProductService;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
@@ -65,7 +66,18 @@ public class ProductController {
 	}	
 	
 
-
+	@RequestMapping(value="/admin/insert/updateProduct/{pd_num}", method=RequestMethod.GET)
+	public ModelAndView insertProductget(ModelAndView mv, @PathVariable("pd_num")int pd_num) {
+		ArrayList<ProductCategoryVO> category  = productService.getCategory();
+		ProductVO product = productService.getProduct(pd_num);
+		ArrayList<FileVO> fileList = productService.getFiles(pd_num);
+		product.setFile(productService.getThumbnail(pd_num));
+		mv.addObject("fileList", fileList);
+		mv.addObject("product",product);
+		mv.addObject("category", category);
+		mv.setViewName("/admin/insert/updateProduct");
+		return mv;
+	}
 	
 
 	@RequestMapping(value="/admin/insert/insertProduct", method=RequestMethod.GET)
@@ -78,7 +90,11 @@ public class ProductController {
 	
 	@RequestMapping(value="/admin/list/productList")
 	public ModelAndView adminProductList(ModelAndView mv) {
-		ArrayList<ProductVO> list = productService.getProductList();
+		Criteria cri = new Criteria();
+		ArrayList<ProductVO> list = productService.getProductList(cri);
+		for(int i=0; i<list.size(); i++) {
+			list.get(i).setFile(productService.getThumbnail(list.get(i).getPd_num()));
+		}
 		mv.addObject("list", list);
 		mv.setViewName("/admin/list/productList");
 		return mv;
@@ -93,8 +109,8 @@ public class ProductController {
 	//임시 검색목록 페이지
 	@RequestMapping(value="/product/searchTmp")
 	public ModelAndView searchTmp(ModelAndView mv) {
-		
-		ArrayList<ProductVO> list = productService.getProductList();
+		Criteria cri = new Criteria();
+		ArrayList<ProductVO> list = productService.getProductList(cri);
 		mv.addObject("product",list);
 		
 		mv.setViewName("/product/searchTmp");

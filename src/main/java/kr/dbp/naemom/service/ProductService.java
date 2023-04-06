@@ -24,7 +24,7 @@ public interface ProductService {
 
 	ArrayList<ProductCategoryVO> getCategory();
 
-	ArrayList<ProductVO> getProductList();
+	ArrayList<ProductVO> getProductList(Criteria cri);
 
 	ArrayList<FileVO> getFiles(int pd_num);
 
@@ -51,6 +51,10 @@ public interface ProductService {
 	FileVO getAoFileByOption(Option_accomodationVO optAcc);
 
 	FileVO getReoFileByOption(Option_restrauntVO optReo);
+
+	FileVO getThumbnail(int pd_num);
+
+	boolean deleteProduct(int number);
 
 
 

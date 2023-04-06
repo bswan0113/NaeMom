@@ -7,6 +7,7 @@
 	
 	</style>
 <div class="container-fluid" data-pd_num="${pd_num}">
+<h2 style="text-align:center;">옵션 관리</h2>
 	<div class="saved-list">
 		<c:forEach items="${optionList}" var="option">
 			<div class="saved-item" data-num="${option.lo_num}">
@@ -36,7 +37,7 @@
 	</div>
 	<button class="btn btn-dark" id="addOption" type="button">옵션추가</button>
 	<button class="btn btn-success " id="saveOption"type="button">저장하기</button>
-	<button class="btn btn-danger" type="reset">취소</button>
+	<a class="btn btn-success" href="<c:url value='/admin/list/productList'></c:url>">수정완료</a>
 </div>
 
 <script>

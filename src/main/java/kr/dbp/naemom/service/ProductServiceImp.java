@@ -26,7 +26,7 @@ public class ProductServiceImp implements ProductService{
 	@Autowired
 	ProductDAO productDao;
 	
-	String uploadPath = "C:\\uploadfiles";
+	String uploadPath = "D:\\uploadfiles";
 	
 	
 	@Override
@@ -110,8 +110,8 @@ public class ProductServiceImp implements ProductService{
 
 
 	@Override
-	public ArrayList<ProductVO> getProductList() {
-		return productDao.getProductList();
+	public ArrayList<ProductVO> getProductList(Criteria cri) {
+		return productDao.getProductList(cri);
 	}
 
 
@@ -256,6 +256,22 @@ public class ProductServiceImp implements ProductService{
 		FileVO file = productDao.getReoFileByOption(optReo.getReo_num(),"restraunt_option");
 		if(file==null) return new FileVO();
 		return file;
+	}
+
+
+
+	@Override
+	public FileVO getThumbnail(int pd_num) {
+		if(pd_num<0) return null;
+		return productDao.getThumbNail(pd_num, "썸네일", "product");
+	}
+
+
+
+	@Override
+	public boolean deleteProduct(int number) {
+		if(number<=0) return false;
+		return productDao.deleteProduct(number)!=0;
 	}
 
 

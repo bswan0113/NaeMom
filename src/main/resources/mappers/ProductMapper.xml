@@ -27,6 +27,7 @@
   	
   	<select id="getProductList" resultType="kr.dbp.naemom.vo.ProductVO">
   		select * from product
+  		order by pd_num desc limit #{cri.pageStart}, #{cri.perPageNum}
   	</select>
   	<select id="getFile" resultType="kr.dbp.naemom.vo.FileVO">
   		select * from file where fi_table_key=#{pd_num} and fi_table=#{product}
@@ -79,6 +80,9 @@
   	<select id="getReoFileByOption" resultType="kr.dbp.naemom.vo.FileVO">
   		SELECT * FROM file left join restraunt_option  on  fi_table_key =reo_pd_num where fi_table=#{fi_table} and fi_table_key=#{fi_table_key}
   	</select>
+  	<delete id="deleteProduct">
+  		delete from product where pd_num =#{pd_num}
+  	</delete>
   	
   	
 </mapper>

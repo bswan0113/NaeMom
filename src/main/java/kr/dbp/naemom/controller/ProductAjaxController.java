@@ -67,6 +67,14 @@ public class ProductAjaxController {
 		map.put("re_pd_num", review.getRe_pd_num());
 		return  map;
 	}
+	
+	@RequestMapping(value="/admin/delete/product", method=RequestMethod.POST)
+	public  Map<String, Object> deleteProduct(@RequestBody int number){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res= productService.deleteProduct(number);
+		map.put("res", res);
+		return  map;
+	}
 	@RequestMapping(value="/review/insert/file/{re_num}", method=RequestMethod.POST)
 	public  Map<String, Object> commentInsertFile(@RequestBody MultipartFile[] uploadFile, 
 			@PathVariable("re_num")int re_num){
@@ -130,6 +138,15 @@ public class ProductAjaxController {
 		MemberVO user = new MemberVO();
 		user.setMe_id("abcd");
 		boolean res= reviewService.reportComment(report,user);
+		map.put("res", res);
+		return map;
+	}	
+	
+	@RequestMapping(value="/check/report", method=RequestMethod.POST)
+	public Map<String, Object> checkReport(@RequestBody ReportVO report, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = new MemberVO();
+		boolean res = reviewService.checkReportById(report);
 		map.put("res", res);
 		return map;
 	}	

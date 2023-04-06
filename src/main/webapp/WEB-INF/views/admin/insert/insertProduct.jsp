@@ -2,22 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
        <title>관리자페이지 - 상세등록</title> 
-       <style>
-
-       h1{
-		text-align: center;
-		margin: 50px;
-		font-weight: bold;
-       }
-       
-       </style>
-	   <link href="<c:url value='/resources/css/summernote-bs4.min.css'></c:url>" rel="stylesheet">
-	   <script src="<c:url value='/resources/js/summernote-bs4.min.js'></c:url>"></script>
- 	<link href="<c:url value='/resources/css/jquery.timepicker.css'></c:url>" rel="stylesheet">
-	   <script src="<c:url value='/resources/js/jquery.timepicker.min.js'></c:url>"></script>
- 	
-	   	<h1 class="text-primary">관리자 게시글 등록페이지</h1> <br><hr>
-<div class="container-fluid mt-6 mb-6">
+   	<h1 class="text-primary">게시글 등록</h1> <br><hr>
 	<form action="<c:url value='/admin/insert/insertProduct'></c:url>" method="post" enctype="multipart/form-data">
 		<div class="form-group">
 			<label for="pc_num">카테고리선택:</label>
@@ -85,7 +70,6 @@
 		<button class="btn btn-danger">등록취소</button>
 		<br><hr>
 	</form>
-</div>
 
 <script>
 

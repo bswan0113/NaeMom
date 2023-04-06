@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.LikeVO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
@@ -27,7 +28,7 @@ public interface ProductDAO {
 
 	public void insertFile(@Param("fi")FileVO fileVo);
 
-	public ArrayList<ProductVO> getProductList();
+	public ArrayList<ProductVO> getProductList(@Param("cri")Criteria cri);
 
 	public ArrayList<FileVO> getFile(@Param("pd_num")int pd_num, @Param("product")String string);
 
@@ -58,6 +59,8 @@ public interface ProductDAO {
 	public FileVO getAoFileByOption(@Param("fi_table_key")int num,@Param("fi_table")String string);
 
 	public FileVO getReoFileByOption(@Param("fi_table_key")int num,@Param("fi_table")String string);
+
+	public int deleteProduct(@Param("pd_num")int number);
 
 
 		

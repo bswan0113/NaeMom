@@ -14,5 +14,6 @@ public class ReportVO {
 	String rep_content;
 	Date rep_date;
 	String rep_category;
+	String rep_me_id;
 
 }
