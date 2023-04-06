@@ -60,4 +60,6 @@ public interface CourseDAO {
 
 	int selectReportById(@Param("rep")ReportVO rep);
 
+	void updateViewCount(@Param("co_num")int co_num);
+
 }

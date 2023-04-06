@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -109,20 +111,40 @@ public class CourseController {
 		return mv;
 	}
 	@RequestMapping(value = "/course/detail/{co_num}", method=RequestMethod.GET)
-	public ModelAndView courseDetail(ModelAndView mv,@PathVariable("co_num")int co_num,HttpSession session) {
+	public ModelAndView courseDetail(ModelAndView mv,@PathVariable("co_num")int co_num,HttpSession session
+			,HttpServletRequest request,HttpServletResponse response) {
 		//지워야될코드
 		String id = "qwe";
 		MemberVO user = new MemberVO();
 		//MemberVO user = (MemberVO)session.getAttribute("user");
 		//지워야될코드
 		user.setMe_id(id);
-		CourseVO course = courseService.getcourseByNum(co_num);
 		ArrayList<CourseItemVO> items = courseService.getCourseItem(co_num);
 		ArrayList<FileVO> files = new ArrayList<FileVO>();
 		ArrayList<ProductVO> prlist = new ArrayList<ProductVO>();
 		ArrayList<Hash_tagVO> tags = new ArrayList<Hash_tagVO>();
 		LikeVO likeVo = courseService.getLikes(user, co_num);
 		selectList(items,files,prlist,tags);
+		
+		Cookie[] cookies = request.getCookies();
+		Cookie abuseCheck = null;
+		ArrayList<String> check = new ArrayList<String>();
+		if (cookies != null && cookies.length > 0){
+			for(int i=0; i<cookies.length; i++) {
+				check.add(cookies[i].getName());
+			}
+            for (int i = 0; i < cookies.length; i++){
+            	if(check.indexOf("viewcount"+co_num+user.getMe_id())<0) {
+            		abuseCheck= new Cookie("viewcount"+co_num+user.getMe_id(), session.getId());
+            		abuseCheck.setMaxAge(60 * 60 * 24);
+            		response.addCookie(abuseCheck);
+            	}
+            	
+            }
+            if(abuseCheck!=null)
+            	courseService.updateViewCount(co_num);
+        }
+		CourseVO course = courseService.getcourseByNum(co_num);
 		mv.addObject("like", likeVo);
 		mv.addObject("tags", tags);
 		mv.addObject("prlist", prlist);

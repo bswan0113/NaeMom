@@ -53,4 +53,6 @@ public interface CourseService {
 
 	int selectReport(ReportVO rep);
 
+	void updateViewCount(int co_num);
+
 }

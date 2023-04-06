@@ -128,4 +128,10 @@
   		select count(*) from report where rep_me_id = #{rep.rep_me_id} and rep_table = #{rep.rep_table} 
   			and rep_table_key = #{rep.rep_table_key}
   	</select>
+  	<update id="updateViewCount">
+  		update course
+  			set
+  				co_views = co_views + 1
+  			where co_num = #{co_num}
+  	</update>
 </mapper>

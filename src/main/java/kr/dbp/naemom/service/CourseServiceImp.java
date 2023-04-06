@@ -235,6 +235,12 @@ public class CourseServiceImp implements CourseService{
 		
 		return res;
 	}
+
+	@Override
+	public void updateViewCount(int co_num) {
+		courseDao.updateViewCount(co_num);
+		
+	}
 	
 	
 }

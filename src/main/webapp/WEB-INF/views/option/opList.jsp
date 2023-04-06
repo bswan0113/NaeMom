@@ -251,40 +251,7 @@
   <div class="contents clearfix">
     <div class="form-group">
     
-      <label class="cos-title-name">코스제목</label>
-      <button class="btn btn_report" style="float:right" data-toggle="modal" data-target="#myModal"><i class="fas fa-bell"></i></button>
-      <!-- 신고 모달 -->
-	  <div class="modal common-modal" id="myModal">
-		  <div class="modal-dialog">
-			  <div class="modal-content">
-			      <!-- Modal Header -->
-			      <div class="modal-header">
-			        <h4 class="modal-title">신고하기</h4>
-			        <button type="button" class="close" data-dismiss="modal">&times;</button>
-			      </div>
-			
-			      <!-- Modal body -->
-			      <div class="modal-body">
-			      	신고사유
-			        <select class="form-control" id="report-category">
-				        <option value="광고 및 홍보성 게시물">광고 및 홍보성 게시물</option>
-				        <option value="욕설 및 혐오 표현">욕설 및 혐오 표현</option>
-				        <option value="음란한 표현이 담긴 게시물">음란한 표현이 담긴 게시물</option>
-				        <option value="도배">도배 </option>
-				        <option value="기타">기타</option>
-			        </select>
-			      상세내용 : <textarea class="form-control" id="report-content"></textarea>
-			   	  </div>
-			
-			      <!-- Modal footer -->
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-danger" data-dismiss="modal" id="report-modal" data-num='' data-table=''>신고하기</button>
-			        <button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
-			      </div>
-
-			    </div>
-			</div>
-	  </div>
+      <label class="cos-title-name">옵션 선택하기</label>
       <div class="form-control mt-4 mb-3">${course.co_title }</div>
     </div>
     <div class="form-group">
@@ -355,6 +322,7 @@
       <ul class="cos-list" id="sortable">
       	<c:forEach items="${items }" var="item">
 	      	<li class="cos-item ui-state-default">
+		 		<input type="hidden" name="pd_num[]" value="'+pr.pd_num+'">
 	            <em class="numbering">${item.ci_index }</em>
 	          	<div class="cos-photo">
 			        <a href="#">
@@ -401,29 +369,19 @@
       <div id="map" style="width:1190px;height:400px;margin-bottom:30px;"></div>
     </div>
     <div style="justify-content:center; width: 1190px;">
-		<a class="btn btn-outline-success" href="<c:url value='/course/list'></c:url>" style="width: 200px;float: left;margin-left: 180px;">목록</a>
-		<form action="<c:url value='/option/opList'></c:url>" method="post">
-			<c:forEach items="${prlist }" var="pr">
-				<input type="hidden" name="pd_num" value="${pr.pd_num}">
-				<input type="hidden" name="pd_pc_num" value="${pr.pd_pc_num}">
-			</c:forEach>
-			<button class="btn btn-outline-success" style="width: 200px;float: left;margin-left: 10px;">옵션 선택하기</button>
-		</form>
+		<a class="btn btn-outline-success" href="<c:url value='/course/list'></c:url>" style="width: 300px;float: left;margin-left: 90px;">목록</a>
 		<%-- <c:if test="${user != null && user.me_id == course.co_me_id }"> --%>
-			<a class="btn btn-outline-danger btn-updateCourse" style="width: 200px;float: left;margin-left: 10px;"
+			<a class="btn btn-outline-danger btn-updateCourse" style="width: 300px;float: left;margin-left: 10px;"
 				href="<c:url value='/course/update/${course.co_num}'></c:url>">게시글 수정</a>
 		   
 		    <form action="<c:url value='/course/delete/${course.co_num}'></c:url>" method="post">
-		    	<button class="btn btn-outline-danger btn-deleteCourse" style="width:200px; margin-left:10px">게시글 삭제</button>
+		    	<button class="btn btn-outline-danger btn-deleteCourse" style="width:300px; margin-left:10px">게시글 삭제</button>
 		    </form>
 		<%-- </c:if> --%>
     </div>
   </div>
   <script>
-  	if(${course.co_report} >= 10){
-  		confirm('블라인드된 게시글입니다.');
-  		location.replace('<c:url value="/course/list"></c:url>');
-  	}
+  	
   	$('.btn-up, .btn-down').click(function(){
 		//if('${user.me_id}' == ''){
 		//	alert('로그인한 회원만 추천/비추천을 할 수 있습니다.');
@@ -470,48 +428,7 @@
 	        }
 	    });
 	});
-  	$('#report-modal').click(function(){
-  		let reCategory = $('#report-category').val();
-		if(reCategory.trim().length  == 0){
-			alert('신고 카테고리를 선택하세요.');
-			$('#report-category').focus();
-			return false;
-		}
-		let reContent = $('#report-content').val();
-		if(reContent.trim().length  == 0){
-			alert('신고 내용을 입력하세요.');
-			$('#report-content').focus();
-			return false;
-		}
-		let me_id = 'qwe';//'${user.me_id}';
-		if(me_id == null){
-			alert('로그인을 하신 후 신고하실 수 있습니다');
-			return false;
-		}
-		let co_num = '${course.co_num}';
-		let reCourse = {
-			rep_me_id : me_id,
-			rep_table_key : co_num,
-			rep_content : reContent,
-			rep_category : reCategory,
-			rep_table : 'course'
-		}
-		ajaxPost(reCourse, '<c:url value="/course/reportCourse"></c:url>', reportSuccess);
-  	});
   	
-  	
-  	
-  	function reportSuccess(data){
-  		if(data.res != 0)
-  			alert('신고가 정상접수 되었습니다.');
-  		if(data.reCourse.co_report > 10){
-  			confirm('블라인드된 게시글입니다.');
-  			location.replace('<c:url value="/course/list"></c:url>');
-  		}
-  		if(data.selectReport != 0){
-  			alert('이미 신고를 접수하였습니다.');
-  		}
-  	}
   	
   	
   //ajax
