@@ -26,7 +26,7 @@ public class ProductServiceImp implements ProductService{
 	@Autowired
 	ProductDAO productDao;
 	
-	String uploadPath = "D:\\uploadfiles";
+	String uploadPath = "C:\\uploadfiles";
 	
 	
 	@Override
@@ -45,8 +45,7 @@ public class ProductServiceImp implements ProductService{
 		if(files.length>0) {
 			uploadThumbnail(files[1], product.getPd_num());
 		}
-		if(uploadFilesDetail(files, product.getPd_num())) return false;
-		System.out.println("인써트 프로덕트 리턴 트루");
+		uploadFilesDetail(files, product.getPd_num());
 		return true;
 		
 	}
@@ -68,9 +67,9 @@ public class ProductServiceImp implements ProductService{
 		return true;
 	}
 	//대표이미지 등록 메서드
-	private boolean uploadFilesDetail(MultipartFile[] files, int i) {
+	private void uploadFilesDetail(MultipartFile[] files, int i) {
 		if(files == null || files.length == 0)
-			return false;;
+			return;
 		for(MultipartFile file : files) {
 			if(files[1]==file)continue;
 			if(file == null || file.getOriginalFilename().length() == 0)
@@ -87,7 +86,6 @@ public class ProductServiceImp implements ProductService{
 			}
 		}
 
-		return true;
 	}
 
 	@Override

@@ -7,10 +7,10 @@
 		<a href="<c:url value='/admin/insert/insertProduct'></c:url>">insertProduct(완료/옵션등록 추후 추가)</a>
 		<br><a href="<c:url value='/product/detail/detailLayoutTMP'></c:url>">detailLayoutTMP(작업중)</a>
 		<br><a href="<c:url value='/product/searchTmp'></c:url>">임시 검색페이지</a>
-		<br><a href="<c:url value='/product/detail/accomodation'></c:url>">accomodation</a>
-		<br><a href="<c:url value='/product/detail/festival'></c:url>">festival</a>
-		<br><a href="<c:url value='/product/detail/landMark'></c:url>">landMark</a>
-		<br><a href="<c:url value='/product/detail/restraunt'></c:url>">restraunt</a>
+		<br><a href="<c:url value='/admin/insert/optionAccomodation'></c:url>">accomodation</a>
+		<br><a href="<c:url value='/admin/insert/optionFestival'></c:url>">festival</a>
+		<br><a href="<c:url value='/admin/insert/optionLandMark'></c:url>">landMark</a>
+		<br><a href="<c:url value='/admin/insert/optionRestraunt'></c:url>">restraunt</a>
 </div>
 <style>
 a{

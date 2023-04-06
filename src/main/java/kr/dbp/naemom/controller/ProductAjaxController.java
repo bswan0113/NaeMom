@@ -182,7 +182,6 @@ public class ProductAjaxController {
 			@PathVariable("table_key")int table_key){
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean res= reviewService.updateReviewFile(uploadFile, table_key);		
-		System.out.println(res);
 		map.put("res", res);
 		return map;
 	}

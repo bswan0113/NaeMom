@@ -633,7 +633,7 @@ $('.stars .fa').click(function() {
 			alert('내용을 입력해주세요!');
 			return;
 		}
-		ajaxPost(true,review,'<c:url value="/review/insert"></c:url>',function(data){
+		ajaxPost(false,review,'<c:url value="/review/insert"></c:url>',function(data){
 			
 			let formData = new FormData();
 			let inputFile = $('#insert-re-file');
@@ -817,13 +817,6 @@ $(document).on("click","#update-re-btn",function(){
 			data : formData,
 			type: "POST",
 			success : function(data){
-				if(data.res){
-					alert('수정에 성공했습니다.')
-				}
-				else{
-					alert('수정에 실패했습니다.')
-				}
-				
 			}
 		});
 	});

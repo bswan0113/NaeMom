@@ -34,20 +34,39 @@ public class ProductController {
 	//게시글 등록페이지 메서드
 	@RequestMapping(value="/admin/insert/insertProduct", method=RequestMethod.POST)
 	public ModelAndView insertProductPost(ModelAndView mv, ProductVO product, MultipartFile[] files, String redirect) {
-		System.out.println(redirect);
 		if(productService.insertProduct(product, files)) {
-			System.out.println(redirect);
 			if(redirect.equals("redirect")) {
-				mv.setViewName("/admin/insert/insertProductOption/{"+product.getPd_pc_num()+"}");
+				
+				String category="";
+				switch(product.getPd_pc_num()) {
+				case 1: category="optionLandMark";
+					break;
+				case 2: category="optionRestraunt";
+					break;
+				case 3: category="optionAccomodation";
+					break;
+				case 4: category="optionFestival";
+					break;
+				default:
+					mv.setViewName("/admin/insert/insertProduct");
+					return mv;
+				}
+				mv.setViewName("redirect:/admin/insert/"+category+"/"+product.getPd_num());
 				return mv;
 			}
-		mv.setViewName("/admin/insert/insertProduct");
+			else {
+				mv.setViewName("/admin/insert/insertProduct");
+			}
 		}
 		else {
 			mv.setViewName("redirect:/product/listtmp");
 		}
 		return mv;
 	}	
+	
+
+
+	
 
 	@RequestMapping(value="/admin/insert/insertProduct", method=RequestMethod.GET)
 	public ModelAndView insertProductget(ModelAndView mv, ProductVO product) {

@@ -85,15 +85,9 @@
 		<button class="btn btn-danger">등록취소</button>
 		<br><hr>
 	</form>
-	<button id="test">test</button>
 </div>
 
 <script>
-$('#test').click(function(){
-	console.log($("input[name=redirect]").val());
-	$("input[name=redirect]").val("redirect");
-	console.log($("input[name=redirect]").val());
-})
 
 
 $('#save-link-addOption').click(function(){
