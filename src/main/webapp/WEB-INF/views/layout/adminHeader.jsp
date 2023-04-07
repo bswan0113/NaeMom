@@ -64,7 +64,7 @@ font-weight:bold;
 <div class="side-bar">
     <div class="col-3 bd-sidebar">
       <ul class="nav">
-        <li><a href="#">home</a></li>
+        <li><a href="<c:url value='/admin/home/home'></c:url>">home</a></li>
         <li><a href="<c:url value='/admin/insert/insertProduct'></c:url>">게시글 등록</a><br></li>
         <li><a href="<c:url value='/admin/list/productList'></c:url>">게시글 조회</a></li>
       </ul>

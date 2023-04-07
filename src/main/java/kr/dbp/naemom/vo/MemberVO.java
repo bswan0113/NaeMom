@@ -17,7 +17,7 @@ public class MemberVO {
 	Date me_birthday;
 	String me_phone;
 	String me_gender;
-	String me_authority;
+	int me_authority;
 	String me_nickname;
 	String me_street_address;
 	String me_registered_address;

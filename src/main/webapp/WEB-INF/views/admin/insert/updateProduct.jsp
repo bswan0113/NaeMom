@@ -3,20 +3,25 @@
     pageEncoding="UTF-8"%>
        <title>관리자페이지 - 게시글 수정</title> 
    	<h1 class="text-primary">게시글 수정</h1> <br><hr>
-	<form action="<c:url value='/admin/insert/insertProduct'></c:url>" method="post" enctype="multipart/form-data">
+	<form action="<c:url value='/admin/update/updateProduct'></c:url>" method="post" enctype="multipart/form-data">
+		<label for="title">썸네일:</label>
 		<div class="form-group">
-			<label for="title">썸네일:</label>
-			<img alt="" src="<c:url value='/download${product.file.fi_name}'></c:url>" width="200px;" height="200px;" data-file="${product.file.fi_num}">
+			<img data-is-main="true" alt="" src="<c:url value='/download${product.file.fi_name}'></c:url>" width="200px;" height="200px;" data-file="${product.file.fi_num}" id="thumbnail">
+			<input id="thumb" type="file" name="thumb" class="form-control" style="display:none;">
+			<button class="btn btn-dark" id="thumb-update-btn" onclick="updateImage()" type="button">수정</button>
+			<button class="btn btn-dark" id="thumb-save-btn"type="button">저장</button>
 		</div>
+		<span>대표이미지 :</span>
 		<c:forEach items="${fileList}" var="files">
 			<div class="form-group">
-				<label for="subtitle">대표이미지:</label>
-				<img alt="" src="<c:url value='/download${files.fi_name}'></c:url>" width="200px;" height="200px;" data-file="${files.fi_num}">
+				<img data-is-main="false" alt="" src="<c:url value='/download${files.fi_name}'></c:url>" width="200px;" height="200px;" data-file="${files.fi_num}">
+				<button class="btn btn-dark btn-file-delete" type="button" data-fi_num="${files.fi_num}">삭제</button>
 			</div>
 		</c:forEach>
-		<c:forEach begin="0" end="${4-fileList.size()}">
-			<input type="file" name="files" class="form-control">
+		<c:forEach begin="0" end="${4-fileList.size()}">		
+			<input type="file" name="files" class="form-control" data-is-main="false">
 		</c:forEach>
+		<button class="btn btn-dark mb-6 mt-6" id="files-save-btn" type="button">대표이미지 저장</button>
 		<div class="form-group">
 			<label for="pc_num">카테고리선택:</label>
 			<select class="form-control" id="category" name="pd_pc_num">
@@ -26,6 +31,7 @@
 				</c:forEach>
 			</select>
 		</div>
+		<input type="hidden" name="pd_num" value="${product.pd_num}">
 		<div class="form-group">
 			<label for="title">제목:</label>
 			<input type="text" class="form-control" id="title" name="pd_title" value="${product.pd_title}">
@@ -69,13 +75,97 @@
 		<br><hr>
 		<input type="hidden" name="redirect" value="savetmp">
 		<button class="btn btn-secondary" type="submit">저장</button>
-		<button class="btn btn-danger">취소</button>
+		<a href="<c:url value='/admin/list/productList'></c:url>"class="btn btn-danger">취소</a>
 		<br><hr>
 	</form>
 
 <script>
 
 
+
+$(document).on("click",".btn-file-delete",function(){
+	if(!confirm("해당이미지를 삭제하시겠습니까?")) return;
+	let fi_num =$(this).data('fi_num');
+	ajaxGet(true, "<c:url value='/admin/delete/file/"+fi_num+"'></c:url>", function(data){
+		if(data.res){
+			alert("삭제성공!")
+			location.reload();
+		}else{
+			alert("삭제실패!")
+			location.reload();
+		}
+	})
+})
+
+function updateImage() {
+    // 파일 선택 창 열기
+    let input = $('#thumb');
+    input.on('change', function() {
+        // 선택한 파일 경로 읽기
+        let file = input[0].files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function() {
+            // 이미지 태그의 src 속성 변경
+            var thumbnail = $('#thumbnail');
+            thumbnail.attr('src', reader.result);
+        };
+    });
+    input.click();
+}
+
+$(document).on("click","#thumb-save-btn",function(){
+    let formData = new FormData();
+    let inputFile = $('#thumb');
+    let files = inputFile[0].files;
+    formData.append("uploadFile", files[0]);
+    if(files.length==0){
+    	alert("기존 이미지와 동일합니다!")
+    	return;
+    }
+    $.ajax({
+        url :'<c:url value="/admin/update/ThumbNail/'+${product.file.fi_num}+'"></c:url>',
+        processData : false,
+        contentType : false,
+        data : formData,
+        type: "POST",
+        success : function(data){
+            if(data.res) {
+            	alert('썸네일변경성공!');
+            	location.reload();
+            }
+            else{
+            	alert('썸네일 변경 실패!');
+            	location.reload();
+            }
+        }
+    });
+});
+
+$(document).on("click","#files-save-btn",function(){
+		let formData = new FormData();
+			  $("input[name='files']").each(function() {
+			    formData.append("files", $(this)[0].files[0]);
+			});
+		  
+		    $.ajax({
+		        url :'<c:url value="/admin/update/productFile/'+${product.pd_num}+'"></c:url>',
+		        processData : false,
+		        contentType : false,
+		        data : formData,		          
+		        type: "POST",
+		        success : function(data){
+		            if(data.res) {
+		            	alert('변경성공!');
+		            	location.reload();
+		            }
+		            else{
+		            	alert('변경 실패!');
+		            	location.reload();
+		            }
+		        }
+		    });
+});
 
 $('#content').summernote({
 	tabsize: 2,
@@ -89,5 +179,33 @@ $("#open_time, #close_time").timepicker({
 	
 
 });
+
+//ajax메서드
+function ajaxPost(async, obj, url, successFunction, obj2){
+	$.ajax({
+		async:async,
+		type: 'POST',
+		data: JSON.stringify(obj),
+		url: url,
+		dataType:"json",
+		contentType:"application/json; charset=UTF-8",
+		success : function(data){
+			successFunction(data,obj2)
+			
+		} 
+	});
+}
+		
+	
+function ajaxGet(async, url, successFunc){
+	$.ajax({
+		async:async,
+		type: 'GET',
+		url: url,
+		dataType:"json",
+		contentType:"application/json; charset=UTF-8",
+		success : successFunc
+	});
+}
 </script>
 

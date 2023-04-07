@@ -2,6 +2,7 @@ package kr.dbp.naemom.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -213,4 +214,29 @@ public class ProductAjaxController {
 		map.put("res", res);
 		return map;
 	}
+
+	@RequestMapping(value="/admin/update/ThumbNail/{fi_num}", method=RequestMethod.POST)
+	public  Map<String, Object> updateThumbNail(@RequestBody MultipartFile uploadFile, 
+			@PathVariable("fi_num")int fi_num){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res= productService.updateThumbnail(uploadFile, fi_num);	
+		map.put("res", res);
+		return map;
+	}
+	@RequestMapping(value="/admin/delete/file/{fi_num}", method=RequestMethod.GET)
+	public  Map<String, Object> deleteFile(
+			@PathVariable("fi_num")int fi_num){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res= productService.deleteFile(fi_num);	
+		map.put("res", res);
+		return map;
+	}
+	 @RequestMapping(value="/admin/update/productFile/{pd_num}", method=RequestMethod.POST)
+	  public Map<String, Object> updateProductFile(@RequestBody MultipartFile[] files, @PathVariable("pd_num")int pd_num) {
+		 Map<String, Object> map = new HashMap<String, Object>();
+		 boolean res = productService.updateProductFiles(files,pd_num);
+		 map.put("res", res);
+		 
+	      return map;
+	 }
 }

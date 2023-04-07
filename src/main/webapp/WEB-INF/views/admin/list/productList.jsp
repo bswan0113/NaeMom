@@ -26,30 +26,30 @@ height:100px;
 
  <h1 style="margin-left:150px;">게시글 목록 조회</h1>
 
-
+<form action="<c:url value='/admin/list/productList'></c:url>">
   <div class="search-container">
     <div class="search-filter">
-      <select class="select-category  form-control">
-        <option value="0" selected>카테고리 선택</option>
-        <option value="1">여행지</option>
-        <option value="2">음식점</option>
-        <option value="3">숙박</option>
-        <option value="4">축제</option>
-        
-      </select>
-      <select class="search-select  form-control">
-        <option value="0" selected>검색필터선택</option>
-        <option value="1">내용</option>
-        <option value="2">제목</option>
-        <option value="3">주소</option>
-      </select>
+		<select class="select-category form-control" name="pc_category">
+		  <option value="0" <c:if test="${pm.cri.pc_category == '0'}">selected</c:if>>카테고리 선택</option>
+		  <option value="1" <c:if test="${pm.cri.pc_category == '1'}">selected</c:if>>여행지</option>
+		  <option value="2" <c:if test="${pm.cri.pc_category == '2'}">selected</c:if>>음식점</option>
+		  <option value="3" <c:if test="${pm.cri.pc_category == '3'}">selected</c:if>>숙박</option>
+		  <option value="4" <c:if test="${pm.cri.pc_category == '4'}">selected</c:if>>축제</option>
+		</select>
+		<select class="search-select form-control" name="searchFilter">
+		  <option value="0" <c:if test="${pm.cri.searchFilter == '0'}">selected</c:if>>검색필터선택</option>
+		  <option value="1" <c:if test="${pm.cri.searchFilter == '1'}">selected</c:if>>내용</option>
+		  <option value="2" <c:if test="${pm.cri.searchFilter == '2'}">selected</c:if>>제목</option>
+		  <option value="3" <c:if test="${pm.cri.searchFilter == '3'}">selected</c:if>>주소</option>
+		</select>
     </div>
       <div class="form-group mr-2">
         <label for="searchInput" class="sr-only">검색어 입력</label>
-        <input type="text" class="form-control" id="searchInput" placeholder="검색어 입력">
+        <input type="text" class="form-control" id="searchInput" placeholder="검색어 입력" value="${pm.cri.search}" name="search">
       </div>
       <button type="submit" class="btn btn-primary" id="search-btn">검색</button>
   </div>
+</form>
 
   
   <div class="search-result-container mt-6">
@@ -79,27 +79,24 @@ height:100px;
 
   </div>
     <a style="float:right;"href="<c:url value='/admin/insert/insertProduct'></c:url>" class="btn btn-dark">게시글 등록</a>
-  <ul class="comment-pagination pagination justify-content-center">
-		<li class="page-item">
-			<a class="page-link" href="#">이전</a>
-		</li>
-	    <li class="page-item">
-	    	<a class="page-link" href="#">1</a>
-	    </li>
-	    <li class="page-item">
-	    	<a class="page-link" href="#">다음</a>
-	    </li>
-	</ul>
+<ul class="pagination justify-content-center">
+    <c:if test="${pm.prev}">
+        <li class="page-item">
+            <a class="page-link" href="<c:url value='/admin/list/productList?page=${pm.startPage-1}&search=${pm.cri.search}&type=${pm.cri.type}'/>">이전</a>
+        </li>
+    </c:if>
+    <c:forEach begin="${pm.startPage }" end="${pm.endPage }" var="i">
+        <li class="page-item <c:if test="${pm.cri.page == i}"> active</c:if>">
+            <a class="page-link" href="<c:url value='/admin/list/productList?page=${i}&search=${pm.cri.search}&type=${pm.cri.type}'/>">${i}</a>
+        </li>
+    </c:forEach>
+    <c:if test="${pm.next}">
+        <li class="page-item">
+            <a class="page-link" href="<c:url value='/admin/list/productList?page=${pm.endPage+1}&search=${pm.cri.search}&type=${pm.cri.type}'/>">다음</a>
+        </li>
+    </c:if>
+</ul>
 <script>
-$('#search-btn').click(function(){
-	let search = $('#searchInput').val();
-	let category =$(this).prev().prev().children('.select-category').val();
-	let filter =$(this).prev().prev().children('.search-select').val();
-	
-	ajaxGet(true,data, url, function(data){
-		
-	})
-	});
 	
 	
 	

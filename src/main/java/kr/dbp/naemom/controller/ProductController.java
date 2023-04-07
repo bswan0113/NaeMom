@@ -16,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.pagination.Criteria;
+import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.ProductService;
+import kr.dbp.naemom.utils.MessageUtils;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
@@ -65,6 +67,24 @@ public class ProductController {
 		return mv;
 	}	
 	
+	@RequestMapping(value="/admin/update/updateProduct")
+	public ModelAndView updateProduct(ModelAndView mv, ProductVO product, HttpServletResponse response) {
+		boolean res = productService.updateProduct(product);
+
+		if(!res) {			
+			MessageUtils.alertAndMovePage(response, 
+					"수정에 실패했습니다! / 내용수정 실패", 
+					"/naemom", "/admin/insert/updateProduct/"+product.getPd_num());
+		}
+		
+			
+		else MessageUtils.alertAndMovePage(response, 
+					"수정에 성공했습니다.", 
+					"/naemom", "/admin/list/productList");
+		
+		return mv;
+	}
+	
 
 	@RequestMapping(value="/admin/insert/updateProduct/{pd_num}", method=RequestMethod.GET)
 	public ModelAndView insertProductget(ModelAndView mv, @PathVariable("pd_num")int pd_num) {
@@ -78,7 +98,11 @@ public class ProductController {
 		mv.setViewName("/admin/insert/updateProduct");
 		return mv;
 	}
-	
+	@RequestMapping(value="/admin/home/home")
+	public ModelAndView adminMain(ModelAndView mv) {
+		mv.setViewName("/admin/home/home");
+		return mv;
+	}
 
 	@RequestMapping(value="/admin/insert/insertProduct", method=RequestMethod.GET)
 	public ModelAndView insertProductget(ModelAndView mv, ProductVO product) {
@@ -89,12 +113,16 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/admin/list/productList")
-	public ModelAndView adminProductList(ModelAndView mv) {
-		Criteria cri = new Criteria();
+	public ModelAndView adminProductList(ModelAndView mv, Criteria cri) {
+		if(cri==null)cri = new Criteria();
 		ArrayList<ProductVO> list = productService.getProductList(cri);
 		for(int i=0; i<list.size(); i++) {
 			list.get(i).setFile(productService.getThumbnail(list.get(i).getPd_num()));
 		}
+		System.out.println(cri);
+		int totalCount = productService.getProductCount();
+		PageMaker pm = new PageMaker(totalCount, 5, cri);
+		mv.addObject("pm", pm);
 		mv.addObject("list", list);
 		mv.setViewName("/admin/list/productList");
 		return mv;

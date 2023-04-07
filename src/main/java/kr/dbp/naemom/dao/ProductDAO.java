@@ -62,6 +62,14 @@ public interface ProductDAO {
 
 	public int deleteProduct(@Param("pd_num")int number);
 
+	public int updateProduct(@Param("pd")ProductVO product);
+
+	public int updateThumbNail(@Param("fi_num") int fi_num, @Param("fi_table") String fi_table, @Param("fi_ori_name") String fi_ori_name, @Param("fi_name") String fi_name, @Param("fi_category") String fi_category);
+
+	public int deleteFile(@Param("fi_num")int fi_num);
+
+	public int getProductCount();
+
 
 		
 

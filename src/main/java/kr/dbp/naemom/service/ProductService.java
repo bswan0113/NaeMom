@@ -56,6 +56,16 @@ public interface ProductService {
 
 	boolean deleteProduct(int number);
 
+	boolean updateProduct(ProductVO product);
+
+	boolean updateThumbnail(MultipartFile uploadFile, int fi_num);
+
+	boolean deleteFile(int fi_num);
+
+	boolean updateProductFiles(MultipartFile[] files, int pd_num);
+
+	int getProductCount();
+
 
 
 

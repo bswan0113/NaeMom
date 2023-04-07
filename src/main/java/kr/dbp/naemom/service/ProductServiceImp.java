@@ -279,6 +279,84 @@ public class ProductServiceImp implements ProductService{
 
 
 
+	@Override
+	public boolean updateProduct(ProductVO product) {
+		System.out.println(product);
+		if(product ==null) return false;
+		if(product.getPd_num()<=0) return false;
+		if(product.getPd_capacity() <= 0 || 
+			product.getPd_close_time() == null || 
+			product.getPd_content().trim().length() ==0 ||
+			product.getPd_open_time() == null ||
+			product.getPd_parking().trim().length() ==0 ||
+			product.getPd_registerd_address().trim().length() ==0 ||
+			product.getPd_street_address().trim().length() ==0 ||
+			product.getPd_subtitle().trim().length() ==0||
+			product.getPd_title().trim().length() ==0) return false;
+		return productDao.updateProduct(product) >= 0;
+	}
+
+
+
+	@Override
+	public boolean updateThumbnail(MultipartFile uploadFile, int fi_num) {
+		if(fi_num<=0) return false;
+		if(uploadFile==null || uploadFile.getOriginalFilename().length()<=0) return false;
+		
+		String fileName="";
+		try {
+			fileName=UploadFileUtils.uploadFile(uploadPath, uploadFile.getOriginalFilename(), uploadFile.getBytes());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return  productDao.updateThumbNail(fi_num,"product", uploadFile.getOriginalFilename(), fileName,"썸네일")>=0;
+		
+	}
+
+
+
+	@Override
+	public boolean deleteFile(int fi_num) {
+		return productDao.deleteFile(fi_num)!=0;
+	}
+
+
+
+	@Override
+	public boolean updateProductFiles(MultipartFile[] files, int i) {
+		if(files == null || files.length == 0)
+			return false;
+		for(MultipartFile file : files) {
+			if(file == null || file.getOriginalFilename().length() == 0)
+				continue;
+			try {
+				String path = UploadFileUtils.uploadFile(uploadPath, 
+						file.getOriginalFilename(), file.getBytes());
+				FileVO fileVo = new FileVO("게시글 대표이미지",file.getOriginalFilename(),path, 
+						i);
+				fileVo.setFi_table("product");
+				productDao.insertFile(fileVo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+
+
+	@Override
+	public int getProductCount() {
+		return productDao.getProductCount();
+	}
+
+
+
+
+
+
 
 
 
