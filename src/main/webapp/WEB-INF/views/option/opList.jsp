@@ -245,9 +245,89 @@
 	  .btn_report:hover{
 	  	color:red;
 	  }
+	  *{
+		padding: 0; margin: 0;
+    }
+    #body{ 
+      min-width: 1190px; 
+      font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
+      line-height: 16px; font-size: 12px; color: #202020; 
+    }
+    ul,li{
+      list-style: none;
+    }
+    
+    .clearfix::after{
+      content: ''; clear: both; display: block; 
+    }
+    a{
+      text-decoration: none;
+    }
+    .contents {
+	    width: 1190px;
+	    margin: 0 auto;
+	    padding: 0 20px 27px 20px;
+	  }
+    .option_list{
+      float: left; border: 1px solid black; width: 750px; padding: 20px;
+      margin-top: 100px;
+    }
+    .option_item{
+      border: 1px solid black; margin-bottom: 20px;
+    }
+    .option_title{
+      position: absolute; font-size: 30px; font-weight: 700; margin-top: 20px;
+    }
+
+    .price_box{
+      float: right; border: 1px solid black; width: 300px; padding: 20px;
+      margin-top: 100px;
+    }
+    .addOrder{
+      text-align: center; width: 100%; font-size: 20px; height: 50px; margin-top: 20px;
+    }
+    .price_list{
+      text-align: center;
+    }
+    .price_item{
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
+<div class="contents clearfix">
+    <label class="option_title">옵션 선택</label>
+    <ul class="option_list">
+      <li class="option_item">
+        <div class="option-photo">
+          <img src="" alt="" class="option_item_img">
+        </div>
+        코스1
+      </li>
+      <li class="option_item">
+        <div class="option-photo">
+          <img src="" alt="" class="option_item_img">
+        </div>
+        코스2
+      </li>
+      <li class="option_item">
+        <div class="option-photo">
+          <img src="" alt="" class="option_item_img">
+        </div>
+        코스3
+      </li>
+    </ul>
+    <div class="price_box">
+      <ul class="price_list">
+        <li class="price_item">가격1</li>
+        <li class="price_item">가격2</li>
+        <li class="price_item">가격3</li>
+      </ul>
+      <label style="font-size: 20px;">총가격 : </label>
+      <span style="float: right;">원</span>
+      <button class="addOrder">장바구니 담기</button>
+    </div>
+  </div>
   <div class="contents clearfix">
     <div class="form-group">
     
