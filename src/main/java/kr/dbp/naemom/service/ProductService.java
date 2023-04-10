@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.dbp.naemom.pagination.Criteria;
+import kr.dbp.naemom.vo.DayOFFVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.LikeVO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
@@ -14,6 +15,7 @@ import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.ReviewVO;
+import kr.dbp.naemom.vo.TempOFFVO;
 import kr.dbp.naemom.vo.WishVO;
 
 public interface ProductService {
@@ -65,6 +67,9 @@ public interface ProductService {
 	boolean updateProductFiles(MultipartFile[] files, int pd_num);
 
 	int getProductCount();
+
+	ArrayList<DayOFFVO> getDayOff(int pd_num);
+
 
 
 

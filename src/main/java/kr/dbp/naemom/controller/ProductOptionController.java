@@ -8,12 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.service.ProductOptionService;
 import kr.dbp.naemom.service.ProductService;
 import kr.dbp.naemom.vo.Option_festivalVO;
 import kr.dbp.naemom.vo.Option_landMarkVO;
+import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.TempOFFVO;
 
 @Controller
 public class ProductOptionController {
@@ -63,6 +66,25 @@ public class ProductOptionController {
 		mv.addObject("optionList", optionList);
 		mv.addObject("pd_num", pd_num);
 		mv.setViewName("/admin/insert/optionLandMark");
+		return mv;
+	}
+	
+	@RequestMapping(value="/admin/insert/dayofftmp/{pd_num}", method = RequestMethod.GET)
+	public ModelAndView insertDayOffTmp(ModelAndView mv, @PathVariable("pd_num") int pd_num) {
+		ProductVO product = productService.getProduct(pd_num);
+		mv.addObject("product", product);
+		mv.setViewName("/admin/insert/dayofftmp");
+		return mv;
+	}
+	@RequestMapping(value="/admin/insert/dayofftmp", method = RequestMethod.POST)
+	public ModelAndView insertDayOffTmpPOST(ModelAndView mv, TempOFFVO temp, String pd_num) {
+		int productNum = Integer.parseInt(pd_num);
+		
+		if(productOptionService.insertDayOffTmp(temp,productNum)) {			
+			mv.setViewName("redirect:/admin/list/productList");
+		}else {
+			mv.setViewName("redirect:/admin/insert/dayofftmp/"+pd_num);
+		}
 		return mv;
 	}
 }

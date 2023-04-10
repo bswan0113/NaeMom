@@ -10,10 +10,18 @@
    width: 80%;
    margin: 0 auto;
    margin-top: 50px;
+   min-width:1000px;
  }
  .search-container{
    width: 80%;
    margin: 0 auto;
+ }
+ .search-result-box::after{
+ content=''; display:block; clear:both;
+ }
+ 
+ .ocbox{
+ padding:20px;
  }
 
 
@@ -25,7 +33,6 @@ height:100px;
 </style> 
 
  <h1 style="margin-left:150px;">게시글 목록 조회</h1>
-
 <form action="<c:url value='/admin/list/productList'></c:url>">
   <div class="search-container">
     <div class="search-filter">
@@ -53,9 +60,9 @@ height:100px;
 
   
   <div class="search-result-container mt-6">
-    <ul>
+    <ul style="margin: 0 auto; ">
     <c:forEach items="${list}" var="item">
-      <li>
+      <li class="search-result-box" style="text-align:start;">
       	<img class="item-img" alt="" src="<c:url value='/download${item.file.fi_name}'></c:url>">
       	<a class="item-link" href="<c:url value='/product/detail/detailLayoutTMP/${item.pd_num}'></c:url>">${item.pd_title}</a>
         <a href="<c:url value='/admin/insert/updateProduct/${item.pd_num}'></c:url>"class="btn btn-dark product-update" data-num="${item.pd_num}">수정</a>
@@ -72,6 +79,67 @@ height:100px;
         <c:if test="${item.pd_pc_num==4}">
          <a class="btn btn-dark" href="<c:url value='/admin/insert/optionFestival/'></c:url>${item.pd_num}">옵션관리</a>
         </c:if>
+        <div class="ocbox" style="display:inline-block; margin-left:20px;" data-pd_num="${item.pd_num}">
+	       <div class="form-check-inline">
+			  <label class="form-check-label">
+			    <input type="checkbox" class="form-check-input" value="월" 
+			    <c:forEach items="${item.dayoff}" var="day" >
+			    <c:if test="${day.do_date=='월'}">checked</c:if>
+			    </c:forEach>>월
+			  </label>
+			</div>
+	       <div class="form-check-inline">
+			  <label class="form-check-label">
+			    <input type="checkbox" class="form-check-input" value="화" 
+			    <c:forEach items="${item.dayoff}" var="day" >
+			    <c:if test="${day.do_date=='화'}">checked</c:if>
+			    </c:forEach>>화
+			  </label>
+			</div>
+	       <div class="form-check-inline">
+			  <label class="form-check-label">
+			    <input type="checkbox" class="form-check-input" value="수" 
+			    <c:forEach items="${item.dayoff}" var="day" >
+			    <c:if test="${day.do_date=='수'}">checked</c:if>
+			    </c:forEach>>수
+			  </label>
+			</div>
+	       <div class="form-check-inline">
+			  <label class="form-check-label">
+			    <input type="checkbox" class="form-check-input" value="목" 
+			    <c:forEach items="${item.dayoff}" var="day" >
+			    <c:if test="${day.do_date=='목'}">checked</c:if>
+			    </c:forEach>>목
+			  </label>
+			</div>
+	       <div class="form-check-inline">
+			  <label class="form-check-label">
+			    <input type="checkbox" class="form-check-input" value="금" 
+			    <c:forEach items="${item.dayoff}" var="day" >
+			    <c:if test="${day.do_date=='금'}">checked</c:if>
+			    </c:forEach>>금
+			  </label>
+			</div>
+	       <div class="form-check-inline">
+			  <label class="form-check-label">
+			    <input type="checkbox" class="form-check-input" value="토" 
+			    <c:forEach items="${item.dayoff}" var="day" >
+			    <c:if test="${day.do_date=='토'}">checked</c:if>
+			    </c:forEach>>토
+			  </label>
+			</div>
+	       <div class="form-check-inline">
+			  <label class="form-check-label">
+			    <input type="checkbox" class="form-check-input" value="일" 
+			    <c:forEach items="${item.dayoff}" var="day" >
+			    <c:if test="${day.do_date=='일'}">checked</c:if>
+			    </c:forEach>>일
+			  </label>
+			</div>
+			
+			<button class="btn btn-dark save-closed" >휴무일 저장</button>
+		</div>
+		<a class="btn btn-dark" href="<c:url value='/admin/insert/dayofftmp/${item.pd_num}'></c:url>">임시휴무 등록</a>
       </li>
      </c:forEach>
     </ul>
@@ -97,7 +165,46 @@ height:100px;
     </c:if>
 </ul>
 <script>
-	
+
+$(document).ready(function() {
+	  // 페이지가 로드될 때 실행되는 함수
+	  $('input.form-check-input').each(function() {
+	    // 모든 form-check-input 요소를 반복하여 실행
+	    if ($(this).is(':checked')) {
+	      $(this).attr('data-state', '1'); // 체크된 요소의 data-state를 1로 설정
+	    } else {
+	      $(this).attr('data-state', '-1'); // 체크되지 않은 요소의 data-state를 -1로 설정
+	    }
+	  });
+
+	  // 체크박스 상태가 변경될 때 실행되는 함수
+	  $('input.form-check-input').on('change', function() {
+	    if ($(this).is(':checked')) {
+	      $(this).attr('data-state', '1'); // 체크된 요소의 data-state를 1로 설정
+	    } else {
+	      $(this).attr('data-state', '-1'); // 체크되지 않은 요소의 data-state를 -1로 설정
+	    }
+	  });
+	});
+
+$(document).on("click",".save-closed",function(){
+	let closed=[];
+	let opend=[];
+	let pdNum=$(this).parent().data('pd_num');
+    
+	$(this).parent().find("input[type='checkbox']").each(function() {
+		if($(this).data('state')!='1') closed.push($(this).val());
+		if($(this).data('state')!='-1') opend.push($(this).val());
+	  });
+
+	 ajaxPost(false,closed,"<c:url value='/admin/dayoff/"+pdNum+"'></c:url>", function(data){
+	 })
+	 ajaxPost(false,opend,"<c:url value='/admin/dayoff/insert/"+pdNum+"'></c:url>", function(data){
+		if(data.res){	 
+		 alert('수정완료!');
+			 location.reload();}
+	 })
+})
 	
 	
 $('.product-delete').click(function(){
@@ -128,10 +235,11 @@ function ajaxPost(async, obj, url, successFunction, obj2){
 }
 		
 	
-function ajaxGet(method, url, successFunc){
+function ajaxGet(async,data, url, successFunc){
 	$.ajax({
-		async:false,
-		type: method,
+		async:async,
+		type: 'GET',
+		data: JSON.stringify(data),
 		url: url,
 		dataType:"json",
 		contentType:"application/json; charset=UTF-8",

@@ -1,7 +1,8 @@
 package kr.dbp.naemom.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,14 +11,13 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.dbp.naemom.dao.ProductDAO;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.utils.UploadFileUtils;
+import kr.dbp.naemom.vo.DayOFFVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
-import kr.dbp.naemom.vo.Option_festivalVO;
-import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
-import kr.dbp.naemom.vo.ReviewVO;
+import kr.dbp.naemom.vo.TempOFFVO;
 import kr.dbp.naemom.vo.WishVO;
 
 @Service
@@ -281,7 +281,6 @@ public class ProductServiceImp implements ProductService{
 
 	@Override
 	public boolean updateProduct(ProductVO product) {
-		System.out.println(product);
 		if(product ==null) return false;
 		if(product.getPd_num()<=0) return false;
 		if(product.getPd_capacity() <= 0 || 
@@ -351,6 +350,18 @@ public class ProductServiceImp implements ProductService{
 	public int getProductCount() {
 		return productDao.getProductCount();
 	}
+
+
+
+	@Override
+	public ArrayList<DayOFFVO> getDayOff(int pd_num) {
+		ArrayList<DayOFFVO> dayoff =productDao.getDayOff(pd_num);
+		return dayoff;
+	}
+
+
+
+
 
 
 

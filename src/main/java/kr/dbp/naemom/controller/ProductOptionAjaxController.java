@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -61,6 +62,20 @@ public class ProductOptionAjaxController {
 	public Map<String, Object> updateLandMark(@RequestBody Option_landMarkVO landmark){
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean res = productOptionService.updateLandmark(landmark);
+		map.put("res", res);
+		return map;		
+	}
+
+	@RequestMapping(value="/admin/dayoff/{pdNum}", method=RequestMethod.POST)
+	public Map<String, Object> updateDayOff(@RequestBody String[] dayOff, @PathVariable("pdNum")int pdNum){
+		Map<String, Object> map = new HashMap<String, Object>();
+		productOptionService.updateDayOff(dayOff, pdNum);
+		return map;		
+	}
+	@RequestMapping(value="/admin/dayoff/insert/{pdNum}", method=RequestMethod.POST)
+	public Map<String, Object> insertDayOff(@RequestBody String[] dayOff, @PathVariable("pdNum")int pdNum){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res= productOptionService.insertDayOff(dayOff, pdNum);
 		map.put("res", res);
 		return map;		
 	}

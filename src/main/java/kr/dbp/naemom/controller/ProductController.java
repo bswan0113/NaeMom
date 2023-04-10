@@ -25,6 +25,7 @@ import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.TempOFFVO;
 import kr.dbp.naemom.vo.WishVO;
 
 @Controller
@@ -118,8 +119,8 @@ public class ProductController {
 		ArrayList<ProductVO> list = productService.getProductList(cri);
 		for(int i=0; i<list.size(); i++) {
 			list.get(i).setFile(productService.getThumbnail(list.get(i).getPd_num()));
+			list.get(i).setDayoff(productService.getDayOff(list.get(i).getPd_num()));
 		}
-		System.out.println(cri);
 		int totalCount = productService.getProductCount();
 		PageMaker pm = new PageMaker(totalCount, 5, cri);
 		mv.addObject("pm", pm);
@@ -235,6 +236,8 @@ public class ProductController {
 		mv.setViewName("/product/detail/detailLayoutTMP");
 		return mv;
 	}
+
+
 	
 	
 }

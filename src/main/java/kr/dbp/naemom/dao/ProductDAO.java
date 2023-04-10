@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import kr.dbp.naemom.pagination.Criteria;
+import kr.dbp.naemom.vo.DayOFFVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.LikeVO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
@@ -69,6 +70,8 @@ public interface ProductDAO {
 	public int deleteFile(@Param("fi_num")int fi_num);
 
 	public int getProductCount();
+
+	public ArrayList<DayOFFVO> getDayOff(@Param("pd_num")int pd_num);
 
 
 		

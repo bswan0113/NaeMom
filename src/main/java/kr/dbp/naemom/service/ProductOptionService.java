@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import kr.dbp.naemom.vo.Option_festivalVO;
 import kr.dbp.naemom.vo.Option_landMarkVO;
+import kr.dbp.naemom.vo.TempOFFVO;
 
 public interface ProductOptionService {
 
@@ -18,5 +19,11 @@ public interface ProductOptionService {
 	boolean deleteLandmark(int lo_num);
 
 	boolean updateLandmark(Option_landMarkVO landmark);
+
+	boolean updateDayOff(String[] dayOff, int pdNum);
+
+	boolean insertDayOff(String[] dayOff, int pdNum);
+
+	boolean insertDayOffTmp(TempOFFVO temp, int productNum);
 
 }

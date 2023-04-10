@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.dbp.naemom.dao.ProductOptionDAO;
+import kr.dbp.naemom.vo.DayOFFVO;
 import kr.dbp.naemom.vo.Option_festivalVO;
 import kr.dbp.naemom.vo.Option_landMarkVO;
+import kr.dbp.naemom.vo.TempOFFVO;
 
 @Service
 public class ProductOptionServiceImp implements ProductOptionService{
@@ -74,6 +76,58 @@ public class ProductOptionServiceImp implements ProductOptionService{
 		)return false;
 		
 		return productOptionDao.updateLandmark(landmark);
+	}
+
+	@Override
+	public boolean updateDayOff(String[] dayOff, int pdNum) {
+		 if (dayOff.length == 0) {
+		        return true;
+		    }
+		    if (pdNum <= 0) {
+		        return false;
+		    }
+		    for (String day : dayOff) {
+		        DayOFFVO dayoff = productOptionDao.getDayOff(pdNum, day);
+		        if (dayoff != null) {
+		            if (productOptionDao.deleteDayOff(pdNum, day)<=0) {
+		                return false;
+		            }
+		        }
+		    }
+		    return true;
+	}
+
+	@Override
+	public boolean insertDayOff(String[] dayOff, int pdNum) {
+		 if (dayOff.length == 0) {
+		        return true;
+		    }
+		    if (pdNum <= 0) {
+		        return false;
+		    }
+		    for (String day : dayOff) {
+		        DayOFFVO dayoff = productOptionDao.getDayOff(pdNum, day);
+		        if (dayoff == null) {
+		        	productOptionDao.insertDayOff(pdNum, day);
+		        }
+		    }
+		    return true;
+	}
+
+	@Override
+	public boolean insertDayOffTmp(TempOFFVO temp, int productNum) {
+		if(temp==null) return false;
+		if(productNum<=0) return false;
+		
+		System.out.println(temp);
+		System.out.println(productNum);
+		DayOFFVO dayoff = new DayOFFVO();
+		dayoff.setDo_state("임");
+		dayoff.setDo_pd_num(productNum);
+		productOptionDao.insertDayOffTmp(dayoff);
+		System.out.println(dayoff);
+		
+		return productOptionDao.insertTmpOff(dayoff.getDo_num(),temp.getTo_start(), temp.getTo_end());
 	}
 
 }

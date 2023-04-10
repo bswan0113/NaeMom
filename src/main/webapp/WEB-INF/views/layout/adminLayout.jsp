@@ -14,6 +14,11 @@
 	   <script src="<c:url value='/resources/js/summernote-bs4.min.js'></c:url>"></script>
  	<link href="<c:url value='/resources/css/jquery.timepicker.css'></c:url>" rel="stylesheet">
 	   <script src="<c:url value='/resources/js/jquery.timepicker.min.js'></c:url>"></script>
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" />
+	     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+	     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+	     
+	    
 	   
  	
 </head>

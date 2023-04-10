@@ -30,5 +30,26 @@
  			set lo_price=#{lo.lo_price}, lo_age=#{lo.lo_age}
  			where lo_num=#{lo.lo_num}
  	</update>
+ 	
+ 	<insert id="insertDayOff">
+ 		insert into day_off(do_pd_num,do_state,do_date)
+ 		value(#{pd_num},"정",#{do_date})
+ 	</insert>
+ 	<delete id="deleteDayOff">
+ 		delete from day_off where do_pd_num=#{pd_num} and do_date=#{do_date} and do_state="정"
+ 	</delete>
+ 	<select id="getDayOff" resultType="kr.dbp.naemom.vo.DayOFFVO">
+ 		select * from day_off where do_pd_num =#{pd_num} and do_date=#{do_date} and do_state ="정"
+ 	</select>
+ 	
+ 	<insert id="insertDayOffTmp" useGeneratedKeys="true" keyProperty="do_num">
+	    INSERT INTO day_off(do_pd_num, do_state)
+	    VALUES (#{do.do_pd_num}, #{do.do_state})
+	</insert>
+	
+	<insert id="insertTmpOff">
+	  INSERT INTO temp_off (to_do_num, to_start, to_end)
+	  VALUES (#{to_do_num}, #{to_start}, #{to_end})
+	</insert>
 </mapper>
 

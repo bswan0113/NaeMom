@@ -29,33 +29,61 @@
 	  SELECT * 
 	  FROM product
 	  <where>
-	  	<if test="cri.search != null or cri.pc_category != '0' or cri.searchFilter !=null">
-		    <if test="cri.pc_category != '0'">
+	  	<if test="cri.search != '' or cri.pc_category != 0 or cri.searchFilter !=0">
+		    <if test="cri.pc_category != 0">
 		      pd_pc_num = #{cri.pc_category}
-		    </if>
-		    <if test="cri.searchFilter != null">
-		      <choose> 
-		      	<when test="cri.searchFilter == 0">
-		          AND pd_content like CONCAT('%', #{cri.search}, '%')
-		          or pd_title like CONCAT('%', #{cri.search}, '%')
-		          or pd_street_address like CONCAT('%', #{cri.search}, '%')
-	              or pd_detail_address like concat('%', #{cri.search}, '%')
-	              or pd_registerd_address like concat('%', #{cri.search}, '%')
-		        </when>
-		        <when test="cri.searchFilter == 1">
-		          AND pd_content like CONCAT('%', #{cri.search}, '%')
-		        </when>
-		        <when test="cri.searchFilter == 2">
-		          AND pd_title like CONCAT('%', #{cri.search}, '%')
-		        </when>
-		        <when test="cri.searchFilter == 3">
-		          AND pd_street_address like CONCAT('%', #{cri.search}, '%')
-	               or pd_detail_address like concat('%', #{cri.search}, '%')
-	               or pd_registerd_address like concat('%', #{cri.search}, '%'))
-		        </when>
-		      </choose>
+			    <if test="cri.searchFilter == 0 and cri.search != null">
+	 			      AND (pd_content like CONCAT('%', #{cri.search}, '%')
+			          or pd_title like CONCAT('%', #{cri.search}, '%')
+			          or pd_street_address like CONCAT('%', #{cri.search}, '%')
+		              or pd_detail_address like concat('%', #{cri.search}, '%')
+		              or pd_registerd_address like concat('%', #{cri.search}, '%'))
+			    </if>
+			    <if test="cri.searchFilter != 0">
+			      <choose> 
+			        <when test="cri.searchFilter == 1">
+			          AND pd_content like CONCAT('%', #{cri.search}, '%')
+			        </when>
+			        <when test="cri.searchFilter == 2">
+			          AND pd_title like CONCAT('%', #{cri.search}, '%')
+			        </when>
+			        <when test="cri.searchFilter == 3">
+			          AND (pd_street_address like CONCAT('%', #{cri.search}, '%')
+		               or pd_detail_address like concat('%', #{cri.search}, '%')
+		               or pd_registerd_address like concat('%', #{cri.search}, '%'))
+			        </when>
+			      </choose>
+			    </if>
 		    </if>
 	    </if>
+	    </where>
+	    <where>
+		    <if test="cri.pc_category == 0 ">
+		    	<if test="cri.search != '' or cri.searchFilter !=0">
+				    <if test="cri.searchFilter == 0 and cri.search != ''">
+		 			      (pd_content like CONCAT('%', #{cri.search}, '%')
+				          or pd_title like CONCAT('%', #{cri.search}, '%')
+				          or pd_street_address like CONCAT('%', #{cri.search}, '%')
+			              or pd_detail_address like concat('%', #{cri.search}, '%')
+			              or pd_registerd_address like concat('%', #{cri.search}, '%'))
+				    </if>
+				    <if test="cri.searchFilter != 0 and cri.search != ''">
+				      <choose> 
+				        <when test="cri.searchFilter == 1">
+				          AND pd_content like CONCAT('%', #{cri.search}, '%')
+				        </when>
+				        <when test="cri.searchFilter == 2">
+				          AND pd_title like CONCAT('%', #{cri.search}, '%')
+				        </when>
+				        <when test="cri.searchFilter == 3">
+				          AND (pd_street_address like CONCAT('%', #{cri.search}, '%')
+			               or pd_detail_address like concat('%', #{cri.search}, '%')
+			               or pd_registerd_address like concat('%', #{cri.search}, '%'))
+				        </when>
+				      </choose>
+				    </if>
+			    </if>
+		    </if>
    	 </where>
 	  ORDER BY pd_num DESC 
 	  LIMIT #{cri.pageStart}, #{cri.perPageNum}
@@ -145,6 +173,10 @@
 	
 	<select id="getProductCount" resultType="int">
 		select count(*) from product;
+	</select>	
+	
+	<select id="getDayOff" resultType="kr.dbp.naemom.vo.DayOFFVO">
+		select * from day_off where do_pd_num=#{pd_num};
 	</select>
 </mapper>
 
