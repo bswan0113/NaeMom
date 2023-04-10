@@ -1,15 +1,20 @@
 package kr.dbp.naemom.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.service.OrderService;
+import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_festivalVO;
 import kr.dbp.naemom.vo.Option_landMarkVO;
@@ -32,6 +37,7 @@ public class OrderController {
 	public ModelAndView selectOption(ModelAndView mv, @RequestParam("pd_num")String[] pd_num, 
 			@RequestParam("pd_pc_num")String[] pd_pc_num) {
 		ArrayList<ProductVO> pdList = new ArrayList<ProductVO>();
+		ArrayList<FileVO> fList = new ArrayList<FileVO>();
 		ArrayList<Option_landMarkVO> travelList = new ArrayList<Option_landMarkVO>();
 		ArrayList<Option_restrauntVO> foodList = new ArrayList<Option_restrauntVO>();
 		ArrayList<Option_accomodationVO> homeList = new ArrayList<Option_accomodationVO>();
@@ -39,6 +45,8 @@ public class OrderController {
 		for(String tmp : pd_num) {
 			ProductVO product = orderService.getProductByPdNum(tmp);
 			pdList.add(product);
+			FileVO file = orderService.getFileByPdNum(tmp);
+			fList.add(file);
 			switch(product.getPd_pc_num()) {
 			case 1 : 
 				ArrayList<Option_landMarkVO> travel = orderService.getTravelByPdNum(tmp);
@@ -63,6 +71,7 @@ public class OrderController {
 			}
 		}
 		mv.addObject("pdList", pdList);
+		mv.addObject("fList", fList);
 		mv.addObject("travelList", travelList);
 		mv.addObject("foodList", foodList);
 		mv.addObject("homeList", homeList);
@@ -70,4 +79,17 @@ public class OrderController {
 		mv.setViewName("/option/opList");
 		return mv;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

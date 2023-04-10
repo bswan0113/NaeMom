@@ -2,6 +2,7 @@ package kr.dbp.naemom.service;
 
 import java.util.ArrayList;
 
+import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_festivalVO;
 import kr.dbp.naemom.vo.Option_landMarkVO;
@@ -19,6 +20,9 @@ public interface OrderService {
 	ArrayList<Option_accomodationVO> getHomeByPdNum(String tmp);
 
 	ArrayList<Option_festivalVO> getFestivalByPdNum(String tmp);
+
+	FileVO getFileByPdNum(String tmp);
+
 
 	
 

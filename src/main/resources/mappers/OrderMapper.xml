@@ -18,4 +18,9 @@
   	<select id="selectFestivalOption" resultType="kr.dbp.naemom.vo.Option_festivalVO">
   		select * from festival_option where fo_pd_num = #{pd_num}
   	</select>
+  	<select id="selectFileByPdNum" resultType="kr.dbp.naemom.vo.FileVO">
+  		select * from file where fi_table_key = #{fi_table_key} and fi_category like concat('%',#{fi_category},'%') 
+  			and fi_table = #{fi_table}
+  	</select>
+  	
 </mapper>

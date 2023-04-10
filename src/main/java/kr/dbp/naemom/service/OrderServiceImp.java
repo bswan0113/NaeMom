@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.dbp.naemom.dao.OrderDAO;
+import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_festivalVO;
 import kr.dbp.naemom.vo.Option_landMarkVO;
@@ -67,4 +68,16 @@ public class OrderServiceImp implements OrderService{
 			return 0;
 		return pd_num;
 	}
+
+	@Override
+	public FileVO getFileByPdNum(String tmp) {
+		int pd_num = IntegerPdNum(tmp);
+		if(pd_num==0)
+			return null;
+		String fi_category = "게시글 썸네일";
+		String fi_table = "product";
+		return orderDao.selectFileByPdNum(pd_num,fi_category,fi_table);
+	}
+
+	
 }
