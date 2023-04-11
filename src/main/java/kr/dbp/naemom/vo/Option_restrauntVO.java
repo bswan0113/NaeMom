@@ -1,6 +1,8 @@
 package kr.dbp.naemom.vo;
 
 
+import java.util.Date;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,5 +15,5 @@ public class Option_restrauntVO {
 	int reo_pd_num;
 	String reo_name;
 	String reo_content;
-	
+	Date reo_date;
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kr.dbp.naemom.dao.OrderDAO;
 import kr.dbp.naemom.vo.FileVO;
+import kr.dbp.naemom.vo.OptionListDTO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_festivalVO;
 import kr.dbp.naemom.vo.Option_landMarkVO;
@@ -77,6 +78,13 @@ public class OrderServiceImp implements OrderService{
 		String fi_category = "게시글 썸네일";
 		String fi_table = "product";
 		return orderDao.selectFileByPdNum(pd_num,fi_category,fi_table);
+	}
+
+	@Override
+	public void addBasket(OptionListDTO tmp) {
+		if(tmp == null || tmp.getPr_num() == 0 || tmp.getPr_amount() == 0 || tmp.getPr_category() == "")
+			return;
+		
 	}
 
 	

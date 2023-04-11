@@ -1,20 +1,18 @@
 package kr.dbp.naemom.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.service.OrderService;
 import kr.dbp.naemom.vo.FileVO;
+import kr.dbp.naemom.vo.OptionDTO;
+import kr.dbp.naemom.vo.OptionListDTO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_festivalVO;
 import kr.dbp.naemom.vo.Option_landMarkVO;
@@ -79,7 +77,16 @@ public class OrderController {
 		mv.setViewName("/option/opList");
 		return mv;
 	}
-	
+	@RequestMapping(value = "/option/basket", method=RequestMethod.POST)
+	public ModelAndView addBasket(ModelAndView mv, OptionDTO list) {
+		for(OptionListDTO tmp : list.getList()) {
+			if(tmp != null) {
+				orderService.addBasket(tmp);
+			}
+		}
+		mv.setViewName("redirect:/option/opList");
+		return mv;
+	}
 	
 	
 	

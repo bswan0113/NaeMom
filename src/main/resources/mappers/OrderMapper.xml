@@ -13,7 +13,9 @@
   		select * from restraunt_option where reo_pd_num = #{pd_num}
   	</select>
   	<select id="selectHomeOption" resultType="kr.dbp.naemom.vo.Option_accomodationVO">
-  		select * from accomodation_option where ao_pd_num = #{pd_num}
+  		select * from accomodation_option 
+  			where ao_pd_num = #{pd_num}
+  			order by ao_name asc
   	</select>
   	<select id="selectFestivalOption" resultType="kr.dbp.naemom.vo.Option_festivalVO">
   		select * from festival_option where fo_pd_num = #{pd_num}
