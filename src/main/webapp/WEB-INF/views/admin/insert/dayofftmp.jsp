@@ -20,10 +20,34 @@
     .form-group {
         margin-right: 2rem;
     }
+    table{
+    display:inline-block;
+    }
+    .my-table{
+    border:1px solid #dae1e6;
+    position:relative;
+    }
+    .my-table tbody tr td{
+    padding:5px;
+    border: 1px solid #dae1e6;
+    text-align:center;
+    }
+	.my-table thead th {
+	  background-color: #dae1e6; /* 헤드 음영 처리 */
+	  padding:5px;
+	  border: 1px solid #dae1e6;
+	  text-align:center;
+	}
+	caption{
+	postion:absolute;
+	top:0;
+	}
+    
         </style>
 
 
 <h4>${product.pd_title} 임시휴무 등록</h4><a style="" class="btn btn-dark" href="<c:url value='/admin/list/productList'></c:url>">등록취소</a>
+<h4 style="margin-left:750px;">등록된 휴무</h4>
     <div class="datepicker"></div>
 <form action="<c:url value='/admin/insert/dayofftmp'></c:url>" method="post" enctype="multipart/form-data">
   <div class="form-group">
@@ -38,13 +62,30 @@
   <input type="hidden" name="pd_num" value="${product.pd_num}">
   <button class="btn btn-dark" id="save">임시휴무저장</button>
 </form>
-
+<table class="my-table">
+  <thead>
+    <tr>
+      <th>시작날짜</th>
+      <th>종료날짜</th>
+    </tr>
+  </thead>
+  <tbody>
+    <c:forEach var="tempOff" items="${tmp}">
+      <tr>
+        <td>${tempOff.to_start_str}</td>
+        <td>${tempOff.to_end_str}</td>
+      </tr>
+    </c:forEach>
+  </tbody>
+</table>
 <script>
 $('form').submit(function(event) {
     event.preventDefault(); // 기본 제출 이벤트를 중지합니다.
 
     let to_start = $('#start_date').val();
     let to_end = $('#end_date').val();
+    console.log(to_start);
+    console.log(to_end);
     if (to_start > to_end) {
         alert('시작날짜가 종료날짜보다 큽니다!');
         return;

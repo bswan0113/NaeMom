@@ -10,7 +10,7 @@
    width: 80%;
    margin: 0 auto;
    margin-top: 50px;
-   min-width:1000px;
+   min-width:1100px;
  }
  .search-container{
    width: 80%;
