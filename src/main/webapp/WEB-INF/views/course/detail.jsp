@@ -529,119 +529,135 @@
   
   
   
-  </script>
+  /*
+  	function reorderMap() {
+	  	map = new kakao.maps.Map(mapContainer, mapOption);
+	  	addresses = new Array();
+	  	$('.pd_street_address').each(function(item){
+	  		addresses.push($(this).val())
+	  	});   
+	  	lines = [];
+	  	markers = [];
+	  	distances = [];
+	      totalDistance = 0;
+	  
+	  	addMarkers();
+  	
+ 	};
   
-  <!-- <script>
 	var mapContainer = document.getElementById('map'); 
-var mapOption = { 
-  center: new kakao.maps.LatLng(33.450701, 126.570667), 
-  level: 8 
-}; 
-
-var map = new kakao.maps.Map(mapContainer, mapOption); 
-var geocoder = new kakao.maps.services.Geocoder(); 
-
-var addresses = new Array();
-$('.pd_street_address').each(function(item){
-	addresses.push($(this).val())
-}); 
-var markers = []; 
-var lines = []; 
-var distances = []; // Array to store distances between markers
-var totalDistance = 0; // Total distance between all markers
+	var mapOption = { 
+	  center: new kakao.maps.LatLng(33.450701, 126.570667), 
+	  level: 8 
+	}; 
+	
+	var map = new kakao.maps.Map(mapContainer, mapOption); 
+	var geocoder = new kakao.maps.services.Geocoder(); 
+	var addresses = new Array();
+	
+	var markers = []; 
+	var lines = []; 
+	var distances = []; // Array to store distances between markers
+	var totalDistance = 0; // Total distance between all markers
 
 function distanceBetween(p1, p2) {
-  function deg2rad(deg) {
-    return deg * (Math.PI/180)
-  }
+function deg2rad(deg) {
+  return deg * (Math.PI/180)
+}
 
-  var lat1 = p1.getLat();
-  var lon1 = p1.getLng();
-  var lat2 = p2.getLat();
-  var lon2 = p2.getLng();
+var lat1 = p1.getLat();
+var lon1 = p1.getLng();
+var lat2 = p2.getLat();
+var lon2 = p2.getLng();
 
-  var R = 6371; // Radius of the earth in km
-  var dLat = deg2rad(lat2-lat1);
-  var dLon = deg2rad(lon2-lon1);
-  var a =
-    Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-    Math.sin(dLon/2) * Math.sin(dLon/2)
-    ;
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  var d = R * c; // Distance in km
-  return d * 1000; // Distance in m
+var R = 6371; // Radius of the earth in km
+var dLat = deg2rad(lat2-lat1);
+var dLon = deg2rad(lon2-lon1);
+var a =
+  Math.sin(dLat/2) * Math.sin(dLat/2) +
+  Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+  Math.sin(dLon/2) * Math.sin(dLon/2)
+  ;
+var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+var d = R * c; // Distance in km
+return d * 1000; // Distance in m
 }
 
 async function addMarkers() { 
-  for (var i = 0; i < addresses.length; i++) { 
-    await new Promise(function(resolve, reject) { 
-      geocoder.addressSearch(addresses[i], function(result, status) { 
-        if (status === kakao.maps.services.Status.OK) { 
-          var coords = new kakao.maps.LatLng(result[0].y, result[0].x); 
+for (var i = 0; i < addresses.length; i++) { 
+  await new Promise(function(resolve, reject) { 
+    geocoder.addressSearch(addresses[i], function(result, status) { 
+      if (status === kakao.maps.services.Status.OK) { 
+        var coords = new kakao.maps.LatLng(result[0].y, result[0].x); 
 
-          var marker = new kakao.maps.Marker({ 
-            position: coords 
-          }); 
+        var marker = new kakao.maps.Marker({ 
+          position: coords 
+        }); 
 
-          marker.setMap(map); 
-          markers.push(marker); 
-
-          if (markers.length > 1) { 
-            var linePath = [markers[markers.length - 2].getPosition(), coords]; 
-            var line = new kakao.maps.Polyline({ 
-              path: linePath, 
-              strokeWeight: 3, 
-              strokeColor: '#db4040', 
-              strokeOpacity: 0.7, 
-              strokeStyle: 'solid' 
-            }); 
-            line.setMap(map); 
-            lines.push(line); 
-
-            var distance = distanceBetween(markers[markers.length - 2].getPosition(), coords);
-
-        // Add distance information to InfoWindow
-              var iwContent = '<div style="padding:5px; width: max-content;">다음주소까지 거리 : ' + distance.toFixed(0) + 'm</div>';
-        var iwPosition = coords;
-
-        var infowindow = new kakao.maps.InfoWindow({
-          position: iwPosition, 
-          content: iwContent 
-        });
-
-        infowindow.open(map, markers[markers.length - 1]); 
-
-        // Save distance between markers
-        distances.push(distance);
-        totalDistance += distance;
-
-        // Add total distance to InfoWindow
-        var totalIwContent = '<div style="padding:5px; ">총 거리 : ' + (totalDistance / 1000).toFixed(1) + 'km</div>';
-
-        var totalInfowindow = new kakao.maps.InfoWindow({
-          position: markers[0].getPosition(), 
-          content: totalIwContent 
-        });
-
-        // Open total distance InfoWindow only after all markers are added
-        if (markers.length === addresses.length) {
-          totalInfowindow.open(map, markers[0]);
+        marker.setMap(map); 
+        markers.push(marker); 
+        if(markers.length == 1){
+	          $('.products_distance').text(0);
+	          $('[name=co_total_distance]').val($('.products_distance').text(0));
         }
-      }
+        if (markers.length > 1) { 
+          var linePath = [markers[markers.length - 2].getPosition(), coords]; 
+          var line = new kakao.maps.Polyline({ 
+            path: linePath, 
+            strokeWeight: 3, 
+            strokeColor: '#db4040', 
+            strokeOpacity: 0.7, 
+            strokeStyle: 'solid' 
+          }); 
+          line.setMap(map); 
+          lines.push(line); 
 
-      map.setCenter(coords); 
-      resolve(); 
-    } else { 
-      reject(); 
-    } 
-  }); 
+          var distance = distanceBetween(markers[markers.length - 2].getPosition(), coords);
+
+      // Add distance information to InfoWindow
+      var iwContent = '<div style="padding:5px; width: max-content;">다음주소까지 거리 : ' + distance.toFixed(0) + 'm</div>';
+      var iwPosition = coords;
+
+      var infowindow = new kakao.maps.InfoWindow({
+        position: iwPosition, 
+        content: iwContent 
+      });
+
+      infowindow.open(map, markers[markers.length - 1]); 
+
+      // Save distance between markers
+      distances.push(distance);
+      totalDistance += distance;
+      
+		var course_distance = $('.products_distance').text((totalDistance / 1000).toFixed(1));
+		$('[name=co_total_distance]').val($('.products_distance').text());
+      
+      // Add total distance to InfoWindow
+      var totalIwContent = '<div style="padding:5px;">총 거리 : ' + (totalDistance / 1000).toFixed(1) + 'km</div>';
+
+      var totalInfowindow = new kakao.maps.InfoWindow({
+        position: markers[0].getPosition(), 
+        content: totalIwContent 
+      });
+
+      // Open total distance InfoWindow only after all markers are added
+      if (markers.length === addresses.length) {
+        totalInfowindow.open(map, markers[0]);
+      }
+    }
+
+    map.setCenter(coords); 
+    resolve(); 
+  } else { 
+    reject(); 
+  } 
+}); 
 }); 
 }
 }
-
 addMarkers();
-
-  </script> -->
+reorderMap();
+*/
+  </script> 
 </body>
 </html>
