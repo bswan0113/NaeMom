@@ -29,8 +29,10 @@ public class ProductVO {
 	String pd_detail_address;
 	String pd_parking;
 	FileVO file;
+
 	ArrayList<DayOFFVO> dayoff;
 	
+
 	
 
 	Integer pdc_num;

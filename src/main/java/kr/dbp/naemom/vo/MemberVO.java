@@ -22,6 +22,7 @@ public class MemberVO {
 
 	String me_detail_address;
 
+
 	String me_nickname;
 	String me_street_address;
 	String me_registered_address;

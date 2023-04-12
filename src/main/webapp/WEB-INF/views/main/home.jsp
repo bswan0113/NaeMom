@@ -24,9 +24,10 @@
                 <c:forEach items="${plist}" var="product_checked">
                 <div class="swiper-slide contents-img" style="min-width: 270px;">
                     <a href="#">
-                    	<img class="" style="width:100%; height:100%;" src="<c:url value='/resources/img/home-swiper-gwanghwamun.jpg'></c:url>">
+                    	<img class="" style="width:100%; height:100%;" src="<c:url value='/download${product_checked.file.fi_name}'></c:url>">
                     </a>
 	                    <div class="contents-detail">
+	                   		
 	                        <div class="title-wraper">
 	                            <span class="contents-title">${product_checked.pd_title}</span>
 	                        </div>
