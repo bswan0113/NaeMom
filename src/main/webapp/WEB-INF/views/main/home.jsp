@@ -3,8 +3,13 @@
     pageEncoding="UTF-8"%>
 
 <title>NaeMom</title>
+
 <script src="<c:url value='/resources/js/home.js'></c:url>"></script>
+
 <link rel="stylesheet" href="<c:url value='/resources/css/home.css'></c:url>">
+
+
+
 <div class="main-container-first">
     <div class="first-title title">
         <h2>메인</h2>

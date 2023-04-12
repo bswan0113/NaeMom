@@ -5,12 +5,13 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CourseItemVO {
-
-	int ci_num;
-	String ci_index;
-	int ci_co_num;
-	int ci_pd_num;
-	String pd_title;
+public class LikeVO {
 	
+	int li_num;
+	int li_table_key;
+	String li_table;
+	String li_me_id;
+	int li_updown;
+	
+
 }

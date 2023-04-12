@@ -12,8 +12,8 @@
 	</select>
 	
   	<insert id="insertFile">
-  		insert into file(fi_ori_name, fi_name, fi_pd_num, fi_category)
-  		values(#{fi.fi_ori_name},#{fi.fi_name},#{fi.fi_pd_num}, #{fi.fi_category})
+  		insert into file(fi_ori_name, fi_name, fi_table_key, fi_category, fi_table)
+  		values(#{fi.fi_ori_name},#{fi.fi_name},#{fi.fi_table_key}, #{fi.fi_category},#{fi.fi_table})
   	</insert>
   	
   	<insert id="insertProduct" useGeneratedKeys="true" keyProperty="pd.pd_num">
@@ -29,15 +29,59 @@
   		select * from product
   	</select>
   	<select id="getFile" resultType="kr.dbp.naemom.vo.FileVO">
-  		select * from file where fi_pd_num=#{pd_num}
+  		select * from file where fi_table_key=#{pd_num} and fi_table=#{product}
   	</select>
   	<select id="getThumbNail" resultType="kr.dbp.naemom.vo.FileVO">
-  		select * from file where fi_pd_num=#{random} and fi_category like concat('%',#{ThumbNail} ,'%')
+  		select * from file where fi_table_key=#{random} and fi_table=#{product} and fi_category like concat('%',#{ThumbNail} ,'%')
   	</select>
   	<select id="getTotalCountOfProduct" resultType="int">
-  		select count(*) from product;
+  		select count(*) from product
   	</select>
-  
+
+  	<select id="getWish" resultType="kr.dbp.naemom.vo.WishVO">
+  		select * from wishitem where  wi_pd_num = #{pd_num} and wi_me_id=#{me_id}
+  	</select>
+  	<insert id="insertWish">
+  		insert into wishitem(wi_pd_num,wi_me_id)
+  		value(#{pd_num},#{me_id})
+  	</insert>
+  	<delete id="deleteWish">
+  		delete from wishitem where wi_pd_num=#{pd_num} and wi_me_id=#{me_id}
+  	</delete>
+  	
+  	<update id="updateViewCount">
+  		update product 
+  			set 
+  				pd_viewcount = pd_viewcount+1 
+  			where 
+  				pd_num = #{pd_num}
+  	</update>
+  	
+  	<select id="getLandMarkOption" resultType="kr.dbp.naemom.vo.Option_landMarkVO">
+  		select * from landmark_option where lo_pd_num=#{pd_num}
+  	</select>
+  	<select id="getRestrauntOption" resultType="kr.dbp.naemom.vo.Option_restrauntVO">
+  		select * from restraunt_option where reo_pd_num=#{pd_num}
+  	</select>
+  	<select id="getAcomodationOption" resultType="kr.dbp.naemom.vo.Option_accomodationVO">
+  		select * from accomodation_option where ao_pd_num=#{pd_num}
+  	</select>
+  	<select id="getFestivalOption" resultType="kr.dbp.naemom.vo.Option_festivalVO">
+  		select * from festival_option where fo_pd_num=#{pd_num}
+  	</select>
+  	
+  	<select id="getReviewAvg" resultType="double">  	
+		select ifnull(avg(re_rating),-1) from review where re_pd_num= #{pd_num}
+  	</select>
+  	
+  	<select id="getAoFileByOption" resultType="kr.dbp.naemom.vo.FileVO">
+  		SELECT * FROM file left join accomodation_option  on  fi_table_key =ao_pd_num where fi_table=#{fi_table} and fi_table_key=#{fi_table_key}
+  	</select>
+  	<select id="getReoFileByOption" resultType="kr.dbp.naemom.vo.FileVO">
+  		SELECT * FROM file left join restraunt_option  on  fi_table_key =reo_pd_num where fi_table=#{fi_table} and fi_table_key=#{fi_table_key}
+  	</select>
+  	
+
   	
 </mapper>
 

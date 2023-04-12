@@ -1,16 +1,16 @@
 package kr.dbp.naemom.vo;
 
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CourseItemVO {
+public class Option_landMarkVO {
 
-	int ci_num;
-	String ci_index;
-	int ci_co_num;
-	int ci_pd_num;
-	String pd_title;
+	int lo_num;
+	int lo_price;
+	int lo_pd_num;
+	String lo_age;
 	
 }
