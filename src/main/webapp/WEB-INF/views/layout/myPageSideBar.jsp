@@ -5,11 +5,16 @@
 
 <style>
   .side-bar-list {
-    background-color: #29c16d72;
     padding: 20px;
+    border-radius :4px;
+    
+	background-color: #29c16d72;
   }
   .side-bar-item {
     margin-bottom: 10px;
+     box-shadow: 0 2px 5px #dae1e6;
+     border-radius:10px;
+     
   }
   .side-bar-link {
     display: block;
@@ -17,18 +22,14 @@
     color: #fff;
     text-decoration: none;
     transition: background-color 0.3s, color 0.3s;
+    
   }
   .side-bar-link:hover {
     background-color: #fff;
     color: #29c16d72;
   }
 </style>
-
-
 <ul class="side-bar-list">
-	<li class="side-bar-item">
-		<a href="" class="side-bar-link">개인 프로필 수정</a>
-	</li>
 	<li class="side-bar-item">
 		<a href="" class="side-bar-link">문의</a>
 	</li>
