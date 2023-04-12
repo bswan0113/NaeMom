@@ -20,7 +20,7 @@ public class HomeController {
 	@Autowired
 	HomeService homeService;
 	
-	@RequestMapping(value = "/")
+	@RequestMapping(value = "/main/home")
 	public ModelAndView home(ModelAndView mv) {
 		ArrayList<ProductVO> plist = homeService.getCheckedList();
 		mv.addObject("plist", plist);

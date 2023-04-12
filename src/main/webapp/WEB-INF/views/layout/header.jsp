@@ -9,13 +9,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
 <link rel="stylesheet" href="<c:url value ='/resources/css/header.css'></c:url>"></link>
+<link rel="stylesheet" href="<c:url value ='/resources/css/footer.css'></c:url>"></link>
 
 </head>
 <body>
 	<div class="header">
 	
 		<div class="head-box clearfix">
-			<div class="main-icon-box"><a href="#"><img src="<c:url value ='/resources/img/logo.png'></c:url>" alt="#"></a></div>
+			<div class="main-icon-box"><a href="<c:url value="/main/home"></c:url>"><img src="<c:url value ='/resources/img/logo.png'></c:url>" alt="#"></a></div>
 			<div class="search-containerbox clearfix">
 				<div class="search-box clearfix">
 					<input type="text" placeholder="여행을 떠나요" class="search">
@@ -84,7 +85,7 @@
 					</a>
 				</div>
 				<div class="box-menu">
-					<a href="" class="btn-quick"><i class="fas fa-user"></i>
+					<a href="<c:url value="/mypage/main"></c:url>" class="btn-quick"><i class="fas fa-user"></i>
 					<span class="text-quick">마이페이지</span>
 					</a>
 				</div>

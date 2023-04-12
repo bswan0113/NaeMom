@@ -31,6 +31,7 @@ public class ProductVO {
 	FileVO file;
 	ArrayList<DayOFFVO> dayoff;
 	
+	
 
 	Integer pdc_num;
 	
