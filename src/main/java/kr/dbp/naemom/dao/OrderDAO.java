@@ -11,6 +11,7 @@ import kr.dbp.naemom.vo.Option_festivalVO;
 import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.Shopping_basketVO;
 
 public interface OrderDAO {
 
@@ -26,7 +27,9 @@ public interface OrderDAO {
 
 	FileVO selectFileByPdNum(@Param("fi_table_key")int pd_num, @Param("fi_category")String fi_category, @Param("fi_table")String fi_table);
 
-	void insertBasket(@Param("tmp")OptionListDTO tmp);
+	void insertBasket(@Param("tmp")OptionListDTO tmp,@Param("me_id")String me_id);
+
+	ArrayList<Shopping_basketVO> selectBasket(@Param("me_id")String me_id);
 
 
 }

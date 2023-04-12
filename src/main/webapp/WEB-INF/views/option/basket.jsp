@@ -14,7 +14,7 @@
   <script src="<c:url value='/resources/js/jquery.min.js'></c:url>"></script>
   <script src="<c:url value='/resources/js/jquery-ui.min.js'></c:url>"></script>
   <script src="<c:url value='/resources/js/bootstrap.bundle.min.js'></c:url>"></script>
-  <title>optionList</title>
+  <title>basket</title>
   <style>
 		*{
 	  	padding: 0; margin: 0;
@@ -107,10 +107,10 @@
 </head>
 <body>
 	<div class="contents clearfix">
-    	<label class="option_title">옵션 선택</label>
+    	<label class="option_title">장바구니</label>
     	<ul class="option_list">
-    		<c:forEach items="${pdList }" var="list" varStatus="vs" begin="0" end="${pdList.size() }">
-    		<c:if test="${list.pd_pc_num ==2 }">
+    		<c:forEach items="${basket }" var="list">
+    		<c:if test='${list.sb_table == "festival_option" }'>
       		<li class="option_item">
       	  		<div class="option_photo">
       	  			<c:forEach items="${fList }" var="fi">
@@ -315,7 +315,7 @@
 		      	</ul>
 		      	<label style="font-size: 20px;">총가격 : </label>
 		      	<span style="float: right;"><em class="allPrice">0</em> 원</span>
-		      	<button class="addOrder btn btn-outline-danger">장바구니 담기</button>
+		      	<button type="button" class="addOrder btn btn-outline-danger">장바구니 담기</button>
 	    	</div>
     	</form>
   </div>

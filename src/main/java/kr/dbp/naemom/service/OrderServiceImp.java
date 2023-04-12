@@ -13,6 +13,7 @@ import kr.dbp.naemom.vo.Option_festivalVO;
 import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.Shopping_basketVO;
 
 @Service
 public class OrderServiceImp implements OrderService{
@@ -85,8 +86,16 @@ public class OrderServiceImp implements OrderService{
 		if(tmp == null || tmp.getPr_num() == 0 || tmp.getPr_amount() == 0 || tmp.getPr_category() == "")
 			return;
 		
-		orderDao.insertBasket(tmp);
+		orderDao.insertBasket(tmp,me_id);
 		
+	}
+
+	@Override
+	public ArrayList<Shopping_basketVO> getBasket(String me_id) {
+		if(me_id == null)
+			return null;
+		
+		return orderDao.selectBasket(me_id);
 	}
 
 	

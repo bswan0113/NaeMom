@@ -19,6 +19,7 @@ import kr.dbp.naemom.vo.Option_festivalVO;
 import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.Shopping_basketVO;
 
 @Controller
 public class OrderController {
@@ -91,10 +92,22 @@ public class OrderController {
 				orderService.addBasket(tmp,user.getMe_id());
 			}
 		}
-		mv.setViewName("redirect:/option/opList");
+		mv.setViewName("/option/basket");
 		return mv;
 	}
-	
+	@RequestMapping(value = "/option/basket", method=RequestMethod.GET)
+	public ModelAndView Basket(ModelAndView mv) {
+		//지워야될코드
+		String id = "qwe";
+		MemberVO user = new MemberVO();
+		//MemberVO user = (MemberVO)session.getAttribute("user");
+		//지워야될코드
+		user.setMe_id(id);
+		ArrayList<Shopping_basketVO> basket = orderService.getBasket(user.getMe_id());
+		mv.addObject("basket", basket);
+		mv.setViewName("/option/basket");
+		return mv;
+	}
 	
 	
 	

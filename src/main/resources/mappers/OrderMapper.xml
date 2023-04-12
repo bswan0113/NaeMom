@@ -25,7 +25,25 @@
   			and fi_table = #{fi_table}
   	</select>
   	<insert id="insertBasket">
-  		insert into shopping_basket(sb_amount,sb_table,sb_table_key,sb_price)
-  		values(#{tmp.pr_amount},#{tmp.pr_category},#{tmp.pr_option_num},#{tmp.pr_price})
+  		insert into shopping_basket(sb_me_id,sb_amount,sb_table,sb_table_key,sb_price)
+  		values(#{me_id},#{tmp.pr_amount},#{tmp.pr_category},#{tmp.pr_option_num},#{tmp.pr_price})
   	</insert>
+  	<select id="selectBasket" resultType="kr.dbp.naemom.vo.Shopping_basketVO">
+  		select * from shopping_basket where sb_me_id = #{me_id}
+   	</select>
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
