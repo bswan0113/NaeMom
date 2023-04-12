@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.dbp.naemom.dao.OrderDAO">
+  	<select id="selectProduct" resultType="kr.dbp.naemom.vo.ProductVO">
+  		select * from product where pd_num = #{pd_num}
+  	</select>
+  	<select id="selectTravelOption" resultType="kr.dbp.naemom.vo.Option_landMarkVO">
+  		select * from landmark_option where lo_pd_num = #{pd_num}
+  	</select>
+  	<select id="selectFoodOption" resultType="kr.dbp.naemom.vo.Option_restrauntVO">
+  		select * from restraunt_option where reo_pd_num = #{pd_num}
+  	</select>
+  	<select id="selectHomeOption" resultType="kr.dbp.naemom.vo.Option_accomodationVO">
+  		select * from accomodation_option 
+  			where ao_pd_num = #{pd_num}
+  			order by ao_name asc
+  	</select>
+  	<select id="selectFestivalOption" resultType="kr.dbp.naemom.vo.Option_festivalVO">
+  		select * from festival_option where fo_pd_num = #{pd_num}
+  	</select>
+  	<select id="selectFileByPdNum" resultType="kr.dbp.naemom.vo.FileVO">
+  		select * from file where fi_table_key = #{fi_table_key} and fi_category like concat('%',#{fi_category},'%') 
+  			and fi_table = #{fi_table}
+  	</select>
+  	<insert id="insertBasket">
+  		insert into shopping_basket(sb_me_id,sb_amount,sb_table,sb_table_key,sb_price)
+  		values(#{me_id},#{tmp.pr_amount},#{tmp.pr_category},#{tmp.pr_option_num},#{tmp.pr_price})
+  	</insert>
+  	<select id="selectBasket" resultType="kr.dbp.naemom.vo.Shopping_basketVO">
+  		select * from shopping_basket where sb_me_id = #{me_id}
+   	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

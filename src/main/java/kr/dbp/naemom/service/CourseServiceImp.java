@@ -11,8 +11,11 @@ import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
+import kr.dbp.naemom.vo.LikeVO;
+import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.ReportVO;
 
 @Service
 public class CourseServiceImp implements CourseService{
@@ -122,9 +125,11 @@ public class CourseServiceImp implements CourseService{
 	}
 
 	@Override
-	public boolean deleteCourse(int co_num) {
+	public boolean deleteCourse(int co_num, MemberVO user) {
 		CourseVO cos = courseDao.selectCourseByNum(co_num);
-		if(cos == null)
+		if(user == null)
+			return false;
+		if(cos == null || cos.getCo_me_id().equals(user.getMe_id()))
 			return false;
 		ArrayList<CourseItemVO> cosItem = courseDao.selectCourseItem(co_num);
 		deleteCourse(cosItem);
@@ -140,6 +145,100 @@ public class CourseServiceImp implements CourseService{
 		for(CourseItemVO tmp : cosItem) {
 			courseDao.deleteCourseItem(tmp.getCi_co_num());
 		}
+		
+	}
+
+	@Override
+	public int updateCourse(CourseVO cos, MemberVO user, int co_num, String[] pd_num) {
+		if(user == null)
+			return 0;
+		if(cos == null || cos.getCo_title().trim().length() == 0 || //!cos.getCo_me_id().equals(user.getMe_id()) ||
+				cos.getCo_cc_category_num() == 0 || cos.getCo_cs_schedule_num() == 0 || 
+				cos.getCo_content().trim().length() ==0)
+			return 0;
+		if(co_num != cos.getCo_num())
+			return 0;
+		int res = courseDao.updateCourse(cos,user.getMe_id(),co_num);
+		if(res ==0)
+			return 0;
+		int index=0;
+		courseDao.deleteCourseItem(co_num);
+		for(String tmp : pd_num) {
+			if(tmp == null)
+				return 0;
+			int pr_num = Integer.parseInt(tmp);
+			if(pr_num == 0)
+				return 0;
+			index++;
+			courseDao.insertCourseItem(co_num,pr_num,index);
+			
+		}
+		return res;
+	}
+
+	@Override
+	public int updateLike(int li_co_num, int li_updown, MemberVO user) {
+		if(user == null)
+			return -100;
+		int res = 0;
+		String table = "course";
+		LikeVO dbLikeVo = courseDao.selectLike(li_co_num, user.getMe_id(), table);
+		if(dbLikeVo == null) {
+			LikeVO likeVo = new LikeVO(li_updown, user.getMe_id(), li_co_num, table);
+			courseDao.insertLike(likeVo);
+			res = li_updown;
+		}else if(dbLikeVo.getLi_updown() == li_updown) {
+			//취소
+			LikeVO likeVo = new LikeVO(0, user.getMe_id(), li_co_num, table);
+			courseDao.updateLike(likeVo);
+			res = 0;
+		}else {
+			//변경
+			LikeVO likeVo = new LikeVO(li_updown, user.getMe_id(), li_co_num, table);
+			courseDao.updateLike(likeVo);
+			res = li_updown;
+		}
+		courseDao.updateCourseUpAndDown(li_co_num);
+		
+		return res;
+	}
+
+	@Override
+	public LikeVO getLikes(MemberVO user, int co_num) {
+		if(user == null)
+			return null;
+		String table = "course";
+		LikeVO likeVo = courseDao.selectLike(co_num, user.getMe_id(), table);
+		return likeVo;
+	}
+
+	@Override
+	public int insertReportCourse(ReportVO rep) {
+		if(rep == null || rep.getRep_category().trim().length() ==0 || rep.getRep_content().trim().length() ==0 ||
+				rep.getRep_table_key() == 0 || !rep.getRep_table().equals("course") || rep.getRep_me_id().trim().length() == 0)
+			return 0;
+		
+		return courseDao.insertReportCourse(rep);
+	}
+
+	@Override
+	public void updateCourseByReport(int co_num) {
+		if(co_num == 0)
+			return;
+		courseDao.updateCourseByReport(co_num);
+		return; 
+	}
+
+	@Override
+	public int selectReport(ReportVO rep) {
+		int res = courseDao.selectReportById(rep);
+		
+		return res;
+	}
+
+	@Override
+	public void updateViewCount(int co_num) {
+		courseDao.updateViewCount(co_num);
 		
 	}
 	
