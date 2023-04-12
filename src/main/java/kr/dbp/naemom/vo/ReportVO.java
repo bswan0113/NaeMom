@@ -1,6 +1,9 @@
 package kr.dbp.naemom.vo;
 
+
 import java.text.SimpleDateFormat;
+
+
 import java.util.Date;
 
 import lombok.Data;
@@ -9,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ReportVO {
+
 	
 	int rep_num;
 	int rep_table_key;
@@ -24,4 +28,5 @@ public class ReportVO {
 			return "";
 		return format.format(rep_date);
 	}
+
 }

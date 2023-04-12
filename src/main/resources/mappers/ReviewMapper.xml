@@ -29,12 +29,69 @@
   		re_pd_num = #{pd_num}
   </select>
   
+  <select id="checkReport" resultType="int">
+  	select count(*) from report where rep_table=#{re.rep_table} and rep_table_key=#{re.rep_table_key} and rep_me_id =#{re.rep_me_id}
+  </select>
+  
   <select id="getFileByReview" resultType="kr.dbp.naemom.vo.FileVO">
   	select * from file left join review on fi_table_key=re_num where fi_table =#{review} and re_num=#{re_num}
   </select>
   
   <delete id="deleteReview">
   	delete from review where re_num=#{re_num} and re_me_id=#{me_id}
+  </delete>
+  
+  <select id="selectRCommentList" resultType="kr.dbp.naemom.vo.ReviewCommentVO">
+  	select * from review_comment where rc_re_num = #{rc_re_num}  		
+  		order by rc_num desc limit #{cri.pageStart}, #{cri.perPageNum}
+  </select>
+  <select id="selectTotalCountReviewCommentList" resultType="int">
+  	  	select 
+	  		count(*) 
+	  	from 
+	  		review_comment
+	  	where
+	  		rc_re_num = #{rc_re_num}
+  </select>
+  <insert id="insertReviewComment">
+  	insert into review_comment(rc_re_num,rc_me_id,rc_content,rc_date)
+  	value(#{rc.rc_re_num},#{rc_me_id},#{rc.rc_content},now())
+  </insert>
+  
+  <delete id="deleteReviewComment">
+  	delete from review_comment where rc_num=#{rc_num} and rc_me_id=#{rc_me_id}
+  </delete>
+  <insert id="insertReportReview">
+  	insert into report(rep_table_key, rep_content, rep_date, rep_category, rep_table, rep_me_id)
+  		value(#{rep.rep_table_key}, #{rep.rep_content},now(), #{rep.rep_category}, #{rep.rep_table}, #{rep.rep_me_id})
+  </insert>
+  <select id="getReportCount" resultType="int">
+  select count(*) from report left join review on rep_table_key=re_num where rep_table=#{rep_table} and rep_table_key=#{re.re_num} 
+  </select>
+  <insert id="insertReviewLike">
+  	insert into `like`(li_me_id, li_table_key, li_updown, li_table)
+  		value(#{li.li_me_id}, #{li.li_table_key}, #{li.li_updown}, #{li.li_table})
+  </insert>
+  <select id="getLikeCount" resultType="int">
+  	select count(*) from `like` where li_table_key=#{li_table_key} and li_updown=#{li_updown} and li_table=#{li_table}
+  </select>
+  
+  <update id="updateReview">
+  	update review set re_content = #{re.re_content}, re_update_date=now() where re_num=#{re.re_num}
+  </update>
+  
+  <update id="updateFile">
+	update file set fi_ori_name = #{fi.fi_ori_name}, fi_name=#{fi.fi_name} 
+		where fi_table=#{fi.fi_table} and fi_table_key=#{fi.fi_table_key}
+  </update>
+  <select id="selectReview" resultType="kr.dbp.naemom.vo.LikeVO">
+  		select * from `like` where li_table =#{li.li_table} and li_table_key=#{li.li_table_key} and li_me_id=#{li.li_me_id}
+  </select>
+  <select id="getReviewLike" resultType="kr.dbp.naemom.vo.LikeVO">
+  	select * from `like` left join review on li_table_key=re_num where li_table_key=#{re.re_num} and li_me_id=#{re.re_me_id} and li_table=#{review}
+  </select>
+  <delete id="deleteReviewLike">
+  	delete from `like` where li_table_key=#{li.li_table_key} and li_table=#{li.li_table} and li_me_id=#{li.li_me_id}
   </delete>
 </mapper>
 

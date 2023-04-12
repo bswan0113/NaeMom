@@ -16,6 +16,7 @@
     </definition>
     
     <definition name=".root2" template="/WEB-INF/views/layout/adminLayout.jsp">
+    	<put-attribute name="header" value="/WEB-INF/views/layout/adminHeader.jsp" />
     </definition>
     
     

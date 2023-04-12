@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.dbp.naemom.pagination.Criteria;
+import kr.dbp.naemom.vo.DayOFFVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.LikeVO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
@@ -27,7 +29,7 @@ public interface ProductDAO {
 
 	public void insertFile(@Param("fi")FileVO fileVo);
 
-	public ArrayList<ProductVO> getProductList();
+	public ArrayList<ProductVO> getProductList(@Param("cri")Criteria cri);
 
 	public ArrayList<FileVO> getFile(@Param("pd_num")int pd_num, @Param("product")String string);
 
@@ -54,6 +56,25 @@ public interface ProductDAO {
 	public double getReviewAvg(@Param("pd_num")int pd_num);
 
 	public boolean insertReview(@Param("re")ReviewVO review);
+
+	public FileVO getAoFileByOption(@Param("fi_table_key")int num,@Param("fi_table")String string);
+
+	public FileVO getReoFileByOption(@Param("fi_table_key")int num,@Param("fi_table")String string);
+
+	public int deleteProduct(@Param("pd_num")int number);
+
+	public int updateProduct(@Param("pd")ProductVO product);
+
+	public int updateThumbNail(@Param("fi_num") int fi_num, @Param("fi_table") String fi_table, @Param("fi_ori_name") String fi_ori_name, @Param("fi_name") String fi_name, @Param("fi_category") String fi_category);
+
+	public int deleteFile(@Param("fi_num")int fi_num);
+
+	public int getProductCount();
+
+	public ArrayList<DayOFFVO> getDayOff(@Param("pd_num")int pd_num);
+
+
+	
 
 
 		

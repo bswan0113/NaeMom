@@ -36,6 +36,7 @@ import kr.dbp.naemom.vo.ReportVO;
 @Controller
 public class CourseController {
 	
+	
 	@Autowired
 	CourseService courseService;
 	

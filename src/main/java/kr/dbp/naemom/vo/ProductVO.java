@@ -1,6 +1,7 @@
 package kr.dbp.naemom.vo;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,7 +28,13 @@ public class ProductVO {
 	String pd_registerd_address;
 	String pd_detail_address;
 	String pd_parking;
+	FileVO file;
+	ArrayList<DayOFFVO> dayoff;
 	
+
+	Integer pdc_num;
+	
+
 	public String getPd_open_time_str() {
 		SimpleDateFormat format = 
 			new SimpleDateFormat("HH:mm");
@@ -38,4 +45,5 @@ public class ProductVO {
 				new SimpleDateFormat("HH:mm");
 			return format.format(pd_close_time);
 	}
+
 }

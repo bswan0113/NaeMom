@@ -1,4 +1,3 @@
-
 package kr.dbp.naemom.pagination;
 
 import lombok.Data;
@@ -11,11 +10,15 @@ public class Criteria {
 		private int perPageNum;
 		//검색어
 		private String search;
+		private int searchFilter;
+		private int pc_category;
 		//게시판 번호
 		private int type;
 		
 		private String orderBy;
 		
+		private int rc_re_num;
+
 		//Criteria 디폴트 생성자 : 현재 페이지를 1페이지로, 한 페이지에 10개의 컨텐츠
 		public Criteria() {
 			this.page = 1;

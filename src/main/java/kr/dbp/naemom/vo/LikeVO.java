@@ -9,9 +9,11 @@ public class LikeVO {
 	
 	int li_num;
 	int li_table_key;
+
+	String li_table;
 	String li_me_id;
 	int li_updown;
-	String li_table;
+
 	
 	public LikeVO(int li_updown, String li_me_id, int li_table_key, String li_table) {
 		this.li_updown = li_updown;
