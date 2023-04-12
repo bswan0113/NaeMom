@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.service.OrderService;
 import kr.dbp.naemom.vo.FileVO;
+import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.OptionDTO;
 import kr.dbp.naemom.vo.OptionListDTO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
@@ -79,9 +80,15 @@ public class OrderController {
 	}
 	@RequestMapping(value = "/option/basket", method=RequestMethod.POST)
 	public ModelAndView addBasket(ModelAndView mv, OptionDTO list) {
+		//지워야될코드
+		String id = "qwe";
+		MemberVO user = new MemberVO();
+		//MemberVO user = (MemberVO)session.getAttribute("user");
+		//지워야될코드
+		user.setMe_id(id);
 		for(OptionListDTO tmp : list.getList()) {
 			if(tmp != null) {
-				orderService.addBasket(tmp);
+				orderService.addBasket(tmp,user.getMe_id());
 			}
 		}
 		mv.setViewName("redirect:/option/opList");

@@ -17,6 +17,7 @@ public class OptionListDTO {
 	int pr_amount;
 	Date pr_date;
 	int pr_price;
+	int pr_option_num;
 	
 	public String getPr_date() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

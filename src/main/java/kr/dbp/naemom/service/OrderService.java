@@ -24,7 +24,7 @@ public interface OrderService {
 
 	FileVO getFileByPdNum(String tmp);
 
-	void addBasket(OptionListDTO tmp);
+	void addBasket(OptionListDTO tmp, String me_id);
 
 
 	

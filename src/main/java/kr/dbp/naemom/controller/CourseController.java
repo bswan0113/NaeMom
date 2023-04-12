@@ -266,6 +266,7 @@ public class CourseController {
 	private void selectList(ArrayList<CourseItemVO> items, ArrayList<FileVO> files, ArrayList<ProductVO> prlist,
 			ArrayList<Hash_tagVO> tags) {
 		for(CourseItemVO tmp : items) {
+			
 			ProductVO pr = courseService.getSelectProduct(tmp.getCi_pd_num());
 			tags.addAll(courseService.getHashTag(tmp.getCi_pd_num()));
 			FileVO file = courseService.getProductImg(tmp.getCi_pd_num());

@@ -81,9 +81,11 @@ public class OrderServiceImp implements OrderService{
 	}
 
 	@Override
-	public void addBasket(OptionListDTO tmp) {
+	public void addBasket(OptionListDTO tmp, String me_id) {
 		if(tmp == null || tmp.getPr_num() == 0 || tmp.getPr_amount() == 0 || tmp.getPr_category() == "")
 			return;
+		
+		orderDao.insertBasket(tmp);
 		
 	}
 

@@ -315,7 +315,7 @@
 		      	</ul>
 		      	<label style="font-size: 20px;">총가격 : </label>
 		      	<span style="float: right;"><em class="allPrice">0</em> 원</span>
-		      	<button class="addOrder btn btn-outline-danger">장바구니 담기</button>
+		      	<button type="button" class="addOrder btn btn-outline-danger">장바구니 담기</button>
 	    	</div>
     	</form>
   </div>
@@ -369,7 +369,6 @@
 		}
 		if($(obj).parent().siblings('[name=pr_category]').val() == 4){
 			let amount = $(obj).parent().siblings('.option_select_box2').find('.amount_festival_select').val();
-			console.log(amount)
 			let festival_menu = Number($(obj).parent().find('.menu_festival_select option:selected').val());
 			<c:forEach items="${festivalList}" var="festival">
 				if("${festival.fo_num}" == festival_menu){
@@ -426,7 +425,7 @@
 			let festival_menu = Number($(obj).parent().siblings('.option_select_box1').find('.menu_festival_select option:selected').val());
 			let amount = $(obj).parent().find('.amount_festival_select option:selected').val();
 			<c:forEach items="${festivalList}" var="festival">
-				if("${festival.fo_num}" == home_menu){
+				if("${festival.fo_num}" == festival_menu){
 					let price = "${festival.fo_price}" * amount;
 					$(obj).siblings('.select_price').text("${festival.fo_price}" * amount);	
 				}
@@ -488,8 +487,9 @@
 				return;
 			}
 			//let item_category = $(this).siblings('[name=pr_category]').val();
-			let item_category = "음식점";
+			let item_category = "restraunt_option";
 			let item_num =  $(this).siblings('[name=pr_num]').val();
+			let item_option_num = $(this).siblings('.option_select_box1').find('.option_select option:selected').val();
 			let item_index = 0;
 			$('.product_item').each(function(){
 				item_index++;
@@ -502,6 +502,7 @@
 	    			'<input type="hidden" name="list['+item_index+'].pr_num" value='+item_num+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_title" value='+item_title+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_option" value='+item_name+'>'+
+	    			'<input type="hidden" name="list['+item_index+'].pr_option_num" value='+item_option_num+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_amount" value='+item_amount+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_date" value='+item_date+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_price" value='+item_price+'>'+
@@ -534,8 +535,10 @@
 				return;
 			}
 			//let item_category = $(this).siblings('[name=pr_category]').val();
-			let item_category = "축제";
+			let item_category = "festival_option";
 			let item_num =  $(this).siblings('[name=pr_num]').val();
+			let item_option_num = $(this).siblings('.option_select_box1').find('.option_select option:selected').val();
+			console.log(item_option_num)
 			let item_index = 0;
 			$('.product_item').each(function(){
 				item_index++;
@@ -548,6 +551,7 @@
 	    			'<input type="hidden" name="list['+item_index+'].pr_num" value='+item_num+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_title" value='+item_title+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_option" value='+item_name+'>'+
+	    			'<input type="hidden" name="list['+item_index+'].pr_option_num" value='+item_option_num+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_amount" value='+item_amount+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_date" value='+item_date+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_price" value='+item_price+'>'+
@@ -580,8 +584,9 @@
 				return;
 			}
 			//let item_category = $(this).siblings('[name=pr_category]').val();
-			let item_category = "여행지";
+			let item_category = "landmark_option";
 			let item_num =  $(this).siblings('[name=pr_num]').val();
+			let item_option_num = $(this).siblings('.option_select_box1').find('.option_select option:selected').val();
 			let item_index = 0;
 			$('.product_item').each(function(){
 				item_index++;
@@ -594,6 +599,7 @@
 	    			'<input type="hidden" name="list['+item_index+'].pr_num" value='+item_num+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_title" value='+item_title+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_option" value='+item_name+'>'+
+	    			'<input type="hidden" name="list['+item_index+'].pr_option_num" value='+item_option_num+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_amount" value='+item_amount+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_date" value='+item_date+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_price" value='+item_price+'>'+
@@ -628,8 +634,9 @@
 				return;
 			}
 			//let item_category = $(this).siblings('[name=pr_category]').val();
-			let item_category = "숙박";
+			let item_category = "accomodation_option";
 			let item_num =  $(this).siblings('[name=pr_num]').val();
+			let item_option_num = $(this).siblings('.option_select_box1').find('.option_select option:selected').val();
 			let item_index = 0;
 			$('.product_item').each(function(){
 				item_index++;
@@ -642,6 +649,7 @@
 	    			'<input type="hidden" name="list['+item_index+'].pr_num" value='+item_num+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_title" value='+item_title+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_option" value='+item_name+'>'+
+	    			'<input type="hidden" name="list['+item_index+'].pr_option_num" value='+item_option_num+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_amount" value='+item_amount+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_date" value='+item_date+'>'+
 	    			'<input type="hidden" name="list['+item_index+'].pr_price" value='+item_price+'>'+
