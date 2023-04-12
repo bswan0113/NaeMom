@@ -18,7 +18,8 @@ public class ProductServiceImp implements ProductService{
 	@Autowired
 	ProductDAO productDao;
 	
-	String uploadPath = "D:\\uploadfiles";
+//	String uploadPath = "D:\\uploadfiles";
+	String uploadPath = "/Users/hyunkyulee/final/Uploadfiles";
 
 	@Override
 	public boolean insertProduct(ProductVO product, MultipartFile[] files) {
@@ -148,4 +149,15 @@ public class ProductServiceImp implements ProductService{
 		}
 		return list;	
 		}
+
+
+
+
+
+	
+
+
+
+
+
 }

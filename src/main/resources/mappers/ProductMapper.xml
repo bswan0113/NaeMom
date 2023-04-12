@@ -37,6 +37,7 @@
   	<select id="getTotalCountOfProduct" resultType="int">
   		select count(*) from product;
   	</select>
+  
   	
 </mapper>
 

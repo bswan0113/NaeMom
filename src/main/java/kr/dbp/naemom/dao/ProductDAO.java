@@ -28,6 +28,9 @@ public interface ProductDAO {
 
 	public FileVO getThumbNail(@Param("random")int random, @Param("ThumbNail")String Thum);
 
+	
+
+
 		
 
 }

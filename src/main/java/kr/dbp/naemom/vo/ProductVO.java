@@ -27,4 +27,6 @@ public class ProductVO {
 	String pd_detail_address;
 	String pd_parking;
 	
+	Integer pdc_num;
+	
 }

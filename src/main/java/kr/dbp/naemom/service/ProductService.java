@@ -24,5 +24,10 @@ public interface ProductService {
 
 	ArrayList<FileVO> getRandomThumbNail();
 
+	
+
+
+
+
 
 }

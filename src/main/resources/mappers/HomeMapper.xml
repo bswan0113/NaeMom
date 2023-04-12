@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.dbp.naemom.dao.HomeDAO">
+  	
+  	<select id="selectBoardList" resultType="kr.dbp.naemom.vo.ProductVO">
+  		select * from product
+  	</select>
+  	
+  	<select id="selectProductByKeyword" resultType="kr.dbp.naemom.vo.ProductVO">
+  		select * 
+			from product 
+			left join product_checked on pdc_pd_num = pd_num 
+			where pd_title like CONCAT('%', #{keyword}, '%') 
+			   or pd_street_address like concat('%', #{keyword}, '%');
+  	</select>
+  	
+  	<select id="selectProductByNum" resultType="kr.dbp.naemom.vo.ProductVO">
+	    select * from product where pd_num in
+	    <foreach item="pd_num" index="" collection="checked" open="(" separator="," close=")">
+	        #{pd_num}
+	    </foreach>
+	</select>
+
+	<delete id="deleteProductChecked">
+		delete from product_checked
+	</delete>
+	
+	<insert id="insertProductChecked">
+		insert into product_checked (pdc_pd_num) values
+			<foreach collection="array" item="pd_num" separator=",">	
+				 (#{pd_num})
+			</foreach>
+	</insert>
+	
+	<select id="getCheckedList" resultType="kr.dbp.naemom.vo.ProductVO">
+		SELECT pd_title, SUBSTR(pd_street_address, 1, 2) AS pd_street_address FROM product join product_checked on pdc_pd_num = pd_num;
+	</select>
+	
+    <update id="updateProduct">
+        update product set pd_title = #{plist.pd_title}, pd_content = #{plist.pd_content};
+  	</update>
+  	<select id="getProductList" resultType="kr.dbp.naemom.vo.ProductVO">
+  		select * from product order by pd_num DESC;
+  	</select>
+</mapper>
