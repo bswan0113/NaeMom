@@ -49,6 +49,7 @@
   		select * from course_item 
   			join product on pd_num = ci_pd_num
   			where ci_co_num = #{co_num} 
+  			order by ci_num asc
   	</select>
   	<select id="selectProductImgList" resultType="kr.dbp.naemom.vo.FileVO">
   		select * from file where fi_category like concat('%',#{fi_category},'%')
@@ -66,4 +67,71 @@
   	<delete id="deleteCourse">
   		delete from course where co_num = #{co_num}
   	</delete>
+  	<update id="updateCourse">
+  		update course
+  			set
+  				co_title = #{cos.co_title},
+  				co_content = #{cos.co_content},
+  				co_cc_category_num = #{cos.co_cc_category_num},
+  				co_cs_schedule_num = #{cos.co_cs_schedule_num},
+  				co_total_distance = #{cos.co_total_distance},
+  				co_update_date = now()
+  			where
+  				co_me_id = #{id} and co_num = #{co_num}
+  	</update>
+  	<select id="selectLike" resultType="kr.dbp.naemom.vo.LikeVO">
+  		select * from `like` where li_me_id = #{me_id} and li_table_key = #{li_co_num} and li_table = #{table}
+  	</select>
+  	<insert id="insertLike">
+  		insert into `like`(li_me_id, li_table_key, li_updown, li_table)
+  		values(#{li.li_me_id}, #{li.li_table_key}, #{li.li_updown}, #{li.li_table})
+  	</insert>
+  	<update id="updateLike">
+  		update `like` 
+  			set
+  				li_updown = #{li.li_updown} 
+  			where 
+  				li_me_id = #{li.li_me_id} and li_table_key = #{li.li_table_key} and li_table = #{li.li_table}
+  	</update>
+  	<update id="updateCourseUpAndDown">
+  		update course
+  			set
+		  		co_up = (
+		  			select 
+		  				count(*) 
+		  			from 
+		  				`like` 
+		  			where 
+		  				li_table_key = #{li_co_num} and li_updown = 1 and li_table = 'course'),
+		  		co_down = (
+		  			select 
+		  				count(*) 
+		  			from 
+		  				`like` 
+		  			where 
+		  				li_table_key = #{li_co_num} and li_updown = -1 and li_table = 'course')
+		  	where 
+		  		co_num = #{li_co_num}
+  	</update>
+  	<insert id="insertReportCourse">
+  		insert into report(rep_table_key, rep_content, rep_category, rep_table, rep_me_id)
+  		values(#{rep.rep_table_key},#{rep.rep_content},#{rep.rep_category},#{rep.rep_table},#{rep.rep_me_id})
+  	</insert>
+  	<update id="updateCourseByReport">
+  		update course
+  			set
+  				co_report = co_report+1
+  			where
+  				co_num = #{co_num}
+  	</update>
+  	<select id="selectReportById" resultType="int">
+  		select count(*) from report where rep_me_id = #{rep.rep_me_id} and rep_table = #{rep.rep_table} 
+  			and rep_table_key = #{rep.rep_table_key}
+  	</select>
+  	<update id="updateViewCount">
+  		update course
+  			set
+  				co_views = co_views + 1
+  			where co_num = #{co_num}
+  	</update>
 </mapper>

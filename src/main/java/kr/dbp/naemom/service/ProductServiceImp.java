@@ -1,6 +1,10 @@
 package kr.dbp.naemom.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import java.util.Locale;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,11 +12,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.dbp.naemom.dao.ProductDAO;
 import kr.dbp.naemom.utils.UploadFileUtils;
+import kr.dbp.naemom.vo.DayOFFVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
+
+import kr.dbp.naemom.vo.TempOFFVO;
+
 import kr.dbp.naemom.vo.WishVO;
 
 @Service
@@ -42,17 +50,13 @@ public class ProductServiceImp implements ProductService{
 		if(files.length>0) {
 			uploadThumbnail(files[1], product.getPd_num());
 		}
-		insertProductOption(product.getPd_num());
-		if(uploadFilesDetail(files, product.getPd_num())) return false;
+		uploadFilesDetail(files, product.getPd_num());
 		return true;
 		
 	}
 
 	
 
-	private void insertProductOption(int pd_pc_num) {
-		
-	}
 	//썸네일 등록메서드
 	private boolean uploadThumbnail(MultipartFile thm, int pd_num) {
 		if(thm==null) return false;
@@ -68,9 +72,9 @@ public class ProductServiceImp implements ProductService{
 		return true;
 	}
 	//대표이미지 등록 메서드
-	private boolean uploadFilesDetail(MultipartFile[] files, int i) {
+	private void uploadFilesDetail(MultipartFile[] files, int i) {
 		if(files == null || files.length == 0)
-			return false;;
+			return;
 		for(MultipartFile file : files) {
 			if(files[1]==file)continue;
 			if(file == null || file.getOriginalFilename().length() == 0)
@@ -87,7 +91,6 @@ public class ProductServiceImp implements ProductService{
 			}
 		}
 
-		return true;
 	}
 
 	@Override
@@ -112,8 +115,8 @@ public class ProductServiceImp implements ProductService{
 
 
 	@Override
-	public ArrayList<ProductVO> getProductList() {
-		return productDao.getProductList();
+	public ArrayList<ProductVO> getProductList(Criteria cri) {
+		return productDao.getProductList(cri);
 	}
 
 
@@ -260,6 +263,111 @@ public class ProductServiceImp implements ProductService{
 		if(file==null) return new FileVO();
 		return file;
 	}
+
+
+
+	@Override
+	public FileVO getThumbnail(int pd_num) {
+		if(pd_num<0) return null;
+		return productDao.getThumbNail(pd_num, "썸네일", "product");
+	}
+
+
+
+	@Override
+	public boolean deleteProduct(int number) {
+		if(number<=0) return false;
+		return productDao.deleteProduct(number)!=0;
+	}
+
+
+
+
+
+
+	@Override
+	public boolean updateProduct(ProductVO product) {
+		if(product ==null) return false;
+		if(product.getPd_num()<=0) return false;
+		if(product.getPd_capacity() <= 0 || 
+			product.getPd_close_time() == null || 
+			product.getPd_content().trim().length() ==0 ||
+			product.getPd_open_time() == null ||
+			product.getPd_parking().trim().length() ==0 ||
+			product.getPd_registerd_address().trim().length() ==0 ||
+			product.getPd_street_address().trim().length() ==0 ||
+			product.getPd_subtitle().trim().length() ==0||
+			product.getPd_title().trim().length() ==0) return false;
+		return productDao.updateProduct(product) >= 0;
+	}
+
+
+
+	@Override
+	public boolean updateThumbnail(MultipartFile uploadFile, int fi_num) {
+		if(fi_num<=0) return false;
+		if(uploadFile==null || uploadFile.getOriginalFilename().length()<=0) return false;
+		
+		String fileName="";
+		try {
+			fileName=UploadFileUtils.uploadFile(uploadPath, uploadFile.getOriginalFilename(), uploadFile.getBytes());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return  productDao.updateThumbNail(fi_num,"product", uploadFile.getOriginalFilename(), fileName,"썸네일")>=0;
+		
+	}
+
+
+
+	@Override
+	public boolean deleteFile(int fi_num) {
+		return productDao.deleteFile(fi_num)!=0;
+	}
+
+
+
+	@Override
+	public boolean updateProductFiles(MultipartFile[] files, int i) {
+		if(files == null || files.length == 0)
+			return false;
+		for(MultipartFile file : files) {
+			if(file == null || file.getOriginalFilename().length() == 0)
+				continue;
+			try {
+				String path = UploadFileUtils.uploadFile(uploadPath, 
+						file.getOriginalFilename(), file.getBytes());
+				FileVO fileVo = new FileVO("게시글 대표이미지",file.getOriginalFilename(),path, 
+						i);
+				fileVo.setFi_table("product");
+				productDao.insertFile(fileVo);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+
+
+	@Override
+	public int getProductCount() {
+		return productDao.getProductCount();
+	}
+
+
+
+	@Override
+	public ArrayList<DayOFFVO> getDayOff(int pd_num) {
+		ArrayList<DayOFFVO> dayoff =productDao.getDayOff(pd_num);
+		return dayoff;
+	}
+
+
+
+
 
 
 

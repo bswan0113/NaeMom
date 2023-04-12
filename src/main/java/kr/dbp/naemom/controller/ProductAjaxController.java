@@ -67,6 +67,14 @@ public class ProductAjaxController {
 		map.put("re_pd_num", review.getRe_pd_num());
 		return  map;
 	}
+	
+	@RequestMapping(value="/admin/delete/product", method=RequestMethod.POST)
+	public  Map<String, Object> deleteProduct(@RequestBody int number){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res= productService.deleteProduct(number);
+		map.put("res", res);
+		return  map;
+	}
 	@RequestMapping(value="/review/insert/file/{re_num}", method=RequestMethod.POST)
 	public  Map<String, Object> commentInsertFile(@RequestBody MultipartFile[] uploadFile, 
 			@PathVariable("re_num")int re_num){
@@ -133,6 +141,15 @@ public class ProductAjaxController {
 		map.put("res", res);
 		return map;
 	}	
+	
+	@RequestMapping(value="/check/report", method=RequestMethod.POST)
+	public Map<String, Object> checkReport(@RequestBody ReportVO report, HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = new MemberVO();
+		boolean res = reviewService.checkReportById(report);
+		map.put("res", res);
+		return map;
+	}	
 	@RequestMapping(value="/review/like", method=RequestMethod.POST)
 	public Map<String, Object> likeReview(@RequestBody LikeVO like, HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -182,7 +199,6 @@ public class ProductAjaxController {
 			@PathVariable("table_key")int table_key){
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean res= reviewService.updateReviewFile(uploadFile, table_key);		
-		System.out.println(res);
 		map.put("res", res);
 		return map;
 	}
@@ -197,4 +213,29 @@ public class ProductAjaxController {
 		map.put("res", res);
 		return map;
 	}
+
+	@RequestMapping(value="/admin/update/ThumbNail/{fi_num}", method=RequestMethod.POST)
+	public  Map<String, Object> updateThumbNail(@RequestBody MultipartFile uploadFile, 
+			@PathVariable("fi_num")int fi_num){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res= productService.updateThumbnail(uploadFile, fi_num);	
+		map.put("res", res);
+		return map;
+	}
+	@RequestMapping(value="/admin/delete/file/{fi_num}", method=RequestMethod.GET)
+	public  Map<String, Object> deleteFile(
+			@PathVariable("fi_num")int fi_num){
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res= productService.deleteFile(fi_num);	
+		map.put("res", res);
+		return map;
+	}
+	 @RequestMapping(value="/admin/update/productFile/{pd_num}", method=RequestMethod.POST)
+	  public Map<String, Object> updateProductFile(@RequestBody MultipartFile[] files, @PathVariable("pd_num")int pd_num) {
+		 Map<String, Object> map = new HashMap<String, Object>();
+		 boolean res = productService.updateProductFiles(files,pd_num);
+		 map.put("res", res);
+		 
+	      return map;
+	 }
 }

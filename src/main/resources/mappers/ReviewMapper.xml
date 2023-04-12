@@ -29,6 +29,10 @@
   		re_pd_num = #{pd_num}
   </select>
   
+  <select id="checkReport" resultType="int">
+  	select count(*) from report where rep_table=#{re.rep_table} and rep_table_key=#{re.rep_table_key} and rep_me_id =#{re.rep_me_id}
+  </select>
+  
   <select id="getFileByReview" resultType="kr.dbp.naemom.vo.FileVO">
   	select * from file left join review on fi_table_key=re_num where fi_table =#{review} and re_num=#{re_num}
   </select>
@@ -58,8 +62,8 @@
   	delete from review_comment where rc_num=#{rc_num} and rc_me_id=#{rc_me_id}
   </delete>
   <insert id="insertReportReview">
-  	insert into report(rep_table_key, rep_content, rep_date, rep_category, rep_table)
-  		value(#{rep.rep_table_key}, #{rep.rep_content},now(), #{rep.rep_category}, #{rep.rep_table})
+  	insert into report(rep_table_key, rep_content, rep_date, rep_category, rep_table, rep_me_id)
+  		value(#{rep.rep_table_key}, #{rep.rep_content},now(), #{rep.rep_category}, #{rep.rep_table}, #{rep.rep_me_id})
   </insert>
   <select id="getReportCount" resultType="int">
   select count(*) from report left join review on rep_table_key=re_num where rep_table=#{rep_table} and rep_table_key=#{re.re_num} 

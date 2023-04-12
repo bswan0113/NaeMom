@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.dbp.naemom.dao.ProductOptionDAO">
+
+	<delete id="deleteFestival">
+		delete from festival_option where fo_num=#{fo_num}
+	</delete>
+  	
+  	<insert id="insertFestivalOption">
+  		insert into festival_option(fo_price, fo_age, fo_pd_num)
+  		value(#{fo.fo_price},#{fo.fo_age},#{fo.fo_pd_num})
+  	</insert>
+ 	<update id="updateFestival">
+ 		update festival_option 
+ 			set fo_price=#{fo.fo_price}, fo_age=#{fo.fo_age}
+ 			where fo_num=#{fo.fo_num}
+ 	</update>
+	<delete id="deleteLandmark">
+		delete from landmark_option where lo_num=#{lo_num}
+	</delete>
+	
+  	
+  	<insert id="insertLandmarkOption">
+  		insert into landmark_option(lo_price, lo_age, lo_pd_num)
+  		value(#{lo.lo_price},#{lo.lo_age},#{lo.lo_pd_num})
+  	</insert>
+ 	<update id="updateLandmark">
+ 		update landmark_option 
+ 			set lo_price=#{lo.lo_price}, lo_age=#{lo.lo_age}
+ 			where lo_num=#{lo.lo_num}
+ 	</update>
+ 	
+ 	<insert id="insertDayOff">
+ 		insert into day_off(do_pd_num,do_state,do_date)
+ 		value(#{pd_num},"정",#{do_date})
+ 	</insert>
+ 	<delete id="deleteDayOff">
+ 		delete from day_off where do_pd_num=#{pd_num} and do_date=#{do_date} and do_state="정"
+ 	</delete>
+ 	<select id="getDayOff" resultType="kr.dbp.naemom.vo.DayOFFVO">
+ 		select * from day_off where do_pd_num =#{pd_num} and do_date=#{do_date} and do_state ="정"
+ 	</select>
+ 	
+ 	<insert id="insertDayOffTmp" useGeneratedKeys="true" keyProperty="do.do_num">
+	    INSERT INTO day_off(do_pd_num, do_state)
+	    VALUES (#{do.do_pd_num}, #{do.do_state})
+	</insert>
+	
+	<insert id="insertTmpOff">
+	  INSERT INTO temp_off (to_do_num, to_start, to_end)
+	  VALUES (#{to_do_num}, #{to_start}, #{to_end})
+	</insert>
+	
+	<select id="getDayOffTmp" resultType="kr.dbp.naemom.vo.TempOFFVO">
+		SELECT to_start, to_end, to_do_num, to_num
+			FROM temp_off
+			JOIN day_off ON temp_off.to_do_num = day_off.do_num
+			JOIN product ON day_off.do_pd_num = product.pd_num
+			WHERE day_off.do_state = '임' and day_off.do_pd_num =#{pd_num} AND to_end > NOW()
+	</select>
+	
+	<insert id="insertOptionFile">
+  		insert into file(fi_ori_name, fi_name, fi_table_key, fi_table)
+  		values(#{fi.fi_ori_name},#{fi.fi_name},#{fi.fi_table_key},#{fi.fi_table})
+	</insert>
+	
+	<insert id="insertRestrauntOption" useGeneratedKeys="true" keyProperty="reo.reo_num">
+		insert into restraunt_option(reo_name, reo_price,reo_content,reo_pd_num)
+		values(#{reo.reo_name},#{reo.reo_price},#{reo.reo_content},#{reo.reo_pd_num})
+	</insert>
+    <select id="getFileREOption" resultType="kr.dbp.naemom.vo.FileVO">
+	  select * from file where fi_table=#{fi_table} and fi_table_key=#{fi_table_key}
+	</select>
+	<delete id="deleteRestraunt">
+		delete from restraunt_option where reo_num=#{reo_num}
+	</delete>
+ 	<update id="updateRestraunt">
+ 		update restraunt_option 
+ 			set reo_price=#{reo.reo_price}, reo_content=#{reo.reo_content}, reo_name=#{reo.reo_name}
+ 			where reo_num=#{reo.reo_num}
+ 	</update>
+ 	<update id="updateRestrauntOptionFile">
+ 		UPDATE file SET
+	    fi_ori_name = #{fi.fi_ori_name},
+	    fi_name = #{fi.fi_name}
+	  	WHERE fi_num = #{fi_num}
+ 	</update>
+ 	
+	<insert id="insertAccomodationOption" useGeneratedKeys="true" keyProperty="ao.ao_num">
+		insert into accomodation_option(ao_name, ao_capacity, ao_price, ao_room_number, ao_room_detail, ao_pd_num)
+		values(#{ao.ao_name},#{ao.ao_capacity},#{ao.ao_price},#{ao.ao_room_number},#{ao.ao_room_detail},#{ao.ao_pd_num})
+	</insert>
+	
+    <select id="getFileAOption" resultType="kr.dbp.naemom.vo.FileVO">
+	  select * from file where fi_table=#{fi_table} and fi_table_key=#{fi_table_key}
+	</select>
+	
+	<delete id="deleteAccomodation">
+		delete from accomodation_option where ao_num=#{ao_num}
+	</delete>
+	
+ 	<update id="updateAccomodation">
+ 		update accomodation_option 
+ 			set ao_name = #{ao.ao_name}, ao_capacity = #{ao.ao_capacity},
+ 			ao_price = #{ao.ao_price}, ao_room_number = #{ao.ao_room_number},
+ 			ao_room_detail = #{ao.ao_room_detail}
+ 			where ao_num=#{ao.ao_num}
+
+ 	</update>
+ 	
+ 	<update id="updateAccomodationOptionFile">
+ 		UPDATE file SET
+	    fi_ori_name = #{fi.fi_ori_name},
+	    fi_name = #{fi.fi_name}
+	  	WHERE fi_num = #{fi_num}
+ 	</update>
+ 	
+ 	
+</mapper>
+

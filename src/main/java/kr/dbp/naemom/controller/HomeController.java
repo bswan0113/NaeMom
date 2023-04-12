@@ -20,8 +20,10 @@ public class HomeController {
 	@Autowired
 	HomeService homeService;
 	
+
 	@RequestMapping(value = "/")
 	public ModelAndView home(ModelAndView mv, @RequestParam(required = false,defaultValue = "0")int pd_num) {
+
 		ArrayList<ProductVO> plist = homeService.getCheckedList();
 		ArrayList<FileVO> files = new ArrayList<FileVO>();
 		for(int i = 0; i < plist.size() ; i++) {

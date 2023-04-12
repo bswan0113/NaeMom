@@ -50,6 +50,8 @@ public interface ReviewService {
 
 	boolean deleteReviewLike(LikeVO like);
 
+	boolean checkReportById(ReportVO report);
+
 
 
 

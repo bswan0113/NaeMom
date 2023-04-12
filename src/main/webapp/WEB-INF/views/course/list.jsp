@@ -132,42 +132,44 @@
 				</div>
 			</c:if>
 			<c:forEach items="${list}" var="co">
-				<div class="course_list">
-					<div class="course_desk">
-						<a href="<c:url value='/course/detail/${co.co_num }'></c:url>"><strong>${co.co_title}</strong>
-							<ul class="box_distance">
-								<li>
-									조회수 : <span>${co.co_views }</span> 추천수 : <span>${co.co_up }</span>
-								</li>
-								<li>
-									총거리 : <span>${co.co_total_distance }</span>km
-								</li>
-							</ul>
-							<span class="userInfo">
-								<em>${co.co_me_id }</em>
-							</span>
-						</a>
-						<c:forEach items="${files}" var="fi">
+				<c:if test="${co.co_report < 10 }">
+					<div class="course_list">
+						<div class="course_desk">
+							<a href="<c:url value='/course/detail/${co.co_num }'></c:url>"><strong>${co.co_title}</strong>
+								<ul class="box_distance">
+									<li>
+										조회수 : <span>${co.co_views }</span> 추천수 : <span>${co.co_up }</span>
+									</li>
+									<li>
+										총거리 : <span>${co.co_total_distance }</span>km
+									</li>
+								</ul>
+								<span class="userInfo">
+									<em>${co.co_me_id }</em>
+								</span>
+							</a>
+							<c:forEach items="${files}" var="fi">
+								<c:forEach items="${items}" var="item">
+									<c:if test="${fi.fi_table_key == item.ci_pd_num && co.co_num == item.ci_co_num && item.ci_index == 1}">
+										<img src="<c:url value='/download${fi.fi_name }'></c:url>" alt="" class="course_item_img">
+									</c:if>
+								</c:forEach>
+							</c:forEach>
+						</div>
+						<ul>
 							<c:forEach items="${items}" var="item">
-								<c:if test="${fi.fi_table_key == item.ci_pd_num && co.co_num == item.ci_co_num && item.ci_index == 1}">
-									<img src="<c:url value='/download${fi.fi_name }'></c:url>" alt="" class="course_item_img">
+								<c:if test="${co.co_num == item.ci_co_num}">
+									<li>
+										<span>
+												<a href="#">${item.pd_title }</a>
+										</span>
+									</li>
 								</c:if>
 							</c:forEach>
-						</c:forEach>
+							
+						</ul>
 					</div>
-					<ul>
-						<c:forEach items="${items}" var="item">
-							<c:if test="${co.co_num == item.ci_co_num}">
-								<li>
-									<span>
-											<a href="#">${item.pd_title }</a>
-									</span>
-								</li>
-							</c:if>
-						</c:forEach>
-						
-					</ul>
-				</div>
+				</c:if>
 			</c:forEach>
 			
 			

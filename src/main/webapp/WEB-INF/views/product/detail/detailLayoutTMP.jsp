@@ -633,7 +633,7 @@ $('.stars .fa').click(function() {
 			alert('내용을 입력해주세요!');
 			return;
 		}
-		ajaxPost(true,review,'<c:url value="/review/insert"></c:url>',function(data){
+		ajaxPost(false,review,'<c:url value="/review/insert"></c:url>',function(data){
 			
 			let formData = new FormData();
 			let inputFile = $('#insert-re-file');
@@ -817,13 +817,6 @@ $(document).on("click","#update-re-btn",function(){
 			data : formData,
 			type: "POST",
 			success : function(data){
-				if(data.res){
-					alert('수정에 성공했습니다.')
-				}
-				else{
-					alert('수정에 실패했습니다.')
-				}
-				
 			}
 		});
 	});
@@ -839,24 +832,48 @@ $(document).on("click",".update-cancle-btn",function(){
 	$(this).parents('.review-comment-container').children().removeClass('display-none');
 })
 
+function checkReport(report){
+	let res;
+	ajaxPost(false,report,'<c:url value="/check/report"></c:url>', function(data){
+		if(!data.res){
+			alert('이미 신고한 게시글입니다.!')
+			res=false;
+		}
+		if(data.res){
+			res =true;
+		}
+		
 
+		
+	});
+	return res;
+}
 $('#report-modal').click(function(){
 		let table_key= $(this).data('num');
 		let content = $('#report-content').val();
 		let category= $('#report-category').val();
 		let table= $(this).data('table');
+		let id= "${user.me_id}";
 		let report={
+				rep_me_id:id,
 				rep_table_key : table_key,
 				rep_table : table,
 				rep_content : content,
 				rep_category : category
 		}
+		
 		if(content.trim().length<=0){
 			alert('신고 사유를 정확히 입력해주세요.');
 			return;
 		}
+		
+		if(!checkReport(report))return;
+		
+		
+
+		
 		if(table=="review"){
-		ajaxPost(false,report,'<c:url value="/review/report"></c:url>', function(data){
+		ajaxPost(true,report,'<c:url value="/review/report"></c:url>', function(data){
 			if(data.res){
 				alert('신고가 완료되었습니다. 감사합니다.');
 				$('#report-modal').data('num','');
@@ -866,7 +883,7 @@ $('#report-modal').click(function(){
 			})
 		}
 		if(table=="reviewComment"){
-			ajaxPost(false,report,'<c:url value="/comment/report"></c:url>', function(data){
+			ajaxPost(true,report,'<c:url value="/comment/report"></c:url>', function(data){
 				if(data.res){
 					alert('신고가 완료되었습니다. 감사합니다.');
 					$('#report-modal').data('num','');
@@ -1142,6 +1159,7 @@ $("#ao-option").on("change", function(){
 	$('#ao-detail').html(option);	
 
   });
+  
 
 </script>
 

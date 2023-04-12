@@ -1,11 +1,13 @@
 package kr.dbp.naemom.vo;
 
+import java.io.Serializable;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class FileVO {
+public class FileVO implements Serializable{
 
 		int fi_num;
 		String fi_category;

@@ -212,6 +212,21 @@ public class ReviewServiceImp implements ReviewService {
 		return	res;
 	}
 
+	@Override
+	public boolean checkReportById(ReportVO report) {
+		if(report==null||
+				report.getRep_category()==null||
+				report.getRep_content().trim().length()<=0||
+				report.getRep_me_id()==null||
+				report.getRep_table()==null||
+				report.getRep_table_key()<=0) return false;
+			
+			
+		int reportCount= reviewDao.checkReport(report);
+		if(reportCount>0) return false;
+		return true;
+	}
+
 	
 
 

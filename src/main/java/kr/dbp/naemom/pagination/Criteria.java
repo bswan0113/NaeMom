@@ -1,4 +1,3 @@
-
 package kr.dbp.naemom.pagination;
 
 import lombok.Data;
@@ -11,6 +10,8 @@ public class Criteria {
 		private int perPageNum;
 		//검색어
 		private String search;
+		private int searchFilter;
+		private int pc_category;
 		//게시판 번호
 		private int type;
 		

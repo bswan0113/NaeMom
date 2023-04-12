@@ -1,6 +1,7 @@
 package kr.dbp.naemom.vo;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,6 +29,10 @@ public class ProductVO {
 	String pd_detail_address;
 	String pd_parking;
 	FileVO file;
+
+	ArrayList<DayOFFVO> dayoff;
+	
+
 	
 
 	Integer pdc_num;

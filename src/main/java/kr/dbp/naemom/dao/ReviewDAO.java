@@ -53,6 +53,8 @@ public interface ReviewDAO {
 
 	boolean deleteReviewLike(@Param("li")LikeVO like);
 
+	int checkReport(@Param("re")ReportVO report);
+
 
 
 
