@@ -110,7 +110,7 @@
     	<label class="option_title">장바구니</label>
     	<ul class="option_list">
     		<c:forEach items="${basket }" var="list">
-    		<c:if test='${list.sb_table == "festival_option" }'>
+    		<c:if test="${list.pd_pc_num ==2 }">
       		<li class="option_item">
       	  		<div class="option_photo">
       	  			<c:forEach items="${fList }" var="fi">
@@ -158,7 +158,7 @@
 				</div>
       		</li>
       		</c:if>
-      		<c:if test="${list.pd_pc_num ==4 }">
+      		<%-- <c:if test="${list.pd_pc_num ==4 }">
       		<li class="option_item">
       	  		<div class="option_photo">
       	  			<c:forEach items="${fList }" var="fi">
@@ -304,7 +304,7 @@
 					</div>
 				</div>
       		</li>
-      		</c:if>
+      		</c:if> --%>
      		</c:forEach>
 			
     	</ul>

@@ -22,6 +22,7 @@ public class Option_restrauntVO {
 	String reo_content;
 
 	Date reo_date;
+	String pc_category ="음식점";
 
     @JsonIgnore
     transient FileVO file;

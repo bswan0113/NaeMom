@@ -16,4 +16,5 @@ public class Option_festivalVO {
 	String fo_age;
 	Date fo_date;
 	
+	String pc_category ="축제";
 }
