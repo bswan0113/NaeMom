@@ -89,7 +89,7 @@
  	</update>
  	
 	<insert id="insertAccomodationOption" useGeneratedKeys="true" keyProperty="ao.ao_num">
-		insert into restraunt_option(ao_name, ao_capacity, ao_price, ao_room_number, ao_room_detail, ao_pd_num)
+		insert into accomodation_option(ao_name, ao_capacity, ao_price, ao_room_number, ao_room_detail, ao_pd_num)
 		values(#{ao.ao_name},#{ao.ao_capacity},#{ao.ao_price},#{ao.ao_room_number},#{ao.ao_room_detail},#{ao.ao_pd_num})
 	</insert>
 	
@@ -102,7 +102,7 @@
 	</delete>
 	
  	<update id="updateAccomodation">
- 		update restraunt_option 
+ 		update accomodation_option 
  			set ao_name = #{ao.ao_name}, ao_capacity = #{ao.ao_capacity},
  			ao_price = #{ao.ao_price}, ao_room_number = #{ao.ao_room_number},
  			ao_room_detail = #{ao.ao_room_detail}

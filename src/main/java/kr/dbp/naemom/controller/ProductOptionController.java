@@ -38,8 +38,9 @@ public class ProductOptionController {
 	
 	@RequestMapping(value="/admin/insert/optionAccomodation/{pd_num}")
 	public ModelAndView insertOptionAccomodation(ModelAndView mv, HttpSession session, @PathVariable("pd_num")int pd_num) {
-		ArrayList<Object> list = productService.getRestrauntOption(pd_num);
+		ArrayList<Object> list = productService.getAcomodationOption(pd_num);
 		ArrayList<Option_accomodationVO> optionList = new ArrayList<Option_accomodationVO>();
+		
 
 		for(Object obj : list) {
 		    Option_accomodationVO option = (Option_accomodationVO) obj;

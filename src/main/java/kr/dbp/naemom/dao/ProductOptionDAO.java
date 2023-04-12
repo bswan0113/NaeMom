@@ -54,7 +54,7 @@ public interface ProductOptionDAO {
 	public void updateRestrauntOptionFile(@Param("fi")FileVO file, @Param("fi_num")int fi_num);
 
 	
-	public boolean insertAccomodation(@Param("ao")Option_accomodationVO option);
+	public boolean insertAccomodationOption(@Param("ao")Option_accomodationVO option);
 
 	public FileVO getFileAOption(@Param("fi_table_key")int ao_num, @Param("fi_table")String string);
 	

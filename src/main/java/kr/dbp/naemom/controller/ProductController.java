@@ -25,7 +25,6 @@ import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
-import kr.dbp.naemom.vo.TempOFFVO;
 import kr.dbp.naemom.vo.WishVO;
 
 @Controller
@@ -63,7 +62,7 @@ public class ProductController {
 			}
 		}
 		else {
-			mv.setViewName("redirect:/product/listtmp");
+			mv.setViewName("redirect:/admin/home/home");
 		}
 		return mv;
 	}	
@@ -129,22 +128,7 @@ public class ProductController {
 		return mv;
 	}
 	
-	//임시 목록페이지
-	@RequestMapping(value="/product/listtmp")
-	public ModelAndView listtmp(ModelAndView mv) {
-		mv.setViewName("/product/listtmp");
-		return mv;
-	}
-	//임시 검색목록 페이지
-	@RequestMapping(value="/product/searchTmp")
-	public ModelAndView searchTmp(ModelAndView mv) {
-		Criteria cri = new Criteria();
-		ArrayList<ProductVO> list = productService.getProductList(cri);
-		mv.addObject("product",list);
-		
-		mv.setViewName("/product/searchTmp");
-		return mv;
-	}
+
 	//상세페이지 레이아웃
 	@RequestMapping(value="/product/detail/detailLayoutTMP/{i}", method=RequestMethod.GET)
 	public ModelAndView detailLayout(ModelAndView mv, @PathVariable("i")int pd_num, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
@@ -158,7 +142,6 @@ public class ProductController {
 		ArrayList<FileVO> random = productService.getThumbNailByRandomProduct(randomProduct);
 		WishVO wish = productService.getWish(user.getMe_id(), pd_num);
 		Double rating =productService.getRatingAvg(pd_num);
-		
 		Cookie[] cookies = request.getCookies();
 		Cookie abuseCheck = null;
 		ArrayList<String> check = new ArrayList<String>();

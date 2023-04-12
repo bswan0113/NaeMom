@@ -236,18 +236,19 @@ public class ProductOptionServiceImp implements ProductOptionService{
 		                option.getAo_capacity() <=0) {
 		            return false;
 		        }
-		        if(!productOptionDao.insertAccomodation(option)) {
+		        if(!productOptionDao.insertAccomodationOption(option)) {
 		           return false;
 		        }
 		       insertAccomodationOptionFile(option.getAo_num(), files[i]);
 		    }
-			return false;
+			return true;
 		}
 
 		private void insertAccomodationOptionFile(int ao_num, MultipartFile multipartFile) {
 			if(multipartFile==null || multipartFile.getOriginalFilename()==null) return;
 			if(ao_num<=0) return;
 			String fileName="";
+			System.out.println(multipartFile.getOriginalFilename());
 			try {
 				fileName=UploadFileUtils.uploadFile(uploadPath, multipartFile.getOriginalFilename(), multipartFile.getBytes());
 				FileVO file = new FileVO();
@@ -255,10 +256,7 @@ public class ProductOptionServiceImp implements ProductOptionService{
 				file.setFi_ori_name(multipartFile.getOriginalFilename());
 				file.setFi_table("accomodation_option");
 				file.setFi_table_key(ao_num);
-				FileVO oriFile=productOptionDao.getFileREOption(ao_num, file.getFi_table());
-				if(oriFile !=null) {
-					productOptionDao.updateRestrauntOptionFile(file, oriFile.getFi_num());
-				}
+				productOptionDao.insertOptionFile(file);
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -267,7 +265,7 @@ public class ProductOptionServiceImp implements ProductOptionService{
 		@Override
 		public FileVO getFileAOption(int ao_num) {
 			if(ao_num<=0) return null;
-			return productOptionDao.getFileAOption(ao_num,"restraunt_option");
+			return productOptionDao.getFileAOption(ao_num,"accomodation_option");
 		}
 		
 		@Override

@@ -182,11 +182,15 @@ $('.update-saved').click(function() {
         '<div class="option-item">'+
         '<input type="hidden" value="'+pd_num+'" name="ao_pd_num">'+
             '<div class="form-group">'+
-                '<label for="name">메뉴명:</label>'+
+                '<label for="name">방이름:</label>'+
                 '<input type="text" class="form-control" id="name" name="ao_name" value='+name+'>'+
             '</div>'+
+			'<div class="form-group">'+
+				'<label for="room_number">호실:</label>'+
+				'<input type="text" class="form-control" id="room_number" name="ao_room_number" value='+room_number+'>'+
+			'</div>'+
   	      '<div class="form-group">'+
-	        '<label for="room_detail">메뉴이미지변경:</label>'+
+	        '<label for="room_detail">방 이미지 첨부:</label>'+
 	        '<input type="file" class="form-control files" id="file" name="files">'+
 	      '</div>'+
             '<div class="form-group">'+
@@ -194,9 +198,13 @@ $('.update-saved').click(function() {
                 '<input type="text" class="form-control" id="price" name="ao_price" value='+price+'>'+
             '</div>'+
             '<div class="form-group">'+
-	            '<label for="room_detail">메뉴설명:</label>'+
+	            '<label for="room_detail">방설명:</label>'+
 	            '<input type="text" class="form-control" id="room_detail" name="ao_room_detail" value='+room_detail+'>'+
 	        '</div>'+
+			'<div class="form-group">'+
+				'<label for="capacity">최대인원:</label>'+
+				'<input type="text" class="form-control" id="capacity" name="ao_capacity" value='+capacity+'>'+
+			'</div>'+
             '<button class="btn btn-primary update-item" type="button">수정</button>'+
             '<button class="btn btn-primary delete-item" type="button">삭제</button>'+
             '<button class="btn btn-secondary cancle-update" type="button">취소</button>'+
