@@ -1,3 +1,4 @@
+
 package kr.dbp.naemom.pagination;
 
 import lombok.Data;
@@ -31,4 +32,3 @@ public class Criteria {
 			return (this.page -1) * perPageNum;
 		}
 }
-

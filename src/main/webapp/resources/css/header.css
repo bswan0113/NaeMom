@@ -16,7 +16,7 @@ ul,li{
 .clearfix::after{
   content: ''; clear: both; display: block; 
 }
-a{
+a,a:hover, a:visited{
   text-decoration: none;
 }
 

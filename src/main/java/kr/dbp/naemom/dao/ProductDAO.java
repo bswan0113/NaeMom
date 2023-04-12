@@ -60,6 +60,9 @@ public interface ProductDAO {
 	public FileVO getReoFileByOption(@Param("fi_table_key")int num,@Param("fi_table")String string);
 
 
+	
+
+
 		
 
 }

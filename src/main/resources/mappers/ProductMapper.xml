@@ -37,6 +37,7 @@
   	<select id="getTotalCountOfProduct" resultType="int">
   		select count(*) from product
   	</select>
+
   	<select id="getWish" resultType="kr.dbp.naemom.vo.WishVO">
   		select * from wishitem where  wi_pd_num = #{pd_num} and wi_me_id=#{me_id}
   	</select>
@@ -80,6 +81,7 @@
   		SELECT * FROM file left join restraunt_option  on  fi_table_key =reo_pd_num where fi_table=#{fi_table} and fi_table_key=#{fi_table_key}
   	</select>
   	
+
   	
 </mapper>
 

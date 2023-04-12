@@ -28,6 +28,10 @@ public class ProductVO {
 	String pd_detail_address;
 	String pd_parking;
 	
+
+	Integer pdc_num;
+	
+
 	public String getPd_open_time_str() {
 		SimpleDateFormat format = 
 			new SimpleDateFormat("HH:mm");
@@ -38,4 +42,5 @@ public class ProductVO {
 				new SimpleDateFormat("HH:mm");
 			return format.format(pd_close_time);
 	}
+
 }
