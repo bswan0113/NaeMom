@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.dbp.naemom.dao.HomeDAO;
+import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.ProductVO;
 
 @Service
@@ -29,35 +30,6 @@ public class HomeServiceImp implements HomeService {
 		return homeDao.selectProductByKeyword(keyword);
 	}
 
-//	@Override
-//	public ArrayList<ProductVO> checkedProduct(HttpServletRequest request) {
-//		ArrayList<ProductVO> checkedList = new ArrayList<ProductVO>();
-//	    String[] checkedValues = request.getParameterValues("checked");
-//	    if (checkedValues != null) {
-//	        for (String checkedValue : checkedValues) {
-//	            int pd_num = Integer.parseInt(checkedValue);
-//	            ProductVO product = homeDao.selectProductByNum(pd_num);
-//	            checkedList.add(product);
-//	        }
-//	    }
-//	    return checkedList;
-//	}
-
-
-//	@Override
-//	public void updateProductChecked(String[] checkedPids) {
-//		homeDao.updateProductChecked(checkedPids);
-//		
-//	}
-//
-//
-//	@Override
-//	public void updateProduct(String pd_title, String pd_content) {
-//		homeDao.updateProduct(pd_title, pd_content);
-//		
-//	}
-//
-//
 	@Override
 	public ArrayList<ProductVO> getProductList() {
 		return homeDao.getProductList();
@@ -83,5 +55,13 @@ public class HomeServiceImp implements HomeService {
 	@Override
 	public ArrayList<ProductVO> getCheckedList() {
 		return homeDao.getCheckedList();
+	}
+
+
+	@Override
+	public FileVO getFiles(int pd_num) {
+		FileVO files= homeDao.getFile(pd_num,"product", "게시글 썸네일");
+		System.out.println(files);
+		return files;
 	}
 }

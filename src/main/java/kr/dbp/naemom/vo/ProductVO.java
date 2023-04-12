@@ -27,6 +27,7 @@ public class ProductVO {
 	String pd_registerd_address;
 	String pd_detail_address;
 	String pd_parking;
+	FileVO file;
 	
 
 	Integer pdc_num;

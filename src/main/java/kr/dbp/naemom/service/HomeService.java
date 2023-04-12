@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.ProductVO;
 
 public interface HomeService {
@@ -25,6 +26,8 @@ public interface HomeService {
 	void deleteProductChecked(int[] pdc_checked);
 
 	ArrayList<ProductVO> getCheckedList();
+
+	FileVO getFiles(int pd_num);
 	
 
 }

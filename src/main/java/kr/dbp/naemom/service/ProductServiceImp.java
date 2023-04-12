@@ -2,22 +2,17 @@ package kr.dbp.naemom.service;
 
 import java.util.ArrayList;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.dbp.naemom.dao.ProductDAO;
-import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.utils.UploadFileUtils;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
-import kr.dbp.naemom.vo.Option_festivalVO;
-import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
-import kr.dbp.naemom.vo.ReviewVO;
 import kr.dbp.naemom.vo.WishVO;
 
 @Service
@@ -27,8 +22,8 @@ public class ProductServiceImp implements ProductService{
 	ProductDAO productDao;
 	
 
-	String uploadPath = "D:\\uploadfiles";
-	//String uploadPath = "/Users/hyunkyulee/final/Uploadfiles";
+//	String uploadPath = "D:\\uploadfiles";
+	String uploadPath = "/Users/hyunkyulee/final/Uploadfiles";
 
 
 	@Override

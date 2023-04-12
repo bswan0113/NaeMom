@@ -18,17 +18,11 @@ public class MemberVO {
 	Date me_birthday;
 	String me_phone;
 	String me_gender;
-
 	int me_authority;
 	String me_nickname;
 	String me_street_address;
 	String me_registered_address;
 	String me_detail_address;
-
-	String me_authority;
-	String me_nickname;
-	String me_street_address;
-	String me_registered_address;
 
 	int me_mileage;
 	String me_session_id;

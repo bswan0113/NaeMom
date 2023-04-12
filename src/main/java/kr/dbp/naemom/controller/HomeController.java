@@ -3,15 +3,15 @@ package kr.dbp.naemom.controller;
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.service.HomeService;
+import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.ProductVO;
 
 @Controller
@@ -21,8 +21,13 @@ public class HomeController {
 	HomeService homeService;
 	
 	@RequestMapping(value = "/")
-	public ModelAndView home(ModelAndView mv) {
+	public ModelAndView home(ModelAndView mv, @RequestParam(required = false,defaultValue = "0")int pd_num) {
 		ArrayList<ProductVO> plist = homeService.getCheckedList();
+		ArrayList<FileVO> files = new ArrayList<FileVO>();
+		for(int i = 0; i < plist.size() ; i++) {
+			plist.get(i).setFile(homeService.getFiles(plist.get(i).getPd_num()));
+		}
+		mv.addObject("files", files);
 		mv.addObject("plist", plist);
 		mv.setViewName("/main/home");
 		return mv;
