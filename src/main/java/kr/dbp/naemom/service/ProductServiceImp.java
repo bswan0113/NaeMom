@@ -26,9 +26,11 @@ public class ProductServiceImp implements ProductService{
 	@Autowired
 	ProductDAO productDao;
 	
+
 	String uploadPath = "D:\\uploadfiles";
-	
-	
+	//String uploadPath = "/Users/hyunkyulee/final/Uploadfiles";
+
+
 	@Override
 	public boolean insertProduct(ProductVO product, MultipartFile[] files) {
 		if(product ==null) return false;
@@ -157,6 +159,7 @@ public class ProductServiceImp implements ProductService{
 			file=productDao.getThumbNail(randomProduct.get(i).getPd_num(), Thum,"product");
 			fileList.add(file);
 		}
+
 		return fileList;
 	}
 
@@ -358,6 +361,7 @@ public class ProductServiceImp implements ProductService{
 		ArrayList<DayOFFVO> dayoff =productDao.getDayOff(pd_num);
 		return dayoff;
 	}
+
 
 
 

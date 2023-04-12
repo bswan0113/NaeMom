@@ -98,6 +98,7 @@
   	<select id="getTotalCountOfProduct" resultType="int">
   		select count(*) from product
   	</select>
+
   	<select id="getWish" resultType="kr.dbp.naemom.vo.WishVO">
   		select * from wishitem where  wi_pd_num = #{pd_num} and wi_me_id=#{me_id}
   	</select>
@@ -144,6 +145,7 @@
   		delete from product where pd_num =#{pd_num}
   	</delete>
   	
+
 	<update id="updateProduct">
 	  update product
 	  set pd_title=#{pd.pd_title},
@@ -178,5 +180,6 @@
 	<select id="getDayOff" resultType="kr.dbp.naemom.vo.DayOFFVO">
 		select * from day_off where do_pd_num=#{pd_num};
 	</select>
+
 </mapper>
 
