@@ -20,7 +20,6 @@ public class MemberVO {
 	String me_gender;
 	int me_authority;
 
-	int me_authority;
 	String me_detail_address;
 
 	String me_nickname;
