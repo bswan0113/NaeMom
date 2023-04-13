@@ -31,13 +31,13 @@ public interface OrderDAO {
 
 	ArrayList<Shopping_basketVO> selectBasket(@Param("me_id")String me_id);
 
-	Option_festivalVO selectFestivalByNum(@Param("sb_table_key")int sb_table_key);
-
-	Option_accomodationVO selectHomeByNum(@Param("sb_table_key")int sb_table_key);
-
-	Option_restrauntVO selectFoodByNum(@Param("sb_table_key")int sb_table_key);
-
-	Option_landMarkVO selectTravelByNum(@Param("sb_table_key")int sb_table_key);
+//	Option_festivalVO selectFestivalByNum(@Param("sb_table_key")int sb_table_key);
+//
+//	Option_accomodationVO selectHomeByNum(@Param("sb_table_key")int sb_table_key);
+//
+//	Option_restrauntVO selectFoodByNum(@Param("sb_table_key")int sb_table_key);
+//
+//	Option_landMarkVO selectTravelByNum(@Param("sb_table_key")int sb_table_key);
 
 
 }

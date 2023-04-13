@@ -103,22 +103,12 @@ public class OrderController {
 		//MemberVO user = (MemberVO)session.getAttribute("user");
 		//지워야될코드
 		user.setMe_id(id);
-		System.out.println(1);
 		ArrayList<Shopping_basketVO> basket = orderService.getBasket(user.getMe_id());
-		ArrayList<Option_landMarkVO> travelList = orderService.getTravelListByBasket(basket);
-		ArrayList<Option_restrauntVO> foodList = orderService.getFoodListByBasket(basket);
-		ArrayList<Option_accomodationVO> homeList = orderService.getHomeListByBasket(basket);
-		ArrayList<Option_festivalVO> festivalList = orderService.getFestivalListByBasket(basket);
-		//ArrayList<FileVO> fList = new ArrayList<FileVO>();
+		ArrayList<ProductVO> prList = orderService.getProductByBasket(basket);
 		ArrayList<FileVO> fList = orderService.getFileListByBasket(basket);
-		System.out.println(basket);
-		System.out.println(fList);
+		mv.addObject("prList", prList);
 		mv.addObject("basket", basket);
-		mv.addObject("festivalList", festivalList);
 		mv.addObject("fList", fList);
-		mv.addObject("travelList",travelList);
-		mv.addObject("foodList", foodList);
-		mv.addObject("homeList", homeList);
 		mv.setViewName("/option/basket");
 		return mv;
 	}

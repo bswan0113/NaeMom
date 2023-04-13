@@ -320,6 +320,7 @@
     	</form>
   </div>
   <script>
+  //데이터피커 이용
   $.datepicker.setDefaults({
 		dateFormat: 'yy/mm/dd',
 		prevText: '이전 달',
@@ -344,6 +345,7 @@
 		priceAll();
 	})
 	priceAll();
+	//옵션바꿀시 가격수정
 	function priceAll(){
 		let allprice = 0;
 		$('[name=pr_price]').each(function(){
@@ -353,7 +355,7 @@
 		})
 		$('.allPrice').text(allprice);
 	}
-
+	//옵션 선택시 가격과 상세설명 수정
 	function select_menu(obj){
 		if($(obj).parent().siblings('[name=pr_category]').val() == 2){
 			let amount = $(obj).parent().siblings('.option_select_box2').find('.amount_food_select').val();
@@ -408,7 +410,7 @@
 			</c:forEach>
 		}
 	}
-	
+	//수량 변경시 가격수정
 	function select_amount(obj){
 		if($(obj).parent().siblings('[name=pr_category]').val() == 2){
 			let food_menu = Number($(obj).parent().siblings('.option_select_box1').find('.menu_food_select option:selected').val());
@@ -456,6 +458,7 @@
 			</c:forEach>
 		}
 	}
+	//숙박에서 추가인원 설정
 	function add_price(obj){
 		let home_menu = Number($(obj).parent().siblings('.option_select_box1').find('.menu_home_select option:selected').val());
 		let people = $(obj).parent().find('.amount_home_select option:selected').val();
@@ -472,6 +475,7 @@
 			}
 		</c:forEach>
 	}
+	//선택시 리스트에 상품 추가
 	$('.select_item').click(function(){
 		if($(this).siblings('[name=pr_category]').val() == 2){
 			let item_amount = $(this).siblings('.option_select_box2').find('.amount_food_select').val();

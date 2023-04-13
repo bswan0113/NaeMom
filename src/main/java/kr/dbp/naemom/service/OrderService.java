@@ -29,15 +29,9 @@ public interface OrderService {
 
 	ArrayList<Shopping_basketVO> getBasket(String me_id);
 
-	ArrayList<Option_landMarkVO> getTravelListByBasket(ArrayList<Shopping_basketVO> basket);
-
-	ArrayList<Option_restrauntVO> getFoodListByBasket(ArrayList<Shopping_basketVO> basket);
-
-	ArrayList<Option_accomodationVO> getHomeListByBasket(ArrayList<Shopping_basketVO> basket);
-
-	ArrayList<Option_festivalVO> getFestivalListByBasket(ArrayList<Shopping_basketVO> basket);
-
 	ArrayList<FileVO> getFileListByBasket(ArrayList<Shopping_basketVO> basket);
+
+	ArrayList<ProductVO> getProductByBasket(ArrayList<Shopping_basketVO> basket);
 
 
 	

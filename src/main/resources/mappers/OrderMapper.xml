@@ -25,13 +25,41 @@
   			and fi_table = #{fi_table}
   	</select>
   	<insert id="insertBasket">
-  		insert into shopping_basket(sb_me_id,sb_amount,sb_table,sb_table_key,sb_price)
-  		values(#{me_id},#{tmp.pr_amount},#{tmp.pr_category},#{tmp.pr_option_num},#{tmp.pr_price})
+  		insert into shopping_basket(sb_me_id,sb_amount,sb_table,sb_table_key,sb_price, sb_date)
+  		values(#{me_id},#{tmp.pr_amount},#{tmp.pr_category},#{tmp.pr_option_num},#{tmp.pr_price}, #{tmp.pr_date})
   	</insert>
-  	<select id="selectBasket" resultType="kr.dbp.naemom.vo.Shopping_basketVO">
+  	<resultMap type="kr.dbp.naemom.vo.Shopping_basketVO" id="selectBasketByOption">
+  		<id property="sb_num" column="sb_num"/>
+  		<result property="sb_me_id" column="sb_me_id"/>
+  		<result property="sb_amount" column="sb_amount"/>
+  		<result property="sb_table" column="sb_table"/>
+  		<result property="sb_table_key" column="sb_table_key"/>
+  		<result property="sb_price" column="sb_price"/>
+  		<collection property="travel" ofType="kr.dbp.naemom.vo.Option_landMarkVO" column="{sb_table=sb_table, sb_table_key=sb_table_key}" select="selectTravelListByKey"></collection>
+  		<collection property="food" ofType="kr.dbp.naemom.vo.Option_restrauntVO" column="{sb_table=sb_table, sb_table_key=sb_table_key}" select="selectFoodListByKey"></collection>
+  		<collection property="home" ofType="kr.dbp.naemom.vo.Option_accomodationVO" column="{sb_table=sb_table, sb_table_key=sb_table_key}" select="selectHomeListByKey"></collection>
+  		<collection property="festival" ofType="kr.dbp.naemom.vo.Option_festivalVO" column="{sb_table=sb_table, sb_table_key=sb_table_key}" select="selectFestivalListByKey"></collection>
+  	</resultMap>
+  	<select id="selectBasket" resultMap="selectBasketByOption">
   		select * from shopping_basket where sb_me_id = #{me_id}
    	</select>
-   	<select id="selectFestivalByNum" resultType="kr.dbp.naemom.vo.Option_festivalVO">
+   	<select id="selectTravelListByKey" resultType="kr.dbp.naemom.vo.Option_landMarkVO" parameterType="java.util.Map">
+   		select * from landMark_option where lo_num =  #{sb_table_key} and #{sb_table} = 'landmark_option'
+   	</select>
+   	<select id="selectFoodListByKey" resultType="kr.dbp.naemom.vo.Option_restrauntVO" parameterType="java.util.Map">
+   		select * from restraunt_option where reo_num = #{sb_table_key} and #{sb_table} = 'restraunt_option'
+   	</select>
+   	<select id="selectHomeListByKey" resultType="kr.dbp.naemom.vo.Option_accomodationVO" parameterType="java.util.Map">
+   		select * from accomodation_option where ao_num = #{sb_table_key} and #{sb_table} = 'accomodation_option'
+   	</select>
+   	<select id="selectFestivalListByKey" resultType="kr.dbp.naemom.vo.Option_festivalVO" parameterType="java.util.Map">
+   		select * from festival_option where fo_num = #{sb_table_key} and #{sb_table} = 'festival_option'
+   	</select>
+   	
+   	
+   	
+   	
+   	<!-- <select id="selectFestivalByNum" resultType="kr.dbp.naemom.vo.Option_festivalVO">
    		select * from festival_option where fo_num = #{sb_table_key}
    	</select>
    	<select id="selectHomeByNum" resultType="kr.dbp.naemom.vo.Option_accomodationVO">
@@ -41,8 +69,8 @@
    		select * from restraunt_option where reo_num = #{sb_table_key}
    	</select>
    	<select id="selectTravelByNum" resultType="kr.dbp.naemom.vo.Option_landMarkVO">
-   		select * from landMark_option where li_num =  #{sb_table_key}
-   	</select>
+   		select * from landMark_option where lo_num =  #{sb_table_key}
+   	</select> -->
 </mapper>
 
 
