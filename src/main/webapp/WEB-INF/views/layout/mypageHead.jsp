@@ -27,12 +27,12 @@
     border-radius: 50%;
     box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
   }
-  .btn-container {
+  .btn-update-container {
     display: flex;
     justify-content: flex-start;
     margin-top: 20px;
   }
-  .btn {
+  .btn-update {
     display: inline-block;
     background-color: #29c16d;
     color: #fff;
@@ -44,7 +44,7 @@
     transition: background-color 0.3s;
     margin-left: 55px;
   }
-  .btn:hover {
+  .btn-update:hover {
     background-color: #239a55;
   }
 </style>
@@ -79,4 +79,4 @@
     ${user.me_mileage}
   </li>
 </ul>
-    <button class="btn">프로필 편집하기</button>
+    <a href="<c:url value="/mypage/profile"></c:url>"class="btn-update">프로필 편집하기</a>

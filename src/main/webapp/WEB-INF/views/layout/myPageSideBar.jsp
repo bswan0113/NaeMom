@@ -31,6 +31,9 @@
 </style>
 <ul class="side-bar-list">
 	<li class="side-bar-item">
+		<a href="<c:url value="/mypage/main"></c:url>" class="side-bar-link">메인</a>
+	</li>
+	<li class="side-bar-item">
 		<a href="" class="side-bar-link">문의</a>
 	</li>
 	<li class="side-bar-item">
