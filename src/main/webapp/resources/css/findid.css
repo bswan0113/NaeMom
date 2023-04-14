@@ -1,0 +1,22 @@
+
+.btn-find{
+	color:white;
+	background-color: rgb(118, 229, 168);
+	border-color: white;
+	margin-left: 32%;
+	margin-top: 1%;
+	font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
+	cursor: pointer;
+}
+
+.container{
+	border: 1px solid black;
+	width: 250px;
+	height: 250px;
+	margin-left: 45%;
+	margin-top: 20%;
+}
+#name,#email,#birth,#account{
+margin-left: 15%;
+margin-top: 10%;
+}

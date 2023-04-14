@@ -1,0 +1,23 @@
+.container{
+	
+	border: 1px solid black;
+	width: 250px;
+	height: 250px;
+	margin-left: 38%;
+	margin-top: 20%;
+	text-align: center;
+	font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
+
+}
+
+.btn-return{
+	color: white;
+	background-color: rgb(118, 229, 168);
+	border-color: white;
+	margin-top: 50%;
+	font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
+
+}
+.container.body-container{
+	border:1px solid white;
+}
