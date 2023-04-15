@@ -1,0 +1,106 @@
+
+		.title{
+			text-align: center;		
+		}
+		.id,.pw,.pw2,.em,.ph,.bd,.na{
+			display: block; width: 100%; height: 40px;
+			margin-bottom: 20px; border-radius: 10px;
+			border: 1px solid black; line-height: 40px;
+			padding: 0 10px; box-sizing: border-box;
+		}
+				
+        [name=auth]{
+          float: right;
+          text-align: center;
+        }
+   
+		.btn-submit{
+		width: 100%; margin-top: 20px; height: 40px;
+		border-radius: 10px; border: 1px solid black;
+		cursor: pointer; display: block;
+          color:white;
+          font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
+
+				}
+        .btn-emails{          
+          display: block; 
+          margin-bottom: 20px;         
+          border-radius: 10px;
+          border: 1px solid white; line-height: 40px;
+          padding: 0 10px; box-sizing: border-box;
+          float: left;
+          cursor:pointer;
+        }
+          .btn-emailr{           
+          display: block; 
+          margin-bottom: 20px;         
+          border-radius: 10px;
+          border: 1px solid white; line-height: 40px;
+          padding: 0 10px; box-sizing: border-box;
+          float: left;
+          cursor:pointer;
+        }
+        .btn-email{      
+          display: block;
+          margin-bottom: 20px;        
+          border-radius: 10px;
+          border: 1px solid black; line-height: 40px;
+          padding: 0 10px; box-sizing: border-box;
+          float: right;
+        }
+		h1{
+			color:rgb(33, 209, 112);
+			font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
+		}
+	
+		label{
+			font-size: 13px;
+			font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
+		}
+       form.form{        
+      	width: 350px;
+      	height: 900px;
+      	margin-left: 380px;
+        }
+        
+        select#area{
+          background-color:transparent;
+      }
+      button.btn-submit{
+        background-color: rgb(118, 229, 168);
+        border: none;
+      }
+      button.btn-email:hover{
+        background-color:rgba(209, 219, 212, 0.932);
+      }
+   
+	button.btn-submit:hover{
+        background-color: rgb(43, 222, 97);
+      }
+      button.btn-emails:hover{
+        background-color: rgba(209, 219, 212, 0.932);
+      }
+    .btn-email{
+      width: 100%; margin-top: 20px; height: 40px;
+      border-radius: 10px; border: 1px solid black;
+      cursor: pointer; display: block;
+      border:none;
+      
+      }
+      
+      .btn-dup{
+        float: right;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
+        border: 1px solid white;
+        line-height: 40px;
+        padding: 0 10px; box-sizing: border-box;  
+        cursor:pointer;     
+
+      }
+      .btn-dup:hover{
+        background-color: rgba(209, 219, 212, 0.932);
+      }
+		
+ 

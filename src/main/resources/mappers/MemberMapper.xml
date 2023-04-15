@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.dbp.naemom.dao.MemberDAO">
+  <insert id="insertMember">
+  	insert into member(me_id,me_pw,me_name,me_birthday,me_phone,me_gender,me_nickname,me_post,me_street_address,me_registered_address,me_detail_address,me_session_id,me_session_limit,me_ma_email)
+  	values(#{member.me_id},#{member.me_pw},#{member.me_name},#{member.me_birthday},#{member.me_phone},#{member.me_gender},#{member.me_nickname},#{member.me_post},#{member.me_street_address},#{member.me_registered_address},#{member.me_detail_address},#{member.me_session_id},#{member.me_session_limit},#{member.me_ma_email})
+  </insert>
+  
+    <select id="selectMemberById" resultType="kr.dbp.naemom.vo.MemberVO">
+  		select * from member where me_id = #{me_id}
+  	</select>
+  	<select id="selectMemberByEmail" resultType="kr.dbp.naemom.vo.MemberVO">
+  		select * from member where me_ma_email = #{me_ma_email}
+  	</select>
+  	
+  	<update id="updateSession">
+  		update
+  			member
+  		set
+  			me_session_id = #{member.me_session_id},
+  			me_session_limit = #{member.me_session_limit}
+  		where
+  			me_id = #{member.me_id}
+  	</update>  
+  	<select id="selectMemberBySession" resultType="kr.dbp.naemom.vo.MemberVO">
+  		select
+  			* 
+  		from
+  			member
+  		where
+  			me_session_id = #{me_session_id}
+  	</select>
+  	
+  	
+    <select id="findid" parameterType="map" resultType="kr.dbp.naemom.vo.MemberVO">
+        SELECT me_id, me_name, me_email, me_birthday
+        FROM member
+        WHERE me_name=#{me_name} AND me_email=#{me_email} AND me_birthday=#{me_birthday}
+    </select>
+</mapper>
+
+
+
