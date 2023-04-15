@@ -7,4 +7,32 @@
 	<select id="getUserInfo" resultType="kr.dbp.naemom.vo.MemberVO">
 		select * from member where me_id =#{me_id}
 	</select>
+	<update id="updateMember">
+	  UPDATE member
+		  SET
+		    me_name = #{me.me_name},
+		    me_birthday = #{me.me_birthday},
+		    me_detail_address = #{me.me_detail_address},
+		    me_nickname = #{me.me_nickname},
+		    me_street_address = #{me.me_street_address},
+		    me_registered_address = #{me.me_registered_address}
+		  WHERE me_id = #{me.me_id}
+	</update>
+	
+	<insert id="insertProfileImg">
+	  INSERT INTO member_profile (mf_name, mf_ori_name, mf_me_id)
+	  VALUES (#{mf.mf_name}, #{mf.mf_ori_name}, #{me_id})
+	</insert>
+	
+	<select id="getProfileImg" resultType="kr.dbp.naemom.vo.Member_profileVO">
+	  SELECT *
+	  FROM member_profile
+	  WHERE mf_me_id = #{me_id}
+	</select>
+
+	<update id="updateProfileImg" >
+	  UPDATE member_profile
+	  SET mf_name = #{mf.mf_name}, mf_ori_name = #{mf.mf_ori_name}
+	  WHERE mf_me_id = #{mf.mf_me_id} AND mf_num = #{mf.mf_num}
+	</update>
 </mapper>

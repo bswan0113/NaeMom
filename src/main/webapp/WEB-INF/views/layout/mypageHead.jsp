@@ -53,7 +53,12 @@
   <li>
     <span>프로필 사진:</span>
     <br>
+    <c:if test="${user.member_profile ==null}">
     <img src="https://via.placeholder.com/200x200" alt="프로필 사진" width="200" height="200">
+    </c:if>
+    <c:if test="${user.member_profile !=null}">
+      <img src="<c:url value='/download${user.member_profile.mf_name}'/>" alt="프로필 사진" width="200" height="200">
+    </c:if>
   </li>
   <li>
     <span>아이디:</span><br>
@@ -62,6 +67,9 @@
      ${user.me_nickname}
      <span>생일 : </span>
      ${user.me_birthday_str}
+     <span>이메일 : </span>
+     ${user.me_ma_email}
+     
   </li>
   <li>
     <span>주소:</span>

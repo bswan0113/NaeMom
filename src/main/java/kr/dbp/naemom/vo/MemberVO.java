@@ -16,6 +16,7 @@ public class MemberVO {
 	String me_id;
 	String me_pw;
 	String me_name;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date me_birthday;
 	String me_phone;
 	String me_gender;
@@ -28,7 +29,7 @@ public class MemberVO {
 	String me_session_id;
 	Date me_session_limit;
 	String me_ma_email;
-	FileVO file;
+	Member_profileVO member_profile;
 
 	
 	
