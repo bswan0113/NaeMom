@@ -12,6 +12,19 @@
 
 <div class="main-container-first">
     <div class="first-title title">
+    <c:if test="${user == null}">
+			<li class="nav-item">
+				<a class="nav-link" href="<c:url value='/signup'></c:url>">회원가입</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="<c:url value='/login'></c:url>">로그인</a>
+			</li>
+		</c:if>
+		<c:if test="${user != null }">
+			<li class="nav-item">
+				<a class="nav-link" href="<c:url value='/logout'></c:url>">로그아웃</a>
+			</li>
+		</c:if>
         <h2>메인</h2>
     </div>
     <div>
@@ -24,9 +37,10 @@
                 <c:forEach items="${plist}" var="product_checked">
                 <div class="swiper-slide contents-img" style="min-width: 270px;">
                     <a href="#">
-                    	<img class="" style="width:100%; height:100%;" src="<c:url value='/resources/img/home-swiper-gwanghwamun.jpg'></c:url>">
+                    	<img class="" style="width:100%; height:100%;" src="<c:url value='/download${product_checked.file.fi_name}'></c:url>">
                     </a>
 	                    <div class="contents-detail">
+	                   		
 	                        <div class="title-wraper">
 	                            <span class="contents-title">${product_checked.pd_title}</span>
 	                        </div>

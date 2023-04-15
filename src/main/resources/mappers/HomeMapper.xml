@@ -35,7 +35,7 @@
 	</insert>
 	
 	<select id="getCheckedList" resultType="kr.dbp.naemom.vo.ProductVO">
-		SELECT pd_title, SUBSTR(pd_street_address, 1, 2) AS pd_street_address FROM product join product_checked on pdc_pd_num = pd_num;
+		SELECT pd_num, pd_title, SUBSTR(pd_street_address, 1, 2) AS pd_street_address FROM product join product_checked on pdc_pd_num = pd_num;
 	</select>
 	
     <update id="updateProduct">
@@ -43,5 +43,9 @@
   	</update>
   	<select id="getProductList" resultType="kr.dbp.naemom.vo.ProductVO">
   		select * from product order by pd_num DESC;
+  	</select>
+  	
+  	<select id="getFile" resultType="kr.dbp.naemom.vo.FileVO">
+  		select * from file where fi_table_key=#{pd_num} and fi_table=#{product} and fi_category=#{fi_category}
   	</select>
 </mapper>

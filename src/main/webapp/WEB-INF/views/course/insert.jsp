@@ -10,10 +10,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="<c:url value='/resources/css/bootstrap.min.css'></c:url>">
   <link rel="stylesheet" href="<c:url value='/resources/css/jquery-ui.min.css'></c:url>">
+  <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=&libraries=services"></script> -->
   <script src="<c:url value='/resources/js/jquery.min.js'></c:url>"></script>
   <script src="<c:url value='/resources/js/jquery-ui.min.js'></c:url>"></script>
   <script src="<c:url value='/resources/js/bootstrap.bundle.min.js'></c:url>"></script>
-  <!-- <script type="text/javascript" src="<c:url value='//dapi.kakao.com/v2/maps/sdk.js?appkey=??'></c:url>"></script> -->
   <title>courseInsert</title>
   <style>
   	*{
@@ -286,8 +286,8 @@
 	          건
 	        </strong>
 	        <div class="total_distance" >
-	        	<input type="hidden" name="co_total_distance" value="56.7">
-	          	<span class="distance_name">코스 총거리 : <em class="products_distance">56.7</em> km</span>
+	        	<input type="hidden" name="co_total_distance" value="0">
+	          	<span class="distance_name">코스 총거리 : <em class="products_distance">0</em> km</span>
 	        </div>
 	      </div>
 	      <ul class="cos-list" id="sortable">
@@ -374,21 +374,24 @@
 		
 	});
 	//상품리스트 삭제 버튼 클릭이벤트
-	$(document).on('click','.btn_remove_list',function(){
-		$(this).parent().remove();
-        if($('.numbering').length){
-          	$('.numbering').each(function(i,box){
-            	$(box).text(i + 1);
-          	})
-       		let lastNum = $('.numbering').last().text();
-			lastNum = ''+Number(lastNum);
-			$('.totalCourseList').text(lastNum);
-        }else{
-        	$('.totalCourseList').text('0');
-        	$('.cos_item_origin').show();
-        }
-	 
-	});
+	
+		$(document).on('click','.btn_remove_list',function(){
+			$(this).parent().remove();
+	        if($('.numbering').length){
+	          	$('.numbering').each(function(i,box){
+	            	$(box).text(i + 1);
+	          	})
+	       		let lastNum = $('.numbering').last().text();
+				lastNum = ''+Number(lastNum);
+				$('.totalCourseList').text(lastNum);
+	        }else{
+	        	$('.totalCourseList').text('0');
+	        	$('.cos_item_origin').show();
+	        }
+	        //reorderMap();
+		});
+		
+	
   	
   //리스트에 추가 위한 상품검색
   $('.btn_product_search').click(function(){
@@ -467,9 +470,10 @@
 		$('.cos-list').append(str);
 		$('.product_search').val('');
 		$('.search_table').hide();
+		//reorderMap()
 		
   }
-  
+ 
   //상품리스트 저장위한 str
   function selectProduct(data){
 	 	let pr = data.selectPr;
@@ -477,8 +481,8 @@
 	  	str='';
 	 	str +=
 	 		'<li class="cos-item ui-state-default">'+
-	 			'<input type="hidden" name="pd_num[]" value="'+pr.pd_num+'">';
-	 			
+	 			'<input type="hidden" name="pd_num[]" value="'+pr.pd_num+'">'+
+	 			'<input type="hidden" class="pd_street_address" value="'+pr.pd_street_address+'">';
 	 			if('.numbering'.length){
 					let lastNum = $('.numbering').last().text();
 					lastNum = Number(lastNum)+1;
@@ -543,7 +547,7 @@
 	}
   $('.co_content').keyup(function (e) {
 		let content = $(this).val();
-	    
+		
 	    // 글자수 세기
 	    if (content.length == 0 || content == '') {
 	    	$('.textNum').text('0');
@@ -574,6 +578,7 @@
     	 
     	stop: function(event, ui) {
 	        reorder();
+	        //reorderMap();
     		let productList=new Array(10);
     		$('.cos-item').each(function(i, box) {
 	            let listNum = $(this).find('.numbering');
@@ -589,32 +594,35 @@
         $(box).text(i + 1);
       });
     }
+    function reorderMap() {
+    	map = new kakao.maps.Map(mapContainer, mapOption);
+    	addresses = new Array();
+    	$('.pd_street_address').each(function(item){
+    		addresses.push($(this).val())
+    	});   
+    	lines = [];
+    	markers = [];
+    	distances = [];
+        totalDistance = 0;
     
-  </script>
-<!--  
-  <script>
-	var mapContainer = document.getElementById('map'); 
-var mapOption = { 
-  center: new kakao.maps.LatLng(33.450701, 126.570667), 
-  level: 8 
-}; 
-
-var map = new kakao.maps.Map(mapContainer, mapOption); 
-var geocoder = new kakao.maps.services.Geocoder(); 
-
-var addresses = [
-  '서울특별시 성북구 정릉로 77', 
-  '서울특별시 노원구 공릉로 264', 
-  '서울특별시 동대문구 회기로 106', 
-  '서울특별시 마포구 양화로 45', 
-  '서울특별시 강남구 도산대로 327', 
-  '서울특별시 중구 세종대로 136'
-]; 
-
-var markers = []; 
-var lines = []; 
-var distances = []; // Array to store distances between markers
-var totalDistance = 0; // Total distance between all markers
+    	addMarkers();
+    	
+   	};
+    
+	/* var mapContainer = document.getElementById('map'); 
+	var mapOption = { 
+	  center: new kakao.maps.LatLng(33.450701, 126.570667), 
+	  level: 8 
+	}; 
+	
+	var map = new kakao.maps.Map(mapContainer, mapOption); 
+	var geocoder = new kakao.maps.services.Geocoder(); 
+	var addresses = new Array();
+	
+	var markers = []; 
+	var lines = []; 
+	var distances = []; // Array to store distances between markers
+	var totalDistance = 0; // Total distance between all markers
 
 function distanceBetween(p1, p2) {
   function deg2rad(deg) {
@@ -652,7 +660,10 @@ async function addMarkers() {
 
           marker.setMap(map); 
           markers.push(marker); 
-
+          if(markers.length == 1){
+	          $('.products_distance').text(0);
+	          $('[name=co_total_distance]').val($('.products_distance').text(0));
+          }
           if (markers.length > 1) { 
             var linePath = [markers[markers.length - 2].getPosition(), coords]; 
             var line = new kakao.maps.Polyline({ 
@@ -668,7 +679,7 @@ async function addMarkers() {
             var distance = distanceBetween(markers[markers.length - 2].getPosition(), coords);
 
         // Add distance information to InfoWindow
-              var iwContent = '<div style="padding:5px;"> 거리 : ' + distance.toFixed(0) + 'm</div>';
+        var iwContent = '<div style="padding:5px; width: max-content;">다음주소까지 거리 : ' + distance.toFixed(0) + 'm</div>';
         var iwPosition = coords;
 
         var infowindow = new kakao.maps.InfoWindow({
@@ -681,7 +692,10 @@ async function addMarkers() {
         // Save distance between markers
         distances.push(distance);
         totalDistance += distance;
-
+        
+		var course_distance = $('.products_distance').text((totalDistance / 1000).toFixed(1));
+		$('[name=co_total_distance]').val($('.products_distance').text());
+        
         // Add total distance to InfoWindow
         var totalIwContent = '<div style="padding:5px;">총 거리 : ' + (totalDistance / 1000).toFixed(1) + 'km</div>';
 
@@ -706,8 +720,8 @@ async function addMarkers() {
 }
 }
 
-addMarkers();
-
-  </script>-->
+addMarkers(); */
+ 
+  </script>
 </body>
 </html>
