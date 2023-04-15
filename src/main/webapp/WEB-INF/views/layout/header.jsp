@@ -16,7 +16,7 @@
 	<div class="header">
 	
 		<div class="head-box clearfix">
-			<div class="main-icon-box"><a href="<c:url value="/main/home"></c:url>"><img src="<c:url value ='/resources/img/logo.png'></c:url>" alt="#"></a></div>
+			<div class="main-icon-box"><a href="<c:url value="/"></c:url>"><img src="<c:url value ='/resources/img/logo.png'></c:url>" alt="#"></a></div>
 			<div class="search-containerbox clearfix">
 				<div class="search-box clearfix">
 					<input type="text" placeholder="여행을 떠나요" class="search">
