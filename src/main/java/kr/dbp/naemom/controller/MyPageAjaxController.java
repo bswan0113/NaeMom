@@ -1,6 +1,7 @@
 package kr.dbp.naemom.controller;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,20 +9,30 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.service.MyPageService;
+import kr.dbp.naemom.service.ProductService;
+import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
+import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.Qna_Sub_categoryVO;
 
 @RestController
 public class MyPageAjaxController {
 	
 	@Autowired
 	MyPageService myPageService;
+	
+	@Autowired
+	ProductService productService;
 	
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
@@ -73,6 +84,38 @@ public class MyPageAjaxController {
 		user.setMe_registered_address("서울시 은평구 응암동 375-2");
 		user.setMe_pw("1q2w3e4r!");
 		return user;
+	}
+	
+	@RequestMapping(value = "/mypage/getCategory", method=RequestMethod.POST)
+	public Map<String, Object> getCategory(@RequestParam("category") String category) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<Qna_Sub_categoryVO> list = myPageService.getQnaCategory();
+		ArrayList<Qna_Sub_categoryVO> selected = new ArrayList<Qna_Sub_categoryVO>();
+		for(int i=0; i<list.size(); i++) {
+			if(list.get(i).getQs_qc_category().equals(category)) {
+				selected.add(list.get(i));
+			}
+		}
+		map.put("selected", selected);
+		return map;
+	}
+	
+	@RequestMapping(value = "/qna/search", method=RequestMethod.POST)
+	public Map<String, Object> qnaSearch(@RequestBody Criteria cri) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ArrayList<ProductVO> list = productService.getProductList(cri);
+		map.put("list", list);
+		
+		
+		return map;
+	}
+	
+	@RequestMapping(value = "/mypage/getThumbnail/{pd_num}", method=RequestMethod.GET)
+	public Map<String, Object> searchThumbnail(@PathVariable("pd_num")int pd_num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		FileVO file = productService.getThumbnail(pd_num);
+		map.put("file", file);
+		return map;
 	}
 	
 	

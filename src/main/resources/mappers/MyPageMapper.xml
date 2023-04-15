@@ -35,4 +35,39 @@
 	  SET mf_name = #{mf.mf_name}, mf_ori_name = #{mf.mf_ori_name}
 	  WHERE mf_me_id = #{mf.mf_me_id} AND mf_num = #{mf.mf_num}
 	</update>
+	
+	<select id="getQnaCount" resultType="kr.dbp.naemom.vo.qnaVO">
+		select * from qna where qa_me_id = #{me_id}
+	</select>
+	
+	<select id="getQnaList" resultType="kr.dbp.naemom.vo.qnaVO">
+		select * from qna where qa_me_id = #{me_id}
+			  ORDER BY qa_num DESC 
+			  LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	<select id="getCategoryList" resultType="kr.dbp.naemom.vo.Qna_Sub_categoryVO">
+		select* from `qna_sub_category`
+	</select>
+	
+	<insert id="insertFile">
+  		insert into file(fi_ori_name, fi_name, fi_table_key, fi_table)
+  		values(#{fi.fi_ori_name},#{fi.fi_name},#{fi.fi_table_key},#{fi.fi_table})	
+ 	</insert>
+	 <insert id="insertQna" useGeneratedKeys="true" keyProperty="qa.qa_num">
+	 	insert into qna(qa_title, qa_content, qa_registerd_date, qa_state, qa_me_id, qa_pd_num, qa_qs_category)
+	 	values(#{qa.qa_title}, #{qa.qa_content}, now(), #{qa.qa_state}, #{qa.qa_me_id}, #{qa.qa_pd_num}, #{qa.qa_qs_category})
+	</insert>
+	
+	<select id="getQna" resultType="kr.dbp.naemom.vo.qnaVO">
+		select * from qna where qa_num =#{qa_num}
+	</select>
+	
+	<select id="getAnswer" resultType="kr.dbp.naemom.vo.qna_AnswerVO">
+	 	select * from `qna_answer` where qaa_qa_num =#{qa_num}
+	</select>
+	
+	<delete id="deleteQna">
+		delete from qna where qa_num=#{qa_num}
+	</delete>
+
 </mapper>

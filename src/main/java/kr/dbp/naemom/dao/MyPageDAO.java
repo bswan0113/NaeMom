@@ -1,9 +1,16 @@
 package kr.dbp.naemom.dao;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.annotations.Param;
 
+import kr.dbp.naemom.pagination.Criteria;
+import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.Member_profileVO;
+import kr.dbp.naemom.vo.Qna_Sub_categoryVO;
+import kr.dbp.naemom.vo.qnaVO;
+import kr.dbp.naemom.vo.qna_AnswerVO;
 
 public interface MyPageDAO {
 
@@ -17,6 +24,23 @@ public interface MyPageDAO {
 	int updateProfileImg(@Param("mf")Member_profileVO upload);
 
 	Member_profileVO getProfileImg(@Param("me_id")String me_id);
+
+	ArrayList<qnaVO> getQnaList(@Param("me_id")String me_id, @Param("cri")Criteria cri);
+
+	ArrayList<qnaVO> getQnaCount(@Param("me_id")String me_id);
+
+	ArrayList<Qna_Sub_categoryVO> getCategoryList();
+
+	boolean insertQna(@Param("qa")qnaVO qna);
+
+	void insertFile(@Param("fi")FileVO uploadFile);
+
+	qnaVO getQna(@Param("qa_num")int qa_num);
+
+	qna_AnswerVO getAnswer(@Param("qa_num")int qa_num);
+
+	int deleteQna(@Param("qa_num")int qa_num);
+
 
 
 
