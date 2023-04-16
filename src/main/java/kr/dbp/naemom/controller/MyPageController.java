@@ -21,7 +21,8 @@ import kr.dbp.naemom.service.MyPageService;
 import kr.dbp.naemom.utils.MessageUtils;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.Member_profileVO;
-import kr.dbp.naemom.vo.Qna_Sub_categoryVO;
+import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.ReviewVO;
 import kr.dbp.naemom.vo.qnaVO;
 import kr.dbp.naemom.vo.qna_AnswerVO;
 
@@ -95,6 +96,32 @@ public class MyPageController {
 		return mv;
 	}
 	
+	@RequestMapping(value = "/mypage/reviewList")
+	public ModelAndView reviewList(ModelAndView mv, HttpSession session, Criteria cri) {
+		if(cri==null) cri=new Criteria();
+		MemberVO user = new MemberVO();
+		//임시 멤버객체생성
+		user= CreteTmpUser(user);
+		user = myPageService.getUserInfo(user);
+		user.setMe_session_limit(new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000));
+		Member_profileVO profileImg = myPageService.getProfileImg(user.getMe_id());
+		user.setMember_profile(profileImg);
+		
+		ArrayList<ReviewVO> review = myPageService.getReviewList(cri, user.getMe_id());
+		int totalCount = myPageService.getReviewCount(user.getMe_id());
+		PageMaker pm = new PageMaker(totalCount, 5, cri);
+		
+		for(int i=0; i<review.size(); i++) {
+			review.get(i).setPd_title(myPageService.getPdTitle(review.get(i).getRe_pd_num()));
+		}
+		
+		mv.addObject("pm", pm);
+		mv.addObject("review", review);
+		mv.addObject("user",user);
+		mv.setViewName("/mypage/reviewList");
+		return mv;
+	}
+	
 	
 	@RequestMapping(value = "/mypage/qnaInsert", method=RequestMethod.GET)
 	public ModelAndView qnaInsert(ModelAndView mv, HttpSession session) {
@@ -143,8 +170,63 @@ public class MyPageController {
 		qnaVO qna = myPageService.getQna(qa_num);
 		qna_AnswerVO answer = myPageService.getAnswer(qa_num);
 		mv.addObject("answer", answer);
+		mv.addObject("user",user);
 		mv.addObject("qna", qna);
 		mv.setViewName("/mypage/qnaDetail");
+		return mv;
+	}
+	
+	@RequestMapping(value = "/mypage/courseList")
+	public ModelAndView couserList(ModelAndView mv, HttpSession session) {
+		MemberVO user = new MemberVO();
+		user= CreteTmpUser(user);
+		user = myPageService.getUserInfo(user);
+		user.setMe_session_limit(new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000));
+		Member_profileVO profileImg = myPageService.getProfileImg(user.getMe_id());
+		user.setMember_profile(profileImg);
+		mv.addObject("user",user);
+		
+		mv.setViewName("/mypage/courseList");
+		return mv;
+	}
+	@RequestMapping(value = "/mypage/reserveList")
+	public ModelAndView reserveList(ModelAndView mv, HttpSession session) {
+		MemberVO user = new MemberVO();
+		user= CreteTmpUser(user);
+		user = myPageService.getUserInfo(user);
+		user.setMe_session_limit(new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000));
+		Member_profileVO profileImg = myPageService.getProfileImg(user.getMe_id());
+		user.setMember_profile(profileImg);
+		mv.addObject("user",user);
+		
+		mv.setViewName("/mypage/reserveList");
+		return mv;
+	}
+	@RequestMapping(value = "/mypage/mileageList")
+	public ModelAndView mileageList(ModelAndView mv, HttpSession session) {
+		MemberVO user = new MemberVO();
+		user= CreteTmpUser(user);
+		user = myPageService.getUserInfo(user);
+		user.setMe_session_limit(new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000));
+		Member_profileVO profileImg = myPageService.getProfileImg(user.getMe_id());
+		user.setMember_profile(profileImg);
+		mv.addObject("user",user);
+		
+		mv.setViewName("/mypage/mileageList");
+		return mv;
+	}
+
+	@RequestMapping(value = "/mypage/wishList")
+	public ModelAndView wishList(ModelAndView mv, HttpSession session) {
+		MemberVO user = new MemberVO();
+		user= CreteTmpUser(user);
+		user = myPageService.getUserInfo(user);
+		user.setMe_session_limit(new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000));
+		Member_profileVO profileImg = myPageService.getProfileImg(user.getMe_id());
+		user.setMember_profile(profileImg);
+		mv.addObject("user",user);
+		
+		mv.setViewName("/mypage/wishList");
 		return mv;
 	}
 	

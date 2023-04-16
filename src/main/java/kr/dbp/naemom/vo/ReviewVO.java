@@ -15,6 +15,7 @@ public class ReviewVO {
 	int re_num;
 	double re_rating;
 	int re_pd_num;
+	String pd_title;
 	String re_me_id;
 	String re_content;
 	Date re_date;

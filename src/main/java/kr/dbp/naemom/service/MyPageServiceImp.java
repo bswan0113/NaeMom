@@ -13,6 +13,7 @@ import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.Member_profileVO;
 import kr.dbp.naemom.vo.Qna_Sub_categoryVO;
+import kr.dbp.naemom.vo.ReviewVO;
 import kr.dbp.naemom.vo.qnaVO;
 import kr.dbp.naemom.vo.qna_AnswerVO;
 
@@ -155,6 +156,24 @@ public class MyPageServiceImp implements MyPageService{
 	public boolean deleteQna(int qa_num) {
 		if(qa_num<=0) return false;
 		return myPageDao.deleteQna(qa_num) != 0;
+	}
+
+	@Override
+	public ArrayList<ReviewVO> getReviewList(Criteria cri, String me_id) {
+		if(cri==null) cri= new Criteria();
+		
+		return myPageDao.getReviewList(cri, me_id);
+	}
+
+	@Override
+	public int getReviewCount(String me_id) {
+		return myPageDao.getReviewCount(me_id);
+	}
+
+	@Override
+	public String getPdTitle(int re_pd_num) {
+		if(re_pd_num<=0) return "";
+		return myPageDao.getPdTitleByRePdNum(re_pd_num);
 	}
 
 }

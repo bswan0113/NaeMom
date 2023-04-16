@@ -9,6 +9,7 @@ import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.Member_profileVO;
 import kr.dbp.naemom.vo.Qna_Sub_categoryVO;
+import kr.dbp.naemom.vo.ReviewVO;
 import kr.dbp.naemom.vo.qnaVO;
 import kr.dbp.naemom.vo.qna_AnswerVO;
 
@@ -40,6 +41,12 @@ public interface MyPageDAO {
 	qna_AnswerVO getAnswer(@Param("qa_num")int qa_num);
 
 	int deleteQna(@Param("qa_num")int qa_num);
+
+	ArrayList<ReviewVO> getReviewList(@Param("cri")Criteria cri, @Param("me_id")String me_id);
+
+	int getReviewCount(@Param("me_id")String me_id);
+
+	String getPdTitleByRePdNum(@Param("pd_num")int re_pd_num);
 
 
 

@@ -23,15 +23,14 @@
 			<thead>
 				<tr>
 					<th>문의 구분</th>
+					<th>제목</th>
 					<th>답변 상태</th>
 					<th>등록 날짜</th>
-					<th>제목</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${qnaList}" var="qna">
 					<tr>
-						<td>${qna.qa_qs_category}</td>
 						<td <c:if test="${qna.qa_state == 1}"> style="color:yellowgreen; font-weight:bold;"</c:if>>
 							<c:if test="${qna.qa_state == 1}">
 							답변완료
@@ -39,9 +38,10 @@
 							<c:if test="${qna.qa_state != 1}">
 							문의진행중
 							</c:if>
-						
-						<td>${qna.qa_registerd_date_str}</td>
+						</td>
 						<td class="qna_title"><a href="<c:url value='/mypage/qnaDetail/${qna.qa_num}'></c:url>">${qna.qa_title}</a></td>
+						<td>${qna.qa_qs_category}</td>
+						<td>${qna.qa_registerd_date_str}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

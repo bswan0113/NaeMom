@@ -69,5 +69,19 @@
 	<delete id="deleteQna">
 		delete from qna where qa_num=#{qa_num}
 	</delete>
+	
+	<select id="getReviewList" resultType="kr.dbp.naemom.vo.ReviewVO">
+		select*from review where re_me_id = #{me_id}
+		 ORDER BY re_num DESC 
+			  LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="getReviewCount" resultType="int">
+		select count(*) from review where re_me_id =#{me_id}
+	</select>
+	
+	<select id="getPdTitleByRePdNum" resultType="String">
+		select pd_title from product where pd_num =#{pd_num}
+	</select>
 
 </mapper>

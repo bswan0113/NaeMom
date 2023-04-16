@@ -15,7 +15,7 @@ public class qnaVO {
 	int qa_num;
 	String qa_title;
 	String qa_content;
-	@DateTimeFormat(pattern ="yyyy-MM-dd HH-mm-dd")
+	@DateTimeFormat(pattern ="yyyy-MM-dd HH:mm:dd")
 	Date qa_registerd_date;
 	String qa_state;
 	String qa_me_id;
@@ -24,7 +24,7 @@ public class qnaVO {
 	
 	public String getQa_registerd_date_str() {
 		SimpleDateFormat format = 
-			new SimpleDateFormat("yyyy-MM-dd HH-mm-dd");
+			new SimpleDateFormat("yyyy-MM-dd HH:mm:dd");
 		return format.format(qa_registerd_date);
 	}
 	
