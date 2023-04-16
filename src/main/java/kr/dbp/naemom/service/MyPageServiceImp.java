@@ -31,7 +31,7 @@ public class MyPageServiceImp implements MyPageService{
 	@Autowired
 	ProductDAO productDao;
 	
-	String uploadPath = "C:\\uploadfiles";
+	String uploadPath = "D:\\uploadfiles";
 	
 	@Override
 	public MemberVO getUserInfo(MemberVO user) {
