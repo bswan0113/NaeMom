@@ -83,5 +83,43 @@
 	<select id="getPdTitleByRePdNum" resultType="String">
 		select pd_title from product where pd_num =#{pd_num}
 	</select>
+	
+	<select id="getWishList" resultType="kr.dbp.naemom.vo.WishVO">
+		select * from wishitem where wi_me_id =#{me_id}
+		 ORDER BY wi_num DESC 
+			  LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="getWishCount" resultType="int">
+		select count(*) from wishitem where wi_me_id =#{me_id}
+	</select>
+	
+	<select id="getMileageList" resultType="kr.dbp.naemom.vo.MileageVO">
+		select * from mileage where mi_me_id = #{me_id}
+		 ORDER BY mi_num DESC 
+			  LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="getMileageCount" resultType="int">
+		select count(*) from mileage where mi_me_id =#{me_id}
+	</select>
+	
+	<select id="getexpirationMileage" resultType="int">
+	SELECT SUM(mi_update) 
+		FROM mileage 
+		WHERE mi_me_id = #{me_id}
+		AND mi_update > 0 
+		AND mi_date BETWEEN DATE_SUB(NOW(), INTERVAL 5 YEAR) AND NOW()
+		AND 7>= DATEDIFF(DATE_ADD(mi_date, INTERVAL 5 YEAR), NOW());
+	</select>
+	
+	<select id="getBuyList" resultType="kr.dbp.naemom.vo.BuyListVO">
+		select * from buy_list where bl_me_id =#{me_id}
+		ORDER BY bl_num DESC 
+			  LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>	
+	<select id="getBuyListCount" resultType="int">
+		select count(*) from buy_list where bl_me_id =#{me_id}
+	</select>
 
 </mapper>

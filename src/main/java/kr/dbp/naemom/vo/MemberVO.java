@@ -28,7 +28,8 @@ public class MemberVO {
 	private String me_ma_email;
 	boolean autoLogin;
 	private int me_post;
-  Member_profileVO member_profile;
+	Member_profileVO member_profile;
+	int expirationMileage;
 
 
 	

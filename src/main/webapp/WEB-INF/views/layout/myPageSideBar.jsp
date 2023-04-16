@@ -40,10 +40,10 @@
 		<a href="<c:url value="/mypage/reviewList"></c:url>" class="side-bar-link">후기조회</a>
 	</li>
 	<li class="side-bar-item">
-		<a href="<c:url value="/mypage/courseList"></c:url>" class="side-bar-link">여행코스 확인</a>
+		<a href="<c:url value="/mypage/courseList"></c:url>" class="side-bar-link">여행코스 확인(작업진행중)</a>
 	</li>
 	<li class="side-bar-item">
-		<a href="<c:url value="/mypage/wishList"></c:url>" class="side-bar-link">찜</a>
+		<a href="<c:url value="/mypage/wishList"></c:url>" class="side-bar-link">찜(임시완료 코스연동필요)</a>
 	</li>
 	<li class="side-bar-item">
 		<a href="<c:url value="/mypage/reserveList"></c:url>" class="side-bar-link">결제/예약내역확인</a>

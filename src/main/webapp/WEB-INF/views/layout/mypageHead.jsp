@@ -84,7 +84,7 @@
     <span>잔여 마일리지:</span>
     ${user.me_mileage}<br>
     <span>일주일 내 소멸 마일리지:</span>
-    ${user.me_mileage}
+    ${user.expirationMileage}
   </li>
 </ul>
     <a href="<c:url value="/mypage/profile"></c:url>"class="btn-update">프로필 편집하기</a>

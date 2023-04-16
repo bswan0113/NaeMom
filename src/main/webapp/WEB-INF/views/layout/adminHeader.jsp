@@ -53,11 +53,7 @@ text-decoration:none;
 color:black;
 font-weight:bold;
 }
-a:hover{
-text-decoration:none;
-font-size:20px;
-color:black;
-}
+
 </style>
 </head>
 <body>

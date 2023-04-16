@@ -5,10 +5,15 @@ import java.util.ArrayList;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.dbp.naemom.pagination.Criteria;
+import kr.dbp.naemom.vo.BuyListVO;
+import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.Member_profileVO;
+import kr.dbp.naemom.vo.MileageVO;
+import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.Qna_Sub_categoryVO;
 import kr.dbp.naemom.vo.ReviewVO;
+import kr.dbp.naemom.vo.WishVO;
 import kr.dbp.naemom.vo.qnaVO;
 import kr.dbp.naemom.vo.qna_AnswerVO;
 
@@ -41,6 +46,24 @@ public interface MyPageService {
 	int getReviewCount(String me_id);
 
 	String getPdTitle(int re_pd_num);
+
+	ArrayList<WishVO> getWishList(String me_id, Criteria cri);
+
+	int getWishCount(String me_id);
+
+	ProductVO getProductByPdNum(int wi_pd_num);
+
+	FileVO getFileByPdNum(int wi_pd_num);
+
+	ArrayList<MileageVO> getMilageList(String me_id, Criteria cri);
+
+	int getMileageCount(String me_id);
+
+	int getexpirationMileage(String me_id);
+
+	ArrayList<BuyListVO> getBuyList(String me_id, Criteria cri);
+
+	int getBuyListCount(String me_id);
 
 
 

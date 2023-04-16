@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import kr.dbp.naemom.pagination.Criteria;
+import kr.dbp.naemom.vo.BuyListVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.Member_profileVO;
+import kr.dbp.naemom.vo.MileageVO;
 import kr.dbp.naemom.vo.Qna_Sub_categoryVO;
 import kr.dbp.naemom.vo.ReviewVO;
+import kr.dbp.naemom.vo.WishVO;
 import kr.dbp.naemom.vo.qnaVO;
 import kr.dbp.naemom.vo.qna_AnswerVO;
 
@@ -47,6 +50,20 @@ public interface MyPageDAO {
 	int getReviewCount(@Param("me_id")String me_id);
 
 	String getPdTitleByRePdNum(@Param("pd_num")int re_pd_num);
+
+	ArrayList<WishVO> getWishList(@Param("me_id")String me_id, @Param("cri")Criteria cri);
+
+	int getWishCount(@Param("me_id")String me_id);
+
+	ArrayList<MileageVO> getMileageList(@Param("me_id")String me_id, @Param("cri")Criteria cri);
+
+	int getMileageCount(@Param("me_id")String me_id);
+
+	int getexpirationMileage(@Param("me_id")String me_id);
+
+	ArrayList<BuyListVO> getBuyList(@Param("me_id")String me_id, @Param("cri")Criteria cri);
+
+	int getBuyListCount(@Param("me_id")String me_id);
 
 
 

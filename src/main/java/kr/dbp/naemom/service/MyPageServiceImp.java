@@ -7,13 +7,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.dbp.naemom.dao.MyPageDAO;
+import kr.dbp.naemom.dao.ProductDAO;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.utils.UploadFileUtils;
+import kr.dbp.naemom.vo.BuyListVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.Member_profileVO;
+import kr.dbp.naemom.vo.MileageVO;
+import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.Qna_Sub_categoryVO;
 import kr.dbp.naemom.vo.ReviewVO;
+import kr.dbp.naemom.vo.WishVO;
 import kr.dbp.naemom.vo.qnaVO;
 import kr.dbp.naemom.vo.qna_AnswerVO;
 
@@ -22,6 +27,9 @@ public class MyPageServiceImp implements MyPageService{
 
 	@Autowired
 	MyPageDAO myPageDao;
+	
+	@Autowired
+	ProductDAO productDao;
 	
 	String uploadPath = "C:\\uploadfiles";
 	
@@ -174,6 +182,56 @@ public class MyPageServiceImp implements MyPageService{
 	public String getPdTitle(int re_pd_num) {
 		if(re_pd_num<=0) return "";
 		return myPageDao.getPdTitleByRePdNum(re_pd_num);
+	}
+
+	@Override
+	public ArrayList<WishVO> getWishList(String me_id, Criteria cri) {
+		return myPageDao.getWishList(me_id, cri);
+	}
+
+	@Override
+	public int getWishCount(String me_id) {
+		return myPageDao.getWishCount(me_id);
+	}
+
+	@Override
+	public ProductVO getProductByPdNum(int wi_pd_num) {
+		ProductVO product = productDao.selectProductByNum(wi_pd_num);
+		if(product == null) return new ProductVO();
+		return product;
+	}
+
+	@Override
+	public FileVO getFileByPdNum(int wi_pd_num) {
+		FileVO file = productDao.getThumbNail(wi_pd_num, "썸네일", "product");
+		if(file==null) return new FileVO();
+		return file;
+	}
+
+	@Override
+	public ArrayList<MileageVO> getMilageList(String me_id, Criteria cri) {
+		return myPageDao.getMileageList(me_id, cri);
+	}
+
+	@Override
+	public int getMileageCount(String me_id) {
+		return myPageDao.getMileageCount(me_id);
+	}
+
+	@Override
+	public int getexpirationMileage(String me_id) {
+		return myPageDao.getexpirationMileage(me_id);
+	}
+
+
+	@Override
+	public ArrayList<BuyListVO> getBuyList(String me_id, Criteria cri) {
+		return myPageDao.getBuyList(me_id, cri);
+	}
+
+	@Override
+	public int getBuyListCount(String me_id) {
+		return myPageDao.getBuyListCount(me_id);
 	}
 
 }

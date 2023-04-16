@@ -174,6 +174,10 @@ public class ProductServiceImp implements ProductService{
 	public int likeUpdate(String me_id, int pd_num, int li_state) {
 		if(me_id.trim().length()==0) return 0;
 		if(pd_num<0) return 0;
+		if(li_state == -1) {
+			productDao.deleteWish(me_id,pd_num);
+			return -1;
+		}
 		int res;
 		if(productDao.getWish(me_id, pd_num) ==null) {
 			res=1;
