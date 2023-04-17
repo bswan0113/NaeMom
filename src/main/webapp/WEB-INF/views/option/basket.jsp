@@ -84,7 +84,10 @@
 	    .addOrder{
 	      text-align: center; width: 100%; font-size: 20px; height: 50px; margin-top: 20px;
 	    }
-	   
+	    .no_product_list{
+	    	margin-bottom: 10px; border: 1px; border-radius: 10px; background-color: antiquewhite;
+				position: relative; text-align:center;
+	    }
 	    
 	    .no_product_item{
 	    	margin-bottom: 10px; border: 1px; border-radius: 10px; background-color: antiquewhite;
@@ -98,6 +101,9 @@
 	<div class="contents clearfix">
     	<label class="option_title">장바구니</label>
     	<ul class="option_list">
+    		
+    		<li class="no_product_list">등록된 상품이 없습니다.</li>
+    		
     		<c:forEach items="${basket }" var="list" varStatus="i" begin="0" end="${basket.size() }">
     		<c:if test="${list.travel.pc_category =='여행지' }">
       		<li class="option_item">
@@ -274,16 +280,33 @@
 		      	</ul>
 		      	<label style="font-size: 20px;">총가격 : </label>
 		      	<span style="float: right;"><em class="allPrice">0</em> 원</span>
-		      	<button type="button" class="addOrder btn btn-outline-danger">장바구니 담기</button>
+		      	<button type="button" class="addOrder btn btn-outline-danger">주문하기</button>
 	    	</div>
     	</form>
   </div>
   <script>
+  		$('.no_product_list').hide();
+  		//리스트 삭제 이벤트
 		$('.delete_item').click(function(){
-			$(this).parant().parent()
+			$(this).parent().parent().remove();
+			allPrice();
 		})
-	
-
+		//총가격 호출
+		allPrice();
+		//총가격
+		function allPrice(){
+			let totalPrice = 0;
+			if($('.select_price').length){
+	        	$('.select_price').each(function(i,box){
+	          		let price = $(box).text();
+	          		totalPrice = Number(totalPrice) + Number(price);
+        		})
+				$('.allPrice').text(totalPrice);
+			}else{
+		      	$('.allPrice').text('0');
+		      	$('.no_product_list').show();
+			}
+		}
   	
 		//ajax
 		function ajaxPost(obj, url, successFunction){
