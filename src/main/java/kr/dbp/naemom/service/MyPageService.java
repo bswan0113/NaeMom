@@ -6,6 +6,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.BuyListVO;
+import kr.dbp.naemom.vo.CourseItemVO;
+import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.Member_profileVO;
@@ -59,11 +61,15 @@ public interface MyPageService {
 
 	int getMileageCount(String me_id);
 
-	int getexpirationMileage(String me_id);
+	Integer getexpirationMileage(String me_id);
 
 	ArrayList<BuyListVO> getBuyList(String me_id, Criteria cri);
 
 	int getBuyListCount(String me_id);
+
+	ArrayList<CourseVO> getCourseList(Criteria cri, String me_id);
+
+	CourseItemVO getCourseItem(int co_num);
 
 
 

@@ -33,8 +33,9 @@ public class MypageInterceptor extends HandlerInterceptorAdapter  {
 	            Member_profileVO profileImg = myPageService.getProfileImg(user.getMe_id());
 	            user.setMember_profile(profileImg);
 	            session.setAttribute("userInfo", user);
-	            int expirationMileage = myPageService.getexpirationMileage(user.getMe_id());
-	            user.setExpirationMileage(expirationMileage);
+	            Integer expirationMileage = myPageService.getexpirationMileage(user.getMe_id());
+	            if(expirationMileage != null)user.setExpirationMileage(expirationMileage);
+	            else user.setExpirationMileage(0);
 	        }
 	        return true;
 	    }

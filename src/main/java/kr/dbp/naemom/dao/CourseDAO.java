@@ -62,4 +62,6 @@ public interface CourseDAO {
 
 	void updateViewCount(@Param("co_num")int co_num);
 
+
+
 }

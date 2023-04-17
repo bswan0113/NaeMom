@@ -11,6 +11,8 @@ import kr.dbp.naemom.dao.ProductDAO;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.utils.UploadFileUtils;
 import kr.dbp.naemom.vo.BuyListVO;
+import kr.dbp.naemom.vo.CourseItemVO;
+import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.Member_profileVO;
@@ -30,6 +32,7 @@ public class MyPageServiceImp implements MyPageService{
 	
 	@Autowired
 	ProductDAO productDao;
+	
 	
 	String uploadPath = "D:\\uploadfiles";
 	
@@ -77,6 +80,7 @@ public class MyPageServiceImp implements MyPageService{
 			}else {
 				upload.setMf_num(oriProfile.getMf_num());
 				upload.setMf_me_id(me_id);
+				System.out.println(upload);
 				
 				return myPageDao.updateProfileImg(upload)>=0;
 			}
@@ -219,7 +223,7 @@ public class MyPageServiceImp implements MyPageService{
 	}
 
 	@Override
-	public int getexpirationMileage(String me_id) {
+	public Integer getexpirationMileage(String me_id) {
 		return myPageDao.getexpirationMileage(me_id);
 	}
 
@@ -232,6 +236,21 @@ public class MyPageServiceImp implements MyPageService{
 	@Override
 	public int getBuyListCount(String me_id) {
 		return myPageDao.getBuyListCount(me_id);
+	}
+
+	@Override
+	public ArrayList<CourseVO> getCourseList(Criteria cri, String me_id) {
+		if(cri==null) cri = new Criteria();
+		return myPageDao.getCourseList(cri, me_id);
+	}
+
+	@Override
+	public CourseItemVO getCourseItem(int co_num) {
+		ArrayList<CourseItemVO> course = myPageDao.getCourseItem(co_num);
+		if(course != null) {
+			course.get(0).setFile(productDao.getThumbNail(course.get(0).getCi_pd_num(), "썸네일", "product"));
+		}
+		return course.get(0);
 	}
 
 }

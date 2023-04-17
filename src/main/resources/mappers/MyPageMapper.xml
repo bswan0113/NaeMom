@@ -118,8 +118,21 @@
 		ORDER BY bl_num DESC 
 			  LIMIT #{cri.pageStart}, #{cri.perPageNum}
 	</select>	
-	<select id="getBuyListCount" resultType="int">
+	<select id="getBuyListCount" resultType="Integer">
 		select count(*) from buy_list where bl_me_id =#{me_id}
 	</select>
 
+	<select id="getCourseList" resultType="kr.dbp.naemom.vo.CourseVO">
+		SELECT *
+			FROM course
+			JOIN course_schedule ON cs_schedule_num = co_cs_schedule_num
+			JOIN course_category ON cc_category_num = co_cc_category_num
+			WHERE co_me_id = #{me_id}
+			ORDER BY co_num DESC
+			LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="getCourseItem" resultType="kr.dbp.naemom.vo.CourseItemVO">
+		select * from course_item where ci_co_num =#{co_num}
+	</select>
 </mapper>

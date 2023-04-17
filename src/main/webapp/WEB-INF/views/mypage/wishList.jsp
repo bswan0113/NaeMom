@@ -32,24 +32,29 @@
 	    
 	<div class="container">
 	<h3>찜 목록</h3>
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>  </th>
-					<th>  </th>
-					<th>  </th>
-				</tr>
-			</thead>
-			<tbody>	
-				<c:forEach items="${wishList}" var="wi">
+		<form method="get" action="<c:url value='/course/insert'></c:url>">
+			<table class="table table-striped">
+				<thead>
 					<tr>
-						<td><a href="<c:url value='/product/detail/detailLayoutTMP/${wi.wi_pd_num}'></c:url>"><img src="<c:url value='/download${wi.product.file.fi_name}'></c:url>" width="300px;" height="300px;"></a></td>
-						<td><a style="line-height:300px;" href="<c:url value='/product/detail/detailLayoutTMP/${wi.wi_pd_num}'></c:url>">${wi.product.pd_title}</a></td>
-						<td style="line-height:300px;"><button class="btn btn-success btn-delete" data-num="${wi.wi_pd_num}">찜 취소</button></td>
+						<th>코스 선택</th>
+						<th>  </th>
+						<th></th>
+						<th></th>
 					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>	
+					<c:forEach items="${wishList}" var="wi">
+						<tr>
+							<td style="line-height:300px"><input type="checkbox" name="pd_num" value="${wi.wi_pd_num}" style="transform: scale(1.5);"></td>
+							<td><a href="<c:url value='/product/detail/detailLayoutTMP/${wi.wi_pd_num}'></c:url>"><img src="<c:url value='/download${wi.product.file.fi_name}'></c:url>" width="300px;" height="300px;"></a></td>
+							<td><a style="line-height:300px;" href="<c:url value='/product/detail/detailLayoutTMP/${wi.wi_pd_num}'></c:url>">${wi.product.pd_title}</a></td>
+							<td style="line-height:300px;"><button class="btn btn-success btn-delete" data-num="${wi.wi_pd_num}">찜 취소</button></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+			<button class="btn btn-success">코스 등록하기</button>
+		</form>
 		
 			<ul class="comment-pagination pagination justify-content-center">
 				<c:if test="${pm.prev}">

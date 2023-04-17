@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Param;
 
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.BuyListVO;
+import kr.dbp.naemom.vo.CourseItemVO;
+import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.Member_profileVO;
@@ -59,11 +61,15 @@ public interface MyPageDAO {
 
 	int getMileageCount(@Param("me_id")String me_id);
 
-	int getexpirationMileage(@Param("me_id")String me_id);
+	Integer getexpirationMileage(@Param("me_id")String me_id);
 
 	ArrayList<BuyListVO> getBuyList(@Param("me_id")String me_id, @Param("cri")Criteria cri);
 
 	int getBuyListCount(@Param("me_id")String me_id);
+
+	ArrayList<CourseVO> getCourseList(@Param("cri")Criteria cri, @Param("me_id")String me_id);
+
+	ArrayList<CourseItemVO> getCourseItem(@Param("co_num")int co_num);
 
 
 

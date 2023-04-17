@@ -2,7 +2,7 @@ package kr.dbp.naemom.controller;
 
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Currency;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -20,8 +20,9 @@ import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.MyPageService;
 import kr.dbp.naemom.utils.MessageUtils;
 import kr.dbp.naemom.vo.BuyListVO;
+import kr.dbp.naemom.vo.CourseItemVO;
+import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.MemberVO;
-import kr.dbp.naemom.vo.Member_profileVO;
 import kr.dbp.naemom.vo.MileageVO;
 import kr.dbp.naemom.vo.ReviewVO;
 import kr.dbp.naemom.vo.WishVO;
@@ -142,10 +143,20 @@ public class MyPageController {
 	}
 	
 	@RequestMapping(value = "/mypage/courseList")
-	public ModelAndView couserList(ModelAndView mv, HttpSession session) {
-		MemberVO user = (MemberVO) session.getAttribute("userInfo");
-		mv.addObject("user",user);
+	public ModelAndView couserList(ModelAndView mv, HttpSession session, Criteria cri) {
+		if(cri == null) cri = new Criteria();
 		
+		MemberVO user = (MemberVO) session.getAttribute("userInfo");
+		ArrayList<CourseVO> course = myPageService.getCourseList(cri, user.getMe_id());
+		if(course.size() >0) {
+			for(int i=0; i<course.size(); i++) {
+				CourseItemVO item = myPageService.getCourseItem(course.get(i).getCo_num());
+				course.get(i).setFile(item.getFile());
+			}
+		}
+		
+		mv.addObject("cor",course);
+		mv.addObject("user",user);
 		mv.setViewName("/mypage/courseList");
 		return mv;
 	}
