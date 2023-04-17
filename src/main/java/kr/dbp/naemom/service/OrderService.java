@@ -1,6 +1,7 @@
 package kr.dbp.naemom.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.OptionListDTO;
@@ -25,13 +26,17 @@ public interface OrderService {
 
 	FileVO getFileByPdNum(String tmp);
 
-	void addBasket(OptionListDTO tmp, String me_id);
+	int addBasket(List<OptionListDTO> list, String me_id);
 
 	ArrayList<Shopping_basketVO> getBasket(String me_id);
 
 	ArrayList<FileVO> getFileListByBasket(ArrayList<Shopping_basketVO> basket);
 
 	ArrayList<ProductVO> getProductByBasket(ArrayList<Shopping_basketVO> basket);
+
+	int deleteBasket(int sb_num, String me_id);
+
+	int deleteAllBasket(String me_id);
 
 
 	

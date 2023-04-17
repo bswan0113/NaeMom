@@ -291,7 +291,7 @@
 	        </div>
 	      </div>
 	      <ul class="cos-list" id="sortable">
-	        <li class="cos_item_origin ui-state-default">
+	        <li class="cos_item_origin ui-state-disabled">
               <div class="cos_text_origin">
 	          	
 	            <p>등록된 상품이 없습니다.</p>
@@ -581,6 +581,7 @@
 	        //reorderMap();
     		let productList=new Array(10);
     		$('.cos-item').each(function(i, box) {
+    				
 	            let listNum = $(this).find('.numbering');
 	            let pd_num = listNum.siblings('.cos_text').find('#pd_num').text();
 	            productList[i] = pd_num;

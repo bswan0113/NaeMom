@@ -38,6 +38,7 @@
 		    width: 1190px;
 		    margin: 0 auto;
 		    padding: 0 20px 27px 20px;
+		    height:auto;
 		  }
 	    .option_list{
 	      float: left; border: 1px solid black; width: 750px; padding: 20px;
@@ -79,10 +80,13 @@
 
 	    .select_product_box{
 	      float: right; border: 1px solid black; width: 380px; padding: 20px;
-	      margin-top: 100px; border-radius: 10px;
+	      margin-top: 100px; border-radius: 10px; position:sticky; top:190px
 	    }
 	    .addOrder{
 	      text-align: center; width: 100%; font-size: 20px; height: 50px; margin-top: 20px;
+	    }
+	    .deleteOrder{
+	    	text-align: center; width: 100%; font-size: 20px; height: 50px; margin-top: 20px;
 	    }
 	    .no_product_list{
 	    	margin-bottom: 10px; border: 1px; border-radius: 10px; background-color: antiquewhite;
@@ -119,7 +123,7 @@
         		<c:if test="${i.index == p.index }">
         			<input type="hidden" name="pr_category" value="">
         			<input type="hidden" name="pr_title" value="">
-        			<input type="hidden" name="pr_num" value="">
+        			<input type="hidden" name="sb_num" value="${list.sb_num }">
 					<label style="font-size: 30px; font-weight: 500;">${pr.pd_title} <span class="item_category" style="font-size: 20px; font-weight: 100;">여행지</span></label>
 					<button class="delete_item btn btn-outline-danger" type="button">&times;</button>
 					<div class="option_select_box1">
@@ -158,7 +162,7 @@
         		<c:if test="${i.index == p.index }">
         			<input type="hidden" name="pr_category" value="">
         			<input type="hidden" name="pr_title" value="">
-        			<input type="hidden" name="pr_num" value="">
+        			<input type="hidden" name="sb_num" value="${list.sb_num }">
 					<label style="font-size: 30px; font-weight: 500;">${pr.pd_title} <span class="item_category" style="font-size: 20px; font-weight: 100;">축제</span></label>
 					<button class="delete_item btn btn-outline-danger" type="button">&times;</button>
 					<div class="option_select_box1">
@@ -197,7 +201,7 @@
         		<c:if test="${i.index == p.index }">
         			<input type="hidden" name="pr_category" value="">
         			<input type="hidden" name="pr_title" value="">
-        			<input type="hidden" name="pr_num" value="">
+        			<input type="hidden" name="sb_num" value="${list.sb_num }">
 					<label style="font-size: 30px; font-weight: 500;">${pr.pd_title} <span class="item_category" style="font-size: 20px; font-weight: 100;">음식점</span></label>
 					<button class="delete_item btn btn-outline-danger" type="button">&times;</button>
 					<div class="option_select_box1">
@@ -236,7 +240,7 @@
         		<c:if test="${i.index == p.index }">
         			<input type="hidden" name="pr_category" value="">
         			<input type="hidden" name="pr_title" value="">
-        			<input type="hidden" name="pr_num" value="">
+        			<input type="hidden" name="sb_num" value="${list.sb_num }">
 					<label style="font-size: 30px; font-weight: 500;">${pr.pd_title} <span class="item_category" style="font-size: 20px; font-weight: 100;">숙박</span></label>
 					<button class="delete_item btn btn-outline-danger" type="button">&times;</button>
 					<div class="option_select_box1">
@@ -273,16 +277,20 @@
      		</c:forEach>
 			
     	</ul>
-    	<form action="<c:url value='/option/basket'></c:url>" method="post">
 	   		<div class="select_product_box">
-		      	<ul class="product_list">
-		        	<li class="no_product_item">등록된 상품이 없습니다.</li>
-		      	</ul>
-		      	<label style="font-size: 20px;">총가격 : </label>
-		      	<span style="float: right;"><em class="allPrice">0</em> 원</span>
-		      	<button type="button" class="addOrder btn btn-outline-danger">주문하기</button>
+		      	<div class="allPrice_box">
+			      	<strong style="font-size: 20px;">상품갯수 : </strong>
+			      	<span style="float: right;"><em class="allAmount">0</em> 개</span>
+		      	</div>
+		      	<div class="allPrice_box mt-3" style="">
+			      	<strong style="font-size: 20px;">총가격 : </strong>
+			      	<span style="float: right;"><em class="allPrice">0</em> 원</span>
+		      	</div>
+		      	<button type="button" class="deleteOrder btn btn-outline-danger mt-3">장바구니 비우기</button>
+		    	<form action="<c:url value='/option/basket'></c:url>" method="post">
+	      			<button type="button" class="addOrder btn btn-outline-success">주문하기</button>
+   				</form>
 	    	</div>
-    	</form>
   </div>
   <script>
   		$('.no_product_list').hide();
@@ -290,9 +298,39 @@
 		$('.delete_item').click(function(){
 			$(this).parent().parent().remove();
 			allPrice();
+			itemCount();
+			let sb_num = $(this).siblings('[name=sb_num]').val();
+			ajaxPost(sb_num, '<c:url value="/option/deleteBasket"></c:url>', deleteBasket);
 		})
+		function deleteBasket(data){
+  			if(data.res == 0){
+  				alert('상품삭제에 실패했습니다.');
+  			}else{
+  				alert('상품삭제에 성공했습니다.');
+  			}
+  		}
+  		//리스트 전체삭제 이벤트
+  		$('.deleteOrder').click(function(){
+  			if(confirm('장바구니를 비우겠습니까?')){
+  				$('.no_product_list').siblings().remove();
+	  			$('.no_product_list').show();
+	  			let sb_num = 1;
+	  			ajaxPost(sb_num, '<c:url value="/option/deleteAllBasket"></c:url>', deleteAllBasket);
+  			}
+  		})
+  		function deleteAllBasket(data){
+  			if(data.res == 0){
+  				alert('장바구니 비우기 실패');
+  			}else{
+  				allPrice();
+  				itemCount();
+  				alert('장바구니 비우기 완료')
+  			}
+  		}
 		//총가격 호출
 		allPrice();
+		//총 갯수 호출
+		itemCount();
 		//총가격
 		function allPrice(){
 			let totalPrice = 0;
@@ -307,9 +345,15 @@
 		      	$('.no_product_list').show();
 			}
 		}
-  	
-		//ajax
-		function ajaxPost(obj, url, successFunction){
+  		function itemCount(){
+  			let count = 0;
+  			$('.option_item').each(function(i){
+  				count++;
+  			})
+  			$('.allAmount').text(count);
+  		}
+	//ajax
+	function ajaxPost(obj, url, successFunction){
 		$.ajax({
 			async:false,
 			type: 'POST',

@@ -128,7 +128,7 @@
 					<div class="option_select_box1">
 						<label>메뉴 : </label>
 						<select class="option_select menu_food_select" name="" id="menu_food_select" onchange="select_menu(this)">
-							<option value="0">선택</option>
+							<option value="0" selected>선택</option>
 							<c:forEach items="${foodList }" var="food">
 								<c:if test="${food.reo_pd_num == list.pd_num }">
 									<option value="${food.reo_num }">${food.reo_name }</option>
@@ -176,7 +176,7 @@
 					<div class="option_select_box1">
 						<label>연령 : </label>
 						<select class="option_select menu_festival_select" name="" id="menu_festival_select" onchange="select_menu(this)">
-							<option value="0">선택</option>
+							<option value="0" selected>선택</option>
 							<c:forEach items="${festivalList }" var="festival">
 								<c:if test="${festival.fo_pd_num == list.pd_num }">
 									<option value="${festival.fo_num }">${festival.fo_age }</option>
@@ -224,7 +224,7 @@
 					<div class="option_select_box1">
 						<label>연령 : </label>
 						<select class="option_select menu_travel_select" name="" id="menu_travel_select" onchange="select_menu(this)">
-							<option value="0">선택</option>
+							<option value="0" selected>선택</option>
 							<c:forEach items="${travelList }" var="travel">
 								<c:if test="${travel.lo_pd_num == list.pd_num }">
 									<option value="${travel.lo_num }">${travel.lo_age }</option>
@@ -272,7 +272,7 @@
 					<div class="option_select_box1">
 						<label>방 선택 : </label>
 						<select class="option_select menu_home_select" name="" id="menu_home_select" onchange="select_menu(this)">
-							<option value="0">선택</option>
+							<option value="0" selected>선택</option>
 							<c:forEach items="${homeList }" var="home">
 								<c:if test="${home.ao_pd_num == list.pd_num }">
 									<option value="${home.ao_num }">${home.ao_name }</option>
@@ -289,7 +289,7 @@
 						</select>
 						<label>추가인원 : </label>
 						<select class="option_select add_home_select" style="width:60px" id="add_home_select" onchange="add_price(this)">
-							<option value="0">없음</option>
+							<option value="0" selected>없음</option>
 							<option value="1">1</option>
 							<option value="2">2</option>
 							<option value="3">3</option>
@@ -315,14 +315,51 @@
 		      	</ul>
 		      	<label style="font-size: 20px;">총가격 : </label>
 		      	<span style="float: right;"><em class="allPrice">0</em> 원</span>
-		      	<button class="addOrder btn btn-outline-danger">장바구니 담기</button>
+		      	<button type="button" class="addOrder btn btn-outline-danger">장바구니 담기</button>
 	    	</div>
     	</form>
   </div>
   <script>
+  $('form').click(function(){
+		let list = [];
+		$('.product_item').each(function(i){
+			let pr_num = $(this).find('[name=pr_num]').val();
+			let pr_category = $(this).find('[name=pr_category]').val(); 
+			let pr_title = $(this).find('[name=pr_title]').val();
+			let pr_option = $(this).find('[name=pr_option]').val();
+			let pr_option_num = $(this).find('[name=pr_option_num]').val();
+			let pr_amount = $(this).find('[name=pr_amount]').val();
+			let pr_date = $(this).find('[name=pr_date]').val();
+			let pr_price = $(this).find('[name=pr_price]').val();
+			let pr = {
+				pr_num : pr_num,
+				pr_category : pr_category,
+				pr_title : pr_title,
+				pr_option : pr_option,
+				pr_option_num : pr_option_num,
+				pr_amount : pr_amount,
+				pr_date : pr_date,
+				pr_price : pr_price
+			}
+			list.push(pr);
+		})
+		ajaxPost(list, '<c:url value="/option/test"></c:url>',testSuccess);
+		
+	});
+  function testSuccess(data){
+	  if(data.res == 0){
+		  alert('장바구니 등록에 실패했습니다.')
+	  }else{
+		  if(confirm('장바구니 담았습니다.\n 장바구니로 이동하시겠습니까?')){
+			  //location.reload();
+			  //$('.option_select').trigger('click');
+			  location.href = "<c:url value='/option/basket'></c:url>";
+		  }
+	  }
+  }
   //데이터피커 이용
   $.datepicker.setDefaults({
-		dateFormat: 'yy/mm/dd',
+		dateFormat: 'yy-mm-dd',
 		prevText: '이전 달',
 		nextText: '다음 달',
 		monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
@@ -349,7 +386,7 @@
 	function priceAll(){
 		let allprice = 0;
 		$('[name=pr_price]').each(function(){
-			let price = $(this).text();
+			let price = $(this).val();
 			allprice = Number(allprice) + Number(price);
 
 		})
@@ -502,14 +539,14 @@
 			str='';
 			str+=
 				'<li class="product_item">'+
-					'<input type="hidden" name="list['+item_index+'].pr_category" value='+item_category+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_num" value='+item_num+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_title" value='+item_title+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_option" value='+item_name+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_option_num" value='+item_option_num+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_amount" value='+item_amount+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_date" value='+item_date+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_price" value='+item_price+'>'+
+	    			'<input type="hidden" name="pr_category" value='+item_category+'>'+
+	    			'<input type="hidden" name="pr_num" value='+item_num+'>'+
+	    			'<input type="hidden" name="pr_title" value='+item_title+'>'+
+	    			'<input type="hidden" name="pr_option" value='+item_name+'>'+
+	    			'<input type="hidden" name="pr_option_num" value='+item_option_num+'>'+
+	    			'<input type="hidden" name="pr_amount" value='+item_amount+'>'+
+	    			'<input type="hidden" name="pr_date" value='+item_date+'>'+
+	    			'<input type="hidden" name="pr_price" value='+item_price+'>'+
 					'<div class="pr_content1">'+
 						'<span name="list['+item_index+'].pr_title">'+item_title+' - </span>'+
 						'<label name="list['+item_index+'].pr_option">메뉴 : '+item_name+'</label>'+
@@ -542,7 +579,6 @@
 			let item_category = "festival_option";
 			let item_num =  $(this).siblings('[name=pr_num]').val();
 			let item_option_num = $(this).siblings('.option_select_box1').find('.option_select option:selected').val();
-			console.log(item_option_num)
 			let item_index = 0;
 			$('.product_item').each(function(){
 				item_index++;
@@ -551,14 +587,14 @@
 			str='';
 			str+=
 				'<li class="product_item">'+
-					'<input type="hidden" name="list['+item_index+'].pr_category" value='+item_category+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_num" value='+item_num+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_title" value='+item_title+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_option" value='+item_name+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_option_num" value='+item_option_num+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_amount" value='+item_amount+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_date" value='+item_date+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_price" value='+item_price+'>'+
+				'<input type="hidden" name="pr_category" value='+item_category+'>'+
+    			'<input type="hidden" name="pr_num" value='+item_num+'>'+
+    			'<input type="hidden" name="pr_title" value='+item_title+'>'+
+    			'<input type="hidden" name="pr_option" value='+item_name+'>'+
+    			'<input type="hidden" name="pr_option_num" value='+item_option_num+'>'+
+    			'<input type="hidden" name="pr_amount" value='+item_amount+'>'+
+    			'<input type="hidden" name="pr_date" value='+item_date+'>'+
+    			'<input type="hidden" name="pr_price" value='+item_price+'>'+
 					'<div class="pr_content1">'+
 						'<span name="list['+item_index+'].pr_title">'+item_title+' - </span>'+
 						'<label name="list['+item_index+'].pr_option">연령 : '+item_name+'</label>'+
@@ -599,14 +635,14 @@
 			str='';
 			str+=
 				'<li class="product_item">'+
-					'<input type="hidden" name="list['+item_index+'].pr_category" value='+item_category+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_num" value='+item_num+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_title" value='+item_title+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_option" value='+item_name+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_option_num" value='+item_option_num+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_amount" value='+item_amount+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_date" value='+item_date+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_price" value='+item_price+'>'+
+				'<input type="hidden" name="pr_category" value='+item_category+'>'+
+    			'<input type="hidden" name="pr_num" value='+item_num+'>'+
+    			'<input type="hidden" name="pr_title" value='+item_title+'>'+
+    			'<input type="hidden" name="pr_option" value='+item_name+'>'+
+    			'<input type="hidden" name="pr_option_num" value='+item_option_num+'>'+
+    			'<input type="hidden" name="pr_amount" value='+item_amount+'>'+
+    			'<input type="hidden" name="pr_date" value='+item_date+'>'+
+    			'<input type="hidden" name="pr_price" value='+item_price+'>'+
 					'<div class="pr_content1">'+
 						'<span name="list['+item_index+'].pr_title">'+item_title+' - </span>'+
 						'<label name="list['+item_index+'].pr_option">연령 : '+item_name+'</label>'+
@@ -649,14 +685,14 @@
 			str='';
 			str+=
 				'<li class="product_item">'+
-					'<input type="hidden" name="list['+item_index+'].pr_category" value='+item_category+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_num" value='+item_num+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_title" value='+item_title+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_option" value='+item_name+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_option_num" value='+item_option_num+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_amount" value='+item_amount+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_date" value='+item_date+'>'+
-	    			'<input type="hidden" name="list['+item_index+'].pr_price" value='+item_price+'>'+
+				'<input type="hidden" name="pr_category" value='+item_category+'>'+
+    			'<input type="hidden" name="pr_num" value='+item_num+'>'+
+    			'<input type="hidden" name="pr_title" value='+item_title+'>'+
+    			'<input type="hidden" name="pr_option" value='+item_name+'>'+
+    			'<input type="hidden" name="pr_option_num" value='+item_option_num+'>'+
+    			'<input type="hidden" name="pr_amount" value='+item_amount+'>'+
+    			'<input type="hidden" name="pr_date" value='+item_date+'>'+
+    			'<input type="hidden" name="pr_price" value='+item_price+'>'+
 					'<div class="pr_content1">'+
 						'<span name="list['+item_index+'].pr_title">'+item_title+' - </span>'+
 						'<label name="list['+item_index+'].pr_option">방 : '+item_name+'</label>'+

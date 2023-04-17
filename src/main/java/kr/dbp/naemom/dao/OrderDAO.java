@@ -27,17 +27,14 @@ public interface OrderDAO {
 
 	FileVO selectFileByPdNum(@Param("fi_table_key")int pd_num, @Param("fi_category")String fi_category, @Param("fi_table")String fi_table);
 
-	void insertBasket(@Param("tmp")OptionListDTO tmp,@Param("me_id")String me_id);
+	int insertBasket(@Param("tmp")OptionListDTO tmp,@Param("me_id")String me_id);
 
 	ArrayList<Shopping_basketVO> selectBasket(@Param("me_id")String me_id);
 
-//	Option_festivalVO selectFestivalByNum(@Param("sb_table_key")int sb_table_key);
-//
-//	Option_accomodationVO selectHomeByNum(@Param("sb_table_key")int sb_table_key);
-//
-//	Option_restrauntVO selectFoodByNum(@Param("sb_table_key")int sb_table_key);
-//
-//	Option_landMarkVO selectTravelByNum(@Param("sb_table_key")int sb_table_key);
+	int deleteBasket(@Param("sb_num")int sb_num, @Param("me_id")String me_id);
+
+	int deleteAllBasket(@Param("me_id")String me_id);
+
 
 
 }

@@ -1,6 +1,7 @@
 package kr.dbp.naemom.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,11 +83,14 @@ public class OrderServiceImp implements OrderService{
 	}
 
 	@Override
-	public void addBasket(OptionListDTO tmp, String me_id) {
-		if(tmp == null || tmp.getPr_num() == 0 || tmp.getPr_amount() == 0 || tmp.getPr_category() == "")
-			return;
-		
-		orderDao.insertBasket(tmp,me_id);
+	public int addBasket(List<OptionListDTO> list, String me_id) {
+		int res = 0;
+		for(OptionListDTO tmp : list) {
+			if(tmp.getPr_num() == 0 || tmp.getPr_amount() == 0 || tmp.getPr_date() == null || tmp.getPr_option() == null)
+				return res=0;
+			res = orderDao.insertBasket(tmp, me_id);
+		}
+		return res;
 		
 	}
 
@@ -146,6 +150,20 @@ public class OrderServiceImp implements OrderService{
 			}
 		}
 		return prList;
+	}
+
+	@Override
+	public int deleteBasket(int sb_num, String me_id) {
+		if(sb_num == 0 || me_id == null)
+			return 0;
+		return orderDao.deleteBasket(sb_num,me_id);
+	}
+
+	@Override
+	public int deleteAllBasket(String me_id) {
+		if(me_id == null)
+			return 0;
+		return orderDao.deleteAllBasket(me_id);
 	}
 
 	

@@ -55,22 +55,16 @@
    	<select id="selectFestivalListByKey" resultType="kr.dbp.naemom.vo.Option_festivalVO" parameterType="java.util.Map">
    		select * from festival_option where fo_num = #{sb_table_key} and #{sb_table} = 'festival_option'
    	</select>
+   	<delete id="deleteBasket">
+   		delete from shopping_basket where sb_me_id = #{me_id} and sb_num = #{sb_num} 
+   	</delete>
+   	<delete id="deleteAllBasket">
+   		delete from shopping_basket
+   	</delete>
    	
    	
-   	
-   	
-   	<!-- <select id="selectFestivalByNum" resultType="kr.dbp.naemom.vo.Option_festivalVO">
-   		select * from festival_option where fo_num = #{sb_table_key}
-   	</select>
-   	<select id="selectHomeByNum" resultType="kr.dbp.naemom.vo.Option_accomodationVO">
-   		select * from accomodation_option where ao_num = #{sb_table_key}
-   	</select>
-   	<select id="selectFoodByNum" resultType="kr.dbp.naemom.vo.Option_restrauntVO">
-   		select * from restraunt_option where reo_num = #{sb_table_key}
-   	</select>
-   	<select id="selectTravelByNum" resultType="kr.dbp.naemom.vo.Option_landMarkVO">
-   		select * from landMark_option where lo_num =  #{sb_table_key}
-   	</select> -->
+  
+   
 </mapper>
 
 

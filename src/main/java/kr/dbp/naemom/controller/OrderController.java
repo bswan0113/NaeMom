@@ -1,18 +1,22 @@
 package kr.dbp.naemom.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.service.OrderService;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
-import kr.dbp.naemom.vo.OptionDTO;
 import kr.dbp.naemom.vo.OptionListDTO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_festivalVO;
@@ -79,22 +83,22 @@ public class OrderController {
 		mv.setViewName("/option/opList");
 		return mv;
 	}
-	@RequestMapping(value = "/option/basket", method=RequestMethod.POST)
-	public ModelAndView addBasket(ModelAndView mv, OptionDTO list) {
+	
+	@ResponseBody
+	@RequestMapping(value="/option/test", method=RequestMethod.POST)
+	public Map<String, Object> test(@RequestBody List<OptionListDTO> list){
+		Map<String, Object> map = new HashMap<String, Object>();
 		//지워야될코드
 		String id = "qwe";
 		MemberVO user = new MemberVO();
 		//MemberVO user = (MemberVO)session.getAttribute("user");
 		//지워야될코드
 		user.setMe_id(id);
-		for(OptionListDTO tmp : list.getList()) {
-			if(tmp != null) {
-				orderService.addBasket(tmp,user.getMe_id());
-			}
-		}
-		mv.setViewName("redirect:/option/basket");
-		return mv;
+		int res = orderService.addBasket(list, user.getMe_id());
+		map.put("res", res);
+		return map;
 	}
+	
 	@RequestMapping(value = "/option/basket", method=RequestMethod.GET)
 	public ModelAndView Basket(ModelAndView mv) {
 		//지워야될코드
@@ -111,6 +115,36 @@ public class OrderController {
 		mv.addObject("fList", fList);
 		mv.setViewName("/option/basket");
 		return mv;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/option/deleteBasket", method=RequestMethod.POST)
+	public Map<String, Object> deleteBasket(@RequestBody int sb_num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		//지워야될코드
+		String id = "qwe";
+		MemberVO user = new MemberVO();
+		//MemberVO user = (MemberVO)session.getAttribute("user");
+		//지워야될코드
+		user.setMe_id(id);
+		int res = orderService.deleteBasket(sb_num,user.getMe_id());
+		
+		map.put("res", res);
+		return map;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/option/deleteAllBasket", method=RequestMethod.POST)
+	public Map<String, Object> deleteAllBasket(@RequestBody int sb_num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		//지워야될코드
+		String id = "qwe";
+		MemberVO user = new MemberVO();
+		//MemberVO user = (MemberVO)session.getAttribute("user");
+		//지워야될코드
+		user.setMe_id(id);
+		int res = orderService.deleteAllBasket(user.getMe_id());
+		
+		map.put("res", res);
+		return map;
 	}
 	
 	
