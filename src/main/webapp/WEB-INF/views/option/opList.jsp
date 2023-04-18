@@ -353,7 +353,7 @@
 		  if(confirm('장바구니 담았습니다.\n 장바구니로 이동하시겠습니까?')){
 			  //location.reload();
 			  //$('.option_select').trigger('click');
-			  location.href = "<c:url value='/option/basket'></c:url>";
+			  location.replace("<c:url value='/option/basket'></c:url>");
 		  }
 	  }
   }

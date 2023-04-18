@@ -287,12 +287,19 @@
 			      	<span style="float: right;"><em class="allPrice">0</em> 원</span>
 		      	</div>
 		      	<button type="button" class="deleteOrder btn btn-outline-danger mt-3">장바구니 비우기</button>
-		    	<form action="<c:url value='/option/basket'></c:url>" method="post">
+		    	<form action="<c:url value='/option/order'></c:url>" method="post">
 	      			<button type="button" class="addOrder btn btn-outline-success">주문하기</button>
    				</form>
 	    	</div>
   </div>
   <script>
+  		$('form').click(function(){
+  			let amount = $('.allAmount').text();
+  			let price = $('.allPrice').text();
+  			if(confirm('총 '+amount+'개의 상품 '+price+'원 입니다.\n주문하시겠습니까?')){
+  				return console.log(1);
+  			}
+  		})
   		$('.no_product_list').hide();
   		//리스트 삭제 이벤트
 		$('.delete_item').click(function(){
@@ -345,6 +352,7 @@
 		      	$('.no_product_list').show();
 			}
 		}
+		//총갯수
   		function itemCount(){
   			let count = 0;
   			$('.option_item').each(function(i){
