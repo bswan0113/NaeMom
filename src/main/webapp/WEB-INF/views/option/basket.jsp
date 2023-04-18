@@ -293,11 +293,11 @@
 	    	</div>
   </div>
   <script>
-  		$('form').click(function(){
+  		$('form').submit(function(){
   			let amount = $('.allAmount').text();
   			let price = $('.allPrice').text();
-  			if(confirm('총 '+amount+'개의 상품 '+price+'원 입니다.\n주문하시겠습니까?')){
-  				return console.log(1);
+  			if(confirm('총 '+amount+'개의 상품, '+price+'원 입니다.\n주문하시겠습니까?')){
+  				return true;
   			}
   		})
   		$('.no_product_list').hide();
