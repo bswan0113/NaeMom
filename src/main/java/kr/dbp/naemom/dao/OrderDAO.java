@@ -35,6 +35,8 @@ public interface OrderDAO {
 
 	int deleteAllBasket(@Param("me_id")String me_id);
 
+	Shopping_basketVO selectBasketBySbNum(@Param("me_id")String me_id, @Param("sb_num")int num);
+
 
 
 }

@@ -350,7 +350,7 @@
 	  if(data.res == 0){
 		  alert('장바구니 등록에 실패했습니다.')
 	  }else{
-		  if(confirm('장바구니 담았습니다.\n 장바구니로 이동하시겠습니까?')){
+		  if(confirm('장바구니 담았습니다.\n장바구니로 이동하시겠습니까?')){
 			  //location.reload();
 			  //$('.option_select').trigger('click');
 			  location.replace("<c:url value='/option/basket'></c:url>");

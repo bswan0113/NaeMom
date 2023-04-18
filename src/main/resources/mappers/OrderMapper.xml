@@ -61,7 +61,9 @@
    	<delete id="deleteAllBasket">
    		delete from shopping_basket
    	</delete>
-   	
+   	<select id="selectBasketBySbNum" resultMap="selectBasketByOption">
+   		select * from shopping_basket where sb_me_id = #{me_id} and sb_num = #{sb_num}
+   	</select>
    	
   
    

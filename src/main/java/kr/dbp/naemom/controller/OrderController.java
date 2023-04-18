@@ -146,8 +146,29 @@ public class OrderController {
 		map.put("res", res);
 		return map;
 	}
-	
-	
+	@RequestMapping(value = "/option/paymentList", method=RequestMethod.POST)
+	public ModelAndView paymentList(ModelAndView mv,@RequestParam("sb_num")String[]sb_num) {
+		//지워야될코드
+		String id = "qwe";
+		MemberVO user = new MemberVO();
+		//MemberVO user = (MemberVO)session.getAttribute("user");
+		//지워야될코드
+		user.setMe_id(id);
+		ArrayList<Shopping_basketVO> basket = orderService.getBasketBySbNum(user.getMe_id(),sb_num);
+		ArrayList<ProductVO> prList = orderService.getProductByBasket(basket);
+		ArrayList<FileVO> fList = orderService.getFileListByBasket(basket);
+		mv.addObject("prList", prList);
+		mv.addObject("basket", basket);
+		mv.addObject("fList", fList);
+		mv.setViewName("/option/payment");
+		return mv;
+	}
+	@RequestMapping(value = "/option/payment", method=RequestMethod.GET)
+	public ModelAndView payment(ModelAndView mv) {
+		
+		mv.setViewName("/option/payment");
+		return mv;
+	}
 	
 	
 	

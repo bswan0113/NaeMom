@@ -38,6 +38,8 @@ public interface OrderService {
 
 	int deleteAllBasket(String me_id);
 
+	ArrayList<Shopping_basketVO> getBasketBySbNum(String me_id, String[] sb_num);
+
 
 	
 

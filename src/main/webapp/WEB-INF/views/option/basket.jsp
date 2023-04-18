@@ -54,6 +54,15 @@
 	    .option_title{
 	      position: absolute; font-size: 30px; font-weight: 700;
 	    }
+	    .order_step{
+	    	float:right; margin-top:20px;
+	    }
+	    .title_box{
+	    	height: 70px; overflow: hidden; border-bottom: 3px solid #777;
+	    }
+	    .order_step > em{
+	    	font-weight:700; color:#346aff; font-style:normal;
+	    }
 		.option_photo{
 			position: absolute; height:195px;
 		}
@@ -103,7 +112,10 @@
 </head>
 <body>
 	<div class="contents clearfix">
-    	<label class="option_title">장바구니</label>
+		<div class="title_box clearfix">
+	    	<label class="option_title">장바구니</label>
+	    	<span class="order_step"><em>장바구니 ></em>주문결제>결제완료</span>
+		</div>
     	<ul class="option_list">
     		
     		<li class="no_product_list">등록된 상품이 없습니다.</li>
@@ -287,8 +299,8 @@
 			      	<span style="float: right;"><em class="allPrice">0</em> 원</span>
 		      	</div>
 		      	<button type="button" class="deleteOrder btn btn-outline-danger mt-3">장바구니 비우기</button>
-		    	<form action="<c:url value='/option/order'></c:url>" method="post">
-	      			<button type="button" class="addOrder btn btn-outline-success">주문하기</button>
+		    	<form action="<c:url value='/option/paymentList'></c:url>" method="post">
+	      			<button class="addOrder btn btn-outline-success">주문하기</button>
    				</form>
 	    	</div>
   </div>
@@ -296,6 +308,15 @@
   		$('form').submit(function(){
   			let amount = $('.allAmount').text();
   			let price = $('.allPrice').text();
+  			$('.option_item').each(function(i){
+  				let sb_num = $(this).find('[name=sb_num]').val();
+  				str='';
+  				str +=
+  					'<input type="hidden" name="sb_num" value="'+sb_num+'">';
+  				$('form').append(str);
+  				
+  			})
+  			
   			if(confirm('총 '+amount+'개의 상품, '+price+'원 입니다.\n주문하시겠습니까?')){
   				return true;
   			}

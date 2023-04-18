@@ -24,7 +24,7 @@ public class OrderServiceImp implements OrderService{
 
 	@Override
 	public ProductVO getProductByPdNum(String tmp) {
-		int pd_num = IntegerPdNum(tmp);
+		int pd_num = IntegerNum(tmp);
 		if(pd_num==0)
 			return null;
 		return orderDao.selectProduct(pd_num);
@@ -32,7 +32,7 @@ public class OrderServiceImp implements OrderService{
 
 	@Override
 	public ArrayList<Option_landMarkVO> getTravelByPdNum(String tmp) {
-		int pd_num = IntegerPdNum(tmp);
+		int pd_num = IntegerNum(tmp);
 		if(pd_num==0)
 			return null;
 		return orderDao.selectTravelOption(pd_num);
@@ -40,7 +40,7 @@ public class OrderServiceImp implements OrderService{
 
 	@Override
 	public ArrayList<Option_restrauntVO> getFoodByPdNum(String tmp) {
-		int pd_num = IntegerPdNum(tmp);
+		int pd_num = IntegerNum(tmp);
 		if(pd_num==0)
 			return null;
 		return orderDao.selectFoodOption(pd_num);
@@ -48,7 +48,7 @@ public class OrderServiceImp implements OrderService{
 
 	@Override
 	public ArrayList<Option_accomodationVO> getHomeByPdNum(String tmp) {
-		int pd_num = IntegerPdNum(tmp);
+		int pd_num = IntegerNum(tmp);
 		if(pd_num==0)
 			return null;
 		return orderDao.selectHomeOption(pd_num);
@@ -56,14 +56,14 @@ public class OrderServiceImp implements OrderService{
 
 	@Override
 	public ArrayList<Option_festivalVO> getFestivalByPdNum(String tmp) {
-		int pd_num = IntegerPdNum(tmp);
+		int pd_num = IntegerNum(tmp);
 		if(pd_num==0)
 			return null;
 		return orderDao.selectFestivalOption(pd_num);
 	}
 
 	
-	private int IntegerPdNum(String tmp) {
+	private int IntegerNum(String tmp) {
 		if(tmp == null)
 			return 0;
 		int pd_num = Integer.parseInt(tmp);
@@ -74,7 +74,7 @@ public class OrderServiceImp implements OrderService{
 
 	@Override
 	public FileVO getFileByPdNum(String tmp) {
-		int pd_num = IntegerPdNum(tmp);
+		int pd_num = IntegerNum(tmp);
 		if(pd_num==0)
 			return null;
 		String fi_category = "게시글 썸네일";
@@ -164,6 +164,20 @@ public class OrderServiceImp implements OrderService{
 		if(me_id == null)
 			return 0;
 		return orderDao.deleteAllBasket(me_id);
+	}
+
+	@Override
+	public ArrayList<Shopping_basketVO> getBasketBySbNum(String me_id, String[] sb_num) {
+		ArrayList<Shopping_basketVO> list = new ArrayList<Shopping_basketVO>();
+		if(me_id == null)
+			return null;
+		int num = 0;
+		for(String tmp : sb_num) {
+			num = IntegerNum(tmp);
+			Shopping_basketVO item = orderDao.selectBasketBySbNum(me_id,num);
+			list.add(item);
+		}
+		return list;
 	}
 
 	
