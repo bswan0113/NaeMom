@@ -5,17 +5,14 @@
 <title>NaeMom</title>
 
 <script src="<c:url value='/resources/js/home.js'></c:url>"></script>
-
 <link rel="stylesheet" href="<c:url value='/resources/css/home.css'></c:url>">
-
-
 
 <div class="main-container-first">
     <div class="first-title title">
         <h2>메인</h2>
     </div>
-    <div>
-    	<a href="/naemom/main/insert/" class="insert-btn">등록하기</a>
+    <div class="btn-container">
+    	<a href="/naemom/main/insert/" class="insertContent-btn btn btn-secondary">등록하기</a>
     </div>
     
     <div class="swiper first-contents">
@@ -47,14 +44,19 @@
 	<div class="second-title title">
         <h1>배너</h1>
     </div>
+    <div class="btn-container">
+    	<a href="/naemom/main/addimage/" class="addimage-btn btn btn-secondary">이미지 등록하기</a>
+    </div>
     <div class="banner-box">
         <div class="swiper-container bannerSwiper">
             <div class="swiper-wrapper">
-                <div class="swiper-slide" style="min-width: 1190px;">
+            	<c:forEach items="${flist}" var="file_checked">
+                <div class="swiper-slide banner-img" style="min-width: 1190px;">
                     <a href="#">
-                    	<img class="" style="width:100%; height:100%;object-fit: contain;" src="<c:url value='/resources/img/banner(1).jpg'></c:url>">
+                    	<img class="" style="width:50%; height:50%;object-fit: contain;" src="<c:url value='/download${file_checked.fi_name}'></c:url>">
                     </a>
                 </div>
+                </c:forEach>
             </div>
         </div>
     </div>
@@ -62,7 +64,21 @@
 
 
 <script>
-var swiper = new Swiper('.mySwiper', { 
+var swiper = new Swiper(".mySwiper", {
+    slidesPerView: 3,
+    slidesPerGroup: 3,
+    spaceBetween: 30,
+    loop: true,
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: { 
+        nextEl: '.swiper-button-next', 
+        prevEl: '.swiper-button-prev', 
+    }
+  });
+/* var swiper = new Swiper('.mySwiper', { 
   slidesPerView : 3,
   slidesPerGroup: 3,
   spaceBetween: 50,
@@ -75,7 +91,7 @@ var swiper = new Swiper('.mySwiper', {
   autoplay: { 
       delay: 5000, 
   }
-}); 
+});  */
 
 var swiper = new Swiper('.bannerSwiper', { 
   centeredSlides: false,
@@ -87,5 +103,5 @@ var swiper = new Swiper('.bannerSwiper', {
   autoplay: { 
       delay: 10000, 
   }
-}); 
+});
 </script>

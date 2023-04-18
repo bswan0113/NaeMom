@@ -8,9 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.service.HomeService;
+import kr.dbp.naemom.utils.UploadFileUtils;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.ProductVO;
 
@@ -22,14 +24,20 @@ public class HomeController {
 	
 
 	@RequestMapping(value = "/")
-	public ModelAndView home(ModelAndView mv, @RequestParam(required = false,defaultValue = "0")int pd_num) {
+	public ModelAndView home(ModelAndView mv) {
 
 		ArrayList<ProductVO> plist = homeService.getCheckedList();
+		ArrayList<FileVO> flist = homeService.getFileList();
 		ArrayList<FileVO> files = new ArrayList<FileVO>();
 		for(int i = 0; i < plist.size() ; i++) {
 			plist.get(i).setFile(homeService.getFiles(plist.get(i).getPd_num()));
 		}
+//		for(int i = 0; i < flist.size() ; i++) {
+//			flist.get(i).setFile(homeService.getFiles(flist.get(i));
+//		}
+		
 		mv.addObject("files", files);
+		mv.addObject("flist",flist);
 		mv.addObject("plist", plist);
 		mv.setViewName("/main/home");
 		return mv;
@@ -55,38 +63,36 @@ public class HomeController {
         return mv;
     }
 	
-	//home.jsp의 foreach안의 
+	//이벤트 등록 페이지
+	@RequestMapping(value = "/main/addimage", method = RequestMethod.GET)
+	public ModelAndView addImage(ModelAndView mv) {
+		ArrayList<FileVO> flist = homeService.selectImage();
+//		ArrayList<FileVO> fileUploadlist = homeService.selectUploadImage();
+		mv.addObject("flist", flist);
+		mv.setViewName("/main/addimage");
+		return mv;
+	}
 	
+	//이벤트 등록 페이지 이미지 추가
+	@RequestMapping(value = "/main/addimage", method = RequestMethod.POST)
+	public ModelAndView addImage(ModelAndView mv, MultipartFile files) {
+		homeService.addImage(files);
+		mv.addObject("files", files);
+		mv.setViewName("redirect:/main/addimage/");
+		return mv;
+	}
 	
+	//이벤트 등록 페이지 이미지 보내기
+	@RequestMapping(value = "/main/addimage/uploadimage", method = RequestMethod.POST)
+	public ModelAndView uploadImage(ModelAndView mv,FileVO file,int[] imgCheckbox) {
+		homeService.deleteFileChecked(imgCheckbox);
+		homeService.insertFileChecked(imgCheckbox);			
+		ArrayList<FileVO> flist = homeService.selectImage();
+		mv.addObject("flist", flist);
+		mv.setViewName("redirect:/");
+		return mv;
+	}
 	
-//	// 체크 DB에 있는 상품 가져와서 home.jsp로 보내주기
-//	@RequestMapping(value="/main/insert/checked/post")
-//	public ModelAndView updatehomeContent(ModelAndView mv) {
-//		
-//		mv.setViewName("/");
-//		return mv;
-//	}
-	
-	
-//	
-//	@RequestMapping(value = "/main/insert/product_checked", method = RequestMethod.POST)
-//    public ModelAndView productChecked(HttpServletRequest request, ModelAndView mv) throws Exception {
-//        String[] checkedPids = request.getParameterValues("checkedPids");
-//        homeService.updateProductChecked(checkedPids);
-//        mv.setViewName("redirect:/main/insert");
-//        return mv;
-//    }
-//	
-
-//	
-//    @RequestMapping(value = "/main/insert/update_product", method = RequestMethod.POST)
-//    public ModelAndView updateProduct(HttpServletRequest request, ModelAndView mv) throws Exception {
-//        String pd_title = request.getParameter("pd_title");
-//        String pd_content = request.getParameter("pd_content");
-//        homeService.updateProduct(pd_title, pd_content);
-//        mv.setViewName("redirect:/home");
-//        return mv;
-//    }
 
 	
 }

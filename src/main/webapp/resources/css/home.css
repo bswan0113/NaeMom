@@ -131,3 +131,33 @@ a:hover, a:visited{
 .first-contents button{
     position: absolute;
 }
+
+.btn-container{
+    position: relative;
+    padding: 10px 0;
+    display: inline;
+}
+
+.insertContent-btn, .addimage-btn{
+	float: right;
+}
+
+/* swiper container 설정 */
+.bannerSwiper {
+  width: 100%;
+  height: 400px;
+}
+
+/* swiper slide 설정 */
+.banner-img {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 이미지 크기 설정 */
+.banner-img img {
+  max-width: 100%;
+  max-height: 100%;
+}

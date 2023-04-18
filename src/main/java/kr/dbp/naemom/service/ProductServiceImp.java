@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.dbp.naemom.dao.ProductDAO;
+import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.utils.UploadFileUtils;
 import kr.dbp.naemom.vo.DayOFFVO;
 import kr.dbp.naemom.vo.FileVO;
@@ -364,6 +365,9 @@ public class ProductServiceImp implements ProductService{
 		ArrayList<DayOFFVO> dayoff =productDao.getDayOff(pd_num);
 		return dayoff;
 	}
+
+
+
 
 
 

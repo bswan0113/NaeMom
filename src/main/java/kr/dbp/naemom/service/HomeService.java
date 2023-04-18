@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.ProductVO;
 
@@ -13,12 +15,6 @@ public interface HomeService {
 
 	ArrayList<ProductVO> searchProductByKeyword(String keyword);
 
-//	ArrayList<ProductVO> checkedProduct(HttpServletRequest request);
-
-//	void updateProductChecked(String[] checkedPids);
-//
-//	void updateProduct(String pd_title, String pd_content);
-//
 	ArrayList<ProductVO> getProductList();
 
 	void insertProductChecked(int[] pdc_checked);
@@ -28,6 +24,17 @@ public interface HomeService {
 	ArrayList<ProductVO> getCheckedList();
 
 	FileVO getFiles(int pd_num);
+
+	void addImage(MultipartFile files);
+
+	ArrayList<FileVO> getFileList();
+
+	ArrayList<FileVO> selectImage();
+
+	void deleteFileChecked(int[] fc_checked);
+
+	void insertFileChecked(int[] fc_checked);
+
 	
 
 }
