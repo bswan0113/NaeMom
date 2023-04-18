@@ -18,7 +18,6 @@ public class SearchServiceImp implements SearchService{
 	SearchDAO searchDao;
 	@Override
 	public ArrayList<ProductVO> getProduct(Criteria cri, int pd_pc_num) {
-		cri.setPerPageNum(4);
 		return searchDao.getProduct(cri,pd_pc_num);
 	}
 	@Override
