@@ -74,13 +74,11 @@ public class MyPageServiceImp implements MyPageService{
 			Member_profileVO oriProfile = myPageDao.getProfileImg(me_id);
 			
 			
-			System.out.println("오리  : "+oriProfile);
 			if(oriProfile==null ||  oriProfile.getMf_ori_name()==null) {
 				return myPageDao.insertProfileImg(upload, me_id);
 			}else {
 				upload.setMf_num(oriProfile.getMf_num());
 				upload.setMf_me_id(me_id);
-				System.out.println(upload);
 				
 				return myPageDao.updateProfileImg(upload)>=0;
 			}

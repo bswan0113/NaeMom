@@ -14,18 +14,19 @@
 	    WHERE fi_category = "게시글 썸네일"
 	      AND pd_pc_num = #{pd_pc_num} and fi_table="product"
 	      <if test="cri.search != null and cri.search != ''">
-	          and (pd_title = #{cri.search}
-	            or pd_content = #{cri.search}
-	            or pd_street_address = #{cri.search}
-	            or pd_registerd_address = #{cri.search})
+	          and (pd_title like concat("%",#{cri.search},"%")
+	            or pd_content like concat("%",#{cri.search},"%")
+	            or pd_street_address like concat("%",#{cri.search},"%")
+	            or pd_registerd_address like concat("%",#{cri.search},"%"))
 	      </if>
 	      <if test="cri.orderBy == 'view'">
-	          ORDER BY pd_viewcount ASC
+	          ORDER BY pd_viewcount DESC
 	      </if>
 	      <if test="cri.orderBy == 'wish'">	         
 	          GROUP BY product.pd_num
-	          ORDER BY COUNT(wi_num) ASC
+	          ORDER BY COUNT(wi_num) DESC
 	      </if>
+	      	limit #{cri.pageStart}, #{cri.perPageNum}
 	</select>
 
 
@@ -33,6 +34,7 @@
 	    <result property="pd_num" column="pd_num"/>
 	    <result property="pd_title" column="pd_title"/>
 	    <result property="pd_subtitle" column="pd_subtitle"/>
+	    <result property="pd_content" column="pd_content"/>
 	    <result property="pd_street_address" column="pd_street_address"/>
 	    <result property="pd_registerd_address" column="pd_registerd_address"/>
 	    <result property="pd_detail_address" column="pd_detail_address"/>
@@ -42,8 +44,41 @@
 	    		<result property="fi_name" column="fi_name"/>
 	    		<result property="fi_num" column="fi_num"/>
 	    	</association>
+	    <collection property="wishCount" column="pd_num" select="getWishCountByPdNum"/>
 	</resultMap>
 	
+	<select id="getWishCountByPdNum" resultType="Integer">
+	    select coalesce(count(*), 0) from wishitem where wi_pd_num=#{pd_num}
+	</select>
+		<select id="getCourse" resultMap="courseMap" parameterType="map">
+	    SELECT *
+	    FROM course
+	    JOIN course_item ci ON co_num = ci_co_num
+	    JOIN file ON ci_num = fi_table_key
+	    WHERE ci_index = "1"
+	    AND fi_table = "product"
+	    AND fi_category = "게시글 썸네일"
+	        <if test="cri.search != null and cri.search != ''">
+		          and (co_title like concat("%",#{cri.search},"%")
+		            or co_content like concat("%",#{cri.search},"%"))
+	        </if>
+	    limit #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<resultMap type="kr.dbp.naemom.vo.CourseVO" id="courseMap">
+	    <result property="co_me_id" column="co_me_id"/>
+	    <result property="co_num" column="co_num"/>
+	    <result property="co_title" column="co_title"/>
+	    <result property="co_content" column="co_content"/>
+	    <result property="co_view" column="co_view"/>
+	    <result property="co_up" column="co_up"/>
+	    <result property="co_down" column="co_down"/>
+	    <result property="co_register_date" column="co_register_date"/>
+	        <association property="file" javaType="kr.dbp.naemom.vo.FileVO">
+	            <result property="fi_name" column="fi_name"/>
+	            <result property="fi_num" column="fi_num"/>
+	        </association>		
+	</resultMap> 
 	
 
 </mapper>
