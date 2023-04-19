@@ -1,7 +1,6 @@
 package kr.dbp.naemom.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.service.SearchService;
+import kr.dbp.naemom.vo.CalendarVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.ProductVO;
 
@@ -57,10 +57,7 @@ public class SearchController {
 	@RequestMapping(value = "/searchList/searchFe")
 	public ModelAndView searchFe(ModelAndView mv, Criteria cri) {
 		if(cri == null) cri = new Criteria();
-		cri.setPerPageNum(10);
 		
-		ArrayList<ProductVO> festival= searchService.getProduct(cri,4);
-		mv.addObject("fe", festival);
 		mv.setViewName("/searchList/searchFe");
 		return mv;
 	}

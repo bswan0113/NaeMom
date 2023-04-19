@@ -44,6 +44,11 @@
 	<div class="information-box">
 		<div style="height: 300px; width:100%;display:inline-block; border:1px black solid">지도배치 예정</div>
 		<div class="info-detail-box">
+		<c:if test="${product.pd_pc_num==4}">
+			<c:if test="${product.pd_fe_start !=null && product.pd_fe_end !=null }">
+				<div>개최 날짜 : ${product.pd_fe_start_str} ~ ${product.pd_fe_end_str} </div>
+			</c:if>
+		</c:if>
 			<div>도로명 주소 : ${product.pd_street_address} ${product.pd_detail_address}</div>
 			<div>지번 주소 : ${product.pd_registerd_address} ${product.pd_detail_address}</div>			
 			<div>주차 가능 여부 : ${product.pd_parking}</div>

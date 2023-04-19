@@ -80,6 +80,12 @@
 	        </association>		
 	</resultMap> 
 	
+	<select id="getFeListByDate" resultType="kr.dbp.naemom.vo.ProductVO">
+		SELECT * FROM product WHERE pd_pc_num = 4 and (pd_fe_start >= CONCAT(#{year}, '-', #{month}, '-01') AND LAST_DAY(CONCAT(#{year}, '-', #{month}, '-01')) >= pd_fe_end)
+	
+	
+	</select>
+	
 
 </mapper>
 

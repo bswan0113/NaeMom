@@ -49,6 +49,7 @@
 			<label for="close_time">클로징:</label>
 			<input type="text" class="form-control" id="close_time" name="pd_close_time">
 		</div>
+		<div class="fe-option"></div>
 		<div class="form-group">
 			<label>내용</label>
 			<textarea id="content"name="pd_content" class="form-control"></textarea>
@@ -70,8 +71,40 @@
 		<button class="btn btn-danger">등록취소</button>
 		<br><hr>
 	</form>
-
 <script>
+
+$(document).on("change",'#category',function(){
+	if($(this).val() == 4){
+		str='';
+		
+		str+=
+			'<div class="form-group">'+
+				'<label for="open_time">시작날짜:</label>'+
+				'<input type="text" class="form-control" id="start" name="pd_fe_start">'+
+			'</div>'+
+			'<div class="form-group">'+
+				'<label for="close_time">종료날짜:</label>'+
+				'<input type="text" class="form-control" id="end" name="pd_fe_end">'+
+			'</div>';
+			
+		
+		
+		$('.fe-option').html(str);
+		
+		 let options = {
+				    dateFormat: "yyyy-MM-dd", // 날짜 형식 지정
+				    minDate: new Date(), // 오늘 이후 날짜만 선택 가능
+				  };
+
+				  // 시작날짜 데이터피커 구현
+				  $("#start").datepicker(options);
+
+				  // 종료날짜 데이터피커 구현
+				  $("#end").datepicker(options);
+	}
+})
+
+
 
 
 $('#save-link-addOption').click(function(){

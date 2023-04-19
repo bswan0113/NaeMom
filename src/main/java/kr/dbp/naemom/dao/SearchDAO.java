@@ -14,6 +14,8 @@ public interface SearchDAO {
 
 	ArrayList<CourseVO> getCourse(@Param("cri")Criteria cri);
 
+	ArrayList<ProductVO> getFeListByDate(@Param("year")int year, @Param("month")int month);
+
 	
 
 
