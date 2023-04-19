@@ -352,7 +352,7 @@
 					</tr>
 					<tr id="paySel" class="payType_sector">
 						<th class="pay_title">결제방법</th>
-						<td class="payType">
+						<td class="payType" style="padding:0 15px;">
 							<div class="pay_box" id="payBox">
 								<div class="pay_type_selector">
 									<div class="type_selector_list">
