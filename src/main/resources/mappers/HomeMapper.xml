@@ -72,4 +72,8 @@
   	<select id="getFileList" resultType="kr.dbp.naemom.vo.FileVO">
   		select * from file join file_checked on fc_fi_num = fi_num;
   	</select>
+  	
+  	<select id="getProductById" resultType="kr.dbp.naemom.vo.ProductVO">
+        select * from product where pd_num = #{pd_num}
+    </select>
 </mapper>

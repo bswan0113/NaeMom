@@ -25,6 +25,16 @@ a:hover, a:visited{
     text-decoration: none;
 }
 
+.insertContent-btn, .addimage-btn{
+	float: right;
+}
+
+.btn-container{
+    position: relative;
+    padding: 10px 0;
+    display: inline;
+}
+
 /* 메인컨테이너 첫번째 */
 .main-container-first{
     margin-top: 100px; margin-bottom: 100px; position: relative;
@@ -132,20 +142,17 @@ a:hover, a:visited{
     position: absolute;
 }
 
-.btn-container{
-    position: relative;
-    padding: 10px 0;
-    display: inline;
-}
-
-.insertContent-btn, .addimage-btn{
-	float: right;
+/* 메인컨테이너 두번째 */
+.main-container-second {
+  max-width: 1200px; /* 최대 너비 설정 */
+  margin: 0 auto; /* 중앙에 정렬 */
 }
 
 /* swiper container 설정 */
 .bannerSwiper {
   width: 100%;
   height: 400px;
+  overflow:hidden;
 }
 
 /* swiper slide 설정 */
@@ -154,10 +161,79 @@ a:hover, a:visited{
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 /* 이미지 크기 설정 */
 .banner-img img {
   max-width: 100%;
   max-height: 100%;
+}
+
+
+/* 메인컨테이너 세번째 */
+/* 최근에 본 상품 */
+.main-container-third{
+    margin-top: 100px; margin-bottom: 100px; position: relative;
+}
+.third-title{
+	width: 100%;
+}
+.third-title h2{
+	color: #343a40;
+	font-size: 36px;
+	font-weight: 600;
+	letter-spacing: -.4px;
+	line-height: 44px;
+	text-align: left;
+}
+
+.container-recently-viewed{
+	position: relative;
+    padding: 40px 40px 0 0;
+    width: 100%;
+    height: 200px;
+    margin: 0 auto;
+    border : 1px solid black;
+}
+
+.recently-viewed-list{
+	width: 100%;
+    height: 106px;
+    margin-left: 1px;
+    background-color: #fafafa;
+}
+
+.recently-viewed-list li{
+    float: left;
+    width: 208px;
+    height: 68px;
+    padding: 18px 19px 18px 18px;
+    margin: 0 -1px;
+    border: 1px solid #ddd;
+    background-color: #fafafa;
+    cursor: pointer;
+}
+
+.recently-viewed-list .product-image img{
+	float: left;
+    border: 1px solid #eee;
+    margin-right: 10px;
+}
+
+.recently-viewed-list .product-name{
+	height: 16px;
+    line-height: 16px;
+    overflow: hidden;
+    padding: 3px 0 0;
+    margin-bottom: 1px;
+    font-size: 11px;
+    color: #111;
+}
+
+.product-detail a{
+    display: inline-block;
+    line-height: 12px;
+    font-size: 11px;
+    color: #0073e9;
 }

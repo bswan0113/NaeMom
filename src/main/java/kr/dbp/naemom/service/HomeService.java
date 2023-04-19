@@ -35,6 +35,8 @@ public interface HomeService {
 
 	void insertFileChecked(int[] fc_checked);
 
+	ProductVO getProductById(int pd_num);
+
 	
 
 }

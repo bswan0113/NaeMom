@@ -136,6 +136,7 @@ public class ProductController {
 		user.setMe_id("abcd");	//임시로그인
 		session.setAttribute("user", user); //임시로그인
 		
+		
 		ProductVO product= productService.getProduct(pd_num);
 		ArrayList<FileVO> files = productService.getFiles(pd_num);
 		ArrayList<ProductVO> randomProduct = productService.getRandomProduct();
@@ -144,7 +145,9 @@ public class ProductController {
 		Double rating =productService.getRatingAvg(pd_num);
 		Cookie[] cookies = request.getCookies();
 		Cookie abuseCheck = null;
+		Cookie recentProducts = null;
 		ArrayList<String> check = new ArrayList<String>();
+		
 		if (cookies != null && cookies.length > 0){
 			for(int i=0; i<cookies.length; i++) {
 				check.add(cookies[i].getName());
@@ -159,6 +162,17 @@ public class ProductController {
             }
             if(abuseCheck!=null)productService.updateViewCount(pd_num);
         }
+		//리센쿠키를 찾고 가져온다, 리센트리 쿠기가 없으면 새로 만듬, 쿠키에 저장된 문자열을 콤마를 기준으로 추출,중복체크 후 생성
+		if(cookies != null && cookies.length > 0) {
+			for(int i = 0; i < cookies.length; i++) {
+				recentProducts = new Cookie("recentProducts"+pd_num, String.valueOf(pd_num));
+				recentProducts.setMaxAge(60 * 60 * 24 * 7);
+				recentProducts.setPath("/");
+				response.addCookie(recentProducts);
+			 }
+		}
+		
+		
 		ArrayList<Object> option =getOption(product.getPd_pc_num(), product.getPd_num());
 		if(rating >=0)mv.addObject("rating", (double)Math.round(rating*10)/10);
 		else mv.addObject("rating", "등록된 별점이 없습니다.");

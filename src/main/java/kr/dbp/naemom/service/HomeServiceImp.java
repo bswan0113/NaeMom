@@ -113,6 +113,11 @@ public class HomeServiceImp implements HomeService {
 		homeDao.insertFileChecked(fc_checked);
 		
 	}
+
+	@Override
+	public ProductVO getProductById(int pd_num) {
+		return homeDao.getProductById(pd_num);
+	}
 	
 	
 }

@@ -36,5 +36,7 @@ public interface HomeDAO {
 
 	ArrayList<FileVO> getFileList();
 
+	ProductVO getProductById(int pd_num);
+
 	
 }

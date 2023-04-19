@@ -2,17 +2,20 @@ package kr.dbp.naemom.controller;
 
 
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.service.HomeService;
-import kr.dbp.naemom.utils.UploadFileUtils;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.ProductVO;
 
@@ -24,21 +27,34 @@ public class HomeController {
 	
 
 	@RequestMapping(value = "/")
-	public ModelAndView home(ModelAndView mv) {
+	public ModelAndView home(ModelAndView mv,HttpServletRequest request, HttpServletResponse response) {
 
 		ArrayList<ProductVO> plist = homeService.getCheckedList();
 		ArrayList<FileVO> flist = homeService.getFileList();
 		ArrayList<FileVO> files = new ArrayList<FileVO>();
+		List<ProductVO> recentProducts = new ArrayList<ProductVO>();
 		for(int i = 0; i < plist.size() ; i++) {
 			plist.get(i).setFile(homeService.getFiles(plist.get(i).getPd_num()));
 		}
-//		for(int i = 0; i < flist.size() ; i++) {
-//			flist.get(i).setFile(homeService.getFiles(flist.get(i));
-//		}
+		
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("recentProducts")) {
+					String[] values = cookie.getValue().split(",");
+					
+					for (String value : values) {
+						ProductVO product = homeService.getProductById(Integer.parseInt(value));
+						recentProducts.add(product);
+					}
+				}
+			}
+		}
 		
 		mv.addObject("files", files);
 		mv.addObject("flist",flist);
 		mv.addObject("plist", plist);
+		mv.addObject("recentProducts", recentProducts);
 		mv.setViewName("/main/home");
 		return mv;
 	}
