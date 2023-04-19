@@ -180,6 +180,7 @@
 	<select id="getDayOff" resultType="kr.dbp.naemom.vo.DayOFFVO">
 		select * from day_off where do_pd_num=#{pd_num};
 	</select>
+	
 
 </mapper>
 

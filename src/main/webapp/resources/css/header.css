@@ -54,7 +54,7 @@ a,a:hover, a:visited{
 .head-box .search-containerbox .search-box>*{
   border-radius: 10px;
 }
-.head-box .search-containerbox .search-box .btn-search{
+.head-box .search-containerbox .search-box form .btn-search{
   width: 50px; height: 50px; position: absolute; border: none; 
   top: 25px; right: 10px; bottom: 0; cursor: pointer; padding: 0; outline: 0;
   font-size: 30px;line-height: 50px; color: black; text-align: center;
@@ -117,6 +117,7 @@ a,a:hover, a:visited{
   padding: 0 20px; line-height: 33px; font-size: 14px; color: #333; border-radius: 0 0 10px 0;
   border: 0 none; cursor: pointer;
 }
+
 /* 서치바 클릭 박스 */
 
 .head-box .box-quickMenu{

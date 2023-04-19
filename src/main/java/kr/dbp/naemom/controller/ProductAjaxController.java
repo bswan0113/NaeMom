@@ -86,7 +86,8 @@ public class ProductAjaxController {
 	@RequestMapping(value="/review/delete", method=RequestMethod.POST)
 	public  Map<String, Object> commentInsertFile(@RequestBody ReviewVO review, HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
-		boolean res= reviewService.deleteReview("abcd", review);
+		String me_id ="abcd";
+		boolean res= reviewService.deleteReview(me_id, review);
 		map.put("res", res);
 		return map;
 	}

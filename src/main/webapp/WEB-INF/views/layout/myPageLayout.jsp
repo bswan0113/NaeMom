@@ -24,33 +24,35 @@
 </head>
 	<style>
 	.body-container{
-	display:flex;
-	width:80%;
 	margin:20px;
 	margin-top:145px;
+	padding: 50px;
 	}
-	.side-bar{
-	width:200px;
-	background-color: #29c16d72;
-	}
-	.mypage-info{
-	width:calc(100% - 200px);
+
+	.body-top{
+	width: 100%;
 	padding:30px;
 	}
+	.body-bottom{
+	display:flex;
+	}
+	
+	.my-information{height:500px;}
 	</style>
 <body>
 		<tiles:insertAttribute name="header" />
 		<div class="body-container">
-			<div class="side-bar">
+			<div class="body-top">
+			     <tiles:insertAttribute name="mypageHead" />
+		    </div>
+		    <hr>
+		    <div class="body-bottom">
+		      <div class="side-bar">
 	      	  	<tiles:insertAttribute name="sideBar" />
-	     	 </div>
-	      <div class="mypage-info">
-		      <div class="">
-		       	<tiles:insertAttribute name="mypageHead" />
-		      </div>
-      	  	  <tiles:insertAttribute name="body" />
-      	  </div>
-        </div>
-        <tiles:insertAttribute name="footer" />
+	     	  </div>
+	     	  	  <tiles:insertAttribute name="body" />     	  
+	          </div>
+       		<tiles:insertAttribute name="footer" />
+       		</div>
 </body>
 </html>

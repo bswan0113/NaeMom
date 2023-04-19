@@ -53,12 +53,13 @@ text-decoration:none;
 color:black;
 font-weight:bold;
 }
+
 </style>
 </head>
 <body>
 		<h1 style="text-align:center; line-height:145px;">관리자페이지</h1>
 <header class="navbar navbar-expand navbar-dark bg-dark bd-navbar">
-
+<a href="<c:url value='/'></c:url>" >메인</a>
 </header>
 
 <div class="side-bar">

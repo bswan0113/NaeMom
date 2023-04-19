@@ -134,4 +134,6 @@
   				co_views = co_views + 1
   			where co_num = #{co_num}
   	</update>
+  	
+
 </mapper>

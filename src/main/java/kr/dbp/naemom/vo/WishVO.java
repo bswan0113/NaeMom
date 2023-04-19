@@ -13,5 +13,6 @@ public class WishVO {
 	int wi_num;
 	int wi_pd_num;
 	String wi_me_id;
+	ProductVO product;
 	
 }

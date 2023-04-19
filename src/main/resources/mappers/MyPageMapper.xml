@@ -4,4 +4,135 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.dbp.naemom.dao.MyPageDAO">
 
+	<select id="getUserInfo" resultType="kr.dbp.naemom.vo.MemberVO">
+		select * from member where me_id =#{me_id}
+	</select>
+	<update id="updateMember">
+	  UPDATE member
+		  SET
+		    me_name = #{me.me_name},
+		    me_birthday = #{me.me_birthday},
+		    me_detail_address = #{me.me_detail_address},
+		    me_nickname = #{me.me_nickname},
+		    me_street_address = #{me.me_street_address},
+		    me_registered_address = #{me.me_registered_address}
+		  WHERE me_id = #{me.me_id}
+	</update>
+	
+	<insert id="insertProfileImg">
+	  INSERT INTO member_profile (mf_name, mf_ori_name, mf_me_id)
+	  VALUES (#{mf.mf_name}, #{mf.mf_ori_name}, #{me_id})
+	</insert>
+	
+	<select id="getProfileImg" resultType="kr.dbp.naemom.vo.Member_profileVO">
+	  SELECT *
+	  FROM member_profile
+	  WHERE mf_me_id = #{me_id}
+	</select>
+
+	<update id="updateProfileImg" >
+	  UPDATE member_profile
+	  SET mf_name = #{mf.mf_name}, mf_ori_name = #{mf.mf_ori_name}
+	  WHERE mf_me_id = #{mf.mf_me_id} AND mf_num = #{mf.mf_num}
+	</update>
+	
+	<select id="getQnaCount" resultType="kr.dbp.naemom.vo.qnaVO">
+		select * from qna where qa_me_id = #{me_id}
+	</select>
+	
+	<select id="getQnaList" resultType="kr.dbp.naemom.vo.qnaVO">
+		select * from qna where qa_me_id = #{me_id}
+			  ORDER BY qa_num DESC 
+			  LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	<select id="getCategoryList" resultType="kr.dbp.naemom.vo.Qna_Sub_categoryVO">
+		select* from `qna_sub_category`
+	</select>
+	
+	<insert id="insertFile">
+  		insert into file(fi_ori_name, fi_name, fi_table_key, fi_table)
+  		values(#{fi.fi_ori_name},#{fi.fi_name},#{fi.fi_table_key},#{fi.fi_table})	
+ 	</insert>
+	 <insert id="insertQna" useGeneratedKeys="true" keyProperty="qa.qa_num">
+	 	insert into qna(qa_title, qa_content, qa_registerd_date, qa_state, qa_me_id, qa_pd_num, qa_qs_category)
+	 	values(#{qa.qa_title}, #{qa.qa_content}, now(), #{qa.qa_state}, #{qa.qa_me_id}, #{qa.qa_pd_num}, #{qa.qa_qs_category})
+	</insert>
+	
+	<select id="getQna" resultType="kr.dbp.naemom.vo.qnaVO">
+		select * from qna where qa_num =#{qa_num}
+	</select>
+	
+	<select id="getAnswer" resultType="kr.dbp.naemom.vo.qna_AnswerVO">
+	 	select * from `qna_answer` where qaa_qa_num =#{qa_num}
+	</select>
+	
+	<delete id="deleteQna">
+		delete from qna where qa_num=#{qa_num}
+	</delete>
+	
+	<select id="getReviewList" resultType="kr.dbp.naemom.vo.ReviewVO">
+		select*from review where re_me_id = #{me_id}
+		 ORDER BY re_num DESC 
+			  LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="getReviewCount" resultType="int">
+		select count(*) from review where re_me_id =#{me_id}
+	</select>
+	
+	<select id="getPdTitleByRePdNum" resultType="String">
+		select pd_title from product where pd_num =#{pd_num}
+	</select>
+	
+	<select id="getWishList" resultType="kr.dbp.naemom.vo.WishVO">
+		select * from wishitem where wi_me_id =#{me_id}
+		 ORDER BY wi_num DESC 
+			  LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="getWishCount" resultType="int">
+		select count(*) from wishitem where wi_me_id =#{me_id}
+	</select>
+	
+	<select id="getMileageList" resultType="kr.dbp.naemom.vo.MileageVO">
+		select * from mileage where mi_me_id = #{me_id}
+		 ORDER BY mi_num DESC 
+			  LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="getMileageCount" resultType="int">
+		select count(*) from mileage where mi_me_id =#{me_id}
+	</select>
+	
+	<select id="getexpirationMileage" resultType="int">
+	SELECT SUM(mi_update) 
+		FROM mileage 
+		WHERE mi_me_id = #{me_id}
+		AND mi_update > 0 
+		AND mi_date BETWEEN DATE_SUB(NOW(), INTERVAL 5 YEAR) AND NOW()
+		AND 7>= DATEDIFF(DATE_ADD(mi_date, INTERVAL 5 YEAR), NOW());
+	</select>
+	
+	<select id="getBuyList" resultType="kr.dbp.naemom.vo.BuyListVO">
+		select * from buy_list where bl_me_id =#{me_id}
+		ORDER BY bl_num DESC 
+			  LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>	
+	<select id="getBuyListCount" resultType="Integer">
+		select count(*) from buy_list where bl_me_id =#{me_id}
+	</select>
+
+	<select id="getCourseList" resultType="kr.dbp.naemom.vo.CourseVO">
+		SELECT *
+			FROM course
+			JOIN course_schedule ON cs_schedule_num = co_cs_schedule_num
+			JOIN course_category ON cc_category_num = co_cc_category_num
+			WHERE co_me_id = #{me_id}
+			ORDER BY co_num DESC
+			LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="getCourseItem" resultType="kr.dbp.naemom.vo.CourseItemVO">
+		select * from course_item where ci_co_num =#{co_num}
+	</select>
 </mapper>

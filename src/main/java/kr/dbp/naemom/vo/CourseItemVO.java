@@ -12,5 +12,5 @@ public class CourseItemVO {
 	int ci_co_num;
 	int ci_pd_num;
 	String pd_title;
-	
+	FileVO file;
 }
