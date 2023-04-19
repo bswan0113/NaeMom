@@ -64,7 +64,9 @@
    	<select id="selectBasketBySbNum" resultMap="selectBasketByOption">
    		select * from shopping_basket where sb_me_id = #{me_id} and sb_num = #{sb_num}
    	</select>
-   	
+   	<select id="selectMember" resultType="kr.dbp.naemom.vo.MemberVO">
+   		select * from member where me_id = #{me_id}
+   	</select>
   
    
 </mapper>

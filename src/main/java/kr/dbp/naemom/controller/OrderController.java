@@ -154,9 +154,11 @@ public class OrderController {
 		//MemberVO user = (MemberVO)session.getAttribute("user");
 		//지워야될코드
 		user.setMe_id(id);
+		MemberVO member = orderService.getMember(user.getMe_id());
 		ArrayList<Shopping_basketVO> basket = orderService.getBasketBySbNum(user.getMe_id(),sb_num);
 		ArrayList<ProductVO> prList = orderService.getProductByBasket(basket);
 		ArrayList<FileVO> fList = orderService.getFileListByBasket(basket);
+		mv.addObject("member", member);
 		mv.addObject("prList", prList);
 		mv.addObject("basket", basket);
 		mv.addObject("fList", fList);

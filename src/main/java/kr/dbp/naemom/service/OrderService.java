@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.dbp.naemom.vo.FileVO;
+import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.OptionListDTO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_festivalVO;
@@ -39,6 +40,8 @@ public interface OrderService {
 	int deleteAllBasket(String me_id);
 
 	ArrayList<Shopping_basketVO> getBasketBySbNum(String me_id, String[] sb_num);
+
+	MemberVO getMember(String me_id);
 
 
 	

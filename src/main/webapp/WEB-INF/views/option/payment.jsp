@@ -2,12 +2,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="<c:url value='/resources/css/bootstrap.min.css'></c:url>">
+	<link rel="stylesheet" href="<c:url value='/resources/css/jquery-ui.min.css'></c:url>">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+	<script src="<c:url value='/resources/js/jquery.min.js'></c:url>"></script>
+	<script src="<c:url value='/resources/js/jquery-ui.min.js'></c:url>"></script>
+	<script src="<c:url value='/resources/js/bootstrap.bundle.min.js'></c:url>"></script>
+	<script src="https://js.bootpay.co.kr/bootpay-4.2.9.min.js" type="application/javascript"></script>
 	<style>
 		*{
 	  	padding: 0; margin: 0;
@@ -37,6 +44,9 @@
 		}
 		div{
 			margin: 0; padding: 0; font-size: 13px; color: #333;
+		}
+		p{
+			margin:0;
 		}
 	    .contents {
 		    width: 1190px;
@@ -167,7 +177,7 @@
 		.mile_insert .button_box{
 			margin-top: 10px;
 		}
-		.apply_active{
+		.mile_active{
 			border: 1px solid #0085da; color: #0085da;
 		}
 		.payPrice{
@@ -176,7 +186,26 @@
 		.payPrice_benefit{
 			display: inline; margin-right: 12px;
 		}
-
+		.type_selector{
+			width: 845px; position: relative; padding-top: 4px;
+		}
+		.type_selector_li{
+			display: block; float: left; margin-right: 9px; padding: 0 0 0 2px; font-size: 12px; line-height: 39px;
+    		letter-spacing: -1px;
+		}
+		.type_selector_radio{
+			margin-right: 1px; vertical-align: -1px;
+		}
+		.type_selector_label_txt{
+			display: inline-block; line-height: 39px; vertical-align: middle;
+		}
+		.btn_box{
+			text-align:center; margin-top:30px;
+		}
+		.paymentBtn{
+			width:260px; height:60px; display:inline-block; background: #0085da; font-size: 30px;
+    		color: #fff; border: 0; border-radius: 5px;
+		}
   </style>
 </head>
 <body>
@@ -188,19 +217,20 @@
 		<div class="buyer_box">
 			<div class="buyer_inner_box">
 				<h2 class="buyer_title"> 구매자 정보 </h2>
+				<input type="hidden" value="${member.me_id }" class="buyer_id">
 				<table class="buyer_table">
 					<tbody>
 						<tr>
 							<td class="buyer_col">이름</td>
-							<td class="buyer_col2">홍길동</td>
+							<td class="buyer_col2 buyer_name">${member.me_name }</td>
 						</tr>
 						<tr>
 							<td class="buyer_col">이메일</td>
-							<td class="buyer_col2">qwe@naver.com</td>
+							<td class="buyer_col2 buyer_email">${member.me_ma_email }</td>
 						</tr>
 						<tr>
 							<td class="buyer_col">휴대폰 번호</td>
-							<td class="buyer_col2">010-1234-5678</td>
+							<td class="buyer_col2 buyer_phone">${member.me_phone }</td>
 						</tr>
 					</tbody>
 				</table>
@@ -214,15 +244,21 @@
 				<tbody>
 					<tr>
 						<th class="user_th">이름</th>
-						<td class="user_td">홍길동</td>
+						<td class="user_td">
+							<input type="text" class="insertName">
+						</td>
 					</tr>
 					<tr>
 						<td class="user_th">이메일</td>
-						<td class="user_td">qwe@naver.com</td>
+						<td class="user_td">
+							<input type="text" class="insertEmail">
+						</td>
 					</tr>
 					<tr>
 						<td class="user_th">휴대폰 번호</td>
-						<td class="user_td">010-1234-5678</td>
+						<td class="user_td">
+							<input type="text" class="insertPhone">
+						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -233,50 +269,80 @@
 				<div class="item_list_box">
 					<div class="item_menu clearfix">
 						<span class="item_name">상품명</span>
-						<div class="item_option" style="margin-left: 30px;">
+						<div class="item_option">
 							<span>상품 옵션 / 수량</span>
 						</div>
-						<div class="item_date" style="margin-right: 25px;">
-							<p>예약날짜</p>
+						<div class="item_date">
+							<span>예약날짜</span>
 						</div>
 					</div>
 					<div class="item_list">
-						<div class="inner_item_list">
-							<div class="product_name">
-								<p>상품이름입니다.</p>
-							</div>
-							<div class="product_option">
-								<span>상품 옵션입니다.</span>/
-								<span>수량입니다.</span>
-							</div>
-							<div class="product_date">
-								<p>예약날짜입니다.</p>
-							</div>
-						</div>
-						<div class="inner_item_list">
-							<div class="product_name">
-								<p>상품이름입니다.</p>
-							</div>
-							<div class="product_option">
-								<span>상품 옵션입니다.</span>/
-								<span>수량입니다.</span>
-							</div>
-							<div class="product_date">
-								<p>예약날짜입니다.</p>
-							</div>
-						</div>
-						<div class="inner_item_list">
-							<div class="product_name">
-								<p>상품이름입니다.</p>
-							</div>
-							<div class="product_option">
-								<span>상품 옵션입니다.</span>/
-								<span>수량입니다.</span>
-							</div>
-							<div class="product_date">
-								<p>예약날짜입니다.</p>
-							</div>
-						</div>
+						<c:forEach items="${basket }" var="basket" varStatus="i" begin="0" end="${basket.size() }">
+							<c:forEach items="${prList }" var="pr" varStatus="j" begin="0" end="${prList.size() }">
+								<c:if test="${i.index == j.index }">
+									<c:if test="${basket.travel.pc_category =='여행지' }">
+										<div class="inner_item_list">
+											<div class="product_name">
+												<p>${pr.pd_title }</p>
+											</div>
+											<input type="hidden" value="${basket.sb_price }" class="sb_price">
+											<div class="product_option">
+												<span>${basket.travel.lo_age }</span> / 
+												<span>${basket.sb_amount } 개</span>
+											</div>
+											<div class="product_date">
+												<p>${basket.sb_date }</p>
+											</div>
+										</div>
+									</c:if>
+									<c:if test="${basket.food.pc_category =='음식점' }">
+										<div class="inner_item_list">
+											<div class="product_name">
+												<p>${pr.pd_title }</p>
+											</div>
+											<input type="hidden" value="${basket.sb_price }" class="sb_price">
+											<div class="product_option">
+												<span>${basket.food.reo_name }</span> / 
+												<span>${basket.sb_amount } 개</span>
+											</div>
+											<div class="product_date">
+												<p>${basket.sb_date }</p>
+											</div>
+										</div>
+									</c:if>
+									<c:if test="${basket.home.pc_category =='숙박' }">
+										<div class="inner_item_list">
+											<div class="product_name">
+												<p>${pr.pd_title }</p>
+											</div>
+											<input type="hidden" value="${basket.sb_price }" class="sb_price">
+											<div class="product_option">
+												<span>${basket.home.ao_name }</span> / 
+												<span>${basket.sb_amount } 개</span>
+											</div>
+											<div class="product_date">
+												<p>${basket.sb_date }</p>
+											</div>
+										</div>
+									</c:if>
+									<c:if test="${basket.festival.pc_category =='축제' }">
+										<div class="inner_item_list">
+											<div class="product_name">
+												<p>${pr.pd_title }</p>
+											</div>
+											<input type="hidden" value="${basket.sb_price }" class="sb_price">
+											<div class="product_option">
+												<span>${basket.festival.fo_age }</span> / 
+												<span>${basket.sb_amount } 개</span>
+											</div>
+											<div class="product_date">
+												<p>${basket.sb_date }</p>
+											</div>
+										</div>
+									</c:if>
+								</c:if>
+							</c:forEach>
+						</c:forEach>
 					</div>
 				</div>
 			</div>
@@ -310,22 +376,23 @@
 								<span class="user_mile">
 									<span class="usable">
 										보유 : 
-										<strong class="value">0</strong>
+										<strong class="possible_mile">${member.me_mileage}</strong>
 										<span class="unit">원</span>
 									</span>
 								</span>
-								<button class="insert_mile_toggle button">마일리지 사용하기</button>
+								<button class="insert_mile_toggle button" style="<c:if test="${member.me_mileage == 0 }">display:none</c:if>">마일리지 사용하기</button>
 							</div>
-							<div class="mile_insert">
+							<div class="mile_insert" style="display:none">
 								<div class="insert">
-									<input type="text" class="using" value placeholder="0" title="사용할 마일리지">
+									<input type="text" class="using_mile" placeholder="0" title="사용할 마일리지">
 									<span class="unit">원</span>
 									<span class="delimiter">|</span>
-									<input class type="checkbox" id="mileAllUsing">
-									<label for="mileAllUsing" class>모두사용</label>
+									<input type="checkbox" id="mileAllUsing">
+									<label for="mileAllUsing">모두사용</label>
 								</div>
 								<div class="button_box">
-									<button class="button apply_active">마일리지 적용</button>
+									<button class="button mile_active">마일리지 적용</button>
+									<p class="validate_massage ml-2" style="display:inline">* 마일리지는 1000원 이상부터 사용가능합니다.</p>
 								</div>
 							</div>
 						</td>
@@ -334,7 +401,7 @@
 						<th class="pay_title">총결제가격</th>
 						<td>
 							<div class="payPrice">
-								<strong class="price">
+								<strong class="price" style="width:200px;">
 									<span id="totalPayPrice">1531</span>
 									<span class="unit">원</span>
 								</strong>
@@ -342,7 +409,7 @@
 									<span class="txt_savingMile" style="font-weight: 400;">
 										<span>
 											마일리지적립 예정 
-											<strong>15</strong>
+											<strong class="addMile">15</strong>
 											원
 										</span>
 									</span>
@@ -353,33 +420,162 @@
 					<tr id="paySel" class="payType_sector">
 						<th class="pay_title">결제방법</th>
 						<td class="payType" style="padding:0 15px;">
-							<div class="pay_box" id="payBox">
-								<div class="pay_type_selector">
-									<div class="type_selector_list">
-										<ul id="payTypeList">
-											<li class="type_selector_li">
-												<input type="radio" class="type_selector_radio" name="payType" id="payType1">
-												<label for="payType1" class="type_selector_label" style="font-weight: normal;">
-													<span class="type_selector_label_txt">계좌이체</span>
-												</label>
-											</li>
-										</ul>
-									</div>
-								</div>
+							<div class="pay_box" id="payBox" style="width: 845px;">
+								<ul id="payTypeList" class="type_selector">
+									<li class="type_selector_li">
+										<input type="radio" class="type_selector_radio" name="payType" id="payType1">
+										<label for="payType1" class="type_selector_label type_selector_label_bank" style="font-weight: normal; position: relative;">
+											<span class="type_selector_label_txt">계좌이체</span>
+										</label>
+									</li>
+									<li class="type_selector_li">
+										<input type="radio" class="type_selector_radio" name="payType" id="payType2">
+										<label for="payType2" class="type_selector_label type_selector_card" style="font-weight: normal;">
+											<span class="type_selector_label_txt">신용/체크카드</span>
+										</label>
+									</li>
+								</ul>
 							</div>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-	
+		<div class="btn_box">
+			<button type="button" id="paymentBtn" class="paymentBtn">결제하기</button>
+		</div>
 	
 	</div>
    	<script>
-  		
-  
-  	</script>
+   		var count = 0;
+   		var pd_title = '';
+   		//총 상품가격
+	   	$(function(){
+	   		$('.inner_item_list').each(function(){
+	  			count++;
+				if(count ==1){
+					pd_title = $(this).find('.product_name').find('p').text();
+				}	   			
+	   		})
+	 		let totalPrice = 0;
+	  		$('.sb_price').each(function(){
+	  			let price = Number($(this).val());
+	  			totalPrice = totalPrice + price;
+	  		})
+	  		$('#totalPrice').text(totalPrice)
+		   	totalPayPrice();
+	   	})
+   		//구매자와 동일버튼 이벤트
+   		$('.btn_buyer').click(function(){
+   			let user_name = $('.buyer_name').text();
+   			let user_email = $('.buyer_email').text();
+   			let user_phone = $('.buyer_phone').text();
+   			$('.insertName').val(user_name);
+   			$('.insertEmail').val(user_email);
+   			$('.insertPhone').val(user_phone);
+   		})
+   		//마일리지 입력란 토글
+   		$('.insert_mile_toggle').click(function(){
+   			$('.mile_insert').toggle();
+   		})
+   		function dateString(){
+	   		var today = new Date();
+
+	   		var year = today.getFullYear();
+	   		var month = ('0' + (today.getMonth() + 1)).slice(-2);
+	   		var day = ('0' + today.getDate()).slice(-2);
+	   		var hours = ('0' + today.getHours()).slice(-2); 
+	   		var minutes = ('0' + today.getMinutes()).slice(-2);
+	   		var seconds = ('0' + today.getSeconds()).slice(-2); 
+
+
+	   		var dateString = year + month  + day + hours + minutes + seconds;
+	   		return dateString;
+   		}
+   		//마일리지 전체사용
+   		$('#mileAllUsing ').click(function(){
+   			if($('#mileAllUsing').is(':checked')){
+  				$('.using_mile').val($('.possible_mile').text());
+   			}else{
+   				$('.using_mile').val(0);
+   			}
+   		})
+   		//마일리지 숫자만 입력하게 및 초과마일리지 불가능
+   		$('.using_mile').keyup(function(){
+   			let str = $('.using_mile').val();
+   			let mile = $('.possible_mile').text();
+			let numberCheck = /^[0-9\b]+$/;
+			if (str.length === 0) { // 입력된 값이 없는 경우
+			    return; // 정규표현식 검사를 하지 않습니다.
+			}
+			if(!numberCheck.test(str)){
+				alert('숫자만 입력가능합니다.');
+				$('.using_mile').val('');
+			}
+			str = Number(str);
+			mile = Number(mile);
+			if(str > mile){
+				alert('사용가능한 마일리지를 초과했습니다.');
+				$('.using_mile').val('');
+			}
+			
+		})
+		//마일리지 적용
+		$('.mile_active').click(function(){
+			let mile = $('.using_mile').val();
+			if(Number(mile)>=1000){
+				$('.use_mile').text(mile);
+				totalPayPrice();
+			}else if(Number(mile) == 0){
+				$('.use_mile').text(0);
+				totalPayPrice();
+			}else{
+				alert('마일리지는 1000원 이상일때 사용가능합니다.')
+			}
+		})
+		//총결제가격
+		function totalPayPrice(){
+   			let price = $('#totalPrice').text();
+   			let use_mile = $('.use_mile').text();
+   			let totalPayPrice = Number(price) - Number(use_mile);
+   			let addMile = totalPayPrice/100;
+   			addMile = Math.floor(addMile);
+   			$('#totalPayPrice').text(totalPayPrice);
+   			$('.addMile').text(addMile);
+   		}
+   		//결제
+   		$('.paymentBtn').click(function(){
+   			let price = $('#totalPayPrice').text();
+   			let id = $('.buyer_id').val();
+   			let date = dateString();
+   			let order_id = id+date;
+   			let order_name = pd_title+' 외 ' + String(count)+'건';
+   			const response = Bootpay.requestPayment({
+   			  "application_id": "",
+   			  "price": price,
+   			  "order_name": order_name,
+   			  "order_id": order_id,
+   			  "pg": "나이스페이",
+   			  "method": "카드",
+   			  "tax_free": 0,
+   			  "user": {
+   			    "id": "회원아이디",
+   			    "username": "회원이름",
+   			    "phone": "01000000000",
+   			    "email": "test@test.com"
+   			  },
+   			  
+   			  "extra": {
+   			    "open_type": "iframe",
+   			    "card_quota": "0,2,3",
+   			    "escrow": false
+   			  }
+   			})
+   		})
+   	</script>
   
  
 </body>
 </html>
+  
+  	

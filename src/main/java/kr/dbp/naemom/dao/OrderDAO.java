@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import kr.dbp.naemom.vo.FileVO;
+import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.OptionListDTO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_festivalVO;
@@ -36,6 +37,8 @@ public interface OrderDAO {
 	int deleteAllBasket(@Param("me_id")String me_id);
 
 	Shopping_basketVO selectBasketBySbNum(@Param("me_id")String me_id, @Param("sb_num")int num);
+
+	MemberVO selectMember(@Param("me_id")String me_id);
 
 
 

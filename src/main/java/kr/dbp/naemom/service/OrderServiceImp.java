@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import kr.dbp.naemom.dao.OrderDAO;
 import kr.dbp.naemom.vo.FileVO;
+import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.OptionListDTO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_festivalVO;
@@ -178,6 +179,13 @@ public class OrderServiceImp implements OrderService{
 			list.add(item);
 		}
 		return list;
+	}
+
+	@Override
+	public MemberVO getMember(String me_id) {
+		if(me_id == null)
+			return null;
+		return orderDao.selectMember(me_id);
 	}
 
 	
