@@ -10,10 +10,15 @@
 			background-color: #e6e6e6;
 		}
 		.qna_title{
-		width:50%;
+		width:30%;
 		}
 		.qna_title>a{
 		color:black;
+		}
+		tbody{
+		  overflow: hidden;
+		  white-space: nowrap;
+		  text-overflow: ellipsis;
 		}
 	
 	    </style>
@@ -22,9 +27,10 @@
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th>답변 상태</th>
-					<th>제목</th>
 					<th>문의 구분</th>
+					<th>제목</th>
+					<th>답변 상태</th>
+					<th>작성자 명</th>
 					<th>등록 날짜</th>
 				</tr>
 			</thead>
@@ -41,6 +47,7 @@
 						</td>
 						<td class="qna_title"><a href="<c:url value='/mypage/qnaDetail/${qna.qa_num}'></c:url>">${qna.qa_title}</a></td>
 						<td>${qna.qa_qs_category}</td>
+						<td>${qna.qa_me_id}</td>
 						<td>${qna.qa_registerd_date_str}</td>
 					</tr>
 				</c:forEach>
@@ -63,7 +70,6 @@
 				    </li>
 			    </c:if>
 			</ul>
-		<a href="<c:url value='/mypage/qnaInsert'></c:url>" class="btn btn-success">문의 등록</a>
 	</div>
 
 	

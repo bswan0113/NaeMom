@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.dbp.naemom.dao.AdminDAO">
+  	
+  	<select id="getCountQList" resultType="Integer">
+		select count(*) from qna
+	</select>
+	
+	<select id="getQList" resultType="kr.dbp.naemom.vo.qnaVO">
+		select * from qna 
+			  ORDER BY qa_num DESC 
+			  LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+
+</mapper>

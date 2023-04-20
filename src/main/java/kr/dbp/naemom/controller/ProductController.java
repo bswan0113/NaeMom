@@ -132,8 +132,9 @@ public class ProductController {
 	//상세페이지 레이아웃
 	@RequestMapping(value="/product/detail/detailLayoutTMP/{i}", method=RequestMethod.GET)
 	public ModelAndView detailLayout(ModelAndView mv, @PathVariable("i")int pd_num, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
-		MemberVO user = new MemberVO();   //임시로그인
-		session.setAttribute("user", user); //임시로그인
+		MemberVO user = new MemberVO();
+		user.setMe_id("abcd");
+		
 		ProductVO product= productService.getProduct(pd_num);
 		ArrayList<FileVO> files = productService.getFiles(pd_num);
 		ArrayList<ProductVO> randomProduct = productService.getRandomProduct();
