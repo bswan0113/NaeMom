@@ -434,6 +434,12 @@
 											<span class="type_selector_label_txt">신용/체크카드</span>
 										</label>
 									</li>
+									<li class="type_selector_li">
+										<input type="radio" class="type_selector_radio" name="payType" id="payType3">
+										<label for="payType3" class="type_selector_label type_selector_kakao" style="font-weight: normal;">
+											<span class="type_selector_label_txt">카카오 결제</span>
+										</label>
+									</li>
 								</ul>
 							</div>
 						</td>
