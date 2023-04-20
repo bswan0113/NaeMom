@@ -3,20 +3,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-    // 현재 날짜 정보를 가져옴
-    java.util.Calendar cal = java.util.Calendar.getInstance();
-    int year = cal.get(java.util.Calendar.YEAR); // 년도
-    int month = cal.get(java.util.Calendar.MONTH) + 1; // 월 (0부터 시작하므로 +1)
-    // 해당 월의 첫 날과 마지막 날 정보를 가져옴
-    java.util.Calendar firstDayOfMonth = java.util.Calendar.getInstance();
-    firstDayOfMonth.set(year, month - 1, 1); // 해당 월의 첫 날로 설정
-    int lastDayOfMonth = firstDayOfMonth.getActualMaximum(java.util.Calendar.DAY_OF_MONTH); // 해당 월의 마지막 날
 
-    // 해당 월의 첫 번째 날짜의 요일을 가져옴
-    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("E");
-    String firstDayOfWeek = sdf.format(firstDayOfMonth.getTime());
-%>
 
 
 <style>
@@ -26,6 +13,7 @@
 		margin-top: 50px;
 		background-color: #f5f5f5;
 		position:relative;
+		min-width: 1000px;
 	}
 	.calendar-header {
 		text-align: center;
@@ -97,7 +85,10 @@
 	}
 	
 	
-	.year-select {
+	.year-select { 
+	display: flex;
+	  align-items: center;
+	  justify-content: center;
 	  width: 120px;
 	  height: 40px;
 	  font-size: 16px;
@@ -114,15 +105,10 @@
 	  -webkit-appearance: none;
 	  -moz-appearance: none;
 	  appearance: none;
+	  margin: 0 auto; /* 추가 */
+		  
 	}
 	
-	.year-select option {
-	  font-size: 14px;
-	  font-weight: normal;
-	  color: #333;
-	  background-color: #fff;
-	  border: none;
-	}
 		.fe-item {
 	  color: gray;
 	  background-color: none;
@@ -131,6 +117,12 @@
    	 white-space: nowrap;
    	 border-bottom: 1px solid gray;
 	  
+	}
+	.fe-list{
+	max-height:170px;
+	overflow:hidden;
+	 text-overflow: ellipsis;
+   	 white-space: nowrap;
 	}
 	
 	.fe-link {
@@ -196,7 +188,8 @@
 	let date ={};
 	let selectedDay={
 			 year: parseInt(new Date().getFullYear()),
-			 month: parseInt(new Date().getMonth()) + 1
+			 month: parseInt(new Date().getMonth()) + 1,
+			 day : 0
 	}
 	
 $(document).ready(function(){
@@ -241,7 +234,7 @@ function inputDate(today){
 	});
 };
 function inputYearMonth(){
-	$('.calendar-header').html('<select data-year="'+date.year+'" data-month="'+date.month+'"class="year-select"><option value="0" selected>'+date.year + '년' + date.month + '월</option></select>');
+	$('.calendar-header').html('<div data-year="'+date.year+'" data-month="'+date.month+'"class="year-select">'+date.year + '년' + date.month + '월</div>');
 	
 }
 
@@ -261,25 +254,30 @@ function inputDay(){
 
 	// 해당 열의 첫번째 td 요소 선택
 	let targetTd = $('tbody tr td').eq(targetTh.index());
-	
+	$('.fe-list').html('');
 	for (let i = targetTh.index(), j = 0; j < lastDay; i++, j++) {
+		let pdList= [];
 		// 해당하는 td 엘리먼트를 찾아서 날짜를 업데이트합니다.
 		$('tbody tr td').eq(targetTh.index() + j).find('.day-link').html(j + 1);
-		let pdList = addFesInfo();
-		console.log(pdList.length) // 지금 이게 0이 찍힘 pdList는 있음
-		for(let k=0; k<pdList.length; k++){
-			console.log(pdList);
-			let feItem = $('li').addClass('fe-item');
-			let feLink = $('a').addClass('fe-link')
-								    .text(pdList[k].pd_title)  
-								    .attr('data-num', pdList[k].pd_num)  
-								    .attr('href', '<c:url value="/product/detail/detailLayoutTMP/'+pdList[k].pd_num+'"></c:url>');
-			console.log(feLink);
-				
+		$('tbody tr td').eq(targetTh.index() + j).data("date", j+1);
+		selectedDay.day=j + 1
+		pdList = addFesInfo();
+		if(pdList.length>0){
+			for(let k=0; k<pdList.length; k++){
+				let feItem = $('<li>').addClass('fe-item');
+				let feLink = $('<a>').addClass('fe-link')
+									    .text(pdList[k].pd_title)  
+									    .attr('data-num', pdList[k].pd_num)  
+									    .attr('href', '<c:url value="/product/detail/detailLayoutTMP/'+pdList[k].pd_num+'"></c:url>');
+				feItem.append(feLink);
+				$('.fe-list').eq(targetTh.index() + j).append(feItem);
+			}
 		}
 		
-
 	}
+	
+	
+	
 	if(date.month==parseInt(new Date().getMonth()+1)){
 		$('tbody tr td').eq(targetTh.index()+toDay-1).addClass('today');
 		
@@ -292,8 +290,10 @@ function addFesInfo(){
 	let pdList=[];
 	let pd_title;
 	let pd_num;
+	let start;
+	let end;
 	$.ajax({
-		async:true,
+		async:false,
 		data : selectedDay,
 		method : "POST",
 		url : "<c:url value='/getFeInfo'></c:url>",
@@ -301,15 +301,18 @@ function addFesInfo(){
 			for(let i=0; i<data.FeList.length; i++){
 				let product = {
 						pd_title:data.FeList[i].pd_title,
-						pd_num:data.FeList[i].pd_num
+						pd_num:data.FeList[i].pd_num,
+						start :data.FeList[i].pd_fe_start_str,
+						end :data.FeList[i].pd_fe_end_str,
 				}
-				pdList.push(product)
+						pdList.push(product)
 			}
 		}
 		
 	});
+		return pdList;
+	
 
-	return pdList;
 }
 
 

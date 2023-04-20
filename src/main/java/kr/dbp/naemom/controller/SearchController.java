@@ -29,7 +29,6 @@ public class SearchController {
 		ArrayList<ProductVO> accomodation= searchService.getProduct(cri,3);
 		ArrayList<ProductVO> festival= searchService.getProduct(cri,4);
 		ArrayList<CourseVO> course = searchService.getCourse(cri);
-		
 		mv.addObject("co", course);
 		mv.addObject("search", cri.getSearch());
 		mv.addObject("la", landmark);

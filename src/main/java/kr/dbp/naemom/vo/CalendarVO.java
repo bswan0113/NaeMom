@@ -14,6 +14,7 @@ public class CalendarVO {
 	int lastDay;
 	int toDay;
 	String firstDay;
+	int day;
 
 
 	public CalendarVO() {
@@ -37,6 +38,18 @@ public class CalendarVO {
 	    int today = cal.get(java.util.Calendar.DATE);
 	    cal.set(year, month-1, 1);
 	    this.toDay = today;
+	    this.year = year;
+	    this.month = month;
+	    this.lastDay = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
+	    java.text.SimpleDateFormat aa = new java.text.SimpleDateFormat("E");
+	    this.firstDay = aa.format(cal.getTime());
+	}
+	
+	public CalendarVO(int year, int month, int day) {
+	    java.util.Calendar cal = java.util.Calendar.getInstance();
+	    cal.set(year, month-1,1) ;
+	    this.toDay = cal.get(java.util.Calendar.DATE);
+	    this.day = day;
 	    this.year = year;
 	    this.month = month;
 	    this.lastDay = cal.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);

@@ -168,6 +168,7 @@ float:left;
     bottom: 0;
     left: 0;
     padding:3px;
+    height:75px;
 
 }
 
@@ -181,7 +182,7 @@ float:left;
     white-space: nowrap;
     text-overflow: ellipsis;
     line-height : 49px;
-    min-width:380px;
+    min-width:350px;
 
 }
 .item-info > span{

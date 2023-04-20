@@ -58,11 +58,13 @@ public class ProductVO {
 	
 	
 	public String getPd_open_time_str() {
+		if(pd_open_time==null) return null;
 		SimpleDateFormat format = 
 			new SimpleDateFormat("HH:mm");
 		return format.format(pd_open_time);
 	}
 	public String getPd_close_time_str() {
+		if(pd_close_time==null) return null;
 		SimpleDateFormat format = 
 				new SimpleDateFormat("HH:mm");
 			return format.format(pd_close_time);

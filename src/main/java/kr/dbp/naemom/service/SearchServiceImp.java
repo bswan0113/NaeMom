@@ -32,7 +32,7 @@ public class SearchServiceImp implements SearchService{
 		if(date== null ||
 				date.getYear()<=0||
 				date.getMonth()<=0) date= new CalendarVO();
-	return searchDao.getFeListByDate(date.getYear(),date.getMonth());
+	return searchDao.getFeListByDate(date.getYear(),date.getMonth(), date.getDay());
 	}
 	
 
