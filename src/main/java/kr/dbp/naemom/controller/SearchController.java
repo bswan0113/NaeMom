@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.pagination.Criteria;
+import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.SearchService;
 import kr.dbp.naemom.vo.CalendarVO;
 import kr.dbp.naemom.vo.CourseVO;
@@ -39,18 +40,16 @@ public class SearchController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/searchList/searchAc")
-	public ModelAndView searchAc(ModelAndView mv,Criteria cri) {
-		if(cri == null) cri = new Criteria();
-		
-		mv.setViewName("/searchList/searchAc");
-		return mv;
-	}
-	@RequestMapping(value = "/searchList/searchRe")
+
+	@RequestMapping(value = "/searchList/searchDetailList")
 	public ModelAndView searchRe(ModelAndView mv, Criteria cri) {
 		if(cri == null) cri = new Criteria();
-		
-		mv.setViewName("/searchList/searchRe");
+		ArrayList<ProductVO> pList =  searchService.getProduct(cri, cri.getPc_category());
+		int totalCount = searchService.getTotalCount(cri.getPc_category());
+		PageMaker pm = new PageMaker(totalCount, 5, cri);
+		mv.addObject("pm", pm);
+		mv.addObject("pList", pList);
+		mv.setViewName("/searchList/searchDetailList");
 		return mv;
 	}
 	@RequestMapping(value = "/searchList/searchFe")
@@ -60,11 +59,5 @@ public class SearchController {
 		mv.setViewName("/searchList/searchFe");
 		return mv;
 	}
-	@RequestMapping(value = "/searchList/searchLa")
-	public ModelAndView searchLa(ModelAndView mv, Criteria cri) {
-		if(cri == null) cri = new Criteria();
-		
-		mv.setViewName("/searchList/searchLa");
-		return mv;
-	}
+
 }

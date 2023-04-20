@@ -16,6 +16,8 @@ public interface SearchDAO {
 
 	ArrayList<ProductVO> getFeListByDate(@Param("year")int year, @Param("month")int month, @Param("day")int day);
 
+	Integer getTotalCountByCategory(@Param("category")int pc_category);
+
 	
 
 

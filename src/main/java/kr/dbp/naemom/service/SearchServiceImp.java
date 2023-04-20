@@ -34,6 +34,10 @@ public class SearchServiceImp implements SearchService{
 				date.getMonth()<=0) date= new CalendarVO();
 	return searchDao.getFeListByDate(date.getYear(),date.getMonth(), date.getDay());
 	}
+	@Override
+	public Integer getTotalCount(int pc_category) {
+		return searchDao.getTotalCountByCategory(pc_category);
+	}
 	
 
 

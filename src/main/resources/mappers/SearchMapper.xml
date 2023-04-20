@@ -9,7 +9,7 @@
 	    FROM product
 	    JOIN file ON pd_num = fi_table_key
 	    <if test="cri.orderBy == 'wish'">
-	     JOIN wishitem ON product.pd_num = wishitem.wi_pd_num
+	     left JOIN wishitem ON product.pd_num = wishitem.wi_pd_num
 	    </if>
 	    WHERE fi_category = "게시글 썸네일"
 	      AND pd_pc_num = #{pd_pc_num} and fi_table="product"
@@ -39,6 +39,8 @@
 	    <result property="pd_registerd_address" column="pd_registerd_address"/>
 	    <result property="pd_detail_address" column="pd_detail_address"/>
 	    <result property="pd_viewcount" column="pd_viewcount"/>
+	    <result property="pd_open_time" column="pd_open_time"/>
+	    <result property="pd_close_time" column="pd_close_time"/>
 	    <result property="pd_pc_num" column="pd_pc_num"/>
 	    	<association property="file" javaType="kr.dbp.naemom.vo.FileVO">
 	    		<result property="fi_name" column="fi_name"/>
@@ -50,7 +52,7 @@
 	<select id="getWishCountByPdNum" resultType="Integer">
 	    select coalesce(count(*), 0) from wishitem where wi_pd_num=#{pd_num}
 	</select>
-		<select id="getCourse" resultMap="courseMap" parameterType="map">
+	<select id="getCourse" resultMap="courseMap" parameterType="map">
 	    SELECT *
 	    FROM course
 	    JOIN course_item ci ON co_num = ci_co_num
@@ -91,6 +93,9 @@
 			</if>
 	</select>
 	
+	<select id="getTotalCountByCategory" resultType="Integer">
+		select count(*) from product where pd_pc_num = #{category}
+	</select>
 
 </mapper>
 

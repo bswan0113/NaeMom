@@ -128,7 +128,6 @@ public class ProductController {
 		mv.setViewName("/admin/list/productList");
 		return mv;
 	}
-	
 
 	//상세페이지 레이아웃
 	@RequestMapping(value="/product/detail/detailLayoutTMP/{i}", method=RequestMethod.GET)

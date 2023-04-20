@@ -15,6 +15,8 @@ public interface SearchService {
 
 	ArrayList<ProductVO> getFeList(CalendarVO date);
 
+	Integer getTotalCount(int pc_category);
+
 
 
 }
