@@ -423,21 +423,27 @@
 							<div class="pay_box" id="payBox" style="width: 845px;">
 								<ul id="payTypeList" class="type_selector">
 									<li class="type_selector_li">
-										<input type="radio" class="type_selector_radio" name="payType" id="payType1">
+										<input type="radio" class="type_selector_radio" name="payType" id="payType1" value="계좌이체">
 										<label for="payType1" class="type_selector_label type_selector_label_bank" style="font-weight: normal; position: relative;">
 											<span class="type_selector_label_txt">계좌이체</span>
 										</label>
 									</li>
 									<li class="type_selector_li">
-										<input type="radio" class="type_selector_radio" name="payType" id="payType2">
+										<input type="radio" class="type_selector_radio" name="payType" id="payType2" value="카드">
 										<label for="payType2" class="type_selector_label type_selector_card" style="font-weight: normal;">
 											<span class="type_selector_label_txt">신용/체크카드</span>
 										</label>
 									</li>
 									<li class="type_selector_li">
-										<input type="radio" class="type_selector_radio" name="payType" id="payType3">
+										<input type="radio" class="type_selector_radio" name="payType" id="payType3" value="카카오페이">
 										<label for="payType3" class="type_selector_label type_selector_kakao" style="font-weight: normal;">
-											<span class="type_selector_label_txt">카카오 결제</span>
+											<span class="type_selector_label_txt">카카오페이</span>
+										</label>
+									</li>
+									<li class="type_selector_li">
+										<input type="radio" class="type_selector_radio" name="payType" id="payType3" value="네이버페이">
+										<label for="payType3" class="type_selector_label type_selector_kakao" style="font-weight: normal;">
+											<span class="type_selector_label_txt">네이버페이</span>
 										</label>
 									</li>
 								</ul>
@@ -483,6 +489,10 @@
    		//마일리지 입력란 토글
    		$('.insert_mile_toggle').click(function(){
    			$('.mile_insert').toggle();
+   			$('input[name=payType]:checked').each(function(){
+   				console.log($(this).val())
+   			})
+   			
    		})
    		function dateString(){
 	   		var today = new Date();
@@ -556,28 +566,51 @@
    			let date = dateString();
    			let order_id = id+date;
    			let order_name = pd_title+' 외 ' + String(count)+'건';
+   			let method = "";
+   			$('input[name=payType]:checked').each(function(){
+   				method = $(this).val();
+   			})
+   			//
+   			ajaxPost(response, '<c:url value="/option/bootpay_confirm"></c:url>', deleteAllBasket);
+   			
    			const response = Bootpay.requestPayment({
-   			  "application_id": "",
-   			  "price": price,
+   			  "application_id": "643f90aa755e27001be57d15",
+   			  "price": "1000",
    			  "order_name": order_name,
    			  "order_id": order_id,
    			  "pg": "나이스페이",
-   			  "method": "카드",
-   			  "tax_free": 0,
-   			  "user": {
-   			    "id": "회원아이디",
-   			    "username": "회원이름",
-   			    "phone": "01000000000",
-   			    "email": "test@test.com"
-   			  },
-   			  
+   			  "method": method,
+   			  "tax_free": 0,   			  
    			  "extra": {
    			    "open_type": "iframe",
    			    "card_quota": "0,2,3",
-   			    "escrow": false
+   			    "escrow": false,
+   			  	"display_success_result":true,
+   			 	"display_error_result" : true,
+   			 	"separately_confirmed" : true
+   			    
    			  }
+   			}).done(function(response){
+   				
    			})
+   			console.log(response)
+	   			
    		})
+   		
+   		
+   		
+   		//ajax
+		function ajaxPost(obj, url, successFunction){
+			$.ajax({
+				async:false,
+				type: 'POST',
+				data: JSON.stringify(obj),
+				url: url,
+				dataType:"json",
+				contentType:"application/json; charset=UTF-8",
+				success : successFunction
+			});
+		}
    	</script>
   
  

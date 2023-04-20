@@ -5,8 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.dbp.naemom.bootpay.Bootpay;
+import kr.dbp.naemom.bootpay.response.ResDefault;
 import kr.dbp.naemom.service.OrderService;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
@@ -22,11 +29,13 @@ import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_festivalVO;
 import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
+import kr.dbp.naemom.vo.PayDTO;
 import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.Shopping_basketVO;
 
 @Controller
 public class OrderController {
+	
 	
 	@Autowired
 	OrderService orderService;
@@ -167,11 +176,20 @@ public class OrderController {
 	}
 	@RequestMapping(value = "/option/payment", method=RequestMethod.GET)
 	public ModelAndView payment(ModelAndView mv) {
-		
+		try {
+		    Bootpay bootpay = new Bootpay("5b8f6a4d396fa665fdc2b5ea", "rm6EYECr6aroQVG2ntW0A6LpWnkTgP4uQ3H18sDDUYw=");
+		    ResDefault<HashMap<String, Object>> token = bootpay.getAccessToken();
+		    System.out.println(token.toJson());
+		    String receiptId = "62876963d01c7e00209b6028"; 
+		    ResDefault<HashMap<String, Object>> res = bootpay.verify(receiptId);
+		    System.out.println(res.data.get("receipt_id"));
+            System.out.println(res.toJson());
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
 		mv.setViewName("/option/payment");
 		return mv;
 	}
-	
 	
 	
 	

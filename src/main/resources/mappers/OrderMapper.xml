@@ -67,7 +67,8 @@
    	<select id="selectMember" resultType="kr.dbp.naemom.vo.MemberVO">
    		select * from member where me_id = #{me_id}
    	</select>
-  
+   	
+  	
    
 </mapper>
 
