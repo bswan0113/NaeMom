@@ -1,10 +1,12 @@
 package kr.dbp.naemom.service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import java.util.Locale;
-
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +21,6 @@ import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
-
-import kr.dbp.naemom.vo.TempOFFVO;
-
 import kr.dbp.naemom.vo.WishVO;
 
 @Service
@@ -365,6 +364,48 @@ public class ProductServiceImp implements ProductService{
 		ArrayList<DayOFFVO> dayoff =productDao.getDayOff(pd_num);
 		return dayoff;
 	}
+
+
+
+	@Override
+	public void recentlyCookie(int pd_num, HttpServletRequest request, HttpServletResponse response) {
+		Cookie[] cookies = request.getCookies();
+		Cookie currentProduct = null;
+		String cookieName = "recentProducts";
+		String recentProducts = null;
+		int cookieMaxAge = 60 * 60 * 24;
+		if (cookies == null || cookies.length == 0)
+			return;
+		for(int i=0; i<cookies.length; i++) {
+			if(cookieName.equals(cookies[i].getName())) {
+				currentProduct = cookies[i];
+				break;
+			}
+		}
+		if(currentProduct == null) {
+		    currentProduct = new Cookie(cookieName, String.valueOf(""));
+		}
+
+	    // 최근 본 상품 목록을 쿠키에 저장
+		recentProducts = currentProduct.getValue();
+		String[] prNums = recentProducts.split("_");
+		List<String> prNumList = Arrays.asList(prNums);
+		int index = prNumList.indexOf("" + pd_num);
+		if(index >= 0){
+			prNumList.remove(index);
+		}
+		if(prNumList == null) {
+			prNumList = new ArrayList<String>();
+		}
+		prNumList.add(0, "" + pd_num);
+		recentProducts = String.join("_", prNumList);
+		
+		currentProduct.setValue(recentProducts);
+		currentProduct.setMaxAge(cookieMaxAge);
+		currentProduct.setPath("/");
+	    response.addCookie(currentProduct);
+	}
+	
 
 
 

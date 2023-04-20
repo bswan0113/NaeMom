@@ -61,33 +61,9 @@
         </div>
     </div>
 </div>
-
-<div class="main-container-third">
-	<section class="recent-products">
-		<div class="third-title title">
-			<h2>최근 본 상품</h2>
-		</div>
-		<div class="container-recently-viewed">
-			<div class="recently-viewed-product">
-				<ul class="recently-viewed-list">
-					<c:forEach var="product" items="${recentProducts}" varStatus="status">
-						<c:if test="${status.index <= 3}">
-						<li>
-							<span class="product-image">
-								<img src="${product.file.fi_name}" alt="${product.pd_name}" style="width: 55px; height: 55px;">
-							</span>
-							<span class="product-name">${product.pd_name}</span>
-							<span class="product-detail">
-								<a href="<c:url value="${pageContext.request.contextPath}/product/detail/${product.pd_num}"></c:url>">상세보기</a>
-							</span>
-						</li>
-						</c:if>
-					</c:forEach>
-				</ul>
-			</div>
-		</div>
-	</section>
+<div class="main-container-fourth">
 </div>
+
 
 <script>
 var swiper = new Swiper(".mySwiper", {
@@ -116,4 +92,70 @@ var swiper = new Swiper('.bannerSwiper', {
       delay: 10000, 
   }
 });
+
+//쿠키 값 가져오기 함수
+function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) {
+        return parts.pop().split(";").shift();
+    }
+}
+	
+    var recentProduct = getCookie("recentProducts");
+    console.log(recentProduct);
+    if (recentProduct != null && recentProduct != "") {
+        // recentProduct 쿠키가 존재하는 경우
+    document.write("<div class="+"main-container-third"+">");
+ 		document.write("<section class="+"recent-products"+">");
+			document.write("<div class="+"third-title title"+">");
+				document.write("<h2>최근 본 상품</h2>");
+		 	document.write("</div>");
+		 	document.write("<div class="+"container-recently-viewed"+">");
+				document.write("<div class="+"recently-viewed-product"+">");
+					document.write("<ul class="+"recently-viewed-list"+">");
+				        <c:forEach var="product" items="${recentProducts}" varStatus="status">
+				            <c:if test="${status.index <= 4}">
+				                document.write("<li>");
+					                document.write("<span class='product-image'>");
+					                	document.write("<img src=\"<c:url value='/download${product.file.fi_name}'></c:url>\" alt=\"${product.pd_title}\" style=\"width: 55px; height: 55px;\">");
+					               	document.write("</span>");
+					               	
+					                document.write("<span class='product-name'>" + "${product.pd_title}" + "</span>");
+					                document.write("<span class='product-detail'>");
+					               		document.write("<a href='/product/detail/detailLayoutTMP/" + "${product.pd_num}" + "'>상세보기</a>");
+					                document.write("</span>");
+				                document.write("</li>");
+				            </c:if>
+				        </c:forEach>
+			        document.write("</ul>");
+		        document.write("</div>");
+	        document.write("</div>");
+        document.write("</section>");
+	document.write("</div>");
+    } else {
+        // recentProduct 쿠키가 존재하지 않는 경우
+        document.write("<div class="+"main-container-third"+">");
+ 		document.write("<section class="+"recent-products"+">");
+			document.write("<div class="+"third-title title"+">");
+				document.write("<h2>최근 본 상품</h2>");
+		 	document.write("</div>");
+		 	document.write("<div class="+"container-recently-viewed"+">");
+				document.write("<div class="+"recently-viewed-product"+">");
+					document.write("<ul class="+"recently-viewed-list"+">");
+		        document.write("최근 본 상품이 없습니다.");
+		        document.write("</ul>");
+		        document.write("</div>");
+		    document.write("</div>");
+		document.write("</section>");
+		document.write("</div>");
+    }
+	
+    // 쿠키 가져오는 함수
+    function getCookie(name) {
+        var value = "; " + document.cookie;
+        var parts = value.split("; " + name + "=");
+        if (parts.length == 2) return parts.pop().split(";").shift();
+    } 
 </script>
+

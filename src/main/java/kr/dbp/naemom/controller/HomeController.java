@@ -41,16 +41,17 @@ public class HomeController {
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
 				if (cookie.getName().equals("recentProducts")) {
-					String[] values = cookie.getValue().split(",");
+					String[] values = cookie.getValue().split("_");
 					
 					for (String value : values) {
+						if(value.length()==0)
+							continue;
 						ProductVO product = homeService.getProductById(Integer.parseInt(value));
 						recentProducts.add(product);
 					}
 				}
 			}
 		}
-		
 		mv.addObject("files", files);
 		mv.addObject("flist",flist);
 		mv.addObject("plist", plist);

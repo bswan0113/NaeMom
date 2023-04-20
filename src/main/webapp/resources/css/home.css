@@ -206,9 +206,9 @@ a:hover, a:visited{
 
 .recently-viewed-list li{
     float: left;
-    width: 208px;
-    height: 68px;
-    padding: 18px 19px 18px 18px;
+    width: 20%;
+    height: 100%px;
+    /* padding: 18px 19px 18px 18px; */
     margin: 0 -1px;
     border: 1px solid #ddd;
     background-color: #fafafa;
