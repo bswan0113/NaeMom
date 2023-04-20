@@ -61,7 +61,6 @@ public class HomeServiceImp implements HomeService {
 	@Override
 	public FileVO getFiles(int pd_num) {
 		FileVO files= homeDao.getFile(pd_num,"product", "게시글 썸네일");
-		System.out.println(files);
 		return files;
 	}
 }

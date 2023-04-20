@@ -80,6 +80,17 @@
 	        </association>		
 	</resultMap> 
 	
+	<select id="getFeListByDate" resultType="kr.dbp.naemom.vo.ProductVO">
+		SELECT pd_title,pd_num, pd_fe_start,pd_fe_end FROM product 
+			WHERE pd_pc_num = 4
+			<if test="day gte 10 ">
+				and (pd_fe_start = CONCAT(#{year}, '-', #{month}, '-', #{day}) OR LAST_DAY(CONCAT(#{year}, '-', #{month}, '-', #{day})) = pd_fe_end)
+			</if>
+			<if test="day gte 1 and day lte 9">
+				and (pd_fe_start = CONCAT(#{year}, '-', #{month}, '-0', #{day}) OR LAST_DAY(CONCAT(#{year}, '-', #{month}, '-0', #{day})) = pd_fe_end)
+			</if>
+	</select>
+	
 
 </mapper>
 

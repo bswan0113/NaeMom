@@ -168,6 +168,7 @@ float:left;
     bottom: 0;
     left: 0;
     padding:3px;
+    height:75px;
 
 }
 
@@ -181,7 +182,7 @@ float:left;
     white-space: nowrap;
     text-overflow: ellipsis;
     line-height : 49px;
-    min-width:380px;
+    min-width:350px;
 
 }
 .item-info > span{
@@ -247,10 +248,10 @@ margin-left:6px;
 						<ul class="search-list">
 							<c:forEach items="${re}" var="i">
 								<li class="search-item">
-									<a href="<c:url value='/product/detail/detailreyoutTMP/${i.pd_num}'></c:url>"><img class="rounded" width="125px" height="125px" src="<c:url value='/download${i.file.fi_name}'></c:url>"></a>
+									<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}'></c:url>"><img class="rounded" width="125px" height="125px" src="<c:url value='/download${i.file.fi_name}'></c:url>"></a>
 									<div class="search-item-content">${i.pd_content}</div>
 									<div class="item-info">
-										<a href="<c:url value='/product/detail/detailreyoutTMP/${i.pd_num}'></c:url>">${i.pd_title}</a>
+										<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}'></c:url>">${i.pd_title}</a>
 										<span><i style="margin-right: 0;"class="fas fa-eye"></i> : ${i.pd_viewcount}</span>
 										<span><i style="margin-right: 0;"class="fas fa-heart"></i>: ${i.wishCount}</span>
 									</div>
@@ -278,10 +279,10 @@ margin-left:6px;
 						<ul class="search-list">
 							<c:forEach items="${fe}" var="i">
 								<li class="search-item">
-									<a href="<c:url value='/product/detail/detailreyoutTMP/${i.pd_num}'></c:url>"><img class="rounded" width="125px" height="125px" src="<c:url value='/download${i.file.fi_name}'></c:url>"></a>
+									<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}'></c:url>"><img class="rounded" width="125px" height="125px" src="<c:url value='/download${i.file.fi_name}'></c:url>"></a>
 									<div class="search-item-content">${i.pd_content}</div>
 									<div class="item-info">
-										<a href="<c:url value='/product/detail/detailreyoutTMP/${i.pd_num}'></c:url>">${i.pd_title}</a>
+										<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}'></c:url>">${i.pd_title}</a>
 										<span><i style="margin-right: 0;"class="fas fa-eye"></i> : ${i.pd_viewcount}</span>
 										<span><i style="margin-right: 0;"class="fas fa-heart"></i>: ${i.wishCount}</span>
 									</div>
@@ -309,10 +310,10 @@ margin-left:6px;
 						<ul class="search-list">
 							<c:forEach items="${ac}" var="i">
 								<li class="search-item">
-									<a href="<c:url value='/product/detail/detailfeyoutTMP/${i.pd_num}'></c:url>"><img class="rounded" width="125px" height="125px" src="<c:url value='/download${i.file.fi_name}'></c:url>"></a>
+									<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}'></c:url>"><img class="rounded" width="125px" height="125px" src="<c:url value='/download${i.file.fi_name}'></c:url>"></a>
 									<div class="search-item-content">${i.pd_content}</div>
 									<div class="item-info">
-										<a href="<c:url value='/product/detail/detailfeyoutTMP/${i.pd_num}'></c:url>">${i.pd_title}</a>
+										<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}'></c:url>">${i.pd_title}</a>
 										<span><i style="margin-right: 0;"class="fas fa-eye"></i> : ${i.pd_viewcount}</span>
 										<span><i style="margin-right: 0;"class="fas fa-heart"></i>: ${i.wishCount}</span>
 									</div>
