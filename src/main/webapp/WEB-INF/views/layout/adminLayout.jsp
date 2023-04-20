@@ -74,6 +74,10 @@
 	line-height:50px;
 	}	
 		
+	.body-page{
+	width:1200px;
+	margin-left:100px;
+	}
 	</style>
 <body>
 		<tiles:insertAttribute name="header" />

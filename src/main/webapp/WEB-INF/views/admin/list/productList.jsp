@@ -7,10 +7,9 @@
  <style>
  .search-result-container{
    border: 1px solid #dae1e6;
-   width: 80%;
    margin: 0 auto;
    margin-top: 50px;
-   min-width:1100px;
+   min-width:1200px;
  }
  .search-container{
    width: 80%;

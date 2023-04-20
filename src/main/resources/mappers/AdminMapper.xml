@@ -10,8 +10,21 @@
 	
 	<select id="getQList" resultType="kr.dbp.naemom.vo.qnaVO">
 		select * from qna 
-			  ORDER BY qa_num DESC 
+			  ORDER BY qa_state ASC, qa_num DESC 
 			  LIMIT #{cri.pageStart}, #{cri.perPageNum}
 	</select>
+	
+	<select id="getQnaByNum" resultType="kr.dbp.naemom.vo.qnaVO">
+		select * from qna where qa_num = #{qa_num}
+	</select>
+	
+	<insert id="insertAnswer">
+		insert into qna_answer(qaa_content, qaa_qa_num, qaa_registerd_date)
+			values(#{qaa.qaa_content}, #{qaa.qaa_qa_num}, now())
+	</insert>
+	
+	<update id="updateQnaState">
+		update qna set qa_state = 1 where qa_num=#{qaa_qa_num}
+	</update>
 
 </mapper>

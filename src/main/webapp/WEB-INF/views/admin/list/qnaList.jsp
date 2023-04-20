@@ -27,9 +27,10 @@
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th>문의 구분</th>
+					<th>답변상태</th>
 					<th>제목</th>
-					<th>답변 상태</th>
+					<th></th>
+					<th>문의 구분</th>
 					<th>작성자 명</th>
 					<th>등록 날짜</th>
 				</tr>
@@ -45,7 +46,8 @@
 							문의진행중
 							</c:if>
 						</td>
-						<td class="qna_title"><a href="<c:url value='/mypage/qnaDetail/${qna.qa_num}'></c:url>">${qna.qa_title}</a></td>
+						<td class="qna_title">${qna.qa_title}</td>
+						<td><a class="btn btn-success" href="<c:url value='/admin/list/qnaAnswer/${qna.qa_num}'></c:url>">답변등록</a></td>
 						<td>${qna.qa_qs_category}</td>
 						<td>${qna.qa_me_id}</td>
 						<td>${qna.qa_registerd_date_str}</td>
