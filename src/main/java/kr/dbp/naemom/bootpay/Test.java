@@ -19,14 +19,14 @@ import kr.dbp.naemom.bootpay.response.ResDefault;
 public class Test {
     static Bootpay bootpay;
     public static void main(String[] args) {
-        bootpay = new Bootpay("5b8f6a4d396fa665fdc2b5ea", "rm6EYECr6aroQVG2ntW0A6LpWnkTgP4uQ3H18sDDUYw=");
+        bootpay = new Bootpay("643f90aa755e27001be57d15", "6VTQFJWFW25QkhEpnNkxiYek00BRzS1pDhLW//ubPyY==");
 
         goGetToken();
-//        goVerfity();
+        goVerfity();
 //        receiptCancel();
 //        getBillingKey();
 //        requestSubscribe();
-        reserveSubscribe();
+//        reserveSubscribe();
 //        reserveCancelSubscribe();
 //        destroyBillingKey();
 //        getUserToken();
@@ -44,38 +44,38 @@ public class Test {
         }
     }
 
-    public static void getBillingKey() {
-        Subscribe subscribe = new Subscribe();
-        subscribe.itemName = "정기결제 테스트 아이템";
-        subscribe.orderId = "" + (System.currentTimeMillis() / 1000);
-        subscribe.pg = "payapp";
-        subscribe.cardNo = "5570**********1074"; //실제 테스트시에는 *** 마스크처리가 아닌 숫자여야 함
-        subscribe.cardPw = "**"; //실제 테스트시에는 *** 마스크처리가 아닌 숫자여야 함
-        subscribe.expireYear = "**"; //실제 테스트시에는 *** 마스크처리가 아닌 숫자여야 함
-        subscribe.expireMonth = "**"; //실제 테스트시에는 *** 마스크처리가 아닌 숫자여야 함
-        subscribe.identifyNumber = ""; //주민등록번호 또는 사업자 등록번호 (- 없이 입력)
-
-        subscribe.userInfo = new User();
-        subscribe.userInfo.username = "홍길동";
-        subscribe.userInfo.phone = "01011112222";
-
-        try {
-            ResDefault<HashMap<String, Object>> res = bootpay.getBillingKey(subscribe);
-            System.out.println(res.toJson());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void destroyBillingKey() {
-        String receiptId = "6100e7ea0d681b001fd4de69";
-        try {
-            ResDefault res = bootpay.destroyBillingKey(receiptId);
-            System.out.println(res.toJson());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void getBillingKey() {
+//        Subscribe subscribe = new Subscribe();
+//        subscribe.itemName = "정기결제 테스트 아이템";
+//        subscribe.orderId = "" + (System.currentTimeMillis() / 1000);
+//        subscribe.pg = "payapp";
+//        subscribe.cardNo = "5570**********1074"; //실제 테스트시에는 *** 마스크처리가 아닌 숫자여야 함
+//        subscribe.cardPw = "**"; //실제 테스트시에는 *** 마스크처리가 아닌 숫자여야 함
+//        subscribe.expireYear = "**"; //실제 테스트시에는 *** 마스크처리가 아닌 숫자여야 함
+//        subscribe.expireMonth = "**"; //실제 테스트시에는 *** 마스크처리가 아닌 숫자여야 함
+//        subscribe.identifyNumber = ""; //주민등록번호 또는 사업자 등록번호 (- 없이 입력)
+//
+//        subscribe.userInfo = new User();
+//        subscribe.userInfo.username = "홍길동";
+//        subscribe.userInfo.phone = "01011112222";
+//
+//        try {
+//            ResDefault<HashMap<String, Object>> res = bootpay.getBillingKey(subscribe);
+//            System.out.println(res.toJson());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public static void destroyBillingKey() {
+//        String receiptId = "6100e7ea0d681b001fd4de69";
+//        try {
+//            ResDefault res = bootpay.destroyBillingKey(receiptId);
+//            System.out.println(res.toJson());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public static void requestSubscribe() {
         SubscribePayload payload = new SubscribePayload();

@@ -14,7 +14,8 @@
 	<script src="<c:url value='/resources/js/jquery.min.js'></c:url>"></script>
 	<script src="<c:url value='/resources/js/jquery-ui.min.js'></c:url>"></script>
 	<script src="<c:url value='/resources/js/bootstrap.bundle.min.js'></c:url>"></script>
-	<script src="https://js.bootpay.co.kr/bootpay-4.2.9.min.js" type="application/javascript"></script>
+	<!-- <script src="https://js.bootpay.co.kr/bootpay-4.2.9.min.js" type="application/javascript"></script> -->
+	<script src="https://cdn.bootpay.co.kr/js/bootpay-3.3.6.min.js" type="application/javascript"></script>
 	<style>
 		*{
 	  	padding: 0; margin: 0;
@@ -429,19 +430,19 @@
 										</label>
 									</li>
 									<li class="type_selector_li">
-										<input type="radio" class="type_selector_radio" name="payType" id="payType2" value="카드">
+										<input type="radio" class="type_selector_radio" name="payType" id="payType2" value="card">
 										<label for="payType2" class="type_selector_label type_selector_card" style="font-weight: normal;">
 											<span class="type_selector_label_txt">신용/체크카드</span>
 										</label>
 									</li>
 									<li class="type_selector_li">
-										<input type="radio" class="type_selector_radio" name="payType" id="payType3" value="카카오페이">
+										<input type="radio" class="type_selector_radio" name="payType" id="payType3" value="kakao">
 										<label for="payType3" class="type_selector_label type_selector_kakao" style="font-weight: normal;">
 											<span class="type_selector_label_txt">카카오페이</span>
 										</label>
 									</li>
 									<li class="type_selector_li">
-										<input type="radio" class="type_selector_radio" name="payType" id="payType3" value="네이버페이">
+										<input type="radio" class="type_selector_radio" name="payType" id="payType3" value="npay">
 										<label for="payType3" class="type_selector_label type_selector_kakao" style="font-weight: normal;">
 											<span class="type_selector_label_txt">네이버페이</span>
 										</label>
@@ -571,32 +572,45 @@
    				method = $(this).val();
    			})
    			//
-   			ajaxPost(response, '<c:url value="/option/bootpay_confirm"></c:url>', deleteAllBasket);
-   			
-   			const response = Bootpay.requestPayment({
-   			  "application_id": "643f90aa755e27001be57d15",
-   			  "price": "1000",
-   			  "order_name": order_name,
-   			  "order_id": order_id,
-   			  "pg": "나이스페이",
-   			  "method": method,
-   			  "tax_free": 0,   			  
-   			  "extra": {
-   			    "open_type": "iframe",
-   			    "card_quota": "0,2,3",
-   			    "escrow": false,
-   			  	"display_success_result":true,
-   			 	"display_error_result" : true,
-   			 	"separately_confirmed" : true
-   			    
-   			  }
-   			}).done(function(response){
+   			let payData ={
+   				application_id : "643f90aa755e27001be57d15",
+   				price : price,
+   				order_name : order_name,
+   				method : method
    				
-   			})
+   			}
+   			//ajaxPost(payData, '<c:url value="/option/bootpay_confirm"></c:url>', deleteAllBasket);
+   			
+	   			const response = BootPay.request({
+	   			  "application_id": "64424e90922c3400236cdc6a",
+	   			  "price": "1000",
+	   			  "name": order_name,
+	   			  "order_id": order_id,
+	   			  "pg": "nicepay",
+	   			  "method": "kakao",
+	   			  "tax_free": 0,   			  
+	   			  "extra": {
+	   			    "open_type": "iframe",
+	   			    "card_quota": "0,2,3",
+	   			    "escrow": false,
+	   			  	"display_success_result":true,
+	   			 	"display_error_result" : true
+	   			  }
+	   			}).done(function(data){
+	   				console.log(data)
+	   				ajaxPost(data, '<c:url value="/option/bootpay_confirm"></c:url>', paySuccess);
+	   			}).error(function (data) {
+	   				//결제 진행시 에러가 발생하면 수행됩니다.
+	   				console.log(data);
+	   			})
+	   			
+		    
    			console.log(response)
 	   			
    		})
-   		
+   		function paySuccess(){
+   			
+   		}
    		
    		
    		//ajax

@@ -5,10 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -174,21 +171,24 @@ public class OrderController {
 		mv.setViewName("/option/payment");
 		return mv;
 	}
-	@RequestMapping(value = "/option/payment", method=RequestMethod.GET)
-	public ModelAndView payment(ModelAndView mv) {
+	@ResponseBody
+	@RequestMapping(value = "/option/bootpay_confirm", method=RequestMethod.POST)
+	public String bootpay_confirm(Model mv, PayDTO dto) {
 		try {
-		    Bootpay bootpay = new Bootpay("5b8f6a4d396fa665fdc2b5ea", "rm6EYECr6aroQVG2ntW0A6LpWnkTgP4uQ3H18sDDUYw=");
+		    Bootpay bootpay = new Bootpay("64424e90922c3400236cdc6d", "0yr37pneMsapwXGL21Fgn9tCiFr8ivdKO8rkER9ALbc=");
 		    ResDefault<HashMap<String, Object>> token = bootpay.getAccessToken();
 		    System.out.println(token.toJson());
-		    String receiptId = "62876963d01c7e00209b6028"; 
+		    String receiptId = dto.getReceipt_id(); 
 		    ResDefault<HashMap<String, Object>> res = bootpay.verify(receiptId);
+		    System.out.println(res.toJson());
+		    System.out.println(1);
+		    
 		    System.out.println(res.data.get("receipt_id"));
-            System.out.println(res.toJson());
+            return res.toJson();
 		} catch (Exception e) {
 		    e.printStackTrace();
 		}
-		mv.setViewName("/option/payment");
-		return mv;
+		return "";
 	}
 	
 	
