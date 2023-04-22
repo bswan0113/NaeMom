@@ -389,14 +389,16 @@ public class ProductServiceImp implements ProductService{
 	    // 최근 본 상품 목록을 쿠키에 저장
 		recentProducts = currentProduct.getValue();
 		String[] prNums = recentProducts.split("_");
-		List<String> prNumList = Arrays.asList(prNums);
+		List<String> prNumList = new ArrayList<String>(Arrays.asList(prNums));
 		int index = prNumList.indexOf("" + pd_num);
 		if(index >= 0){
 			prNumList.remove(index);
 		}
-		if(prNumList == null) {
-			prNumList = new ArrayList<String>();
-		}
+		
+		int maxProductNum = 5;
+		if(prNumList.size() >= maxProductNum){ // 변경
+	        prNumList.remove(maxProductNum-1); // 변경
+	    }
 		prNumList.add(0, "" + pd_num);
 		recentProducts = String.join("_", prNumList);
 		

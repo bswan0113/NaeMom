@@ -64,7 +64,7 @@
 <div class="main-container-fourth">
 </div>
 
-
+<!-- swiper -->
 <script>
 var swiper = new Swiper(".mySwiper", {
     slidesPerView: 3,
@@ -79,7 +79,7 @@ var swiper = new Swiper(".mySwiper", {
         nextEl: '.swiper-button-next', 
         prevEl: '.swiper-button-prev', 
     }
-  });
+ });
 
 var swiper = new Swiper('.bannerSwiper', { 
   centeredSlides: false,
@@ -92,6 +92,11 @@ var swiper = new Swiper('.bannerSwiper', {
       delay: 10000, 
   }
 });
+</script>
+
+<!-- 최근 본 상품 -->
+<script>
+
 
 //쿠키 값 가져오기 함수
 function getCookie(name) {
