@@ -77,7 +77,7 @@
 			<beans:ref bean="loginRedirectInterceptor"/>
 		</interceptor>
 		<interceptor>
-	        <mapping path="/mypage/**"/>
+	        <mapping path="/**"/>
 	        <beans:ref bean="mypageInterceptor"/>
 	    </interceptor>
 

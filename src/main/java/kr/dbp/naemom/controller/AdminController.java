@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.AdminService;
+import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.qnaVO;
 import kr.dbp.naemom.vo.qna_AnswerVO;
 
@@ -55,5 +56,33 @@ public class AdminController {
 		}
 		return mv;
 	}
+
+	@RequestMapping(value = "/admin/list/reportList")
+	public ModelAndView reportList(ModelAndView mv) {
+		mv.setViewName("/admin/list/reportList");
+		return mv;
+	}
 	
+	@RequestMapping(value = "/admin/list/userList")
+	public ModelAndView userList(ModelAndView mv, Criteria cri) {
+		if(cri==null) cri = new Criteria();
+		int totalCount = adminService.getUserCount();
+		PageMaker pm = new PageMaker(totalCount, 10, cri);
+		ArrayList<MemberVO> userList = adminService.getUserList(cri);
+		
+		mv.addObject("ul", userList);
+		mv.addObject("pm", pm);
+		mv.setViewName("/admin/list/userList");
+		return mv;
+	}
+	
+
+	@RequestMapping(value = "/mypage/profile/{me_id}", method = RequestMethod.GET)
+	public ModelAndView adminIntoUserPage(ModelAndView mv,	@PathVariable("me_id")String me_id) {
+		MemberVO user = adminService.getUserInfo(me_id);
+		mv.addObject("user",user);
+		mv.setViewName("/mypage/profile");
+		return mv;
+		
+	}
 }

@@ -9,7 +9,7 @@
 	</select>
 	
 	<select id="getQList" resultType="kr.dbp.naemom.vo.qnaVO">
-		select * from qna 
+		select * from qna
 			  ORDER BY qa_state ASC, qa_num DESC 
 			  LIMIT #{cri.pageStart}, #{cri.perPageNum}
 	</select>
@@ -26,5 +26,111 @@
 	<update id="updateQnaState">
 		update qna set qa_state = 1 where qa_num=#{qaa_qa_num}
 	</update>
+	
+	<select id="getuserCount" resultType="int">
+		select count(*) from member
+	</select>
+	
+	<select id="getUserList"  resultType="kr.dbp.naemom.vo.MemberVO">
+		select * from member
+			<if test="cri.search != null or cri.search != ''">
+			where me_id like concat("%",#{cri.search},"%")
+			</if>
+			ORDER BY me_id asc
+			LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="getUserInfo" resultType="kr.dbp.naemom.vo.MemberVO">
+		select * from member where me_id = #{me_id}
+	</select>
+	
+	<update id="resetPw">
+		update member set me_pw = #{me_pw} where me_id =#{me_id}
+	</update>
+	<update id="preventUser">
+		update member set me_authority = #{me.me_authority} where me_id =#{me.me_id}
+	</update>
 
+	<select id="getBuyList" resultType="kr.dbp.naemom.vo.BuyListVO">
+		select * from buy_list where bl_me_id=#{id}
+			LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+
+	<select id="getReportList" resultType="kr.dbp.naemom.vo.ReportManageVO">
+	  SELECT
+	    CASE
+	      WHEN r.rep_table = 'review_comment' THEN review_comment.rc_content
+	      WHEN r.rep_table = 'review' THEN review.re_content
+	      WHEN r.rep_table = 'course' THEN course.co_title
+	      ELSE NULL
+	    END AS title,
+	    r.rep_table AS rep_table,
+	    COUNT(*) AS reportCount
+	  FROM
+	    report r
+	    LEFT JOIN review ON r.rep_table_key = review.re_num AND r.rep_table = 'review'
+	    LEFT JOIN review_comment ON r.rep_table_key = review_comment.rc_num AND r.rep_table = 'review_comment'
+	    LEFT JOIN course ON r.rep_table_key = course.co_num AND r.rep_table = 'course'
+	  WHERE
+	    r.rep_me_id = #{id}
+	  GROUP BY
+	    r.rep_table_key, title, rep_table
+	    Limit  #{cri.pageStart}, #{cri.perPageNum};
+	</select>
+	
+	<select id="getReportCount" resultType="int">
+	SELECT COUNT(*) AS titleCount
+		FROM (
+		  SELECT
+		    CASE
+		      WHEN r.rep_table = 'review_comment' THEN review_comment.rc_content
+		      WHEN r.rep_table = 'review' THEN review.re_content
+		      WHEN r.rep_table = 'course' THEN course.co_title
+		      ELSE NULL
+		    END AS title
+		  FROM
+		    report r
+		    LEFT JOIN review ON r.rep_table_key = review.re_num AND r.rep_table = 'review'
+		    LEFT JOIN review_comment ON r.rep_table_key = review_comment.rc_num AND r.rep_table = 'review_comment'
+		    LEFT JOIN course ON r.rep_table_key = course.co_num AND r.rep_table = 'course'
+		  WHERE
+		    r.rep_me_id = #{id}
+		    group by title
+		) AS titleTable;	
+	</select>
+	
+	<select id="getPaymentCount" resultType="int">
+		select count(*) from buy_list where bl_me_id=#{id}
+	</select>
+	
+
+	<select id="getReList" resultType="kr.dbp.naemom.vo.ReviewVO">
+		select * from review where re_me_id = #{id}
+		 Limit  #{cri.pageStart}, #{cri.perPageNum};
+	</select>
+
+	<select id="getReCount" resultType="int">
+		select count(*) from review where re_me_id=#{id}
+	</select>
+	
+
+	<select id="getRcList" resultType="kr.dbp.naemom.vo.ReviewCommentVO">
+		select * from review_comment where rc_me_id = #{id}
+		 Limit  #{cri.pageStart}, #{cri.perPageNum};
+	</select>
+
+	<select id="getRcCount" resultType="int">
+		select count(*) from review_comment where rc_me_id=#{id}
+	</select>
+	
+
+	<select id="getCoList" resultType="kr.dbp.naemom.vo.CourseVO">
+		select * from course where co_me_id = #{id}
+		 Limit  #{cri.pageStart}, #{cri.perPageNum};
+	</select>
+
+	<select id="getCoCount" resultType="int">
+		select count(*) from course where co_me_id=#{id}
+	</select>
+	
 </mapper>

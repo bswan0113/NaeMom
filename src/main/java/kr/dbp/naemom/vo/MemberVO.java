@@ -35,11 +35,13 @@ public class MemberVO {
 	
 	
 	public String getMe_birthday_str() {
+		if(me_birthday==null) return null;
 		SimpleDateFormat format = 
 			new SimpleDateFormat("yyyy-MM-dd");
 		return format.format(me_birthday);
 	}
 	public String getMe_session_limit_str() {
+		if(me_session_limit==null) return null;
 		SimpleDateFormat format = 
 			new SimpleDateFormat("yyyy-MM-dd");
 		return format.format(me_session_limit);

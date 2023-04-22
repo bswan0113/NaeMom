@@ -132,8 +132,7 @@ public class ProductController {
 	//상세페이지 레이아웃
 	@RequestMapping(value="/product/detail/detailLayoutTMP/{i}", method=RequestMethod.GET)
 	public ModelAndView detailLayout(ModelAndView mv, @PathVariable("i")int pd_num, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
-		MemberVO user = new MemberVO();
-		user.setMe_id("abcd");
+		MemberVO user =(MemberVO)session.getAttribute("userInfo");
 		
 		ProductVO product= productService.getProduct(pd_num);
 		ArrayList<FileVO> files = productService.getFiles(pd_num);
@@ -180,6 +179,8 @@ public class ProductController {
 		        option.set(i, optReo);
 		    }
 		}
+		
+		mv.addObject("user", user);
 		mv.addObject("option",option);
 		mv.addObject("wish",wish);
 		mv.addObject("randomProduct", randomProduct);

@@ -887,7 +887,7 @@ $('#report-modal').click(function(){
 			
 			})
 		}
-		if(table=="reviewComment"){
+		if(table=="review_comment"){
 			ajaxPost(true,report,'<c:url value="/comment/report"></c:url>', function(data){
 				if(data.res){
 					alert('신고가 완료되었습니다. 감사합니다.');
@@ -906,7 +906,7 @@ $(document).on("click","#rc-report-btn",function(){
 		alert('로그인 하세요.');
 	}
 	$('#report-modal').data('num', $(this).data('num'));
-	$('#report-modal').data("table", "reviewComment");
+	$('#report-modal').data("table", "review_comment");
 })
 	
 $('.report-btn').click(function(){
