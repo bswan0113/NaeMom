@@ -89,7 +89,7 @@
 			        <li class="admin-side"><a href="<c:url value='/admin/list/productList'></c:url>">게시글 조회</a></li>
 			        <li class="admin-side"><a href="<c:url value='/admin/list/qnaList'></c:url>">사용자 문의 조회</a></li>
 			        <li class="admin-side"><a href="<c:url value='/admin/list/reportList'></c:url>">신고 내역 관리</a></li>
-			        <li class="admin-side"><a href="<c:url value='/admin/list/userList'></c:url>">이용자 관리</a></li>
+			        <li class="admin-side"><a href="<c:url value='/admin/list/userList'></c:url>">이용자 관리(오류 해결X)</a></li>
 			      </ul>
 			      <br>
 			  </div>

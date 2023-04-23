@@ -146,6 +146,43 @@ public class AdminServiceImp implements AdminService{
 		if(id==null||id.trim().length()<=0) return null;
 		return adminDao.getCoList(id,cri);
 	}
+
+	@Override
+	public ArrayList<CourseVO> getReportedCo() {
+		return adminDao.getReportedCo();
+	}
+
+	@Override
+	public ArrayList<ReviewVO> getReportedRe() {
+		return adminDao.getReportedRe();
+	}
+
+	@Override
+	public ArrayList<ReviewCommentVO> getReportedRc() {
+		return adminDao.getReportedRc();
+	}
+
+	@Override
+	public boolean deleteReview(int num) {
+		return adminDao.deleteReview(num) != 0;
+	}
+
+	@Override
+	public boolean deleteCourse(int num) {
+		return adminDao.deleteCourse(num) != 0;
+	}
+
+	@Override
+	public boolean deleteComment(int num) {
+		return adminDao.deleteComment(num) != 0;
+	}
+
+	@Override
+	public ArrayList<ReportVO> getReportByType(int num, String type) {
+		if(num<=0) return null;
+		if(type==null || type.trim().length()<=0)return null;
+		return adminDao.getReportByType(num, type);
+	}
 	
 	
 }

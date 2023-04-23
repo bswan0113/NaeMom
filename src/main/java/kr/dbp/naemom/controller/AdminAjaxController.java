@@ -19,6 +19,7 @@ import kr.dbp.naemom.vo.BuyListVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.ReportManageVO;
+import kr.dbp.naemom.vo.ReportVO;
 import kr.dbp.naemom.vo.ReviewCommentVO;
 import kr.dbp.naemom.vo.ReviewVO;
 
@@ -28,7 +29,7 @@ public class AdminAjaxController {
 	@Autowired
 	AdminService adminService;
 	
-	
+
 	@RequestMapping(value = "/admin/resetPw/{id}", method=RequestMethod.GET)
 	public Map<String, Object> pwCheck(@PathVariable("id") String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -95,7 +96,7 @@ public class AdminAjaxController {
 			map.put("ob", ob);
 			
 		}
-		if(type.equals("리뷰")) {
+		else if(type.equals("리뷰")) {
 			count = adminService.getRcCount(id);
 			ArrayList<ReviewCommentVO> ob = adminService.getRcList(id, cri);
 			PageMaker pm = new PageMaker(count, 5, cri);
@@ -103,19 +104,56 @@ public class AdminAjaxController {
 			map.put("ob", ob);
 			
 		}
-		if(type.equals("코스")) {
+		else if(type.equals("코스")) {
 			count = adminService.getCoCount(id);
 			ArrayList<CourseVO> ob = adminService.getCoList(id, cri);
 			PageMaker pm = new PageMaker(count, 5, cri);
 			map.put("pm", pm);
 			map.put("ob", ob);
 			
+		}else {
+			map.put("pm", null);
+			map.put("ob", null);
 		}
 		return map;
 	}
 		
+	@RequestMapping(value = "/admin/delete/review/{num}", method=RequestMethod.GET)
+	public Map<String, Object> deleteReview(@PathVariable("num")int num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = adminService.deleteReview(num);
+		map.put("res", res);
+		return map;
+	}
 	
+	@RequestMapping(value = "/admin/delete/course/{num}", method=RequestMethod.GET)
+	public Map<String, Object> deleteCourse(@PathVariable("num")int num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = adminService.deleteCourse(num);
+		map.put("res", res);
+
+
+		return map;
+	}
+	
+	@RequestMapping(value = "/admin/delete/comment/{num}", method=RequestMethod.GET)
+	public Map<String, Object> deleteComment(@PathVariable("num")int num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = adminService.deleteComment(num);
+		map.put("res", res);
+
+
+		return map;
+	}
+	
+	@RequestMapping(value = "/admin/reportList/{type}/{num}", method=RequestMethod.GET)
+	public Map<String, Object> getReportByType(@PathVariable("type")String type,@PathVariable("num")int num ) {
+		Map<String, Object> map = new HashMap<String, Object>();
+			ArrayList<ReportVO> ob = adminService.getReportByType(num, type);
+			map.put("list", ob);
+			
+		return map;
+	}
 	
 
-	
 }

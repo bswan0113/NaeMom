@@ -295,7 +295,7 @@ overflow:hidden;
 	</div>
 </div>
 <script>
-/*
+
 
 $(document).on("click",".list",function(){
 	let id = $(this).parents(".user-info").data("user");
@@ -517,5 +517,4 @@ $('.prevent').click(function(){
 })
 
 
-    */
 </script>

@@ -12,7 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.AdminService;
+import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.MemberVO;
+import kr.dbp.naemom.vo.ReviewCommentVO;
+import kr.dbp.naemom.vo.ReviewVO;
 import kr.dbp.naemom.vo.qnaVO;
 import kr.dbp.naemom.vo.qna_AnswerVO;
 
@@ -59,6 +62,13 @@ public class AdminController {
 
 	@RequestMapping(value = "/admin/list/reportList")
 	public ModelAndView reportList(ModelAndView mv) {
+		ArrayList<ReviewCommentVO> rcl = adminService.getReportedRc();
+		ArrayList<ReviewVO> rel = adminService.getReportedRe();
+		ArrayList<CourseVO> col = adminService.getReportedCo();
+
+		mv.addObject("col", col);
+		mv.addObject("rcl", rcl);
+		mv.addObject("rel", rel);
 		mv.setViewName("/admin/list/reportList");
 		return mv;
 	}
@@ -85,4 +95,5 @@ public class AdminController {
 		return mv;
 		
 	}
+	
 }

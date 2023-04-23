@@ -9,6 +9,7 @@ import kr.dbp.naemom.vo.BuyListVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.ReportManageVO;
+import kr.dbp.naemom.vo.ReportVO;
 import kr.dbp.naemom.vo.ReviewCommentVO;
 import kr.dbp.naemom.vo.ReviewVO;
 import kr.dbp.naemom.vo.qnaVO;
@@ -55,6 +56,20 @@ public interface AdminDAO {
 	int getCoCount(@Param("id")String id);
 
 	ArrayList<CourseVO> getCoList(@Param("id")String id, @Param("cri")Criteria cri);
+
+	ArrayList<CourseVO> getReportedCo();
+
+	ArrayList<ReviewVO> getReportedRe();
+
+	ArrayList<ReviewCommentVO> getReportedRc();
+
+	int deleteReview(@Param("num")int num);
+
+	int deleteCourse(@Param("num")int num);
+
+	int deleteComment(@Param("num")int num);
+
+	ArrayList<ReportVO> getReportByType(@Param("table_key")int num, @Param("table")String type);
 
 
 

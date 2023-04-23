@@ -3,76 +3,306 @@
     pageEncoding="UTF-8"%>
 
 	    <style>
-	   		.table-striped tbody tr:nth-of-type(odd) {
-			background-color: #f9f9f9;
-		}
-		.table-hover tbody tr:hover {
-			background-color: #e6e6e6;
-		}
-		.qna_title{
-		width:30%;
-		}
-		.qna_title>a{
-		color:black;
-		}
-		tbody{
-		  overflow: hidden;
-		  white-space: nowrap;
-		  text-overflow: ellipsis;
-		}
-	
+/* 공통 스타일 */
+.container {
+  margin: 0 auto;
+  max-width: 960px;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+th, td {
+  padding: 15px;
+  text-align: left;
+  border: 1px solid #ccc;
+  text-align:center;
+}
+
+table th:nth-child(1),
+table td:nth-child(1){
+width:30%;
+overflow:hidden;
+white-space:nowrap;
+text-overflow:ellipsis;
+}
+
+/* 리뷰 테이블 스타일 */
+.review-table {
+  background-color: #f9f9f9;
+}
+
+.review-table th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+/* 댓글 테이블 스타일 */
+.comment-table {
+  background-color: #f1f1f1;
+}
+
+.comment-table th {
+  background-color: #ff9800;
+  color: white;
+}
+
+/* 코스 테이블 스타일 */
+.course-table {
+  background-color: #f9f9f9;
+}
+
+.course-table th {
+  background-color: #2196F3;
+  color: white;
+}
+
+#report-list{
+top:300px;
+}
+
 	    </style>
 	<div class="container">
-	<h3>문의 조회</h3>
-		<table class="table table-striped">
+		<h3>신고 게시글 조회</h3>
+		<table class="review-table">
 			<thead>
 				<tr>
-					<th>답변상태</th>
-					<th>제목</th>
-					<th></th>
-					<th>문의 구분</th>
-					<th>작성자 명</th>
-					<th>등록 날짜</th>
+					<th>리뷰</th>
+					<th>작성자</th>
+					<th>신고 내용 조회</th>
+					<th>사용자 차단</th>
+					<th>게시글 삭제</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${qnaList}" var="qna">
+				<c:forEach items="${rel}" var="rel">
 					<tr>
-						<td <c:if test="${qna.qa_state == 1}"> style="color:yellowgreen; font-weight:bold;"</c:if>>
-							<c:if test="${qna.qa_state == 1}">
-							답변완료
-							</c:if>
-							<c:if test="${qna.qa_state != 1}">
-							문의진행중
-							</c:if>
-						</td>
-						<td class="qna_title">${qna.qa_title}</td>
-						<td><a class="btn btn-success" href="<c:url value='/admin/list/qnaAnswer/${qna.qa_num}'></c:url>">답변등록</a></td>
-						<td>${qna.qa_qs_category}</td>
-						<td>${qna.qa_me_id}</td>
-						<td>${qna.qa_registerd_date_str}</td>
+						<td>${rel.re_content}</td>
+						<td>${rel.re_me_id}</td>
+						<td><button class="btn btn-danger view" data-num="${rel.re_num}" data-type="review" data-toggle="modal" data-target="#report-list">신고 내용 조회</button></td>
+						<td><button class="btn btn-danger prevent"  data-user="${rel.re_me_id}">사용자 차단</button></td>
+						<td><button class="btn btn-danger delete" data-num="${rel.re_num}" data-type="review"> 게시글 삭제</button></td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
-			<ul class="comment-pagination pagination justify-content-center">
-				<c:if test="${pm.prev}">
-					<li class="page-item">
-						<a class="page-link" href="<c:url value='/mypage/qnaList?page=${pm.startPage-1}'/>">이전</a>
-					</li>
-				</c:if>
-		   	    <c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="i">
-			        <li class="page-item <c:if test="${pm.cri.page == i}"> active</c:if>">
-			            <a class="page-link" href="<c:url value='/mypage/qnaList?page=${i}'/>">${i}</a>
-			        </li>
-			    </c:forEach>
-			    <c:if test="${pm.next}">
-				    <li class="page-item">
-				    	<a class="page-link" href="<c:url value='/mypage/qnaList?page=${pm.startPage+1}'/>">다음</a>
-				    </li>
-			    </c:if>
-			</ul>
+		<table class="comment-table">
+			<thead>
+				<tr>
+					<th>댓글</th>
+					<th>작성자</th>
+					<th>신고 내용 조회</th>
+					<th>사용자 차단</th>
+					<th>게시글 삭제</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${rcl}" var="rcl">
+					<tr >
+						<td>${rcl.rc_content}</td>
+						<td>${rcl.rc_me_id}</td>
+						<td><button class="btn btn-danger view"  data-num="${rcl.rc_num}" data-type="comment" data-toggle="modal" data-target="#report-list">신고 내용 조회</button></td>
+						<td><button class="btn btn-danger prevent"  data-user="${rcl.rc_me_id}">사용자 차단</button></td>
+						<td><button class="btn btn-danger delete"  data-num="${rcl.rc_num}" data-type="comment">게시글 삭제</button></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		<table class="course-table">
+			<thead>
+				<tr>
+					<th>코스</th>
+					<th>작성자</th>
+					<th>신고 내용 조회</th>
+					<th>사용자 차단</th>
+					<th>게시글 삭제</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${col}" var="col">
+					<tr>
+						<td>${col.co_title}</td>
+						<td>${col.co_me_id}</td>
+						<td><button class="btn btn-danger view"  data-num="${col.co_num}" data-type="course" data-toggle="modal" data-target="#report-list">신고 내용 조회</button></td>
+						<td><button class="btn btn-danger prevent"  data-user="${col.co_me_id}">사용자 차단</button></td>
+						<td><button class="btn btn-danger delete"  data-num="${col.co_num}" data-type="course">게시글 삭제</button></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
 	</div>
+		
+<div class="modal common-modal" id="report-list">
+	<div class="modal-dialog">
+		<div class="modal-content">
+		    <div class="modal-header">
+		      <h4 class="modal-title">신고 내역 확인</h4>
+		      <button type="button" class="close" data-dismiss="modal">&times;</button>
+		    </div>
+		
+		    <!-- Modal body -->
+		    <div class="modal-body">
+		    	<table>
+		    		<thead>
+		    			<tr>
+			    			<th>구분</th>
+			    			<th>사유</th>
+			    			<th>신고날짜</th>
+		    			</tr>
+		    		</thead>
+		    		<tbody class="report-detail">
+		    		</tbody>
+		    	</table>
+		    </div>
+		
+		    <!-- Modal footer -->
+		    <div class="modal-footer">
+		      <button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
+		    </div>
+		</div>
+	</div>
+</div>
 
 	
-    
+<script>
+
+$('.view').click(function(){
+	$('.report-detail').html("");
+	let type= $(this).data("type");
+	let num =$(this).data("num");
+	$.ajax({
+		method:"GET",
+		url:"<c:url value='/admin/reportList/"+type+"/"+num+"'></c:url>",
+		success:function(data){
+			console.log(data.list);
+			createReport(data.list);
+		}
+	})
+	
+	
+})
+
+function createReport(re){
+	for(let i=0; i<re.length;i++){
+		let tr =$('<tr>');
+		let td1 =$('<td>').text(re[i].rep_category);
+		let td2 =$('<td>').text(re[i].rep_content);
+		let td3 =$('<td>').text(re[i].rep_date_str);
+		tr.append(td1,td2,td3);
+		$('.report-detail').append(tr);
+	}
+	
+}
+
+
+$('.delete').click(function(){
+	if(!confirm("삭제하시겠어요?")) return;
+	
+	let num = $(this).data("num");
+	let type= $(this).data("type");
+
+	if(type=="course"){
+		deleteCourse(num);
+	}
+	if(type=="review"){
+		deleteReview(num);
+	}
+	if(type=="comment"){
+		deleteComment(num);
+	}
+	
+})
+
+
+function deleteCourse(num){
+	$.ajax({
+		url: "<c:url value='/admin/delete/course/"+num+"'></c:url>",
+		method:"get",
+		success:function(data){
+			if(data.res){
+				alert("삭제완료");
+			}else{
+				alert("삭제실패!")
+			}
+				location.reload();
+		}
+	})
+}
+
+function deleteReview(num){
+	$.ajax({
+		url: "<c:url value='/admin/delete/review/"+num+"'></c:url>",
+		method:"get",
+		success:function(data){
+			if(data.res){
+				alert("삭제완료");
+			}else{
+				alert("삭제실패!")
+			}
+				location.reload();
+		}
+	})
+}
+
+function deleteComment(num){	
+	$.ajax({
+		url: "<c:url value='/admin/delete/comment/"+num+"'></c:url>",
+		method:"get",
+		success:function(data){
+			if(data.res){
+				alert("삭제완료");
+			}else{
+				alert("삭제실패!")
+			}
+				location.reload();
+		}
+	})
+}
+
+$('.prevent').click(function(){
+	let authority=0;
+	let id=$(this).data("user");
+	return;
+	
+if($(this).hasClass('prevent-off')){
+	authority=1;
+}
+let member ={
+		me_authority:authority,
+		me_id: id
+}
+if(authority == 0){
+	if(!confirm(id+"를 차단하시겠습니까?"))return false;
+}
+if(authority == 1){
+	if(!confirm(id+"의 차단을 해제하시겠습니까?"))return false;
+}
+
+
+$.ajax({
+	url:"<c:url value='/admin/preventUser'></c:url>",
+	method:"POST",
+	dataType:"json"	,	
+	data: JSON.stringify(member),
+	contentType:"application/json; charset=UTF-8",
+	success : function(data){
+		if(data.res && authority==0){
+			alert('차단되었습니다.');
+			location.reload();
+		}if(data.res && authority==1){
+			alert('차단이 해제되었습니다.');
+			location.reload();
+		}			
+		if(!data.res){
+			alert('오류가 발생하였습니다. 다시 시도해주세요.')
+		}
+	}
+})
+})
+
+</script>

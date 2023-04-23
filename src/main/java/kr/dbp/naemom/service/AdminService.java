@@ -9,6 +9,7 @@ import kr.dbp.naemom.vo.BuyListVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.ReportManageVO;
+import kr.dbp.naemom.vo.ReportVO;
 import kr.dbp.naemom.vo.ReviewCommentVO;
 import kr.dbp.naemom.vo.ReviewVO;
 import kr.dbp.naemom.vo.qnaVO;
@@ -53,6 +54,20 @@ public interface AdminService {
 	int getCoCount(String id);
 
 	ArrayList<CourseVO> getCoList(String id, Criteria cri);
+
+	ArrayList<CourseVO> getReportedCo();
+
+	ArrayList<ReviewVO> getReportedRe();
+
+	ArrayList<ReviewCommentVO> getReportedRc();
+
+	boolean deleteReview(int num);
+
+	boolean deleteCourse(int num);
+
+	boolean deleteComment(int num);
+
+	ArrayList<ReportVO> getReportByType(int num, String type);
 
 
 }

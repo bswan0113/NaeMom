@@ -133,4 +133,44 @@
 		select count(*) from course where co_me_id=#{id}
 	</select>
 	
+	<select id="getReportedRe" resultType="kr.dbp.naemom.vo.ReviewVO">
+		SELECT review.*, COUNT(rep_table_key) as reportCount
+		FROM review
+		LEFT JOIN report ON re_num = rep_table_key AND rep_table = 'review'
+		GROUP BY re_num
+		having reportCount >=5
+	</select>
+	
+	<select id="getReportedRc" resultType="kr.dbp.naemom.vo.ReviewCommentVO">
+		SELECT review_comment.*, COUNT(rep_table_key) as reportCount
+		FROM review_comment
+		LEFT JOIN report ON rc_num = rep_table_key AND rep_table = 'review_comment'
+		GROUP BY rc_num
+		having reportCount >=5
+	</select>
+	
+	<select id="getReportedCo" resultType="kr.dbp.naemom.vo.CourseVO">
+		SELECT course.*, COUNT(rep_table_key) as reportCount
+		FROM course
+		LEFT JOIN report ON co_num = rep_table_key AND rep_table = 'course'
+		GROUP BY co_num
+		having reportCount >=5
+	</select>
+	
+	<delete id="deleteReview">
+		delete from review where re_num=#{num}
+	</delete>
+	
+	<delete id="deleteCourse">
+		delete from course where co_num=#{num}
+	</delete>
+	
+	<delete id="deleteComment">
+		delete from review_comment where rc_num=#{num}
+	</delete>
+	
+	<select id="getReportByType" resultType="kr.dbp.naemom.vo.ReportVO">
+		select * from report where rep_table =#{table} and rep_table_key=#{table_key} 
+	</select>
+	
 </mapper>
