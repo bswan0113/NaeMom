@@ -89,6 +89,11 @@ top:300px;
 						<td><button class="btn btn-danger delete" data-num="${rel.re_num}" data-type="review"> 게시글 삭제</button></td>
 					</tr>
 				</c:forEach>
+				<c:if test="${rel.size()== 0}">
+					<tr>
+						<td colspan="5" style="color:#dae1e6; font-weight:bold;font-size:15px;"> 누적 신고수 5이상의 게시글이 없습니다.</td>
+					</tr>
+				</c:if>
 			</tbody>
 		</table>
 		<table class="comment-table">
@@ -111,6 +116,11 @@ top:300px;
 						<td><button class="btn btn-danger delete"  data-num="${rcl.rc_num}" data-type="comment">게시글 삭제</button></td>
 					</tr>
 				</c:forEach>
+				<c:if test="${rcl.size()== 0}">
+					<tr>
+						<td colspan="5" style="color:#dae1e6; font-weight:bold;font-size:15px;"> 누적 신고수 5이상의 게시글이 없습니다.</td>
+					</tr>
+				</c:if>
 			</tbody>
 		</table>
 		<table class="course-table">
@@ -133,6 +143,11 @@ top:300px;
 						<td><button class="btn btn-danger delete"  data-num="${col.co_num}" data-type="course">게시글 삭제</button></td>
 					</tr>
 				</c:forEach>
+				<c:if test="${col.size()== 0}">
+					<tr>
+						<td colspan="5" style="color:#dae1e6; font-weight:bold;font-size:15px;"> 누적 신고수 5이상의 게시글이 없습니다.</td>
+					</tr>
+				</c:if>
 			</tbody>
 		</table>
 	</div>
