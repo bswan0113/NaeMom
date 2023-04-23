@@ -5,7 +5,7 @@
 <title>NaeMom</title>
 
 <script src="<c:url value='/resources/js/home.js'></c:url>"></script>
-<link rel="stylesheet" href="<c:url value='/resources/css/home.css'></c:url>">
+<link rel="stylesheet" href="<c:url value='/resources/css/home.css?ver20230423-7'></c:url>">
 
 <div class="main-container-first">
     <div class="first-title title">
@@ -19,7 +19,7 @@
         <div class="swiper-container mySwiper">
             <div class="swiper-wrapper contents-wraper">
                 <c:forEach items="${plist}" var="product_checked">
-                <div class="swiper-slide contents-img" style="min-width: 270px;">
+                <div class="swiper-slide contents-img" style="min-width: 270px; height: 270px">
                     <a href="#">
                     	<img class="" style="width:100%; height:100%;" src="<c:url value='/download${product_checked.file.fi_name}'></c:url>">
                     </a>
@@ -66,28 +66,30 @@
 
 <!-- swiper -->
 <script>
+ 
 var swiper = new Swiper(".mySwiper", {
     slidesPerView: 3,
-    slidesPerGroup: 3,
-    spaceBetween: 30,
+    loopedSlides: 1,
     loop: true,
+    spaceBetween: 30,
+    keyboard: {
+      enabled: true,
+    },
     pagination: {
       el: ".swiper-pagination",
       clickable: true,
     },
-    navigation: { 
-        nextEl: '.swiper-button-next', 
-        prevEl: '.swiper-button-prev', 
-    }
- });
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+  });
+</script>
+<script>
 
 var swiper = new Swiper('.bannerSwiper', { 
   centeredSlides: false,
   loop : true,
-  navigation: { 
-      nextEl: '.swiper-button-next', 
-      prevEl: '.swiper-button-prev', 
-  }, 
   autoplay: { 
       delay: 10000, 
   }
@@ -122,14 +124,16 @@ function getCookie(name) {
 				        <c:forEach var="product" items="${recentProducts}" varStatus="status">
 				            <c:if test="${status.index <= 4}">
 				                document.write("<li>");
-					                document.write("<span class='product-image'>");
+					                document.write("<div class='product-image'>");
 					                	document.write("<img src=\"<c:url value='/download${product.file.fi_name}'></c:url>\" alt=\"${product.pd_title}\" style=\"width: 55px; height: 55px;\">");
-					               	document.write("</span>");
+					               	document.write("</div>");
 					               	
+					               	document.write("<div class='product-text-box'>");
 					                document.write("<span class='product-name'>" + "${product.pd_title}" + "</span>");
-					                document.write("<span class='product-detail'>");
+					                document.write("<p class='product-detail'>");
 					               		document.write("<a href='/product/detail/detailLayoutTMP/" + "${product.pd_num}" + "'>상세보기</a>");
 					                document.write("</span>");
+					                document.write("</div>");
 				                document.write("</li>");
 				            </c:if>
 				        </c:forEach>
@@ -137,7 +141,7 @@ function getCookie(name) {
 		        document.write("</div>");
 	        document.write("</div>");
         document.write("</section>");
-	document.write("</div>");
+	document.write("</div>");	
     } else {
         // recentProduct 쿠키가 존재하지 않는 경우
         document.write("<div class="+"main-container-third"+">");

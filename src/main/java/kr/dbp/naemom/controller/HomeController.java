@@ -76,6 +76,7 @@ public class HomeController {
 		homeService.insertProductChecked(pdc_checked);
 		ArrayList<ProductVO> plist = homeService.getCheckedList();
 		mv.addObject("plist", plist);
+		// if문으로 
 		mv.setViewName("redirect:/");
         return mv;
     }

@@ -44,7 +44,8 @@ h1{
 			      
 			    </c:forEach>
 			    </tbody>
-			  </table>
+			  	</table>
+				</div>
 			</div>
 		</div>
 		<br><hr>
@@ -53,10 +54,21 @@ h1{
 		<br><hr>
 	</form>
 </div>
-
 <script src="https://code.jquery.com/jquery-3.5.1.js">
 
 //키워드
+$(document).ready(function(){
+	alert(1);
+	console.log($('input[id="keyword"]'));
+	
+});
+
+$('input[id="keyword"]').keydown(function(event) {
+	console.log('퍼킥 서');
+  if (event.keyCode === 13) {
+    event.preventDefault();
+  };
+});
 $(document).ready(function(){
 	$('#keyword').keypress(function(){
 		console.log(this);
@@ -82,29 +94,7 @@ $(document).ready(function(){
 	})
 }) 
 
-/* $(document).ready(function() {
-  $('input[name="pdc_checked"]').prop('checked', true);
-  $(".btn-insert").click(function() {
-    var checkedList = [];
-    $('input[name="pdc_checked"]:checked').each(function() {
-      checkedList.push($(this).val());
-      
-    });
-    
-    $.ajax({
-      type: "POST",
-      url: "<c:url value='/main/insert'/>",
-      data: { checked: checkedList },
-      success: function(response) {
-        console.log(response);
-      },
-      error: function(xhr, status, error) {
-        console.log(xhr.responseText);
-      }
-    });
-  });
-});
- */
+
 $(document).ready(function() 
 	  $('input[name="pdc_checked"]').each(function() {
 	    var pdNum = $(this).val();

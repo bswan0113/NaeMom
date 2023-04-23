@@ -35,6 +35,7 @@ a:hover, a:visited{
     display: inline;
 }
 
+
 /* 메인컨테이너 첫번째 */
 .main-container-first{
     margin-top: 100px; margin-bottom: 100px; position: relative;
@@ -71,7 +72,8 @@ a:hover, a:visited{
     display: inline-block;
     overflow: hidden;
     position: relative;
-    width: 250px !important;
+    min-width: 33% !important;
+   	min-height: 270px !important;
 }
 
 .first-contents .contents-wraper .contents-detail{
@@ -190,33 +192,39 @@ a:hover, a:visited{
 
 .container-recently-viewed{
 	position: relative;
-    padding: 40px 40px 0 0;
+    padding: 40px 20px;
     width: 100%;
-    height: 200px;
     margin: 0 auto;
-    border : 1px solid black;
 }
 
 .recently-viewed-list{
 	width: 100%;
-    height: 106px;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
     margin-left: 1px;
     background-color: #fafafa;
 }
 
 .recently-viewed-list li{
-    float: left;
     width: 20%;
-    height: 100%px;
-    /* padding: 18px 19px 18px 18px; */
+    padding: 18px 19px 18px 18px;
     margin: 0 -1px;
     border: 1px solid #ddd;
-    background-color: #fafafa;
     cursor: pointer;
 }
-
+.recently-viewed-list li .product-text-box{
+	display:inline-block;
+	vertical-align:top;
+}
+.recently-viewed-list li .product-text-box .product-detail{
+	margin:0;
+}
+.recently-viewed-list .product-image{
+	display:inline-block;
+}
 .recently-viewed-list .product-image img{
-	float: left;
     border: 1px solid #eee;
     margin-right: 10px;
 }
