@@ -10,6 +10,7 @@ import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_festivalVO;
 import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
+import kr.dbp.naemom.vo.PayDTO;
 import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.Shopping_basketVO;
 
@@ -42,6 +43,12 @@ public interface OrderService {
 	ArrayList<Shopping_basketVO> getBasketBySbNum(String me_id, String[] sb_num);
 
 	MemberVO getMember(String me_id);
+
+	String insertBuyList(PayDTO dto, String me_id);
+
+	int updateBuyList(String bl_num, String me_id);
+
+	int deleteBuyList(String bl_num, String me_id);
 
 
 	

@@ -287,6 +287,7 @@
 												<p>${pr.pd_title }</p>
 											</div>
 											<input type="hidden" value="${basket.sb_price }" class="sb_price">
+											<input type="hidden" value="${basket.sb_num }" class="sb_num" name="sb_num">
 											<div class="product_option">
 												<span>${basket.travel.lo_age }</span> / 
 												<span>${basket.sb_amount } 개</span>
@@ -302,6 +303,7 @@
 												<p>${pr.pd_title }</p>
 											</div>
 											<input type="hidden" value="${basket.sb_price }" class="sb_price">
+											<input type="hidden" value="${basket.sb_num }" class="sb_num" name="sb_num">
 											<div class="product_option">
 												<span>${basket.food.reo_name }</span> / 
 												<span>${basket.sb_amount } 개</span>
@@ -317,6 +319,7 @@
 												<p>${pr.pd_title }</p>
 											</div>
 											<input type="hidden" value="${basket.sb_price }" class="sb_price">
+											<input type="hidden" value="${basket.sb_num }" class="sb_num" name="sb_num">
 											<div class="product_option">
 												<span>${basket.home.ao_name }</span> / 
 												<span>${basket.sb_amount } 개</span>
@@ -332,6 +335,7 @@
 												<p>${pr.pd_title }</p>
 											</div>
 											<input type="hidden" value="${basket.sb_price }" class="sb_price">
+											<input type="hidden" value="${basket.sb_num }" class="sb_num" name="sb_num">
 											<div class="product_option">
 												<span>${basket.festival.fo_age }</span> / 
 												<span>${basket.sb_amount } 개</span>
@@ -562,7 +566,7 @@
    		}
    		//결제
    		$('.paymentBtn').click(function(){
-   			let price = $('#totalPayPrice').text();
+   			let price = Number($('#totalPayPrice').text());
    			let id = $('.buyer_id').val();
    			let date = dateString();
    			let order_id = id+date;
@@ -571,45 +575,58 @@
    			$('input[name=payType]:checked').each(function(){
    				method = $(this).val();
    			})
-   			//
+   			let use_mile = $('.use_mile').text();
+   			let addMile = $('.addMile').text();
+   			//결제전 insert buy_list
+   			let sb_num = []
+   			$('[name=sb_num]').each(function(){
+   				sb_num.push($(this).val());
+   			})
    			let payData ={
-   				application_id : "643f90aa755e27001be57d15",
+   				itemState : '결제중',
    				price : price,
    				order_name : order_name,
-   				method : method
-   				
+   				use_mile : use_mile,
+   				add_mile : addMile,
+   				sb_num : sb_num
    			}
-   			//ajaxPost(payData, '<c:url value="/option/bootpay_confirm"></c:url>', deleteAllBasket);
-   			
-	   			const response = BootPay.request({
-	   			  "application_id": "64424e90922c3400236cdc6a",
-	   			  "price": "1000",
-	   			  "name": order_name,
-	   			  "order_id": order_id,
-	   			  "pg": "nicepay",
-	   			  "method": "kakao",
-	   			  "tax_free": 0,   			  
-	   			  "extra": {
-	   			    "open_type": "iframe",
-	   			    "card_quota": "0,2,3",
-	   			    "escrow": false,
-	   			  	"display_success_result":true,
-	   			 	"display_error_result" : true
-	   			  }
-	   			}).done(function(data){
-	   				console.log(data)
-	   				ajaxPost(data, '<c:url value="/option/bootpay_confirm"></c:url>', paySuccess);
-	   			}).error(function (data) {
-	   				//결제 진행시 에러가 발생하면 수행됩니다.
-	   				console.log(data);
-	   			})
-	   			
-		    
-   			console.log(response)
-	   			
+   			ajaxPostString(payData, '<c:url value="/option/insertBuyList"></c:url>', insertSuccess);
+   			var orderNum = "";
+   			const response = BootPay.request({
+   			  "application_id": "64424e90922c3400236cdc6a",
+   			  "price": "1000",
+   			  "name": order_name,
+   			  "order_id": order_id,
+   			  "pg": "nicepay",
+   			  "method": "kakao",
+   			  "tax_free": 0,   			  
+   			  "extra": {
+   			    "open_type": "iframe",
+   			    "card_quota": "0,2,3",
+   			    "escrow": false,
+   			  	"display_success_result":true,
+   			 	"display_error_result" : true
+   			  }
+   			}).done(function(data){
+   				console.log(data)
+   				ajaxPostString(data, '<c:url value="/option/bootpay_confirm"></c:url>', paySuccess);
+   			}).error(function (data) {
+   				//결제 진행시 에러가 발생하면 수행됩니다.
+   				ajaxPostString(orderNum, '<c:url value="/option/deleteBuyList"></c:url>', deleteSuccess);
+   			})
    		})
-   		function paySuccess(){
-   			
+   		function insertSuccess(data){
+   			orderNum = data;
+   		}
+   		function paySuccess(data){
+   			console.log(orderNum)
+   			if(data == "NO"){
+   				alert('결제에 실패했습니다.');
+   				ajaxPostString(orderNum, '<c:url value="/option/deleteBuyList"></c:url>', deleteSuccess);
+   			}else if(data == "OK"){
+   				alert('결제에 성공했습니다.')
+   				ajaxPostString(orderNum, '<c:url value="/option/updateBuyList"></c:url>', updateSuccess);
+   			}
    		}
    		
    		
@@ -621,6 +638,16 @@
 				data: JSON.stringify(obj),
 				url: url,
 				dataType:"json",
+				contentType:"application/json; charset=UTF-8",
+				success : successFunction
+			});
+		}
+		function ajaxPostString(obj, url, successFunction){
+			$.ajax({
+				async:false,
+				type: 'POST',
+				data: JSON.stringify(obj),
+				url: url,
 				contentType:"application/json; charset=UTF-8",
 				success : successFunction
 			});

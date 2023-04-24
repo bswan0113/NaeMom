@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpResponse;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -173,22 +176,92 @@ public class OrderController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/option/bootpay_confirm", method=RequestMethod.POST)
-	public String bootpay_confirm(Model mv, PayDTO dto) {
+	public String bootpay_confirm(Model mv, @RequestBody PayDTO dto) {
+		String success = "";
 		try {
-		    Bootpay bootpay = new Bootpay("64424e90922c3400236cdc6d", "0yr37pneMsapwXGL21Fgn9tCiFr8ivdKO8rkER9ALbc=");
-		    ResDefault<HashMap<String, Object>> token = bootpay.getAccessToken();
-		    System.out.println(token.toJson());
-		    String receiptId = dto.getReceipt_id(); 
-		    ResDefault<HashMap<String, Object>> res = bootpay.verify(receiptId);
-		    System.out.println(res.toJson());
-		    System.out.println(1);
+			Bootpay bootpay = new Bootpay("64424e90922c3400236cdc6d", "HDHG4jse5QYS0TIMJbBH5spsC9rjKMgCbE4cd4eP9Lg=");
+			String bootpay_check = "";
+			bootpay.getAccessToken();
+			HttpResponse res = bootpay.verify(dto.getReceipt_id());
+			bootpay_check = IOUtils.toString(res.getEntity().getContent(), "UTF-8");
 		    
-		    System.out.println(res.data.get("receipt_id"));
-            return res.toJson();
+		    String receiptId = dto.getReceipt_id(); 
+		    String pay_money =  Integer.toString((dto.getPrice()));
+		    JSONParser jsonParse = new JSONParser();
+			JSONObject jsonObj = (JSONObject)jsonParse.parse(bootpay_check);
+			JSONObject jsonObj2 = (JSONObject)jsonParse.parse((jsonObj.get("data").toString()));
+			// 결제 상태
+			String boot_status = (jsonObj.get("status")).toString();
+			// 부트페이에서 넘겨주는 pgid
+			String boot_pgid = (jsonObj2.get("receipt_id")).toString();
+			// 부트페이에서 넘겨주는 pay_money
+			String boot_pay_money = (jsonObj2.get("price")).toString();
+			// 부트페이에서 넘겨주는 거래상태 (1일 경우 결제 완료 상태)
+			String boot_status2 = (jsonObj2.get("status")).toString();
+			// 거래상태코드
+			if(boot_status.equals("200")){
+				// 서버검증
+				if(boot_pgid.equals(receiptId) 
+						&&  boot_pay_money.equals(pay_money) 
+						&&  boot_status2.equals("1")) 
+				{
+					System.out.println("이니시스 부트페이 비교 검증 성공");
+					success = "OK";
+					//성공
+					return "OK";
+				}
+			}
 		} catch (Exception e) {
 		    e.printStackTrace();
+		    success = "NO";
+		    return "NO";
 		}
-		return "";
+		return "NO";
+	}
+	@ResponseBody
+	@RequestMapping(value = "/option/insertBuyList", method=RequestMethod.POST)
+	public String buyList(@RequestBody PayDTO dto) {
+		//지워야될코드
+		String id = "qwe";
+		MemberVO user = new MemberVO();
+		//MemberVO user = (MemberVO)session.getAttribute("user");
+		//지워야될코드
+		user.setMe_id(id);
+		String res = orderService.insertBuyList(dto,user.getMe_id());
+		
+		return res;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/option/updateBuyList", method=RequestMethod.POST)
+	public String updatebuyList(@RequestBody String bl_num) {
+		//지워야될코드
+		String id = "qwe";
+		MemberVO user = new MemberVO();
+		//MemberVO user = (MemberVO)session.getAttribute("user");
+		//지워야될코드
+		user.setMe_id(id);
+		String success = "성공";
+		int res = orderService.updateBuyList(bl_num,user.getMe_id());
+		if(res == 0) {
+			success = "실패";
+		}
+		return success;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/option/deleteBuyList", method=RequestMethod.POST)
+	public String deletebuyList(@RequestBody String bl_num) {
+		//지워야될코드
+		String id = "qwe";
+		MemberVO user = new MemberVO();
+		//MemberVO user = (MemberVO)session.getAttribute("user");
+		//지워야될코드
+		user.setMe_id(id);
+		String success = "성공";
+		int res = orderService.deleteBuyList(bl_num,user.getMe_id());
+		if(res == 0) {
+			success = "실패";
+		}
+		return success;
 	}
 	
 	

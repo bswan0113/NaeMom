@@ -22,7 +22,7 @@ import kr.dbp.naemom.bootpay.response.ResToken;
 
 
 public class BootpayObject {
-	 public String token;
+	 	public String token;
 	    public String application_id;
 	    public String private_key;
 	    public String baseUrl;
@@ -94,17 +94,14 @@ public class BootpayObject {
 	        Token token = new Token();
 	        token.application_id = this.application_id;
 	        token.private_key = this.private_key;
-
 	        HttpClient client = HttpClientBuilder.create().build();
 	        HttpPost post = httpPost("request/token.json", new StringEntity(new Gson().toJson(token), "UTF-8"));
 
 	        HttpResponse res = client.execute(post);
 	        String str = IOUtils.toString(res.getEntity().getContent(), "UTF-8");
 	        ResToken resToken = new Gson().fromJson(str, ResToken.class);
-
 	        if(resToken.status == 200)
 	            this.token = resToken.data.token;
-
 	        return res;
 	    }
 }

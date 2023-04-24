@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PayDTO {
 	private String receipt_id;
-	private String application_id;
     private int price;
     private String order_name;
     private String order_id;
@@ -16,6 +15,13 @@ public class PayDTO {
     private int tax_free;
     private Extra extra;
 
+    String itemState;
+    String use_mile;
+	String add_mile;
+	String[] sb_num;
+    
+    
+    
     public static class Extra {
         private String open_type;
         private String card_quota;

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.dbp.naemom.dao.OrderDAO;
+import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.OptionListDTO;
@@ -14,6 +15,7 @@ import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_festivalVO;
 import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
+import kr.dbp.naemom.vo.PayDTO;
 import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.Shopping_basketVO;
 
@@ -186,6 +188,39 @@ public class OrderServiceImp implements OrderService{
 		if(me_id == null)
 			return null;
 		return orderDao.selectMember(me_id);
+	}
+
+	@Override
+	public String insertBuyList(PayDTO dto, String me_id) {
+		if(dto == null || dto.getItemState() =="" || dto.getPrice() == 0 || dto.getAdd_mile() =="" || dto.getOrder_name()=="")
+			return null;
+		Buy_listVO bl = new Buy_listVO(dto.getItemState(), dto.getPrice(), Integer.parseInt(dto.getAdd_mile()), 0, me_id, dto.getOrder_name());
+		if(dto.getUse_mile() != null) {
+			bl.setBl_use_mile(Integer.parseInt(dto.getUse_mile()));
+		}
+		orderDao.insertBuyList(bl);
+		for(String tmp : dto.getSb_num()) {
+			orderDao.insertOrderList(tmp,bl.getBl_num());
+		}
+		return bl.getBl_num();
+	}
+
+	@Override
+	public int updateBuyList(String bl_num, String me_id) {
+		if(bl_num == null || me_id == null)
+			return 0;
+		String state = "결제완료";
+		return orderDao.updateBuyList(bl_num, me_id, state);
+	}
+
+	@Override
+	public int deleteBuyList(String bl_num, String me_id) {
+		if(bl_num == null || me_id == null)
+			return 0;
+		int res = orderDao.deleteOrderList(bl_num);
+		if(res != 0)
+			res = orderDao.deleteBuyList(bl_num, me_id);
+		return 0;
 	}
 
 	
