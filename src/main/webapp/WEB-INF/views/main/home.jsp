@@ -65,7 +65,7 @@
 	<div class="second-title title">
         <h2>내맘대로 코스</h2>
     </div>
-    <div>
+    <div class="course-contents">
     	<c:forEach items="${clist}" var="course">
 				<c:if test="${course.co_report < 10 }">
 					<div class="course_list">

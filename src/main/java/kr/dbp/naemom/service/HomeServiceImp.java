@@ -128,11 +128,19 @@ public class HomeServiceImp implements HomeService {
 	}
 
 	@Override
-	public Collection<? extends CourseItemVO> getCourseItem(int co_num) {
+	public ArrayList<CourseItemVO> getCourseItem(int co_num) {
+		if(co_num == 0)
+			return null;
+		return homeDao.selectCourseItem(co_num);
+	}
+	
+	@Override
+	public ArrayList<FileVO> getProductImgList() {
 		String fi_category = "게시글 썸네일";
 		String fi_table = "product";
 		return homeDao.selectProductImgList(fi_category, fi_table);
 	}
 	
+
 	
 }

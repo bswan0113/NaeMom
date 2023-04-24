@@ -44,6 +44,8 @@ public interface HomeService {
 
 	Collection<? extends CourseItemVO> getCourseItem(int co_num);
 
+	ArrayList<FileVO> getProductImgList();
+
 
 	
 

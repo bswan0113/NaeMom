@@ -62,13 +62,14 @@ public class HomeController {
 			items.addAll(homeService.getCourseItem(clist.get(i).getCo_num()));
 			
 		}
-		
+		ArrayList<FileVO> courseFiles = homeService.getProductImgList();;
 		mv.addObject("files", files);
 		mv.addObject("flist",flist);
 		mv.addObject("plist", plist);
 		mv.addObject("recentProducts", recentProducts);
 		mv.addObject("clist",clist);
 		mv.addObject("items", items);
+		mv.addObject("courseFiles", courseFiles);
 		mv.setViewName("/main/home");
 		return mv;
 	}

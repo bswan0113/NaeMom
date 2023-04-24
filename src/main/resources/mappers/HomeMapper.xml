@@ -91,6 +91,13 @@
      	select * from course;
      </select>
      
+     <select id="selectCourseItem" resultType="kr.dbp.naemom.vo.CourseItemVO">
+     	select * from course_item 
+  			join product on pd_num = ci_pd_num
+  			where ci_co_num = #{co_num} 
+  			order by ci_num asc;
+     </select>
+     
      <select id="selectProductImgList" resultType="kr.dbp.naemom.vo.FileVO">
      	select * from file where fi_category like concat('%',#{fi_category},'%') and fi_table = #{fi_table}
      </select>

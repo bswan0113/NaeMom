@@ -43,7 +43,10 @@ public interface HomeDAO {
 
 	ArrayList<CourseVO> selectCourseList();
 
-	Collection<? extends CourseItemVO> selectProductImgList(String fi_category, String fi_table);
+	ArrayList<CourseItemVO> selectCourseItem(int co_num);
+
+	ArrayList<FileVO> selectProductImgList(@Param("fi_category")String fi_category, @Param("fi_table")String fi_table);
+
 
 	
 }
