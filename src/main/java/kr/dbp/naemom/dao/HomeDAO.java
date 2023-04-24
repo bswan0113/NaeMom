@@ -1,10 +1,13 @@
 package kr.dbp.naemom.dao;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.dbp.naemom.vo.CourseItemVO;
+import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.ProductVO;
 
@@ -37,6 +40,10 @@ public interface HomeDAO {
 	ArrayList<FileVO> getFileList();
 
 	ProductVO getProductById(int pd_num);
+
+	ArrayList<CourseVO> selectCourseList();
+
+	Collection<? extends CourseItemVO> selectProductImgList(String fi_category, String fi_table);
 
 	
 }

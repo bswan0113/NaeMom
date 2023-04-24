@@ -1,11 +1,14 @@
 package kr.dbp.naemom.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.dbp.naemom.vo.CourseItemVO;
+import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.ProductVO;
 
@@ -36,6 +39,11 @@ public interface HomeService {
 	void insertFileChecked(int[] fc_checked);
 
 	ProductVO getProductById(int pd_num);
+
+	ArrayList<CourseVO> getCourseList();
+
+	Collection<? extends CourseItemVO> getCourseItem(int co_num);
+
 
 	
 

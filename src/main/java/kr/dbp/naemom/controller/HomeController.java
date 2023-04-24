@@ -16,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.service.HomeService;
+import kr.dbp.naemom.vo.CourseItemVO;
+import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.ProductVO;
 
@@ -33,6 +35,9 @@ public class HomeController {
 		ArrayList<FileVO> flist = homeService.getFileList();
 		ArrayList<FileVO> files = new ArrayList<FileVO>();
 		List<ProductVO> recentProducts = new ArrayList<ProductVO>();
+		ArrayList<CourseVO> clist = homeService.getCourseList();
+		ArrayList<CourseItemVO> items = new ArrayList<CourseItemVO>();
+		
 		for(int i = 0; i < plist.size() ; i++) {
 			plist.get(i).setFile(homeService.getFiles(plist.get(i).getPd_num()));
 		}
@@ -52,10 +57,18 @@ public class HomeController {
 				}
 			}
 		}
+		
+		for(int i=0;i<clist.size();i++) {
+			items.addAll(homeService.getCourseItem(clist.get(i).getCo_num()));
+			
+		}
+		
 		mv.addObject("files", files);
 		mv.addObject("flist",flist);
 		mv.addObject("plist", plist);
 		mv.addObject("recentProducts", recentProducts);
+		mv.addObject("clist",clist);
+		mv.addObject("items", items);
 		mv.setViewName("/main/home");
 		return mv;
 	}

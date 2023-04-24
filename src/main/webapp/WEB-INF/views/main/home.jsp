@@ -5,7 +5,7 @@
 <title>NaeMom</title>
 
 <script src="<c:url value='/resources/js/home.js'></c:url>"></script>
-<link rel="stylesheet" href="<c:url value='/resources/css/home.css?ver20230423-7'></c:url>">
+<link rel="stylesheet" href="<c:url value='/resources/css/home.css'></c:url>">
 
 <div class="main-container-first">
     <div class="first-title title">
@@ -62,6 +62,51 @@
     </div>
 </div>
 <div class="main-container-fourth">
+	<div class="second-title title">
+        <h2>내맘대로 코스</h2>
+    </div>
+    <div>
+    	<c:forEach items="${clist}" var="course">
+				<c:if test="${course.co_report < 10 }">
+					<div class="course_list">
+						<div class="course_desk">
+							<a href="<c:url value='/course/detail/${course.co_num }'></c:url>"><strong>${course.co_title}</strong>
+								<ul class="box_distance">
+									<li>
+										조회수 : <span>${course.co_views }</span> 추천수 : <span>${course.co_up }</span>
+									</li>
+									<li>
+										총거리 : <span>${course.co_total_distance }</span>km
+									</li>
+								</ul>
+								<span class="userInfo">
+									<em>${course.co_me_id }</em>
+								</span>
+							</a>
+							<c:forEach items="${files}" var="fi">
+								<c:forEach items="${items}" var="item">
+									<c:if test="${fi.fi_table_key == item.ci_pd_num && co.co_num == item.ci_co_num && item.ci_index == 1}">
+										<img src="<c:url value='/download${fi.fi_name }'></c:url>" alt="" class="course_item_img">
+									</c:if>
+								</c:forEach>
+							</c:forEach>
+						</div>
+						<ul>
+							<c:forEach items="${items}" var="item">
+								<c:if test="${course.co_num == item.ci_co_num}">
+									<li>
+										<span>
+												<a href="#">${item.pd_title }</a>
+										</span>
+									</li>
+								</c:if>
+							</c:forEach>
+							
+						</ul>
+					</div>
+				</c:if>
+			</c:forEach>
+    </div>
 </div>
 
 <!-- swiper -->

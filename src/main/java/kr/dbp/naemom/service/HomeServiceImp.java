@@ -1,6 +1,7 @@
 package kr.dbp.naemom.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -10,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.dbp.naemom.dao.HomeDAO;
 import kr.dbp.naemom.utils.UploadFileUtils;
+import kr.dbp.naemom.vo.CourseItemVO;
+import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.ProductVO;
 
@@ -117,6 +120,18 @@ public class HomeServiceImp implements HomeService {
 	@Override
 	public ProductVO getProductById(int pd_num) {
 		return homeDao.getProductById(pd_num);
+	}
+
+	@Override
+	public ArrayList<CourseVO> getCourseList() {
+		return homeDao.selectCourseList();
+	}
+
+	@Override
+	public Collection<? extends CourseItemVO> getCourseItem(int co_num) {
+		String fi_category = "게시글 썸네일";
+		String fi_table = "product";
+		return homeDao.selectProductImgList(fi_category, fi_table);
 	}
 	
 	

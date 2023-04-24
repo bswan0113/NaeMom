@@ -86,4 +86,12 @@
     <select id="selectfile" resultType="kr.dbp.naemom.vo.FileVO">
         select * from file where fi_table = 'product' and fi_table_key = #{fi_table_key} and fi_category = '게시글 썸네일'
      </select>
+     
+     <select id="selectCourseList" resultType="kr.dbp.naemom.vo.CourseVO">
+     	select * from course;
+     </select>
+     
+     <select id="selectProductImgList" resultType="kr.dbp.naemom.vo.FileVO">
+     	select * from file where fi_category like concat('%',#{fi_category},'%') and fi_table = #{fi_table}
+     </select>
 </mapper>
