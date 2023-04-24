@@ -1,77 +1,61 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-        
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<html>
+<head>
 	<title>아이디 찾기</title>
-	
-	<head>
-		<link href="${pageContext.request.contextPath}/resources/css/findid.css" rel="stylesheet" type="text/css">
-	</head> 
+	<link href="${pageContext.request.contextPath}/resources/css/findid.css" rel="stylesheet" type="text/css">
+	<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</head> 
 <body>
+	<h1>아이디 찾기</h1>
+	<form id="findid-form" method="post" action="<c:url value='/processFindId'/>" accept-charset="UTF-8">
+		<label for="me_name">이름:</label>
+		<input type="text" id="me_name" name="me_name" required><br><br>
+		<label for="me_ma_email">이메일:</label>
+		<input type="email" id="me_ma_email" name="me_ma_email" required><br><br>
+		<label for="me_birthday">생년월일:</label>
+		<input type="text" id="me_birthday" name="me_birthday" required><br><br>
+		<button type="submit" class="btn-find">아이디 찾기</button>
+	</form>
+	<div id="result"></div>
 
-	<form class="form" method="POST" action="${pageContext.request.contextPath}/findid" >
-			<div class="row">
-				<div class="col-md-10 inputbb">
-					<div class="form-group has-danger">
-						<div class="input-group mb-2 mr-sm-2 mb-sm-0">
-							<input type="text" name="me_name"  id="me_name" class="form-control" placeholder="이름"  autofocus>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-10 inputbb">
-				<div class="form-group">
-					<div class="input-group mb-2 mr-sm-2 mb-sm-0">
-						<input type="email" name="me_ma_email"  id="me_ma_email" class="form-control" placeholder="이메일"  autofocus>
-					</div>
-				</div>
-			</div>
-		</div>
-	<div class="row">
-		<div class="col-md-10 inputbb">
-			<div class="form-group has-danger">
-				<div class="input-group mb-2 mr-sm-2 mb-sm-0">
-					<input type="text" name="me_birthday"  id="me_birthday" class="form-control" placeholder="생년월일"  autofocus>
-				</div>
-			</div>
-		</div>
-	</div>		
-	<div class="row">
-		<div class="col-md-10 inputbb">
-			<button type="submit" class="btn-find">아이디 찾기</button>
-		</div>
-	</div>	
-</form>
-
-<script>
-$(function() {
-    $('#btn-find').click(function() {
-      var email = $('#me_ma_email').val();
-      var name = $('#me_name').val();
-      var birthday = $('#me_birthday').val();
-
-      // 입력값이 모두 존재할 경우 POST 요청을 보냅니다.
-      if (email && name && birthday) {
-        $.ajax({
-          type: 'POST',
-          url: '/findids',
-          data: {
-            me_ma_email: email,
-            me_name: name,
-            me_birthday: birthday
-          },
-          success: function(result) {
-            alert(result); // 결과를 알림창으로 띄웁니다.
-          },
-          error: function() {
-            alert('아이디 찾기 실패'); // 실패 시 알림창을 띄웁니다.
-          }
-        });
-      } else {
-        alert('모든 정보를 입력해주세요.'); // 입력값이 모두 존재하지 않을 경우 알림창을 띄웁니다.
-      }
-    });
-  });
+	<script>
+	$(document).ready(function() {
+		$("#findid-form").on("submit", function(event) {
+			event.preventDefault();
+			
+			// 필수 입력 필드들이 모두 입력되었는지 검증
+			if ($(this).find("input[required]").filter(function() { return !this.value; }).length > 0) {
+				alert("모든 필드를 입력해주세요.");
+				return false;
+			}
+			let data = $(this).serialize()
+			console.log(data);
+			
+			$.ajax({
+				async:false,
+				type: "POST",
+				url: "<c:url value='/processFindId'/>",
+				data:data ,
+				success: function(response) {
+					
+					if(response == '') 
+						str = "입력하신 정보와 일치하는 회원 정보가 없습니다.";
+				 	else
+				 		str= "아이디는 입력하신 이메일로 전송되었습니다.";
+					// 성공적으로 처리된 경우
+					$("#result").html(str);
+				},
+				error: function(xhr, status, error) {
+					// 처리 중 에러 발생한 경우
+					console.error("Error occurred:", xhr.responseText);
+				}
+			});
+		return false;
+		});
+	});
 </script>
 </body>
+</html>

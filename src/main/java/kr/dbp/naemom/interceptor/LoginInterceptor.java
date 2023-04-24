@@ -1,8 +1,6 @@
 package kr.dbp.naemom.interceptor;
 
-
-
-import java.sql.Date;
+import java.util.Date;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
