@@ -2,7 +2,9 @@ package kr.dbp.naemom.service;
 
 
 
-import java.sql.Date;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,18 +92,41 @@ public class MemberServiceImp implements MemberService {
 		return memberDao.selectMemberBySession(me_session_id);
 	}
 	//추가
-	@Autowired
-    private MemberDAO memberDAO;
 
-   
+	@Autowired
+	private MemberDAO memberDAO;
+	
+
 	@Override
-    public String findid(String me_name, String me_email, Date me_birthday) {
-        MemberVO member = memberDAO.findid(me_name, me_email, me_birthday);
-        if (member == null) {
-            return null;
-        }
-        return member.getMe_id();
-    }
+	public String findMemberId(MemberVO member) {
+		return memberDAO.findMemberId(member);
+	}
+	
+	@Override
+	public String findMemberPw(String me_name, String me_ma_email, Date me_birthday, String me_id) {
+		
+		return memberDAO.findMemberPw(me_name, me_ma_email, me_birthday, me_id);
+	}
+	@Override
+	public void updateMemberPassword(MemberVO member) {
+		 String encPw = passwordEncoder.encode(member.getMe_pw());
+		    member.setMe_pw(encPw);
+	    memberDAO.updateMemberPassword(member);
+	    
+	}
+
+	
+	@Override
+	public void updateMemberPassword(String randomPassword, String me_id) {
+	    MemberVO member = memberDAO.selectMemberById(me_id);
+	    String encPw = passwordEncoder.encode(randomPassword);
+	    member.setMe_pw(encPw);
+
+	
+	    memberDAO.updateMemberPassword(member);	   
+
+	}
+	
 
 	
 	

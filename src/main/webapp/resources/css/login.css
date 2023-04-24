@@ -1,7 +1,7 @@
 
     
   .main {   	 
-  	margin-left: 40%;   	
+  	margin-left: 37%;  
   	width: 250px;
     height: 400px;
     display: flex; 
@@ -76,7 +76,6 @@ h1.logo{
   font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
   color: rgb(33, 209, 112);
 }
-
   /*로그인*/
  
   

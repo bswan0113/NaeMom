@@ -32,7 +32,7 @@
 				<input type="hidden" name="me_authority" value="1">
 				<input type="hidden" name="me_nickname" id="me_nickname">
 				<div class="form-group">                   
-				<input class="form-control" style="width: 40%; display: inline;" placeholder="우편번호" name="me_post" id="me_post" type="text" readonly="readonly" >
+				<input class="form-control" style="width: 40%; display: inline;" placeholder="우편번호" name="me_post" id="me_post" type="int" readonly="readonly" >
    					 <button type="button" class="btn btn-default" onclick="execPostCode();"><i class="fa fa-search"></i> 우편번호 찾기</button>                               
 				</div>
 				<div class="form-group">

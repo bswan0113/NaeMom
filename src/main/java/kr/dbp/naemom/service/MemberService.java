@@ -1,6 +1,7 @@
 package kr.dbp.naemom.service;
 
-import java.sql.Date;
+import java.util.Date;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -20,10 +21,18 @@ public interface MemberService {
 		boolean checkEm(MemberVO user);
 		
 		MemberVO getMemberBySession(String me_session_id);
-		//추가
+		//추가	
+
+		String findMemberId(MemberVO member);
+
+		String findMemberPw(String me_name, String me_ma_email, java.util.Date me_birth, String me_id);
+
+		void updateMemberPassword(MemberVO member);		
+
+		void updateMemberPassword(String randomPassword, String me_id);
+
+		
 		
 
-		String findid(String me_name, String me_email, Date me_birthday);
-
-	
+		
 }

@@ -3,23 +3,26 @@ package kr.dbp.naemom.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
+import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.net.URLDecoder;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,6 +31,7 @@ import kr.dbp.naemom.vo.MemberVO;
 
 
 @Controller
+
 public class MemberController {
 	@Autowired
 	MemberService memberService;
@@ -107,22 +111,14 @@ public class MemberController {
 		return mv;
 	}
 	
-	  
-	@RequestMapping(value = "/findid", method=RequestMethod.GET)
-	public ModelAndView findid(ModelAndView mv) {
-		mv.setViewName("/account/findid");
-		return mv;
-	}
+
+	
 	@RequestMapping(value = "/findidsuc", method=RequestMethod.GET)
 	public ModelAndView findidsuc(ModelAndView mv) {
 		mv.setViewName("/account/findidsuc");
 		return mv;
 	}
-	@RequestMapping(value = "/findpw", method=RequestMethod.GET)
-	public ModelAndView findpw(ModelAndView mv) {
-		mv.setViewName("/account/findpw");
-		return mv;
-	}
+	
 	@RequestMapping(value = "/findpwsuc", method=RequestMethod.GET)
 	public ModelAndView findpwsuc(ModelAndView mv) {
 		mv.setViewName("/account/findpwsuc");
@@ -156,22 +152,117 @@ public class MemberController {
 		map.put("res", res);
 		return map;
 	}
+	
 	//추가
-	@RequestMapping(value = "/findids", method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView findid(@RequestParam("me_name") String me_name,
-	                            @RequestParam("me_email") String me_email,
-	                            @RequestParam("me_birthday") @DateTimeFormat(pattern = "yyyy-MM-dd") Date me_birthday) {
-	    String me_id = memberService.findid(me_name, me_email, me_birthday);
-	    ModelAndView mv = new ModelAndView();
-	    if (me_id == null) {
-	        mv.addObject("msg", "해당 정보와 일치하는 아이디가 없습니다.");
+	@RequestMapping(value = "/findpw", method=RequestMethod.GET)
+	public ModelAndView findpw(ModelAndView mv) {
+		mv.setViewName("/account/findpw");
+		return mv;
+	}
+	@PostMapping("/processFindPw")
+	@ResponseBody
+	public String processFindPw(MemberVO member, HttpServletRequest request) {
+
+	    System.out.println(member);
+	    String name = member.getMe_name();
+	    String email = member.getMe_ma_email();
+	    Date birth = member.getMe_birthday();
+	    String id = member.getMe_id();
+
+	    String memberPw = memberService.findMemberPw(name, email, birth, id);
+
+	    if (memberPw == null) {
+	        // 회원 비밀번호를 찾을 수 없는 경우
+	        return null;
 	    } else {
-	        mv.addObject("msg", "아이디는 " + me_id + "입니다.");
+	        // 회원 비밀번호를 찾은 경우
+	        try {
+	            
+	            String randomPassword = generateRandomPassword();
+	            member.setMe_pw(randomPassword);
+	            memberService.updateMemberPassword(member);
+
+	            MimeMessage message = mailSender.createMimeMessage();
+	            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+	            helper.setFrom("jjojjosteve@gmail.com");
+	            helper.setTo(email);
+	            helper.setSubject("[Naemom] 비밀번호 찾기");
+	            helper.setText("찾은 비밀번호 입니다 : " + randomPassword, true);
+	            mailSender.send(message);
+	            return randomPassword;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return "fail";
+	        }
 	    }
-	    mv.setViewName("findidsuc");
-	    return mv;
+	}
+
+	private String generateRandomPassword() {
+	    String allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	    StringBuilder sb = new StringBuilder(16);
+
+	    for (int i = 0; i < 16; i++) {
+	        int randomIdx = (int) (Math.random() * allowedChars.length());
+	        sb.append(allowedChars.charAt(randomIdx));
+	    }
+
+	    return sb.toString();
+	}
+
+	
+	
+	
+	
+	
+	/////////////////////////////////////////////////////////
+	@RequestMapping(value = "/findid", method=RequestMethod.GET)
+	public ModelAndView findid(ModelAndView mv) {
+		mv.setViewName("/account/findid");
+		return mv;
+	}
+	// 아이디 찾기 페이지로 이동
+	
+
+	@Autowired
+	private JavaMailSender mailSender;
+
+	@PostMapping("/processFindId")
+	@ResponseBody
+	public String processFindId(MemberVO member, HttpServletRequest request) {
+
+	    System.out.println(member);
+	    String name = member.getMe_name();
+	    String email = member.getMe_ma_email();
+	    Date birth = member.getMe_birthday();	   
+	    System.out.println("name: " + name);
+	    System.out.println("email: " + email);
+	    System.out.println("birth: " + birth);
+	    String memberId = memberService.findMemberId(member);	   
+	  
+	    if (memberId == null) {
+	        // 회원 아이디를 찾을 수 없는 경우
+	        return null;
+	    } else { 
+	        // 회원 아이디를 찾은 경우	    	
+	        try {
+	            MimeMessage message = mailSender.createMimeMessage();
+	            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+	            helper.setFrom("jjojjosteve@gmail.com");
+	            helper.setTo(email);
+	            helper.setSubject("[Naemom] 아이디 찾기");
+	            helper.setText("찾은 아이디 입니다 : " + memberId.substring(0, memberId.length() - 3) + "***", true);
+	            mailSender.send(message);
+	            return memberId;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return "fail";
+	        }
+	    }
 	}
 }
+ 
+
+
 
 
 

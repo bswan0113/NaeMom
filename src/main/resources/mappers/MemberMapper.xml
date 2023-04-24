@@ -34,11 +34,27 @@
   	</select>
   	
   	
-    <select id="findid" parameterType="map" resultType="kr.dbp.naemom.vo.MemberVO">
-        SELECT me_id, me_name, me_email, me_birthday
-        FROM member
-        WHERE me_name=#{me_name} AND me_email=#{me_email} AND me_birthday=#{me_birthday}
-    </select>
+   <select id="findMemberId" resultType="java.lang.String">
+   
+    SELECT me_id
+    FROM member
+    WHERE me_name=#{member.me_name} AND me_ma_email=#{member.me_ma_email} AND me_birthday=#{member.me_birthday_str}
+</select>
+<select id="findMemberPw" parameterType="map" resultType="java.lang.String">
+   
+    SELECT me_pw
+    FROM member
+    WHERE me_name=#{me_name} AND me_ma_email=#{me_ma_email} AND me_birthday=#{me_birthday} AND me_id=#{me_id}
+</select>
+<update id="updateMemberPassword">
+  	update
+  		member
+  	set
+  		me_pw = #{me_pw}
+  		
+  	where
+  		 me_id=#{me_id}
+</update>
 </mapper>
 
 
