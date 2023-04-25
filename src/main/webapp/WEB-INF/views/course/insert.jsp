@@ -291,7 +291,7 @@
 	        </div>
 	      </div>
 	      <ul class="cos-list" id="sortable">
-	        <li class="cos_item_origin ui-state-default">
+	        <li class="cos_item_origin ui-state-disabled">
               <div class="cos_text_origin">
 	          	
 	            <p>등록된 상품이 없습니다.</p>
@@ -333,10 +333,19 @@
 	      <div id="map" style="width:1190px;height:400px;"></div>
 	    </div>
 	    <button class="btn btn-outline-success btn-insertCourse col-12 mt-3">게시글 작성</button>
+
 	</form>
   </div>
   <script>
-  
+  $(document).ready(function(){
+	
+	  let array = [];
+	  <c:forEach items="${pd_num}" var="num">
+	 	 array.push(${num})
+	 	  ajaxPost(${num}, '<c:url value="/course/selectProduct"></c:url>', selectProductSuccess);
+	  </c:forEach>
+	 	
+  })
   //상품검색 리스트 가리기
   $('.search_table').hide();
   //저장전 유효성 검사
@@ -392,7 +401,6 @@
 		});
 		
 	
-  	
   //리스트에 추가 위한 상품검색
   $('.btn_product_search').click(function(){
 	  let product_search = $('.product_search').val();
@@ -581,6 +589,7 @@
 	        //reorderMap();
     		let productList=new Array(10);
     		$('.cos-item').each(function(i, box) {
+    				
 	            let listNum = $(this).find('.numbering');
 	            let pd_num = listNum.siblings('.cos_text').find('#pd_num').text();
 	            productList[i] = pd_num;

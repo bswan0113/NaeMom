@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.FileVO;
+import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.OptionListDTO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_festivalVO;
@@ -27,9 +29,28 @@ public interface OrderDAO {
 
 	FileVO selectFileByPdNum(@Param("fi_table_key")int pd_num, @Param("fi_category")String fi_category, @Param("fi_table")String fi_table);
 
-	void insertBasket(@Param("tmp")OptionListDTO tmp,@Param("me_id")String me_id);
+	int insertBasket(@Param("tmp")OptionListDTO tmp,@Param("me_id")String me_id);
 
 	ArrayList<Shopping_basketVO> selectBasket(@Param("me_id")String me_id);
+
+	int deleteBasket(@Param("sb_num")int sb_num, @Param("me_id")String me_id);
+
+	int deleteAllBasket(@Param("me_id")String me_id);
+
+	Shopping_basketVO selectBasketBySbNum(@Param("me_id")String me_id, @Param("sb_num")int num);
+
+	MemberVO selectMember(@Param("me_id")String me_id);
+
+	void insertBuyList(@Param("bl")Buy_listVO bl);
+
+	void insertOrderList(@Param("sb_num")String tmp, @Param("bl_num")String bl_num);
+
+	int updateBuyList(@Param("bl_num")String bl_num, @Param("me_id")String me_id, @Param("state")String state);
+
+	int deleteOrderList(@Param("bl_num")String bl_num);
+
+	int deleteBuyList(@Param("bl_num")String bl_num, @Param("me_id")String me_id);
+
 
 
 }

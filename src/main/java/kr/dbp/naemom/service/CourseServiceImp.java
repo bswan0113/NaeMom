@@ -241,6 +241,8 @@ public class CourseServiceImp implements CourseService{
 		courseDao.updateViewCount(co_num);
 		
 	}
+
+
 	
 	
 }

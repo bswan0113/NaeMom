@@ -130,7 +130,6 @@ public class ProductOptionServiceImp implements ProductOptionService{
 		DayOFFVO dayoff = new DayOFFVO();
 		dayoff.setDo_state("임");
 		dayoff.setDo_pd_num(productNum);
-		System.out.println(temp);
 		productOptionDao.insertDayOffTmp(dayoff);
 		
 		return productOptionDao.insertTmpOff(dayoff.getDo_num(),temp.getTo_start(), temp.getTo_end());
@@ -249,7 +248,6 @@ public class ProductOptionServiceImp implements ProductOptionService{
 			if(multipartFile==null || multipartFile.getOriginalFilename()==null) return;
 			if(ao_num<=0) return;
 			String fileName="";
-			System.out.println(multipartFile.getOriginalFilename());
 			try {
 				fileName=UploadFileUtils.uploadFile(uploadPath, multipartFile.getOriginalFilename(), multipartFile.getBytes());
 				FileVO file = new FileVO();

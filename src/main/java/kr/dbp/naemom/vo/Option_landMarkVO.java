@@ -15,4 +15,6 @@ public class Option_landMarkVO {
 	int lo_pd_num;
 	String lo_age;
 	Date lo_date;
+	
+	String pc_category ="여행지";
 }

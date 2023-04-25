@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,8 +32,8 @@ public class ProductServiceImp implements ProductService{
 	ProductDAO productDao;
 	
 
-//	String uploadPath = "D:\\uploadfiles";
-	String uploadPath = "/Users/hyunkyulee/final/Uploadfiles";
+	String uploadPath = "D:\\uploadfiles";
+//	String uploadPath = "/Users/hyunkyulee/final/Uploadfiles";
 
 
 	@Override
@@ -180,6 +182,10 @@ public class ProductServiceImp implements ProductService{
 	public int likeUpdate(String me_id, int pd_num, int li_state) {
 		if(me_id.trim().length()==0) return 0;
 		if(pd_num<0) return 0;
+		if(li_state == -1) {
+			productDao.deleteWish(me_id,pd_num);
+			return -1;
+		}
 		int res;
 		if(productDao.getWish(me_id, pd_num) ==null) {
 			res=1;
@@ -365,7 +371,7 @@ public class ProductServiceImp implements ProductService{
 		return dayoff;
 	}
 
-
+	
 
 	@Override
 	public void recentlyCookie(int pd_num, HttpServletRequest request, HttpServletResponse response) {

@@ -1,5 +1,8 @@
 package kr.dbp.naemom.vo;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,5 +16,17 @@ public class Shopping_basketVO {
 	String sb_table;
 	int sb_table_key;
 	int sb_price;
+	Date sb_date;
 	
+	Option_accomodationVO home;
+	Option_landMarkVO travel;
+	Option_festivalVO festival;
+	Option_restrauntVO food;
+	
+	public String getSb_date() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		if(sb_date == null)
+			return "";
+		return format.format(sb_date);
+	}
 }

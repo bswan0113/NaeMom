@@ -17,7 +17,7 @@
 	              value="jdbc:mysql://localhost:3306/dbp?useSSL=false&amp;serverTimezone=Asia/Seoul">
 	    </property>
 	    <property name="username" value="root"></property>
-	    <property name="password" value="Qwer1234!"></property>
+	    <property name="password" value="root"></property>
 	</bean>  
 	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -29,7 +29,7 @@
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 	    <property name="host" value="smtp.gmail.com" />
 	    <property name="port" value="587" />
-	    <property name="username" value="sakulavi0113@gmail.com" />
+	    <property name="username" value="" />
 	    <property name="password" value="" />
 	    <property name="javaMailProperties">
 	        <props>

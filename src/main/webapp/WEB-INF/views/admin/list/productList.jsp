@@ -147,23 +147,23 @@ height:100px;
 
   </div>
     <a style="float:right;"href="<c:url value='/admin/insert/insertProduct'></c:url>" class="btn btn-dark">게시글 등록</a>
-<ul class="pagination justify-content-center">
-    <c:if test="${pm.prev}">
-        <li class="page-item">
-            <a class="page-link" href="<c:url value='/admin/list/productList?page=${pm.startPage-1}&search=${pm.cri.search}&type=${pm.cri.type}'/>">이전</a>
-        </li>
-    </c:if>
-    <c:forEach begin="${pm.startPage }" end="${pm.endPage }" var="i">
-        <li class="page-item <c:if test="${pm.cri.page == i}"> active</c:if>">
-            <a class="page-link" href="<c:url value='/admin/list/productList?page=${i}&search=${pm.cri.search}&type=${pm.cri.type}'/>">${i}</a>
-        </li>
-    </c:forEach>
-    <c:if test="${pm.next}">
-        <li class="page-item">
-            <a class="page-link" href="<c:url value='/admin/list/productList?page=${pm.endPage+1}&search=${pm.cri.search}&type=${pm.cri.type}'/>">다음</a>
-        </li>
-    </c:if>
-</ul>
+	<ul class="pagination justify-content-center">
+	    <c:if test="${pm.prev}">
+	        <li class="page-item">
+	            <a class="page-link" href="<c:url value='/admin/list/productList?page=${pm.startPage-1}&search=${pm.cri.search}&type=${pm.cri.type}'/>">이전</a>
+	        </li>
+	    </c:if>
+	    <c:forEach begin="${pm.startPage }" end="${pm.endPage }" var="i">
+	        <li class="page-item <c:if test="${pm.cri.page == i}"> active</c:if>">
+	            <a class="page-link" href="<c:url value='/admin/list/productList?page=${i}&search=${pm.cri.search}&type=${pm.cri.type}'/>">${i}</a>
+	        </li>
+	    </c:forEach>
+	    <c:if test="${pm.next}">
+	        <li class="page-item">
+	            <a class="page-link" href="<c:url value='/admin/list/productList?page=${pm.endPage+1}&search=${pm.cri.search}&type=${pm.cri.type}'/>">다음</a>
+	        </li>
+	    </c:if>
+	</ul>
 <script>
 
 $(document).ready(function() {

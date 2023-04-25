@@ -37,6 +37,7 @@ public class ProductController {
 	//게시글 등록페이지 메서드
 	@RequestMapping(value="/admin/insert/insertProduct", method=RequestMethod.POST)
 	public ModelAndView insertProductPost(ModelAndView mv, ProductVO product, MultipartFile[] files, String redirect) {
+		
 		if(productService.insertProduct(product, files)) {
 			if(redirect.equals("redirect")) {
 				
@@ -127,22 +128,20 @@ public class ProductController {
 		mv.setViewName("/admin/list/productList");
 		return mv;
 	}
-	
 
 	//상세페이지 레이아웃
 	@RequestMapping(value="/product/detail/detailLayoutTMP/{i}", method=RequestMethod.GET)
 	public ModelAndView detailLayout(ModelAndView mv, @PathVariable("i")int pd_num, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		MemberVO user = new MemberVO();   //임시로그인
-		user.setMe_id("abcd");	//임시로그인
 		session.setAttribute("user", user); //임시로그인
-		
-		
+
 		ProductVO product= productService.getProduct(pd_num);
 		ArrayList<FileVO> files = productService.getFiles(pd_num);
 		ArrayList<ProductVO> randomProduct = productService.getRandomProduct();
 		ArrayList<FileVO> random = productService.getThumbNailByRandomProduct(randomProduct);
 		WishVO wish = productService.getWish(user.getMe_id(), pd_num);
 		Double rating =productService.getRatingAvg(pd_num);
+		
 		Cookie[] cookies = request.getCookies();
 		Cookie abuseCheck = null;
 		ArrayList<String> check = new ArrayList<String>();
@@ -152,8 +151,8 @@ public class ProductController {
 				check.add(cookies[i].getName());
 			}
             for (int i = 0; i < cookies.length; i++){
-            	if(check.indexOf("viewcount"+pd_num+user.getMe_id())<0) {
-            		abuseCheck= new Cookie("viewcount"+pd_num+user.getMe_id(), session.getId());
+            	if(check.indexOf("viewcount"+pd_num+cookies[i].getValue())<0) {
+            		abuseCheck= new Cookie("viewcount"+pd_num+cookies[i].getValue(), session.getId());
             		abuseCheck.setMaxAge(60 * 60 * 24);
             		response.addCookie(abuseCheck);
             	}
@@ -161,8 +160,8 @@ public class ProductController {
             }
             if(abuseCheck!=null)productService.updateViewCount(pd_num);
         }
+
 		productService.recentlyCookie(pd_num, request, response);
-		
 
 		
 		
@@ -184,7 +183,6 @@ public class ProductController {
 		        option.set(i, optReo);
 		    }
 		}
-		
 		mv.addObject("option",option);
 		mv.addObject("wish",wish);
 		mv.addObject("randomProduct", randomProduct);

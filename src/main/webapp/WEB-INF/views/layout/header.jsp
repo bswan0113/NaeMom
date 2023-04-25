@@ -16,11 +16,14 @@
 	<div class="header">
 	
 		<div class="head-box clearfix">
-			<div class="main-icon-box"><a href="<c:url value='/'></c:url>"><img src="<c:url value ='/resources/img/logo.png'></c:url>" alt="#"></a></div>
+
+			<div class="main-icon-box"><a href="<c:url value="/"></c:url>"><img src="<c:url value ='/resources/img/logo.png'></c:url>" alt="#"></a></div>
 			<div class="search-containerbox clearfix">
 				<div class="search-box clearfix">
-					<input type="text" placeholder="여행을 떠나요" class="search">
-					<a href="" class="btn-search"><i class="fas fa-search"></i></a>
+					<form action="<c:url value='/searchList/searchMain'></c:url>">
+						<input type="text" placeholder="여행을 떠나요" class="search" name="search" style="border-radius:10px;">
+						<button style="border:1px solid black; border-left:none; border-radius: 0 10px 10px 0;" type="submit" class="btn-search"><i class="fas fa-search"></i></button>
+					</form>
 				</div>
 				<div class="search-keyword">
 					<h2>어제의 인기 검색어</h2>
@@ -80,7 +83,7 @@
 					</a>
 				</div>
 				<div class="box-menu">
-					<a href="#" class="btn-quick"><i class="fas fa-shopping-bag"></i>
+					<a href="<c:url value="/option/basket"></c:url>" class="btn-quick"><i class="fas fa-shopping-bag"></i>
 					<span class="text-quick">장바구니</span>
 					</a>
 				</div>
@@ -94,16 +97,16 @@
 			<div class="main-menu-box">
 				<nav class="list-menu">
 					<div class="item-menu">
-						<a href="#" class="link-menu"><img class= "icon-menu"src="<c:url value ='/resources/img/airplane.avif'></c:url>" alt="">여행</a>
+						<a href="<c:url value='/searchList/searchDetailList?pc_category=1'></c:url>" class="link-menu"><img class= "icon-menu"src="<c:url value ='/resources/img/airplane.avif'></c:url>" alt="">여행</a>
 					</div>
 					<div class="item-menu">
-						<a href="#" class="link-menu"><img class= "icon-menu"src="<c:url value ='/resources/img/food.png'></c:url>" alt="">음식</a>
+						<a href="<c:url value='/searchList/searchDetailList?pc_category=2'></c:url>" class="link-menu"><img class= "icon-menu"src="<c:url value ='/resources/img/food.png'></c:url>" alt="">음식</a>
 					</div>
 					<div class="item-menu">
-						<a href="#" class="link-menu"><img class= "icon-menu"src="<c:url value ='/resources/img/hotel.png'></c:url>" alt="">숙박</a>
+						<a href="<c:url value='/searchList/searchDetailList?pc_category=3'></c:url>" class="link-menu"><img class= "icon-menu"src="<c:url value ='/resources/img/hotel.png'></c:url>" alt="">숙박</a>
 					</div>
 					<div class="item-menu">
-						<a href="#" class="link-menu"><img class= "icon-menu"src="<c:url value ='/resources/img/festival.png'></c:url>" alt="">축제</a>
+						<a href="<c:url value='/searchList/searchFe'></c:url>" class="link-menu"><img class= "icon-menu"src="<c:url value ='/resources/img/festival.png'></c:url>" alt="">축제</a>
 					</div>
 					<div class="item-menu">
 						<a href="<c:url value='/course/list'></c:url>" class="link-menu"><img class= "icon-menu"src="<c:url value ='/resources/img/course.png'></c:url>" alt="">코스</a>

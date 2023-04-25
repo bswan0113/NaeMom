@@ -17,13 +17,21 @@
   	</insert>
   	
   	<insert id="insertProduct" useGeneratedKeys="true" keyProperty="pd.pd_num">
-  		insert into product(pd_title,pd_content,pd_subtitle,pd_street_address,
-  		pd_registerd_address,pd_detail_address,pd_parking,pd_open_time,pd_close_time,
-  		pd_pc_num, pd_capacity)
-  		value(#{pd.pd_title},#{pd.pd_content},#{pd.pd_subtitle},#{pd.pd_street_address},
-  		#{pd.pd_registerd_address},#{pd.pd_detail_address},
-  		#{pd.pd_parking},#{pd.pd_open_time},#{pd.pd_close_time},#{pd.pd_pc_num},#{pd.pd_capacity})
-  	</insert>
+	  insert into product(pd_title, pd_content, pd_subtitle, pd_street_address,
+	    pd_registerd_address, pd_detail_address, pd_parking, pd_open_time, pd_close_time,
+	    pd_pc_num, pd_capacity, pd_fe_start, pd_fe_end)
+	  values (#{pd.pd_title}, #{pd.pd_content}, #{pd.pd_subtitle}, #{pd.pd_street_address},
+	    #{pd.pd_registerd_address}, #{pd.pd_detail_address}, #{pd.pd_parking}, #{pd.pd_open_time},
+	    #{pd.pd_close_time}, #{pd.pd_pc_num}, #{pd.pd_capacity},
+	    <if test="pd.pd_pc_num == 4">
+	      #{pd.pd_fe_start}, #{pd.pd_fe_end}
+	    </if>
+	    <if test="pd.pd_pc_num != 4">
+	      null, null
+	    </if>
+	  )
+	</insert>
+
   	
   	<select id="getProductList" resultType="kr.dbp.naemom.vo.ProductVO">
 	  SELECT * 
@@ -180,6 +188,7 @@
 	<select id="getDayOff" resultType="kr.dbp.naemom.vo.DayOFFVO">
 		select * from day_off where do_pd_num=#{pd_num};
 	</select>
+	
 
 </mapper>
 
