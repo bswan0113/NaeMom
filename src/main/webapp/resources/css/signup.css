@@ -1,4 +1,15 @@
-
+		.iderr{
+			font-size:6px;
+			margin-top:-10px;
+			text-align:center;
+			color: gray;
+		}
+		.alert_pw{
+			font-size: 6px;
+			margin-top:-10px;
+			text-align:center;
+			color: gray;
+		}
 		.title{
 			text-align: center;		
 		}
@@ -83,9 +94,14 @@
     .btn-email{
       width: 100%; margin-top: 20px; height: 40px;
       border-radius: 10px; border: 1px solid black;
-      cursor: pointer; display: block;
+      cursor: pointer; display:none;
       border:none;
       
       }
+      input#email_auth_key{
+      	float:left;
+      }
       
+      
+		
  

@@ -63,6 +63,7 @@ var email_auth_cd = '';
 $(document).ready(function() {
 $('#email_auth_btn').click(function() {
 	var email = $('input[name=me_ma_email]').val();
+
 	if (email == '') {
 		alert('이메일을 입력해주세요.');
 		return false;
@@ -106,7 +107,8 @@ $('#email_auth_btn').click(function() {
 				alert('이메일 전송에 실패했습니다.');
 			}
 		});
-		document.getElementById("email_auth_key").style.display = "block";
+		document.getElementById("email_auth_key").style.display = "block";		
+		$(".btn-email").show();
 
 	}
 });
@@ -155,7 +157,10 @@ $('[name=me_id]').change(function(){
 let idCheck = false;
 
 $('.btn-email').click(function(){
-	console.log(1)
+	var email = $('input[name=me_ma_email]').val();
+	if(email == null){
+		alert('인증실패');
+	}
 	if($('#email_auth_key').val() != email_auth_cd){
 		alert('인증번호가 일치하지 않습니다.');
 		return false;
