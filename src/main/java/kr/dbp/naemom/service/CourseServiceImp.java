@@ -118,10 +118,17 @@ public class CourseServiceImp implements CourseService{
 	}
 
 	@Override
-	public CourseVO getcourseByNum(int co_num) {
+	public CourseVO getcourseByNumUser(int co_num, MemberVO user) {
 		if(co_num == 0)
 			return null;
-		return courseDao.selectCourseByNum(co_num);
+		CourseVO corse = courseDao.selectCourseByNum(co_num);
+		if(corse == null)
+			return null;
+		if(user == null)
+			return null;
+		if(user.getMe_id().equals(corse.getCo_me_id()))
+			return corse;
+		return null;
 	}
 
 	@Override
@@ -129,8 +136,9 @@ public class CourseServiceImp implements CourseService{
 		CourseVO cos = courseDao.selectCourseByNum(co_num);
 		if(user == null)
 			return false;
-		if(cos == null || cos.getCo_me_id().equals(user.getMe_id()))
+		if(!cos.getCo_me_id().equals(user.getMe_id())) {
 			return false;
+		}
 		ArrayList<CourseItemVO> cosItem = courseDao.selectCourseItem(co_num);
 		deleteCourse(cosItem);
 		int res = courseDao.deleteCourse(co_num);
@@ -240,6 +248,13 @@ public class CourseServiceImp implements CourseService{
 	public void updateViewCount(int co_num) {
 		courseDao.updateViewCount(co_num);
 		
+	}
+
+	@Override
+	public CourseVO getcourseByNum(int co_num) {
+		if(co_num == 0)
+			return null;
+		return courseDao.selectCourseByNum(co_num);
 	}
 
 

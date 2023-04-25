@@ -55,5 +55,7 @@ public interface CourseService {
 
 	void updateViewCount(int co_num);
 
+	CourseVO getcourseByNumUser(int co_num, MemberVO user);
+
 
 }

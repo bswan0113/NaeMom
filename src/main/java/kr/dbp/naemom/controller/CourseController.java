@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.CourseService;
+import kr.dbp.naemom.utils.MessageUtils;
 import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
@@ -49,16 +50,10 @@ public class CourseController {
 	@RequestMapping(value = "/course/insert", method=RequestMethod.POST)
 	public ModelAndView courseInsert(ModelAndView mv,CourseVO cos,@RequestParam("pd_num[]")String[] pd_num,
 			HttpSession session){
-		//지워야될코드
-		String id = "qwe";
-//		MemberVO user = new MemberVO();
-//		MemberVO user = (MemberVO)session.getAttribute("user");
+
 		MemberVO user = (MemberVO)session.getAttribute("user");
-	    if(user == null){
-	        user = new MemberVO();
-	    }
-		//지워야될코드
-		user.setMe_id(id);
+		System.out.println(user);
+
 		int res = courseService.insertCourse(cos,user.getMe_id());
 		String msg;
 		if(res == 0 || pd_num.length == 0 || pd_num.length >10) {
@@ -118,12 +113,7 @@ public class CourseController {
 	@RequestMapping(value = "/course/detail/{co_num}", method=RequestMethod.GET)
 	public ModelAndView courseDetail(ModelAndView mv,@PathVariable("co_num")int co_num,HttpSession session
 			,HttpServletRequest request,HttpServletResponse response) {
-		//지워야될코드
-		String id = "qwe";
-		MemberVO user = new MemberVO();
-		//MemberVO user = (MemberVO)session.getAttribute("user");
-		//지워야될코드
-		user.setMe_id(id);
+		MemberVO user = (MemberVO)session.getAttribute("user");
 		ArrayList<CourseItemVO> items = courseService.getCourseItem(co_num);
 		ArrayList<FileVO> files = new ArrayList<FileVO>();
 		ArrayList<ProductVO> prlist = new ArrayList<ProductVO>();
@@ -139,8 +129,8 @@ public class CourseController {
 				check.add(cookies[i].getName());
 			}
             for (int i = 0; i < cookies.length; i++){
-            	if(check.indexOf("viewcount"+co_num+user.getMe_id())<0) {
-            		abuseCheck= new Cookie("viewcount"+co_num+user.getMe_id(), session.getId());
+            	if(check.indexOf("viewcount"+co_num+cookies[i].getValue())<0) {
+            		abuseCheck= new Cookie("viewcount"+co_num+cookies[i].getValue(), session.getId());
             		abuseCheck.setMaxAge(60 * 60 * 24);
             		response.addCookie(abuseCheck);
             	}
@@ -148,6 +138,7 @@ public class CourseController {
             }
             if(abuseCheck!=null)
             	courseService.updateViewCount(co_num);
+            
         }
 		CourseVO course = courseService.getcourseByNum(co_num);
 		mv.addObject("like", likeVo);
@@ -162,12 +153,7 @@ public class CourseController {
 	
 	@RequestMapping(value = "/course/delete/{co_num}", method=RequestMethod.POST)
 	public ModelAndView courseDelete(ModelAndView mv,@PathVariable("co_num")int co_num,HttpSession session) {
-		//지워야될코드
-		String id = "qwe";
-		MemberVO user = new MemberVO();
-		//MemberVO user = (MemberVO)session.getAttribute("user");
-		//지워야될코드
-		user.setMe_id(id);
+		MemberVO user = (MemberVO)session.getAttribute("user");
 		boolean res = courseService.deleteCourse(co_num,user);
 		String url = "/course/list";
 		String msg;
@@ -182,9 +168,14 @@ public class CourseController {
 		return mv;
 	}
 	@RequestMapping(value = "/course/update/{co_num}", method=RequestMethod.GET)
-	public ModelAndView courseUpdate(ModelAndView mv,@PathVariable("co_num")int co_num) {
-		
-		CourseVO course = courseService.getcourseByNum(co_num);
+	public ModelAndView courseUpdate(ModelAndView mv,@PathVariable("co_num")int co_num,HttpSession session,HttpServletResponse response) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		System.out.println(user);
+		if(user == null) {
+			MessageUtils.alertAndMovePage(response, 
+					"작성자가 아니거나 존재하지 않은 게시글입니다.", "/naemom", "/course/list");
+		}
+		CourseVO course = courseService.getcourseByNumUser(co_num,user);
 		ArrayList<CourseItemVO> items = courseService.getCourseItem(co_num);
 		ArrayList<FileVO> files = new ArrayList<FileVO>();
 		ArrayList<ProductVO> prlist = new ArrayList<ProductVO>();
@@ -201,12 +192,9 @@ public class CourseController {
 	@RequestMapping(value = "/course/update/{co_num}", method=RequestMethod.POST)
 	public ModelAndView courseUpdatePost(ModelAndView mv,@PathVariable("co_num")int co_num,CourseVO cos,@RequestParam("pd_num[]")String[] pd_num,
 			HttpSession session) {
-		//지워야될코드
-		String id = "qwe";
-		MemberVO user = new MemberVO();
-		//MemberVO user = (MemberVO)session.getAttribute("user");
-		//지워야될코드
-		user.setMe_id(id);
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		
 		int res = courseService.updateCourse(cos,user,co_num,pd_num);
 		String msg;
 		if(res == 0 || pd_num.length == 0 || pd_num.length >10) {
@@ -228,12 +216,9 @@ public class CourseController {
 			@PathVariable("li_updown")int li_updown,
 			HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
-		//지워야될코드
-		String id = "qwe";
-		MemberVO user = new MemberVO();
-		//MemberVO user = (MemberVO)session.getAttribute("user");
-		//지워야될코드
-		user.setMe_id(id);
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		
 		int res = courseService.updateLike(li_co_num, li_updown, user);
 		map.put("state", res);
 		CourseVO cosLike = courseService.getcourseByNum(li_co_num);
@@ -243,7 +228,7 @@ public class CourseController {
 	@ResponseBody
 	@RequestMapping(value="/course/reportCourse", 
 			method=RequestMethod.POST)
-	public Map<String, Object> courseReport(@RequestBody ReportVO rep,HttpSession session){
+	public Map<String, Object> courseReport(@RequestBody ReportVO rep){
 		Map<String, Object> map = new HashMap<String, Object>();
 		int selectReport = courseService.selectReport(rep);
 		int res = 0;
