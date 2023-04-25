@@ -30,6 +30,12 @@
 			font-weight:bold;
 			}
 			
+			td:nth-child(4){
+			overflow:hidden;
+			text-overflow:ellipsis;
+			white-space:nowrap;
+			}
+			
 	   </style>
 	    
 	<div class="container">

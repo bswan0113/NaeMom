@@ -426,6 +426,7 @@ font-weight:bold;
 	line-height: 16px;
 	margin-bottom: 10px;
 	margin-top:10px;
+	resize: none;
 }
 .comment-box .comment-btn{
 	border-radius: 4px;

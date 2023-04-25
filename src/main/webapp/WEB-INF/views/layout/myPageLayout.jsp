@@ -37,6 +37,7 @@
 	.body-bottom{
 	display:flex;
 	}
+
 	
 	.my-information{height:500px;}
 	</style>
