@@ -22,7 +22,8 @@ public class ProductOptionServiceImp implements ProductOptionService{
 	@Autowired
 	ProductOptionDAO productOptionDao;
 
-	String uploadPath = "D:\\uploadfiles";
+//	String uploadPath = "D:\\uploadfiles";
+	String uploadPath = "/Users/hyunkyulee/final/Uploadfiles";
 	
 	@Override
 	public boolean deleteFestival(int fo_num) {

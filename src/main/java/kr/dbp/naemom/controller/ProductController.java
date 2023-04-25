@@ -134,6 +134,7 @@ public class ProductController {
 	public ModelAndView detailLayout(ModelAndView mv, @PathVariable("i")int pd_num, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 		MemberVO user = new MemberVO();   //임시로그인
 		session.setAttribute("user", user); //임시로그인
+
 		ProductVO product= productService.getProduct(pd_num);
 		ArrayList<FileVO> files = productService.getFiles(pd_num);
 		ArrayList<ProductVO> randomProduct = productService.getRandomProduct();
@@ -144,6 +145,7 @@ public class ProductController {
 		Cookie[] cookies = request.getCookies();
 		Cookie abuseCheck = null;
 		ArrayList<String> check = new ArrayList<String>();
+		
 		if (cookies != null && cookies.length > 0){
 			for(int i=0; i<cookies.length; i++) {
 				check.add(cookies[i].getName());
@@ -158,7 +160,9 @@ public class ProductController {
             }
             if(abuseCheck!=null)productService.updateViewCount(pd_num);
         }
-		
+
+		productService.recentlyCookie(pd_num, request, response);
+
 		
 		
 		ArrayList<Object> option =getOption(product.getPd_pc_num(), product.getPd_num());

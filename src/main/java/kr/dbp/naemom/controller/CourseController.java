@@ -51,8 +51,12 @@ public class CourseController {
 			HttpSession session){
 		//지워야될코드
 		String id = "qwe";
-		MemberVO user = new MemberVO();
-		//MemberVO user = (MemberVO)session.getAttribute("user");
+//		MemberVO user = new MemberVO();
+//		MemberVO user = (MemberVO)session.getAttribute("user");
+		MemberVO user = (MemberVO)session.getAttribute("user");
+	    if(user == null){
+	        user = new MemberVO();
+	    }
 		//지워야될코드
 		user.setMe_id(id);
 		int res = courseService.insertCourse(cos,user.getMe_id());

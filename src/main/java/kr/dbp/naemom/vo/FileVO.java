@@ -16,6 +16,7 @@ public class FileVO implements Serializable{
 		String fi_table;
 		int fi_table_key;
 
+		Integer fc_num;
 		
 		public FileVO(String fi_category, String fi_ori_name, String fi_name, int fi_table_key) {
 			this.fi_category = fi_category;
@@ -30,6 +31,7 @@ public class FileVO implements Serializable{
 			this.fi_table = fi_table;
 			this.fi_table_key = fi_table_key;
 		}
+		
 		
 		
 }

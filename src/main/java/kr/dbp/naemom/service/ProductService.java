@@ -2,6 +2,9 @@ package kr.dbp.naemom.service;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.dbp.naemom.pagination.Criteria;
@@ -69,6 +72,8 @@ public interface ProductService {
 	int getProductCount();
 
 	ArrayList<DayOFFVO> getDayOff(int pd_num);
+
+	void recentlyCookie(int pd_num, HttpServletRequest request, HttpServletResponse response);
 
 
 

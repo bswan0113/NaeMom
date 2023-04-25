@@ -48,4 +48,57 @@
   	<select id="getFile" resultType="kr.dbp.naemom.vo.FileVO">
   		select * from file where fi_table_key=#{pd_num} and fi_table=#{product} and fi_category=#{fi_category}
   	</select>
+  	
+  	<insert id="addImage">
+  		insert into file(fi_ori_name, fi_name, fi_table_key, fi_category, fi_table)
+  		values(#{fi.fi_ori_name},#{fi.fi_name},#{fi.fi_table_key}, #{fi.fi_category},#{fi.fi_table})
+  	</insert>
+  	
+  	<select id="selectImage" resultType="kr.dbp.naemom.vo.FileVO">
+  		select * from file WHERE `file`.`fi_table` = 'Event';;
+  	</select>
+  	
+  	<delete id="deleteFileChecked">
+  		delete from file_checked
+  	</delete>
+  	
+  	<insert id="insertFileChecked">
+  		insert into file_checked (fc_fi_num) values
+			<foreach collection="array" item="fi_num" separator=",">	
+				 (#{fi_num})
+			</foreach>
+  	</insert>
+  	
+  	<select id="getFileList" resultType="kr.dbp.naemom.vo.FileVO">
+  		select * from file join file_checked on fc_fi_num = fi_num;
+  	</select>
+
+    
+    <resultMap type="kr.dbp.naemom.vo.ProductVO" id="productFile">
+       <id property="pd_num" column="pd_num"/>
+       <result property="pd_title" column="pd_title"/>
+       <collection property="file" ofType="kr.dbp.naemom.vo.FileVO" column="pd_num" select="selectfile"></collection>
+    </resultMap>
+    <select id="getProductById" resultMap="productFile">
+       select * from product where pd_num = #{pd_num};
+     </select>
+     
+    <select id="selectfile" resultType="kr.dbp.naemom.vo.FileVO">
+        select * from file where fi_table = 'product' and fi_table_key = #{fi_table_key} and fi_category = '게시글 썸네일'
+     </select>
+     
+     <select id="selectCourseList" resultType="kr.dbp.naemom.vo.CourseVO">
+     	select * from course;
+     </select>
+     
+     <select id="selectCourseItem" resultType="kr.dbp.naemom.vo.CourseItemVO">
+     	select * from course_item 
+  			join product on pd_num = ci_pd_num
+  			where ci_co_num = #{co_num} 
+  			order by ci_num asc;
+     </select>
+     
+     <select id="selectProductImgList" resultType="kr.dbp.naemom.vo.FileVO">
+     	select * from file where fi_category like concat('%',#{fi_category},'%') and fi_table = #{fi_table}
+     </select>
 </mapper>
