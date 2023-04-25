@@ -5,7 +5,7 @@
 <title>NaeMom</title>
 
 <script src="<c:url value='/resources/js/home.js'></c:url>"></script>
-<link rel="stylesheet" href="<c:url value='/resources/css/home.css'></c:url>">
+<link rel="stylesheet" href="<c:url value='/resources/css/home.css?ver=1.1'></c:url>">
 
 <div class="main-container-first">
     <div class="first-title title">
@@ -33,7 +33,6 @@
 	                    </div>
                 </div>
                 </c:forEach>
-                
             </div>
             <button class="swiper-button-prev btn-prev"></button>
             <button class="swiper-button-next btn-next"></button>
@@ -114,7 +113,6 @@
  
 var swiper = new Swiper(".mySwiper", {
     slidesPerView: 3,
-    loopedSlides: 1,
     loop: true,
     spaceBetween: 30,
     keyboard: {
@@ -127,7 +125,7 @@ var swiper = new Swiper(".mySwiper", {
     navigation: {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",
-    },
+    }
   });
 </script>
 <script>

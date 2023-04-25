@@ -248,84 +248,145 @@ a:hover, a:visited{
 
 /* 코스 */
 .main-container-fourth .course-contents {
+    display: flex;
     width: 1190px;
     margin: 0 auto;
     padding: 0 0 27px 0;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
 }
 .cos-title-name{
   font-size: 30px;
 }
 .box_listSort{
 	width: 1190px;
-	padding-bottom: 20px; border-bottom: 1px solid #ccc;
+	padding-bottom: 20px; 
+	border-bottom: 1px solid #ccc;
 }
 .sort_list{
-	float: right; padding-right: 48px;
+	float: right; 
+	padding-right: 48px;
 }
 
 
 .box_cosList{
-	width: 1190px; display: flex; flex-wrap: wrap;
-	padding-bottom: 20px; border-bottom: 1px solid #ccc;
+	width: 1190px; 
+	display: flex; 
+	flex-wrap: wrap;
+	padding-bottom: 20px; 
+	border-bottom: 1px solid #ccc;
 }
 .course_list{
-	width: 300px; margin-right: 48px; margin-left: 48px; margin-top: 48px; 
+	display: block;
+	width: 300px; 
+	margin-right: 48px; 
+	margin-left: 48px; 
+	margin-top: 48px; 
 	
 }
 .course_desk{
-	width: 300px; height: 125px; background: grey; position: relative;
+	width: 300px; 
+	height: 125px; 
+	background: grey; 
+	position: relative;
 }
 
 .course_desk > a{
-	position: absolute; left: 0; top: 0; right: 0; bottom: 0; text-decoration: none;
-	background: rgba(0, 0, 0, 0.5); box-sizing: border-box; padding: 20px 20px;
+	position: absolute; 
+	left: 0; 
+	top: 0; 
+	right: 0; 
+	bottom: 0; 
+	text-decoration: none;
+	background: rgba(0, 0, 0, 0.5); 
+	box-sizing: border-box; 
+	padding: 20px 20px;
 }
 .course_desk strong{
-	overflow: hidden; height: 47px; font-size: 20px; color: #fff;
-	margin-bottom: 7px; font-weight: 700; line-height: 1.2; text-overflow: ellipsis;
+	overflow: hidden; 
+	height: 47px; 
+	font-size: 20px; 
+	color: #fff;
+	margin-bottom: 7px; 
+	font-weight: 700; 
+	line-height: 1.2; 
+	text-overflow: ellipsis;
 	display: block;
 }
 .box_distance{
-	width: 180px; position: absolute; bottom: 0;
+	width: 180px; 
+	position: absolute; 
+	bottom: 0;
 }
 .box_distance > li{
-	width: 100%; overflow: hidden; display: inline-block; text-overflow: ellipsis;
-	white-space: nowrap; color: #e4f0fa; font-size: 15px;
+	width: 100%; 
+	overflow: hidden; 
+	display: inline-block; 
+	text-overflow: ellipsis;
+	white-space: nowrap; 
+	color: #e4f0fa; 
+	font-size: 15px;
 }
 .userInfo{
-	position: absolute; right: 10px; bottom: 6px; display: block; max-width: 131px;
+	position: absolute; 
+	right: 10px; 
+	bottom: 6px; 
+	display: block; 
+	max-width: 131px;
 	line-height: 30px;
 }
 .userInfo em{
-	overflow: hidden; display: block; white-space: nowrap; text-overflow: ellipsis;
-	font-size: 16px; color: #fff; font-weight: 700; font-style: normal;
+	overflow: hidden; 
+	display: block; 
+	white-space: nowrap; 
+	text-overflow: ellipsis;
+	font-size: 16px; 
+	color: #fff; 
+	font-weight: 700; 
+	font-style: normal;
 }
 .course_item_img{
-	width: 100%; height: 100%; object-fit: cover; object-position: top;
+	width: 100%; 
+	height: 100%; 
+	object-fit: cover; 
+	object-position: top;
 }
 .box_cosList .course_list >ul{
-	border: 1px solid #e5e4e4; padding: 0 20px 16px 40px;
+	border: 1px solid #e5e4e4; 
+	padding: 0 20px 16px 40px;
 }
 .box_cosList .course_list > ul li:first-child {
    padding-top: 20px;
 }
 .box_cosList .course_list > ul li{
-	background: url(<c:url value='/resources/img/courseImg/line_leftobj.png'></c:url>) 0 0 repeat-y; line-height: 20px; padding: 10px 0;
+	background: url('/contextPath/resources/img/courseImg/line_leftobj.png') 0 0 repeat-y;
+	line-height: 20px;
+	padding: 10px 0;
 }
 
 .box_cosList .course_list > ul li:last-child{
-	background: url(<c:url value='/resources/img/courseImg/line_leftobj.png'></c:url>) 0 0 no-repeat;
+	background: url('/contextPath/resources/img/courseImg/line_leftobj.png') 0 0 no-repeat;
 }
 
 .box_cosList .course_list > ul li > span{
-	display: block; margin-left: -5px; padding-left: 20px; background: url(<c:url value='/resources/img/courseImg/ico_leftobj.png'></c:url>) 0 50% no-repeat;
-	color: #000; font-size: 16px;
+	display: block;
+	margin-left: -5px;
+	padding-left: 20px;
+	background: url('/contextPath/resources/img/courseImg/ico_leftobj.png') 0 50% no-repeat;
+	color: #000;
+	font-size: 16px;
 }
 
 .box_cosList .course_list > ul li > span a{
-	text-decoration: none; color: #333;
+	text-decoration: none; 
+	color: #333;
 }
 
 .content_null_box{
-	width : 1190px; height : 300px; text-align:center; padding-top:100px;
+	width : 1190px; 
+	height : 300px; 
+	text-align:center; 
+	padding-top:100px;
 }

@@ -2,6 +2,7 @@ package kr.dbp.naemom.controller;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -57,7 +58,7 @@ public class HomeController {
 				}
 			}
 		}
-		
+		Collections.shuffle(clist);
 		for(int i=0;i<clist.size();i++) {
 			items.addAll(homeService.getCourseItem(clist.get(i).getCo_num()));
 			

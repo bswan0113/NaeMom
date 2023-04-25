@@ -13,19 +13,18 @@ h1{
 	margin: 50px;
 	font-weight: bold;
 }
-       
+
 </style>
  	
 <h1 class="text-primary">컨텐츠 등록 페이지</h1> <br><hr>
 <div class="container-fluid mt-6 mb-6">
-	<form action="<c:url value='/main/insert/checked'/>" method="post">
-		<div class="form-group">
-			<label for="title">검색</label>
+		<div class="form-group search-group">
 			<input type="text" class="form-control" id="keyword" name="keyword" placeholder="검색어를 입력해주세요.">
 		</div>
+	<form action="<c:url value='/main/insert/checked'/>" method="post">
 		<div class="form-group">
 			<div class="search-list">
-				<div class="container">
+				<div class="container" style="max-width: 1190px;">
 			    <table class="table table-hover" id="user-table">
 			    <thead>
 			      <tr>
@@ -50,78 +49,76 @@ h1{
 		</div>
 		<br><hr>
 		<button type="submit" class="btn btn-success btn-insert">등록하기</button>
-		<button class="btn btn-danger btn-cancel">등록취소</button>
+		<button type="button" class="btn btn-danger btn-cancel">등록취소</button>
 		<br><hr>
 	</form>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.js">
+alert(1);
+$(document).ready(function() {
+	$('#keyword').keydown(function(event) {
+    	if (event.keyCode === 13) {
+      	event.preventDefault();
+    	};
+  	});
 
-//키워드
-$(document).ready(function(){
-	alert(1);
-	console.log($('input[id="keyword"]'));
-	
+	$('input[name="pdc_checked"]').each(function() {
+		var pdNum = $(this).val();
+	    if ($.inArray(pdNum, checkedList) !== -1) {
+	      $(this).prop('checked', true);
+	    }
+    });
+	  
+	$(".btn-insert").click(function() {
+	    var checkedList = [];
+	    $('input[name="pdc_checked"]:checked').each(function() {
+	      checkedList.push($(this).val());
+    
+	    $.ajax({
+	    	type: "POST",
+	    	url: "<c:url value='/main/insert/checked'/>",
+	    	data: { pdc_checked: checkedList },
+	    	success: function(response) {
+	        },
+	        error: function(xhr, status, error) {
+	        }
+	   });
+   });
 });
 
-$('input[id="keyword"]').keydown(function(event) {
-	console.log('퍼킥 서');
-  if (event.keyCode === 13) {
-    event.preventDefault();
-  };
-});
-$(document).ready(function(){
-	$('#keyword').keypress(function(){
+/* $('#keyword').keypress(function(e){
+		e.preventDefault();
 		console.log(this);
-		
 		$.ajax({
 		    'url':'/main/insert',   
 		    'data':{'keyword':$('#keyword').val()},
 		    'dataType':'json',
 		    'type':'GET',
 		    'success':function(data){
-		    
 		    	console.log(data);
 		    	console.log('aJax after'); 
 		    },
-
+	
 			error:function(request, status, error){
-
+	
 				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-
+	
 			}
 
-		   });
-	})
-}) 
-
-
-$(document).ready(function() 
-	  $('input[name="pdc_checked"]').each(function() {
-	    var pdNum = $(this).val();
-	    if ($.inArray(pdNum, checkedList) !== -1) {
-	      $(this).prop('checked', true);
-	    }
 	  });
-	  
-	  $(".btn-insert").click(function() {
-	    var checkedList = [];
-	    $('input[name="pdc_checked"]:checked').each(function() {
-	      checkedList.push($(this).val());
-	    });
-	    
-	    $.ajax({
-	      type: "POST",
-	      url: "<c:url value='/main/insert/checked'/>",
-	      data: { pdc_checked: checkedList },
-	      success: function(response) {
-	        console.log(response);
-	      },
-	      error: function(xhr, status, error) {
-	        console.log(xhr.responseText);
-	      }
-	    });
-	  });
-	});
+}); */
+</script>
+<script>
+
+$(document).ready(function(){
+	$("#keyword").keyup(function() {
+        var k = $(this).val();
+        $("#user-table > tbody > tr").hide();
+        var temp = $("#user-table > tbody > tr > td:nth-child(5n+2):contains('" + k + "'), td:nth-child(5n+1):contains('" + k + "')");
+
+        $(temp).parent().show();
+    })
+});
 
 </script>
 
