@@ -194,7 +194,7 @@ public class OrderServiceImp implements OrderService{
 	public String insertBuyList(PayDTO dto, String me_id) {
 		if(dto == null || dto.getItemState() =="" || dto.getPrice() == 0 || dto.getAdd_mile() =="" || dto.getOrder_name()=="")
 			return null;
-		Buy_listVO bl = new Buy_listVO(dto.getItemState(), dto.getPrice(), Integer.parseInt(dto.getAdd_mile()), 0, me_id, dto.getOrder_name());
+		Buy_listVO bl = new Buy_listVO(dto.getOrder_id(),dto.getItemState(), dto.getPrice(), Integer.parseInt(dto.getAdd_mile()), 0, me_id, dto.getOrder_name());
 		if(dto.getUse_mile() != null) {
 			bl.setBl_use_mile(Integer.parseInt(dto.getUse_mile()));
 		}

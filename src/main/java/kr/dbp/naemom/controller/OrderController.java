@@ -240,10 +240,11 @@ public class OrderController {
 		//MemberVO user = (MemberVO)session.getAttribute("user");
 		//지워야될코드
 		user.setMe_id(id);
-		String success = "성공";
+		String success = "OK";
+		bl_num = bl_num.replaceAll("[^\\w+]", "");
 		int res = orderService.updateBuyList(bl_num,user.getMe_id());
 		if(res == 0) {
-			success = "실패";
+			success = "NO";
 		}
 		System.out.println(success);
 		return success;
@@ -257,10 +258,11 @@ public class OrderController {
 		//MemberVO user = (MemberVO)session.getAttribute("user");
 		//지워야될코드
 		user.setMe_id(id);
-		String success = "성공";
+		String success = "OK";
+		bl_num = bl_num.replaceAll("[^\\w+]", "");
 		int res = orderService.deleteBuyList(bl_num,user.getMe_id());
 		if(res == 0) {
-			success = "실패";
+			success = "NO";
 		}
 		return success;
 	}

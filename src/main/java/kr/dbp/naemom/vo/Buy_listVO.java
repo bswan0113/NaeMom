@@ -15,8 +15,9 @@ public class Buy_listVO {
 	String bl_me_id;
 	String bl_name;
 	
-	public Buy_listVO(String bl_state, int bl_total_price, int bl_stack_mile, int bl_use_mile, String bl_me_id,
+	public Buy_listVO(String bl_num,String bl_state, int bl_total_price, int bl_stack_mile, int bl_use_mile, String bl_me_id,
 			String bl_name) {
+		this.bl_num = bl_num;
 		this.bl_state = bl_state;
 		this.bl_total_price = bl_total_price;
 		this.bl_stack_mile = bl_stack_mile;
