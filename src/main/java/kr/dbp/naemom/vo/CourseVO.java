@@ -33,6 +33,7 @@ public class CourseVO {
 	String cs_schedule_name;
 	String cc_category_name;
 	FileVO file;
+	int reportCount;
 
 
 	

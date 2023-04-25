@@ -51,7 +51,9 @@ public class MyPageController {
 		mv.setViewName("/mypage/profile");
 		return mv;
 		
-	}@RequestMapping(value = "/mypage/profile", method = RequestMethod.POST)
+	}
+	
+	@RequestMapping(value = "/mypage/profile", method = RequestMethod.POST)
 	public ModelAndView myPagePost(ModelAndView mv, MemberVO member, HttpSession session, HttpServletResponse response) {
 		boolean res = myPageService.updateMember(member);
 		if(!res) {
