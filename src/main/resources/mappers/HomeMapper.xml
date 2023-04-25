@@ -89,7 +89,7 @@
      
      <select id="selectCourseList" resultType="kr.dbp.naemom.vo.CourseVO">
      	<!-- select * from course; -->
-     	SELECT * FROM dbp.course order by rand() limit 3;
+     	SELECT * FROM course order by rand() limit 3;
      </select>
      
      <select id="selectCourseItem" resultType="kr.dbp.naemom.vo.CourseItemVO">
@@ -101,5 +101,14 @@
      
      <select id="selectProductImgList" resultType="kr.dbp.naemom.vo.FileVO">
      	select * from file where fi_category like concat('%',#{fi_category},'%') and fi_table = #{fi_table}
+     </select>
+     
+     <select id="selectFestivalList" resultType="kr.dbp.naemom.vo.ProductVO">
+     	SELECT * 
+		FROM product 
+		WHERE pd_pc_num = 4 
+		  AND pd_fe_end >= NOW() 
+		  <![CDATA[ AND pd_fe_start <= DATE_ADD(NOW(), INTERVAL 7 DAY); ]]>
+		 <!--  AND pd_fe_start <= DATE_ADD(NOW(), INTERVAL 7 DAY); -->
      </select>
 </mapper>

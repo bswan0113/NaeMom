@@ -42,6 +42,8 @@ public class HomeController {
 		ArrayList<FileVO> flist = homeService.getFileList();
 		ArrayList<FileVO> files = new ArrayList<FileVO>();
 		List<ProductVO> recentProducts = new ArrayList<ProductVO>();
+		ArrayList<CourseVO> clist = homeService.getCourseList();
+		ArrayList<CourseItemVO> items = new ArrayList<CourseItemVO>();
 		for(int i = 0; i < plist.size() ; i++) {
 			plist.get(i).setFile(homeService.getFiles(plist.get(i).getPd_num()));
 		}
@@ -61,17 +63,19 @@ public class HomeController {
 				}
 			}
 		}
-		//축제
-		ArrayList<CourseVO> clist = homeService.getCourseList();
-		ArrayList<CourseItemVO> items = new ArrayList<CourseItemVO>();
+		//코스 
 		Collections.shuffle(clist);
 		int courseCount = Math.min(3, clist.size());
 		List<CourseVO> randomClist = clist.subList(0, courseCount);
+
 		for(int i=0; i<Math.min(clist.size(),3); i++) {
 		    items.addAll(homeService.getCourseItem(randomClist.get(i).getCo_num()));
 		}
-		
 		ArrayList<FileVO> courseFiles = homeService.getProductImgList();;
+		
+		//축제 
+		ArrayList<ProductVO> festivalList = homeService.getFestivalList();
+		
 		mv.addObject("files", files);
 		mv.addObject("flist",flist);
 		mv.addObject("plist", plist);
@@ -79,6 +83,7 @@ public class HomeController {
 		mv.addObject("clist",clist);
 		mv.addObject("items", items);
 		mv.addObject("courseFiles", courseFiles);
+		mv.addObject("festivalList", festivalList);
 		mv.setViewName("/main/home");
 		return mv;
 	}

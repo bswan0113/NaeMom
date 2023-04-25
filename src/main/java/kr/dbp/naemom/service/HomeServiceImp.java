@@ -140,6 +140,11 @@ public class HomeServiceImp implements HomeService {
 		String fi_table = "product";
 		return homeDao.selectProductImgList(fi_category, fi_table);
 	}
+
+	@Override
+	public ArrayList<ProductVO> getFestivalList() {
+		return homeDao.selectFestivalList();
+	}
 	
 
 	

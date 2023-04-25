@@ -47,6 +47,8 @@ public interface HomeDAO {
 
 	ArrayList<FileVO> selectProductImgList(@Param("fi_category")String fi_category, @Param("fi_table")String fi_table);
 
+	ArrayList<ProductVO> selectFestivalList();
+
 
 	
 }
