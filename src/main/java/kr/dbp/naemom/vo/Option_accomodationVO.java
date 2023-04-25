@@ -20,6 +20,7 @@ public class Option_accomodationVO {
 
 	int ao_addCapacity;
 	Date ao_date;
+	String pc_category ="숙박";
 
 	FileVO file;
 

@@ -82,7 +82,7 @@
 					</a>
 				</div>
 				<div class="box-menu">
-					<a href="#" class="btn-quick"><i class="fas fa-shopping-bag"></i>
+					<a href="<c:url value="/option/basket"></c:url>" class="btn-quick"><i class="fas fa-shopping-bag"></i>
 					<span class="text-quick">장바구니</span>
 					</a>
 				</div>

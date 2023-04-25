@@ -2,6 +2,7 @@ package kr.dbp.naemom.vo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class OptionListDTO {
 	int pr_price;
 	int pr_option_num;
 	
+	private List<OptionListDTO>list;
 	public String getPr_date() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		if(pr_date == null)
