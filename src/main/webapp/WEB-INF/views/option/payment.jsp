@@ -459,7 +459,10 @@
 			</table>
 		</div>
 		<div class="btn_box">
-			<button type="button" id="paymentBtn" class="paymentBtn">결제하기</button>
+			<form action="/option/completeBuy" id="completeBuy" method="post">
+				<input type="hidden" name="bl_num">
+					<button type="button" id="paymentBtn" class="paymentBtn">결제하기</button>
+				</form>
 		</div>
 	
 	</div>
@@ -591,6 +594,7 @@
    				add_mile : addMile,
    				sb_num : sb_num
    			}
+   			//결제전 buy_list등록
    			ajaxPostString(payData, '<c:url value="/option/insertBuyList"></c:url>', insertSuccess);
    			var orderNum = '';
    			const response = BootPay.request({
@@ -608,8 +612,9 @@
    			  	"display_success_result":true,
    			 	"display_error_result" : true
    			  }
-   			}).done(function(data){
+   			}).done(function(data){//결제완료
    				console.log(data)
+   				//결제검증
    				ajaxPostString(data, '<c:url value="/option/bootpay_confirm"></c:url>', paySuccess);
    			}).error(function (data) {
    				//결제 진행시 에러가 발생하면 수행됩니다.
@@ -635,6 +640,11 @@
    		}
    		function updateSuccess(data){
    			console.log(data)
+   			if(data == "NO")
+   				alert("예상치 못한 오류 발생");
+   			
+   			$('[name=bl_num]').val(data);
+   			$('#completeBuy').submit();
    		}
    		//ajax
 		function ajaxPost(obj, url, successFunction){

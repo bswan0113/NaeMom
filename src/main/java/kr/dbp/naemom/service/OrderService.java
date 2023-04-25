@@ -3,6 +3,7 @@ package kr.dbp.naemom.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.OptionListDTO;
@@ -42,13 +43,15 @@ public interface OrderService {
 
 	ArrayList<Shopping_basketVO> getBasketBySbNum(String me_id, String[] sb_num);
 
-	MemberVO getMember(String me_id);
+
 
 	String insertBuyList(PayDTO dto, String me_id);
 
 	int updateBuyList(String bl_num, String me_id);
 
 	int deleteBuyList(String bl_num, String me_id);
+
+	Buy_listVO getBuyListByBlNum(String bl_num);
 
 
 	

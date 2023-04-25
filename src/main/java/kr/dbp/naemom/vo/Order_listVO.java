@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class order_listVO {
+public class Order_listVO {
 
 	int ol_num;
 	int ol_amount;

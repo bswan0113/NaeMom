@@ -425,10 +425,10 @@
   		location.replace('<c:url value="/course/list"></c:url>');
   	}
   	$('.btn-up, .btn-down').click(function(){
-		//if('${user.me_id}' == ''){
-		//	alert('로그인한 회원만 추천/비추천을 할 수 있습니다.');
-		//	return;
-		//}
+		if('${user.me_id}' == ''){
+			alert('로그인한 회원만 추천/비추천을 할 수 있습니다.');
+			return;
+		}
 		
 		let li_updown = $(this).data('state');
 		let co_num = '${course.co_num}';
@@ -483,8 +483,8 @@
 			$('#report-content').focus();
 			return false;
 		}
-		let me_id = ${user.me_id};
-		if(me_id == null){
+		let me_id = '${user.me_id}';
+		if(me_id == ''){
 			alert('로그인을 하신 후 신고하실 수 있습니다');
 			return false;
 		}

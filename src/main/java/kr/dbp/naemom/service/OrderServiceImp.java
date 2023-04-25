@@ -183,12 +183,7 @@ public class OrderServiceImp implements OrderService{
 		return list;
 	}
 
-	@Override
-	public MemberVO getMember(String me_id) {
-		if(me_id == null)
-			return null;
-		return orderDao.selectMember(me_id);
-	}
+	
 
 	@Override
 	public String insertBuyList(PayDTO dto, String me_id) {
@@ -222,6 +217,13 @@ public class OrderServiceImp implements OrderService{
 		if(res != 0)
 			res = orderDao.deleteBuyList(bl_num, me_id);
 		return 0;
+	}
+
+	@Override
+	public Buy_listVO getBuyListByBlNum(String bl_num) {
+		if(bl_num == null)
+			return null;
+		return orderDao.selectBuyListByBlNum(bl_num);
 	}
 
 	

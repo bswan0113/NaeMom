@@ -42,7 +42,12 @@ public class CourseController {
 	CourseService courseService;
 	
 	@RequestMapping(value = "/course/insert", method=RequestMethod.GET)
-	public ModelAndView course(ModelAndView mv, int [] pd_num) {
+	public ModelAndView course(ModelAndView mv, int [] pd_num,HttpSession session,HttpServletResponse response) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null) {
+			MessageUtils.alertAndMovePage(response, 
+					"로그인하신 후 이용가능합니다.", "/naemom", "/login");
+		}
 		mv.addObject("pd_num", pd_num);
 		mv.setViewName("/course/insert");
 		return mv;
@@ -141,6 +146,7 @@ public class CourseController {
             
         }
 		CourseVO course = courseService.getcourseByNum(co_num);
+		mv.addObject("user", user);
 		mv.addObject("like", likeVo);
 		mv.addObject("tags", tags);
 		mv.addObject("prlist", prlist);
@@ -150,7 +156,18 @@ public class CourseController {
 		mv.setViewName("/course/detail");
 		return mv;
 	}
-	
+	@RequestMapping(value = "/course/delete/{co_num}", method=RequestMethod.GET)
+	public ModelAndView getCourseDelete(ModelAndView mv,@PathVariable("co_num")int co_num,HttpSession session,HttpServletResponse response) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null) {
+			MessageUtils.alertAndMovePage(response, 
+					"작성자가 아니거나 존재하지 않은 게시글입니다.", "/naemom", "/course/list");
+		}
+		MessageUtils.alertAndMovePage(response, 
+				"잘못된 접근입니다.", "/naemom", "/course/list");
+		mv.setViewName("/course/list");
+		return mv;
+	}
 	@RequestMapping(value = "/course/delete/{co_num}", method=RequestMethod.POST)
 	public ModelAndView courseDelete(ModelAndView mv,@PathVariable("co_num")int co_num,HttpSession session) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
@@ -170,7 +187,6 @@ public class CourseController {
 	@RequestMapping(value = "/course/update/{co_num}", method=RequestMethod.GET)
 	public ModelAndView courseUpdate(ModelAndView mv,@PathVariable("co_num")int co_num,HttpSession session,HttpServletResponse response) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		System.out.println(user);
 		if(user == null) {
 			MessageUtils.alertAndMovePage(response, 
 					"작성자가 아니거나 존재하지 않은 게시글입니다.", "/naemom", "/course/list");

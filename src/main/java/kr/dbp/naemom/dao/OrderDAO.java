@@ -39,7 +39,7 @@ public interface OrderDAO {
 
 	Shopping_basketVO selectBasketBySbNum(@Param("me_id")String me_id, @Param("sb_num")int num);
 
-	MemberVO selectMember(@Param("me_id")String me_id);
+	
 
 	void insertBuyList(@Param("bl")Buy_listVO bl);
 
@@ -50,6 +50,8 @@ public interface OrderDAO {
 	int deleteOrderList(@Param("bl_num")String bl_num);
 
 	int deleteBuyList(@Param("bl_num")String bl_num, @Param("me_id")String me_id);
+
+	Buy_listVO selectBuyListByBlNum(@Param("bl_num")String bl_num);
 
 
 

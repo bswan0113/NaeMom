@@ -24,6 +24,7 @@ public class MypageInterceptor extends HandlerInterceptorAdapter  {
 	    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 	            throws Exception {
 	        HttpSession session = request.getSession();
+	        
 	        if (session.getAttribute("userInfo") == null) {
 	            MemberVO user = new MemberVO();
 	            //임시 멤버객체생성
@@ -44,7 +45,7 @@ public class MypageInterceptor extends HandlerInterceptorAdapter  {
 		user.setMe_authority(10);
 		user.setMe_gender("남");
 		user.setMe_detail_address("오벨리스크 401호");
-		user.setMe_id("abcd");
+		user.setMe_id("abcd");//본인 db에 member 아이디 적어야 오류안남
 		user.setMe_ma_email("zkoiu@naver.com");
 		user.setMe_mileage(100);
 		user.setMe_nickname("건우");
