@@ -245,6 +245,7 @@ public class OrderController {
 		if(res == 0) {
 			success = "실패";
 		}
+		System.out.println(success);
 		return success;
 	}
 	@ResponseBody

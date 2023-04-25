@@ -210,6 +210,7 @@ public class OrderServiceImp implements OrderService{
 		if(bl_num == null || me_id == null)
 			return 0;
 		String state = "결제완료";
+		System.out.println(bl_num);
 		return orderDao.updateBuyList(bl_num, me_id, state);
 	}
 

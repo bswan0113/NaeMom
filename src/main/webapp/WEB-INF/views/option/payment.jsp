@@ -629,7 +629,12 @@
    			}
    		}
    		
-   		
+   		function deleteSuccess(data){
+   			console.log(data)
+   		}
+   		function updateSuccess(data){
+   			console.log(data)
+   		}
    		//ajax
 		function ajaxPost(obj, url, successFunction){
 			$.ajax({

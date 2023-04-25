@@ -67,13 +67,6 @@
    	<select id="selectMember" resultType="kr.dbp.naemom.vo.MemberVO">
    		select * from member where me_id = #{me_id}
    	</select>
-   	<!-- <insert id="insertBuyList"  useGeneratedKeys="false" keyProperty="bl.bl_num">
-	   	INSERT INTO buy_list (bl_num, bl_state, bl_total_price, bl_stack_mile, bl_use_mile, bl_me_id, bl_name)
-		SELECT CONCAT(CONCAT(SUBSTR(DATE_FORMAT(NOW(),'%Y%m%d'), 1, 8)), RIGHT(CONCAT('000', IFNULL(MAX(CAST(SUBSTR(bl_num, 9) AS UNSIGNED)), 0) + 1), 3)),
-			#{bl.bl_state},#{bl.bl_total_price},#{bl.bl_stack_mile},#{bl.bl_use_mile},#{bl.bl_me_id},#{bl.bl_name}
-		FROM buy_list;
-
-   	</insert> -->
    	<insert id="insertBuyList">
 		
 		INSERT INTO buy_list (bl_num, bl_state, bl_total_price, bl_stack_mile, bl_use_mile, bl_me_id, bl_name)
@@ -98,6 +91,9 @@
 	</update>
 	<delete id="deleteOrderList">
 	   	delete from order_list where ol_bl_num = #{bl_num}
+	</delete>
+	<delete id="deleteBuyList">
+		delete from buy_list where bl_num = #{bl_num} and bl_me_id = #{me_id}
 	</delete>
 </mapper>
 

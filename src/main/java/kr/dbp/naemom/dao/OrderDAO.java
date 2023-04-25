@@ -49,7 +49,7 @@ public interface OrderDAO {
 
 	int deleteOrderList(@Param("bl_num")String bl_num);
 
-	int deleteBuyList(String bl_num, String me_id);
+	int deleteBuyList(@Param("bl_num")String bl_num, @Param("me_id")String me_id);
 
 
 
