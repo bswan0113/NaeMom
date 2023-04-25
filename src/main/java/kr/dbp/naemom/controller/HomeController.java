@@ -10,7 +10,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,7 +32,8 @@ import kr.dbp.naemom.vo.MemberVO;
 @Controller
 public class HomeController {
 	
-		
+	@Autowired
+    HomeService homeService;
 	
 	@RequestMapping(value = "/")
 	public ModelAndView home(ModelAndView mv,HttpServletRequest request, HttpServletResponse response) {
@@ -40,13 +42,10 @@ public class HomeController {
 		ArrayList<FileVO> flist = homeService.getFileList();
 		ArrayList<FileVO> files = new ArrayList<FileVO>();
 		List<ProductVO> recentProducts = new ArrayList<ProductVO>();
-		ArrayList<CourseVO> clist = homeService.getCourseList();
-		ArrayList<CourseItemVO> items = new ArrayList<CourseItemVO>();
-		
 		for(int i = 0; i < plist.size() ; i++) {
 			plist.get(i).setFile(homeService.getFiles(plist.get(i).getPd_num()));
 		}
-		
+		//최근 본 상품
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
@@ -62,11 +61,16 @@ public class HomeController {
 				}
 			}
 		}
+		//축제
+		ArrayList<CourseVO> clist = homeService.getCourseList();
+		ArrayList<CourseItemVO> items = new ArrayList<CourseItemVO>();
 		Collections.shuffle(clist);
-		for(int i=0;i<clist.size();i++) {
-			items.addAll(homeService.getCourseItem(clist.get(i).getCo_num()));
-			
+		int courseCount = Math.min(3, clist.size());
+		List<CourseVO> randomClist = clist.subList(0, courseCount);
+		for(int i=0; i<Math.min(clist.size(),3); i++) {
+		    items.addAll(homeService.getCourseItem(randomClist.get(i).getCo_num()));
 		}
+		
 		ArrayList<FileVO> courseFiles = homeService.getProductImgList();;
 		mv.addObject("files", files);
 		mv.addObject("flist",flist);

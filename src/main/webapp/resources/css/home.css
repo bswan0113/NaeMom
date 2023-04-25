@@ -252,32 +252,14 @@ a:hover, a:visited{
     width: 1190px;
     margin: 0 auto;
     padding: 0 0 27px 0;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: flex-start;
     align-items: center;
     flex-direction: row;
-}
-.cos-title-name{
-  font-size: 30px;
-}
-.box_listSort{
-	width: 1190px;
 	padding-bottom: 20px; 
 	border-bottom: 1px solid #ccc;
 }
-.sort_list{
-	float: right; 
-	padding-right: 48px;
-}
 
-
-.box_cosList{
-	width: 1190px; 
-	display: flex; 
-	flex-wrap: wrap;
-	padding-bottom: 20px; 
-	border-bottom: 1px solid #ccc;
-}
 .course_list{
 	display: block;
 	width: 300px; 

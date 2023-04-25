@@ -88,7 +88,8 @@
      </select>
      
      <select id="selectCourseList" resultType="kr.dbp.naemom.vo.CourseVO">
-     	select * from course;
+     	<!-- select * from course; -->
+     	SELECT * FROM dbp.course order by rand() limit 3;
      </select>
      
      <select id="selectCourseItem" resultType="kr.dbp.naemom.vo.CourseItemVO">

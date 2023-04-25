@@ -32,8 +32,8 @@ public class ProductServiceImp implements ProductService{
 	ProductDAO productDao;
 	
 
-	String uploadPath = "D:\\uploadfiles";
-//	String uploadPath = "/Users/hyunkyulee/final/Uploadfiles";
+//	String uploadPath = "D:\\uploadfiles";
+	String uploadPath = "/Users/hyunkyulee/final/Uploadfiles";
 
 
 	@Override

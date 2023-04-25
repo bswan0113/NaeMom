@@ -78,7 +78,8 @@
         <h2>내맘대로 코스</h2>
     </div>
     <div class="course-contents">
-    	<c:forEach items="${clist}" var="course">
+    	<c:forEach items="${clist}" var="course" varStatus="vs">
+    		<c:if test="${vs.index <= 2}">
 				<c:if test="${course.co_report < 10 }">
 					<div class="course_list">
 						<div class="course_desk">
@@ -117,8 +118,20 @@
 						</ul>
 					</div>
 				</c:if>
-			</c:forEach>
+			</c:if>
+		</c:forEach>
     </div>
+</div>
+<div  class="main-container-fifth">
+	<div class="second-title title">
+        <h2>내맘대로 축제</h2>
+    </div>
+	<div class="container mb-5 pb-5 mt-3 festival-container">
+		<div class="row">
+			<div class="col-12 col-sm-6 col-md-4 p-2 ">1</div>
+		</div>
+	</div>
+
 </div>
 
 <!-- swiper -->
