@@ -41,8 +41,8 @@ public class CourseController {
 	CourseService courseService;
 	
 	@RequestMapping(value = "/course/insert", method=RequestMethod.GET)
-	public ModelAndView course(ModelAndView mv) {
-		
+	public ModelAndView course(ModelAndView mv, int [] pd_num) {
+		mv.addObject("pd_num", pd_num);
 		mv.setViewName("/course/insert");
 		return mv;
 	}

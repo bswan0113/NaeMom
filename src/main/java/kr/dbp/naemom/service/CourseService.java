@@ -55,4 +55,5 @@ public interface CourseService {
 
 	void updateViewCount(int co_num);
 
+
 }

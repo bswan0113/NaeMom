@@ -3,6 +3,9 @@ package kr.dbp.naemom.vo;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import kr.dbp.naemom.service.CourseService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CourseVO {
 
+	@Autowired
+	CourseService courseService;
+	
 	int co_num;
 	String co_me_id;
 	String co_title;
@@ -26,6 +32,9 @@ public class CourseVO {
 	int cs_schedule_num;
 	String cs_schedule_name;
 	String cc_category_name;
+	FileVO file;
+
+
 	
 	
 	public String getCo_register_date_str() {

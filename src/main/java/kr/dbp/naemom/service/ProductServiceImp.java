@@ -1,8 +1,6 @@
 package kr.dbp.naemom.service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +15,6 @@ import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
-import kr.dbp.naemom.vo.TempOFFVO;
 import kr.dbp.naemom.vo.WishVO;
 
 @Service
@@ -28,7 +25,7 @@ public class ProductServiceImp implements ProductService{
 	
 
 	String uploadPath = "D:\\uploadfiles";
-	//String uploadPath = "/Users/hyunkyulee/final/Uploadfiles";
+//	String uploadPath = "/Users/hyunkyulee/final/Uploadfiles";
 
 
 	@Override
@@ -177,6 +174,10 @@ public class ProductServiceImp implements ProductService{
 	public int likeUpdate(String me_id, int pd_num, int li_state) {
 		if(me_id.trim().length()==0) return 0;
 		if(pd_num<0) return 0;
+		if(li_state == -1) {
+			productDao.deleteWish(me_id,pd_num);
+			return -1;
+		}
 		int res;
 		if(productDao.getWish(me_id, pd_num) ==null) {
 			res=1;
@@ -362,7 +363,7 @@ public class ProductServiceImp implements ProductService{
 		return dayoff;
 	}
 
-
+	
 
 
 
