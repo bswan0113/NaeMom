@@ -88,19 +88,4 @@
       
       }
       
-      .btn-dup{
-        float: right;
-        margin-bottom: 20px;
-        border-radius: 10px;
-        font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
-        border: 1px solid white;
-        line-height: 40px;
-        padding: 0 10px; box-sizing: border-box;  
-        cursor:pointer;     
-
-      }
-      .btn-dup:hover{
-        background-color: rgba(209, 219, 212, 0.932);
-      }
-		
  
