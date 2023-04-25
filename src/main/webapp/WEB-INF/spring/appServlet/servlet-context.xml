@@ -16,7 +16,7 @@
 	<resources mapping="/resources/**" location="/resources/" />
 
 	<resources mapping="/download/**" location="file:/Users/hyunkyulee/final/Uploadfiles/" />
-	//<resources mapping="/download/**" location="file:///D:/uploadfiles/" />
+	<resources mapping="/download/**" location="file:///D:/uploadfiles/" />
 
 	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
