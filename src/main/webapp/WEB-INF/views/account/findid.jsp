@@ -1,12 +1,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
+<%
+    request.setCharacterEncoding("UTF-8");
+%>
 <html>
 <head>
 	<title>아이디 찾기</title>
 	<link href="${pageContext.request.contextPath}/resources/css/findid.css" rel="stylesheet" type="text/css">
 	<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<meta charset="UTF-8">
 </head> 
 <body>
 	<h1>아이디 찾기</h1>
@@ -17,7 +21,8 @@
 		<input type="email" id="me_ma_email" name="me_ma_email" required><br><br>
 		<label for="me_birthday">생년월일:</label>
 		<input type="text" id="me_birthday" name="me_birthday" required><br><br>
-		<button type="submit" class="btn-find">아이디 찾기</button>
+		<button type="submit" class="btn-find">아이디 찾기</button><br>	
+		<a href="/naemom" class="btn-main"><button type="button">메인화면</button></a>
 	</form>
 	<div id="result"></div>
 
@@ -56,6 +61,7 @@
 		return false;
 		});
 	});
+	 
 </script>
 </body>
 </html>

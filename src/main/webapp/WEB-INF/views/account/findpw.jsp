@@ -19,7 +19,9 @@
 		<input type="text" id="me_birthday" name="me_birthday" required><br><br>
 		<label for="me_id">아이디:</label>
 		<input type="text" id="me_id" name="me_id" required><br><br>
-		<button type="submit" class="btn-find">비밀번호 찾기</button>
+		<button type="submit" class="btn-find">비밀번호 찾기</button><br>
+		<a href="/naemom" class="btn-main"><button type="button">메인화면</button></a>
+		
 	</form>
 	<div id="result"></div>
 

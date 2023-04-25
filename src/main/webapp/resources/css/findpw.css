@@ -5,6 +5,17 @@
 	border-color: white;
 	margin-left: 17%;
 	margin-top: 1%;
+	margin-bottom:3%;
+	font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
+	cursor: pointer;
+}
+
+.btn-main{
+	color:white;
+	background-color: rgb(118, 229, 168);
+	border-color: white;
+	margin-left: 25%;
+	margin-top: 1%;
 	font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
 	cursor: pointer;
 }
