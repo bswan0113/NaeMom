@@ -111,4 +111,9 @@
 		  <![CDATA[ AND pd_fe_start <= DATE_ADD(NOW(), INTERVAL 7 DAY); ]]>
 		 <!--  AND pd_fe_start <= DATE_ADD(NOW(), INTERVAL 7 DAY); -->
      </select>
+     
+     <select id="selectFestivalImgList" resultType="kr.dbp.naemom.vo.FileVO">
+     	select * from file where fi_category like concat('%',#{fi_category},'%') and fi_table = #{fi_table}
+     </select>
+     
 </mapper>

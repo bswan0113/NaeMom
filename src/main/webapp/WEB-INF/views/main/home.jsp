@@ -5,7 +5,7 @@
 <title>NaeMom</title>
 
 <script src="<c:url value='/resources/js/home.js'></c:url>"></script>
-<link rel="stylesheet" href="<c:url value='/resources/css/home.css?ver=1.1'></c:url>">
+<link rel="stylesheet" href="<c:url value='/resources/css/home.css?ver=1.2'></c:url>">
 
 <div class="main-container-first">
     <div class="first-title title">
@@ -128,12 +128,31 @@
     </div>
 	<div class="container mb-5 pb-5 mt-3 festival-container">
 		<div class="row">
-			<div class="col-12 col-sm-6 col-md-4 p-2 ">${festivalList }</div>
+			<c:forEach items="${festivalList}" var="festivalList">
+				<div class="col-12 col-sm-6 col-md-4 p-2 ">
+					<div class="festival-box">
+						<c:forEach items="${festivalFiles}" var="festivalFiles">
+						<c:if test="${file.fi_table_key == festivalFiles.pd_num}">
+							<div class="festival-img pt-0 pb-2">
+								<img alt="" src="<c:url value="/download${festivalFiles.file.fi_name}"></c:url>">
+							</div>
+						</c:if>
+						</c:forEach>
+						<div class="festival-info">
+							<div class="festival-title">
+								<p>${festivalList.pd_title}</p>
+							</div>
+							<div class="festival-content mb-0">
+								<p>${festivalList.pd_content}</p>								
+							</div>
+						</div>
+					</div>
+				</div>
+			</c:forEach>
 		</div>
 	</div>
 
 </div>
-
 <!-- swiper -->
 <script>
  

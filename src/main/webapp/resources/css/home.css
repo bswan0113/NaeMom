@@ -372,3 +372,57 @@ a:hover, a:visited{
 	text-align:center; 
 	padding-top:100px;
 }
+
+/* 축제 */
+
+.row{
+	display : flex;
+	flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.festival-box{
+	cursor: pointer;
+	border: 1px solid #dee2e6!important;
+	position: relative;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border-radius: 0.25rem;
+}
+
+.festival-img{
+	max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    border-style: none;
+}
+
+.festival-info{
+	flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+}
+
+.festival-info .festival-title{
+	font-size: 16px;
+    line-height: 22px;
+    height: 22px;
+    color: #007bff;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    word-break: keep-all;
+}
+
+.festival-info .festival-content{
+	font-size: 14px;
+}

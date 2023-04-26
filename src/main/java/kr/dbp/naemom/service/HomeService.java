@@ -48,6 +48,9 @@ public interface HomeService {
 
 	ArrayList<ProductVO> getFestivalList();
 
+	ArrayList<FileVO> getFestivalImgList();
+
+
 
 	
 

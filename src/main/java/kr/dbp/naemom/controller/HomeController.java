@@ -75,6 +75,7 @@ public class HomeController {
 		
 		//축제 
 		ArrayList<ProductVO> festivalList = homeService.getFestivalList();
+		ArrayList<FileVO> festivalFiles = homeService.getFestivalImgList();
 		
 		mv.addObject("files", files);
 		mv.addObject("flist",flist);
@@ -84,6 +85,7 @@ public class HomeController {
 		mv.addObject("items", items);
 		mv.addObject("courseFiles", courseFiles);
 		mv.addObject("festivalList", festivalList);
+		mv.addObject("festivalFiles", festivalFiles);
 		mv.setViewName("/main/home");
 		return mv;
 	}
