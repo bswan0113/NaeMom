@@ -1,5 +1,7 @@
 package kr.dbp.naemom.vo;
 
+import java.util.List;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +17,7 @@ public class Buy_listVO {
 	String bl_me_id;
 	String bl_name;
 	
-	Order_listVO order;
+	List<Order_listVO> orderlist;
 	
 	public Buy_listVO(String bl_num,String bl_state, int bl_total_price, int bl_stack_mile, int bl_use_mile, String bl_me_id,
 			String bl_name) {

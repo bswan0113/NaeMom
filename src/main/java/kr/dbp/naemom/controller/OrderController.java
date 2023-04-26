@@ -290,6 +290,7 @@ public class OrderController {
 	public ModelAndView completeBuy(ModelAndView mv,HttpSession session,String bl_num) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		Buy_listVO bl = orderService.getBuyListByBlNum(bl_num);
+		System.out.println(bl);
 		mv.setViewName("/option/completeBuy");
 		return mv;
 	}

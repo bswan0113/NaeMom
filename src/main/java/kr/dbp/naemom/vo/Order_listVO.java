@@ -12,7 +12,7 @@ public class Order_listVO {
 
 	int ol_num;
 	int ol_amount;
-	int price;
+	int ol_price;
 	String ol_bl_num;
 	int ol_table_key;
 	String ol_table;

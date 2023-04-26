@@ -97,9 +97,7 @@
 	<delete id="deleteBuyList">
 		delete from buy_list where bl_num = #{bl_num} and bl_me_id = #{me_id}
 	</delete>
-	<select id="selectBuyListByBlNum" resultMap="selectBuyListByOrderList">
-		select * from buy_list where bl_num = #{bl_num}
-	</select>
+	
 	<resultMap type="kr.dbp.naemom.vo.Buy_listVO" id="selectBuyListByOrderList">
   		<id property="bl_num" column="bl_num"/>
   		<result property="bl_state" column="bl_state"/>
@@ -108,10 +106,13 @@
   		<result property="bl_use_mile" column="bl_use_mile"/>
   		<result property="bl_me_id" column="bl_me_id"/>
   		<result property="bl_name" column="bl_name"/>
-  		<collection property="order" ofType="kr.dbp.naemom.vo.Order_listVO" column="{bl_num=bl_num}" select="selectOrderListByBlNum"></collection>
+  		<collection property="orderlist" ofType="kr.dbp.naemom.vo.Order_listVO" column="{bl_num=bl_num}" select="selectOrderListByBlNum"></collection>
   	</resultMap>
+	<select id="selectBuyListByBlNum" resultMap="selectBuyListByOrderList">
+		select * from buy_list where bl_num = #{bl_num}
+	</select>
   	<select id="selectOrderListByBlNum" resultType="kr.dbp.naemom.vo.Order_listVO" parameterType="java.util.Map">
-   		select * from order_list where ol_bl_num =  #{bl_num}
+   		select * from order_list where ol_bl_num = #{bl_num}
    	</select>
 </mapper>
 
