@@ -107,6 +107,7 @@
   		<result property="bl_me_id" column="bl_me_id"/>
   		<result property="bl_name" column="bl_name"/>
   		<collection property="orderlist" ofType="kr.dbp.naemom.vo.Order_listVO" column="{bl_num=bl_num}" select="selectOrderListByBlNum"></collection>
+  		<collection property="useMember" ofType="kr.dbp.naemom.vo.Use_memberVO" column="{bl_num=bl_num}" select="selectUseMemberByBlNum"></collection>
   	</resultMap>
 	<select id="selectBuyListByBlNum" resultMap="selectBuyListByOrderList">
 		select * from buy_list where bl_num = #{bl_num}
@@ -114,6 +115,26 @@
   	<select id="selectOrderListByBlNum" resultType="kr.dbp.naemom.vo.Order_listVO" parameterType="java.util.Map">
    		select * from order_list where ol_bl_num = #{bl_num}
    	</select>
+   	<select id="selectUseMemberByBlNum" resultType="kr.dbp.naemom.vo.Use_memberVO" parameterType="java.util.Map">
+   		select * from use_member where um_bl_num = #{bl_num}
+   	</select>
+   	
+   	<insert id="insertUseMember">
+   		insert into use_member(um_bl_num, um_name, um_email, um_phone)
+   		values(#{um.um_bl_num}, #{um.um_name},#{um.um_email},#{um.um_phone})
+   	</insert>
+   	
+   	<insert id="insertMileage">
+   		insert into mileage(mi_update, mi_me_id, mi_bl_num)
+   		values(#{mi_update},#{bl.bl_me_id},#{bl.bl_num})
+   	</insert>
+   	<update id="updateMemberByMileage">
+   		update member
+   			set
+   				me_mileage = me_mileage + #{mi_update}
+   			where
+   				me_id = #{bl.bl_me_id}
+   	</update>
 </mapper>
 
 

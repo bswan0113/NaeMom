@@ -18,7 +18,7 @@ public class Order_listVO {
 	String ol_table;
 	Date ol_date;
 	
-	public String getSb_date() {
+	public String getOl_date() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		if(ol_date == null)
 			return "";

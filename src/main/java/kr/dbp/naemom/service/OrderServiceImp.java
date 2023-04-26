@@ -9,15 +9,16 @@ import org.springframework.stereotype.Service;
 import kr.dbp.naemom.dao.OrderDAO;
 import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.FileVO;
-import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.OptionListDTO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_festivalVO;
 import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
+import kr.dbp.naemom.vo.Order_listVO;
 import kr.dbp.naemom.vo.PayDTO;
 import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.Shopping_basketVO;
+import kr.dbp.naemom.vo.Use_memberVO;
 
 @Service
 public class OrderServiceImp implements OrderService{
@@ -205,7 +206,6 @@ public class OrderServiceImp implements OrderService{
 		if(bl_num == null || me_id == null)
 			return 0;
 		String state = "결제완료";
-		System.out.println(bl_num);
 		return orderDao.updateBuyList(bl_num, me_id, state);
 	}
 
@@ -224,6 +224,43 @@ public class OrderServiceImp implements OrderService{
 		if(bl_num == null)
 			return null;
 		return orderDao.selectBuyListByBlNum(bl_num);
+	}
+
+	@Override
+	public int insertUseMember(Use_memberVO useMember) {
+		if(useMember == null)
+			return 0;
+		return orderDao.insertUseMember(useMember);
+	}
+
+	@Override
+	public void insertMileage(Buy_listVO bl) {
+		if(bl == null)
+			return;
+		int mi_update = bl.getBl_stack_mile() - bl.getBl_use_mile();
+		int res = orderDao.insertMileage(bl,mi_update);
+		if(res != 0)
+			orderDao.updateMemberByMileage(bl,mi_update);
+		
+	}
+
+	@Override
+	public void insertReservation(Buy_listVO bl) {
+		for(Order_listVO tmp : bl.getOrderlist()) {
+			if(tmp.getOl_table().equals("restraunt_option")) {
+				
+			}
+			if(tmp.getOl_table().equals("accomodation_option")) {
+				
+			}
+		}
+		
+	}
+
+	@Override
+	public int selectReservationRoom(String checkIn) {
+		
+		return 0;
 	}
 
 	

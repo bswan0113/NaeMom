@@ -36,6 +36,7 @@ import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.PayDTO;
 import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.Shopping_basketVO;
+import kr.dbp.naemom.vo.Use_memberVO;
 
 @Controller
 public class OrderController {
@@ -117,7 +118,16 @@ public class OrderController {
 		map.put("res", res);
 		return map;
 	}
-	
+	@ResponseBody
+	@RequestMapping(value="/option/dateConfirm", method=RequestMethod.POST)
+	public Map<String, Object> dateConfirm(@RequestBody String checkIn,HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		
+		int res = orderService.selectReservationRoom(checkIn);
+		map.put("res", res);
+		return map;
+	}
 	@RequestMapping(value = "/option/basket", method=RequestMethod.GET)
 	public ModelAndView Basket(ModelAndView mv,HttpSession session,HttpServletResponse response) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
@@ -195,7 +205,7 @@ public class OrderController {
 	public String bootpay_confirm(Model mv, @RequestBody PayDTO dto) {
 		String success = "";
 		try {
-			Bootpay bootpay = new Bootpay("64424e90922c3400236cdc6d", "HDHG4jse5QYS0TIMJbBH5spsC9rjKMgCbE4cd4eP9Lg=");
+			Bootpay bootpay = new Bootpay("64424e90922c3400236cdc6d", "ROYcgqRLGaNyrhOGfVmLrURo3EBAr0SKcU+OtYNotZk=");
 			String bootpay_check = "";
 			bootpay.getAccessToken();
 			HttpResponse res = bootpay.verify(dto.getReceipt_id());
@@ -261,6 +271,18 @@ public class OrderController {
 		return success;
 	}
 	@ResponseBody
+	@RequestMapping(value = "/option/insertUseMember", method=RequestMethod.POST)
+	public String insertUseMember(@RequestBody Use_memberVO useMember,HttpSession session) {
+		String success = "OK";
+		useMember.setUm_bl_num(useMember.getUm_bl_num().replaceAll("[^\\w+]", ""));
+		System.out.println(useMember);
+		int res = orderService.insertUseMember(useMember);
+		if(res == 0) {
+			success = "NO";
+		}
+		return success;
+	}
+	@ResponseBody
 	@RequestMapping(value = "/option/deleteBuyList", method=RequestMethod.POST)
 	public String deletebuyList(@RequestBody String bl_num,HttpSession session) {
 		
@@ -276,21 +298,25 @@ public class OrderController {
 	}
 	@RequestMapping(value = "/option/completeBuy", method=RequestMethod.GET)
 	public ModelAndView getCompleteBuy(ModelAndView mv,HttpSession session,HttpServletResponse response) {
-		MemberVO user = (MemberVO)session.getAttribute("user");
-		if(user == null) {
-			MessageUtils.alertAndMovePage(response, 
-					"로그인하신 후 이용가능합니다.", "/naemom", "/login");
-		}else {
-			MessageUtils.alertAndMovePage(response, 
-					"잘못된 접근입니다.", "/naemom", "/option/basket");
-		}
+//		MemberVO user = (MemberVO)session.getAttribute("user");
+//		if(user == null) {
+//			MessageUtils.alertAndMovePage(response, 
+//					"로그인하신 후 이용가능합니다.", "/naemom", "/login");
+//		}else {
+//			MessageUtils.alertAndMovePage(response, 
+//					"잘못된 접근입니다.", "/naemom", "/option/basket");
+//		}
+//		mv.setViewName("/option/completeBuy");
 		return mv;
 	}
 	@RequestMapping(value = "/option/completeBuy", method=RequestMethod.POST)
 	public ModelAndView completeBuy(ModelAndView mv,HttpSession session,String bl_num) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		Buy_listVO bl = orderService.getBuyListByBlNum(bl_num);
-		System.out.println(bl);
+		orderService.insertMileage(bl);
+		//orderService.insertReservation(bl);
+		mv.addObject("user", user);
+		mv.addObject("bl", bl);
 		mv.setViewName("/option/completeBuy");
 		return mv;
 	}

@@ -279,24 +279,16 @@
 								</c:if>
 							</c:forEach>
 						</select>
-						<label class="ml-1">날짜 : </label>
-						<input type="text" id="<c:if test="${vs.index < pdList.size() }">datepicker${vs.index+1}</c:if>" class="option_date" style="height: 20px; width:160px">
-					</div>
-					<div class="option_select_box2">
-						<label>인원 : </label>
-						<select class="option_select amount_home_select" style="width:60px" id="amount_home_select" onchange="select_amount(this)">
-								
-						</select>
-						<label>추가인원 : </label>
-						<select class="option_select add_home_select" style="width:60px" id="add_home_select" onchange="add_price(this)">
-							<option value="0" selected>없음</option>
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-						</select>
 						<label class="ml-1">가격 : </label>
 						<span class="select_price">0</span>
 						<span>원</span>
+					</div>
+					<div class="option_select_box2">
+						<input type="hidden" name="pr_amount">
+						<label>체크인 : </label>
+						<input type="text" id="<c:if test="${vs.index < pdList.size() }">datepicker${vs.index+1}</c:if>" class="option_date startDate" style="height: 20px; width:140px">
+						<label class="ml-1">체크아웃: </label>
+						<input type="text" id="<c:if test="${vs.index < pdList.size() }">datepicker${vs.index+10}</c:if>" class="option_date endDate" style="height: 20px; width:140px">
 					</div>
 					<div class="option_select_box3">
 						<label>상세설명 : </label>
@@ -304,6 +296,7 @@
 					</div>
 				</div>
       		</li>
+      		
       		</c:if>
      		</c:forEach>
 			
@@ -371,11 +364,12 @@
 		maxDate : '1M'
 	});
 	$(function(){
-		for(var i =1; i<=10;i++){
+		for(var i =1; i<=30;i++){
 			$('#datepicker'+i).datepicker({
 			})
 		}
 	});
+	
 	$(document).on('click','.close_list',function(){
 		$(this).parent().remove();
 		$('.no_product_item').show();
@@ -429,24 +423,69 @@
 			</c:forEach>
 		}
 		if($(obj).parent().siblings('[name=pr_category]').val() == 3){
-			//let amount = $(obj).parent().siblings('.option_select_box2').find('#amount_home_select').val();
+			$(obj).parent().siblings('.option_select_box2').find('.startDate').val('');
+			$(obj).parent().siblings('.option_select_box2').find('.endDate').val('');
 			let home_menu = Number($(obj).parent().find('.menu_home_select option:selected').val());
 			<c:forEach items="${homeList}" var="home">
 				if("${home.ao_num}" == home_menu){
-					let people = "${home.ao_capacity}";
-					str = "";
-					str +=
-						'<option value="'+(people-2)+'">'+(people-2)+'</option>'+
-						'<option value="'+(people-1)+'">'+(people-1)+'</option>'+
-						'<option value="'+(people)+'">'+(people)+'</option>';
-					
-					$(obj).parent().siblings('.option_select_box2').find('.amount_home_select').append(str);
-					
-					$(obj).parent().siblings('.option_select_box2').find('.select_price').text("${home.ao_price}");
+							
+					$(obj).siblings('.select_price').text("${home.ao_price}");
 				}
 			</c:forEach>
 		}
 	}
+	
+	//숙박 시작날짜
+	$('.startDate').change(function(){
+		
+		let option = $(this).parent().siblings('.option_select_box1').find('.menu_home_select').val()
+		if(option == 0){
+			alert('방을 먼저 선택해주세요');
+			$(this).val('');
+			return false;
+		}
+		let checkIn = $(this).val();
+		ajaxPost(checkIn, '<c:url value="/option/dateConfirm"></c:url>',confirmSuccess);
+	})
+	function confirmSuccess(){
+		
+	}
+	//숙박 종료날짜
+	$('.endDate').change(function(){
+		
+		let start = $(this).siblings('.startDate').val()
+		if(start == ''){
+			alert('체크인를 먼저 입력하세요.');
+			$(this).val('');
+			return false;
+		}
+		let end = $(this).val();
+		//ajaxPost(checkIn, '<c:url value="/option/dateConfirm"></c:url>',confirmSuccess);
+		let dateA = new Date(start);
+		let dateB = new Date(end);
+		if(dateB < dateA){
+			alert('체크아웃이 체크인보다 작습니다.')
+			$(this).val('');
+			return false;
+		}else if(dateB.getTime() == dateA.getTime()){
+			alert('같은 날짜는 불가능합니다.')
+			$(this).val('');
+			return false;
+		}
+		let diffMsec = dateB.getTime() - dateA.getTime();
+		let diffDate = diffMsec / (24 * 60 * 60 * 1000);
+		$(this).siblings('[name=pr_amount]').val(diffDate);
+		let home_menu = Number($(this).parent().siblings('.option_select_box1').find('.menu_home_select option:selected').val());
+		<c:forEach items="${homeList}" var="home">
+			if("${home.ao_num}" == home_menu){
+						
+				$(this).parent().siblings('.option_select_box1').find('.select_price').text("${home.ao_price}");
+			}
+		</c:forEach>
+		let price = $(this).parent().siblings('.option_select_box1').find('.select_price').text();
+		price = Number(price) * diffDate;
+		$(this).parent().siblings('.option_select_box1').find('.select_price').text(price);
+	})
 	//수량 변경시 가격수정
 	function select_amount(obj){
 		if($(obj).parent().siblings('[name=pr_category]').val() == 2){
@@ -659,17 +698,16 @@
 			priceAll();
 		}
 		if($(this).siblings('[name=pr_category]').val() == 3){
-			let item_amount = $(this).siblings('.option_select_box2').find('.amount_home_select').val();
-			let addPeople = $(this).siblings('.option_select_box2').find('.add_home_select option:selected').val();
-			item_amount = Number(item_amount)+Number(addPeople)
+			let item_amount = $(this).siblings('.option_select_box2').find('[name=pr_amount]').val();
 			let item_name = $(this).siblings('.option_select_box1').find('.option_select option:selected').text();
 			if(item_name == null || item_name == '선택'){
-				alert('연령을 선택하세요.');				
+				alert('방을 선택하세요.');				
 				return;
 			}
 			let item_title = $(this).siblings('[name=pr_title]').val();
-			let item_date = $(this).siblings('.option_select_box1').find('.option_date').val();
-			if(item_date == ''){
+			let item_date = $(this).siblings('.option_select_box2').find('.startDate').val();
+			let end_date = $(this).siblings('.option_select_box2').find('.endDate').val();
+			if(item_date == '' || end_date == ''){
 				alert('날짜를 선택하세요.');				
 				return;
 			}
@@ -681,7 +719,7 @@
 			$('.product_item').each(function(){
 				item_index++;
 			})
-			let item_price = $(this).siblings('.option_select_box2').find('.select_price').text();
+			let item_price = $(this).siblings('.option_select_box1').find('.select_price').text();
 			str='';
 			str+=
 				'<li class="product_item">'+
@@ -699,7 +737,7 @@
 					'</div>'+
 					'<button class="close_list btn btn-outline-danger">&times;</button>'+
 					'<div class="pr_content2">'+
-						'인원 : <span name="list['+item_index+'].pr_amount">'+item_amount+'</span>'+
+						'숙박 : <span name="list['+item_index+'].pr_amount">'+item_amount+'박</span>'+
 						' 날짜 : <span name="list['+item_index+'].pr_date">'+item_date+'</span>'+
 						' 가격 : <span name="list['+item_index+'].pr_price">'+item_price+'</span>원'+
 					'</div>'+

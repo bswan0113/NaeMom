@@ -262,17 +262,8 @@
 						<input type="text" class="option_date" value="${list.sb_date}" disabled="disabled">
 					</div>
 					<div class="option_select_box2">
-						<label>인원 : </label>
-						<input value="${list.home.ao_capacity }" disabled="disabled" style="width:60px">
-						<label>추가인원 : </label>
-						<c:choose>
-							<c:when test="${list.sb_amount-list.home.ao_capacity > 0 }">
-								<input value="${list.sb_amount-list.home.ao_capacity }" disabled="disabled" style="width:60px">
-							</c:when>
-							<c:otherwise>
-								<input value="없음" disabled="disabled" style="width:60px">
-							</c:otherwise>
-						</c:choose>
+						<label>숙박 : </label>
+						<input value="${list.sb_amount }" disabled="disabled" style="width:60px">박
 						<label class="ml-1">가격 : </label>
 						<span class="select_price">${list.sb_price }</span>
 						<span>원</span>

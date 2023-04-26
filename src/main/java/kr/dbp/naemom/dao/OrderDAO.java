@@ -14,6 +14,7 @@ import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.Shopping_basketVO;
+import kr.dbp.naemom.vo.Use_memberVO;
 
 public interface OrderDAO {
 
@@ -52,6 +53,12 @@ public interface OrderDAO {
 	int deleteBuyList(@Param("bl_num")String bl_num, @Param("me_id")String me_id);
 
 	Buy_listVO selectBuyListByBlNum(@Param("bl_num")String bl_num);
+
+	int insertUseMember(@Param("um")Use_memberVO useMember);
+
+	int insertMileage(@Param("bl")Buy_listVO bl, @Param("mi_update")int mi_update);
+
+	void updateMemberByMileage(@Param("bl")Buy_listVO bl, @Param("mi_update")int mi_update);
 
 
 

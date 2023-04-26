@@ -322,7 +322,7 @@
 											<input type="hidden" value="${basket.sb_num }" class="sb_num" name="sb_num">
 											<div class="product_option">
 												<span>${basket.home.ao_name }</span> / 
-												<span>${basket.sb_amount } 개</span>
+												<span>${basket.sb_amount } 박</span>
 											</div>
 											<div class="product_date">
 												<p>${basket.sb_date }</p>
@@ -459,10 +459,10 @@
 			</table>
 		</div>
 		<div class="btn_box">
-			<form action="/option/completeBuy" id="completeBuy" method="post">
+			<form action="<c:url value ='/option/completeBuy'></c:url>" id="completeBuy" method="post">
 				<input type="hidden" name="bl_num">
-					<button type="button" id="paymentBtn" class="paymentBtn">결제하기</button>
-				</form>
+				<button type="button" id="paymentBtn" class="paymentBtn">결제하기</button>
+			</form>
 		</div>
 	
 	</div>
@@ -569,6 +569,10 @@
    		}
    		//결제
    		$('.paymentBtn').click(function(){
+   			if($('.insertName').val() == '' || $('.insertEmail').val() == '' || $('.insertPhone').val() == ''){
+				alert('이용자 정보를 입력해주세요.')   				
+   				return false;
+   			}
    			let price = Number($('#totalPayPrice').text());
    			let id = $('.buyer_id').val();
    			let date = dateString();
@@ -630,11 +634,23 @@
    				alert('결제에 실패했습니다.');
    				ajaxPostString(orderNum, '<c:url value="/option/deleteBuyList"></c:url>', deleteSuccess);
    			}else if(data == "OK"){
-   				alert('결제에 성공했습니다.')
+   				let user_name = $('.insertName').val();
+   	   			let user_email = $('.insertEmail').val();
+   	   			let user_phone = $('.insertPhone').val();
+   	   			let user = {
+   	   					um_bl_num : orderNum,
+   	   					um_name : user_name,
+   	   					um_email : user_email,
+   	   					um_phone : user_phone
+   	   			}
+   				alert('결제에 성공했습니다.');
+   	   			ajaxPostString(user, '<c:url value="/option/insertUseMember"></c:url>', useMember);
    				ajaxPostString(orderNum, '<c:url value="/option/updateBuyList"></c:url>', updateSuccess);
    			}
    		}
-   		
+   		function useMember(data){
+   			console.log(data)
+   		}
    		function deleteSuccess(data){
    			console.log(data)
    		}

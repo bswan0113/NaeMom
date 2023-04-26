@@ -14,6 +14,7 @@ import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.PayDTO;
 import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.Shopping_basketVO;
+import kr.dbp.naemom.vo.Use_memberVO;
 
 public interface OrderService {
 
@@ -52,6 +53,14 @@ public interface OrderService {
 	int deleteBuyList(String bl_num, String me_id);
 
 	Buy_listVO getBuyListByBlNum(String bl_num);
+
+	int insertUseMember(Use_memberVO useMember);
+
+	void insertMileage(Buy_listVO bl);
+
+	void insertReservation(Buy_listVO bl);
+
+	int selectReservationRoom(String checkIn);
 
 
 	
