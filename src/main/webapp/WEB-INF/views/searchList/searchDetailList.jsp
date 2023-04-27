@@ -169,7 +169,7 @@ width:325px;
 	            <li class="de-result-item">
 	                <div class="de-result-box">
 	                	<div class="de-result-top">
-		                    <a class="img-link" href="<c:url value='/product/detail/detailLayoutTMP/${p.pd_num}'></c:url>"><img src="<c:url value='/download${p.file.fi_name}'></c:url>" alt="" width="200px" height="200px"></a>
+		                    <a class="img-link" href="<c:url value='/product/detail/detailLayoutTMP/${p.pd_num}?search=${pm.cri.search}'></c:url>"><img src="<c:url value='/download${p.file.fi_name}'></c:url>" alt="" width="200px" height="200px"></a>
 		                    <div class="result-content-box">
 		                    <p>${p.pd_content}</p>
 		                    </div>
@@ -177,7 +177,7 @@ width:325px;
 	                    <hr>
 	                    <div class="result-info-box">
 	                        <span class="info-imp">
-	                        	<a style="color:black; font-weight:bold;" href="<c:url value='/product/detail/detailLayoutTMP/${p.pd_num}'></c:url>">${p.pd_title}</a></span>
+	                        	<a style="color:black; font-weight:bold;" href="<c:url value='/product/detail/detailLayoutTMP/${p.pd_num}?search=${pm.cri.search}'></c:url>">${p.pd_title}</a></span>
 	                        <span class="info-imp">위치 : ${p.pd_street_address} ${p.pd_detail_address}</span>
 	                        <span class="info-imp">open : ${p.pd_open_time_str} &nbsp&nbsp close : ${p.pd_close_time_str}</span>
 	                        <span><i class="fas fa-heart"></i> : ${p.wishCount}</span>

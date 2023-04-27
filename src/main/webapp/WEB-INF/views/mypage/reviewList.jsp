@@ -27,11 +27,18 @@
 		color:black;
 		font-weight:bold;
 		}
+<<<<<<< HEAD
 		
 		td:nth-child(2){
 		overflow:hidden;
 		text-overflow:ellipsis;
 		white-space:nowrap;
+=======
+		td{
+		overflow:hidden;
+		white-space:nowrap;
+		  text-overflow: ellipsis;
+>>>>>>> ahn
 		}
 	
 	    </style>

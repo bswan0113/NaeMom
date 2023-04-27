@@ -73,7 +73,11 @@ public interface ProductService {
 
 	ArrayList<DayOFFVO> getDayOff(int pd_num);
 
+<<<<<<< HEAD
 	void recentlyCookie(int pd_num, HttpServletRequest request, HttpServletResponse response);
+=======
+	void insertKeyword(String search, int pd_num);
+>>>>>>> ahn
 
 
 

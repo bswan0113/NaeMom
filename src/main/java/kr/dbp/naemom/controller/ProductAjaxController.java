@@ -38,7 +38,7 @@ public class ProductAjaxController {
 	public Map<String, Object> likeUpdate(
 			@PathVariable("pd_num")int pd_num, @PathVariable("li_state")int li_state,
 			HttpSession session) {
-		MemberVO user = (MemberVO) session.getAttribute("user");
+		MemberVO user = (MemberVO) session.getAttribute("userInfo");
 		Map<String, Object> map = new HashMap<String, Object>();
 		int res =productService.likeUpdate(user.getMe_id(),pd_num,li_state);
 		map.put("res", res);

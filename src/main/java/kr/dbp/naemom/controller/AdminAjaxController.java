@@ -88,7 +88,7 @@ public class AdminAjaxController {
 		int count = 0;
 		Criteria cri = new Criteria();
 		cri.setPage(Integer.parseInt(page));
-		if(type.equals("댓글")) {
+		if(type.equals("리뷰")) {
 			count = adminService.getReCount(id);
 			ArrayList<ReviewVO> ob = adminService.getReList(id, cri);
 			PageMaker pm = new PageMaker(count, 5, cri);
@@ -96,7 +96,7 @@ public class AdminAjaxController {
 			map.put("ob", ob);
 			
 		}
-		else if(type.equals("리뷰")) {
+		else if(type.equals("댓글")) {
 			count = adminService.getRcCount(id);
 			ArrayList<ReviewCommentVO> ob = adminService.getRcList(id, cri);
 			PageMaker pm = new PageMaker(count, 5, cri);

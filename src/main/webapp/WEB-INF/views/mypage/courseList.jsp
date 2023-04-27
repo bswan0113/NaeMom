@@ -30,10 +30,20 @@
 			font-weight:bold;
 			}
 			
+<<<<<<< HEAD
 			td:nth-child(4){
 			overflow:hidden;
 			text-overflow:ellipsis;
 			white-space:nowrap;
+=======
+			td:nth-child(1),
+			td:nth-child(2),
+			td:nth-child(4),
+			td:nth-child(5){
+			overflow:hidden;
+			white-space:nowrap;
+			  text-overflow: ellipsis;
+>>>>>>> ahn
 			}
 			
 	   </style>
