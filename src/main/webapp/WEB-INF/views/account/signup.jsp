@@ -206,7 +206,15 @@ $('.form').submit(function(event) {
 		$('[name=me_ma_email]').focus();
 		return false;
 	}
-			
+	let au = $('[name=auth]').val();
+	if(au.length == 0){
+		alert('이메일 인증은 필수 항목입니다.');
+		return false;
+	}
+	if($('#email_auth_key').val() != email_auth_cd){
+		alert('이메일 인증을 진행해주세요.');
+		return false;
+	}
 		
 			
 	let na = $('[name=me_name]').val();
@@ -236,26 +244,26 @@ $('.form').submit(function(event) {
 });
 
 function fn_join() {
-	var f = $('#signup_frm');
-	var formData = f.serialize();
+    var f = $('#signup_frm');
+    var formData = f.serialize();
 
-	$.ajax({
-		type: "POST",
-		url: '<c:url value="/signupd"></c:url>',
-		data: formData,
-		success: function(data) {
-			if (data == "Y") {
-				alert("회원가입이 완료되었습니다.");
-			  location.href ='<c:url value="/signupsuc"></c:url>';
-			} else {
-				alert("회원가입에 실패하였습니다.");
-			}
-		},
-		error: function(data) {
-			alert("회원가입 에러 발생!");
-			console.log(data);
-		}
-	});
+    $.ajax({
+        type: "POST",
+        url: '<c:url value="/signup"></c:url>',
+        data: formData,
+        success: function(res) {
+            showMessage(res.message, res.success);
+        }
+    });
+}
+
+function showMessage(message, success) {
+    if (success) {
+        alert(message);
+        location.href = '/';
+    } else {
+        alert(message);
+    }
 }
  // 16자리의 랜덤 문자열 생성
    function generateRandomString(length) {
