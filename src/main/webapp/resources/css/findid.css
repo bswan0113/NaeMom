@@ -1,24 +1,35 @@
 
-.btn-find{
+.btn-findid{
 	color:white;
 	background-color: rgb(118, 229, 168);
 	border-color: white;
-	margin-left: 19%;
+	margin-left: 17%;
 	margin-top: 1%;
 	margin-bottom:3%;
 	font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
 	cursor: pointer;
 }
-.btn-main{
+
+#findpw{
 	color:white;
 	background-color: rgb(118, 229, 168);
 	border-color: white;
-	margin-left: 23%;
+	margin-bottom: 10px;	
+	margin-left: 20%;
+	font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
+	cursor: pointer;
+	float:right;
+	
+}
+#login{
+	color:white;
+	background-color: rgb(118, 229, 168);
+	border-color: white;	
 	margin-top: 1%;
 	font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
 	cursor: pointer;
-}
 
+}
 .container{
 	border: none;
 	width: 250px;
