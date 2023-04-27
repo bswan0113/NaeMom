@@ -189,6 +189,9 @@
 		select * from day_off where do_pd_num=#{pd_num};
 	</select>
 	
+	<insert id="insertKeyword">
+		insert into search_keyword(sk_keyword, sk_pd_num, sk_date) values(#{search},#{pd_num}, now());
+	</insert>
 
 </mapper>
 

@@ -244,7 +244,7 @@ overflow:hidden;
    		    	<table>
 		    		<thead>
 		    			<tr>
-		    				<th>제목</th>
+		    				<th>내용</th>
 		    				<th>등록날짜</th>
 		    			</tr>
 		    		</thead>
@@ -369,8 +369,7 @@ function getBoardList(id,page,type){
 		url:"<c:url value='/admin/getBoardList/"+id+"/"+page+"/"+type+"'></c:url>",
 		method:"GET",
 		success : function(data){
-			console.log(data.pm)
-			console.log(data.ob)
+			$('.board-list').empty();
 			if(type=="코스"){
 				createCourse(data.ob);
 
@@ -390,21 +389,35 @@ function getBoardList(id,page,type){
 }
 
 function createCourse(course){
-	let tr = $('<tr>');
-	let td1= $('<td>');
-	let a = $('<a>').attr("href","<c:url></c:url>").addClass("btn btn-success").text(course.co_title);
-	td1.html(a);
-	let td2=$('<td>').text(course.co_register_data_str);
-	tr.append(td1,td2);
-	$('.board-list').html(tr);
+	for(let i=0; i<course.length; i++){
+		let tr = $('<tr>');
+		let td1= $('<td>');
+		let a = $('<a>').attr("href","<c:url value='/course/detail/"+course[i].co_num+"'></c:url>").addClass("btn btn-success").text(course[i].co_title);
+		td1.html(a);
+		let td2=$('<td>').text(course[i].co_register_date_str);
+		tr.append(td1,td2);
+		$('.board-list').append(tr);
+	}
 	
 	
 }
 function createReview(review){
-	
+	for(let i=0; i<review.length; i++){
+		let tr = $('<tr>');
+		let td1= $('<td>').text(review[i].re_content);
+		let td2=$('<td>').text(review[i].re_date_str);
+		tr.append(td1,td2);
+		$('.board-list').append(tr);
+	}
 }
 function createComment(comment){
-	
+	for(let i=0; i<comment.length; i++){
+		let tr = $('<tr>');
+		let td1= $('<td>').text(comment[i].rc_content);
+		let td2=$('<td>').text(comment[i].rc_date_str);
+		tr.append(td1,td2);
+		$('.board-list').append(tr);
+	}
 }
 
 function addPagination(type,pm, bo_type){

@@ -70,6 +70,8 @@ public interface ProductService {
 
 	ArrayList<DayOFFVO> getDayOff(int pd_num);
 
+	void insertKeyword(String search, int pd_num);
+
 
 
 

@@ -454,6 +454,9 @@ min-height: 500px;
 
 </style>
 <style>
+textarea{
+resize:none;
+}
 .review-box{
     border: 2px solid #d4ebd4;
     background-color: #29c16d72;

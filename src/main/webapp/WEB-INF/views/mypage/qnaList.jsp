@@ -15,6 +15,11 @@
 		.qna_title>a{
 		color:black;
 		}
+		td{
+		overflow:hidden;
+		white-space:nowrap;
+		  text-overflow: ellipsis;
+		}
 	
 	    </style>
 	<div class="container">

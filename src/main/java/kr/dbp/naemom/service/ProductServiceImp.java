@@ -363,6 +363,13 @@ public class ProductServiceImp implements ProductService{
 		return dayoff;
 	}
 
+
+
+	@Override
+	public void insertKeyword(String search, int pd_num) {
+		productDao.insertKeyword(search, pd_num);
+	}
+
 	
 
 
