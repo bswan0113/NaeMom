@@ -53,8 +53,6 @@
 	  padding: .25rem 1.5rem;
 	  font-size: 90%;
 	}
-	.side-bar{
-	}
 	
 	 ul{
 	   margin: 0 auto;
