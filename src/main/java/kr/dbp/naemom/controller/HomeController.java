@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,11 +42,10 @@ public class HomeController {
 		List<ProductVO> recentProducts = new ArrayList<ProductVO>();
 		ArrayList<CourseVO> clist = homeService.getCourseList();
 		ArrayList<CourseItemVO> items = new ArrayList<CourseItemVO>();
-		
 		for(int i = 0; i < plist.size() ; i++) {
 			plist.get(i).setFile(homeService.getFiles(plist.get(i).getPd_num()));
 		}
-		
+		//최근 본 상품
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
@@ -60,12 +61,20 @@ public class HomeController {
 				}
 			}
 		}
+		//코스 
 		Collections.shuffle(clist);
-		for(int i=0;i<clist.size();i++) {
-			items.addAll(homeService.getCourseItem(clist.get(i).getCo_num()));
-			
+		int courseCount = Math.min(3, clist.size());
+		List<CourseVO> randomClist = clist.subList(0, courseCount);
+
+		for(int i=0; i<Math.min(clist.size(),3); i++) {
+		    items.addAll(homeService.getCourseItem(randomClist.get(i).getCo_num()));
 		}
 		ArrayList<FileVO> courseFiles = homeService.getProductImgList();;
+		
+		//축제 
+		ArrayList<ProductVO> festivalList = homeService.getFestivalList();
+		ArrayList<FileVO> festivalFiles = homeService.getFestivalImgList();
+		
 		mv.addObject("files", files);
 		mv.addObject("flist",flist);
 		mv.addObject("plist", plist);
@@ -73,6 +82,8 @@ public class HomeController {
 		mv.addObject("clist",clist);
 		mv.addObject("items", items);
 		mv.addObject("courseFiles", courseFiles);
+		mv.addObject("festivalList", festivalList);
+		mv.addObject("festivalFiles", festivalFiles);
 		mv.setViewName("/main/home");
 		return mv;
 	}
