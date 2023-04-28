@@ -217,10 +217,10 @@ margin-left:6px;
 						<ul class="search-list">
 							<c:forEach items="${la}" var="i">
 								<li class="search-item">
-									<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}'></c:url>"><img class="rounded" width="125px" height="125px" src="<c:url value='/download${i.file.fi_name}'></c:url>"></a>
+									<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}?search=${search}'></c:url>"><img class="rounded" width="125px" height="125px" src="<c:url value='/download${i.file.fi_name}'></c:url>"></a>
 									<div class="search-item-content">${i.pd_content}</div>
 									<div class="item-info">
-										<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}'></c:url>">${i.pd_title}</a>
+										<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}?search=${search}'></c:url>">${i.pd_title}</a>
 										<span><i style="margin-right: 0;"class="fas fa-eye"></i> : ${i.pd_viewcount}</span>
 										<span><i style="margin-right: 0;"class="fas fa-heart"></i>: ${i.wishCount}</span>
 									</div>
@@ -235,10 +235,10 @@ margin-left:6px;
 					</div>
 				</div>
 				<c:if test="${ la.size() != 0}">
-		        	<a class="detail-link" href="<c:url value='/searchList/searchLa?search=${search}'></c:url>">더보기</a>
+		        	<a class="detail-link" href="<c:url value='/searchList/searchDetailList?pc_category=1&search=${search}'/>">더보기</a>
 	        	</c:if>
 				<c:if test="${ la.size() == 0}">
-					<a class="detail-link" href="<c:url value='/searchList/searchLa'></c:url>">여행지 더보기</a>
+					<a class="detail-link" href="<c:url value='/searchList/searchDetailList?pc_category=1'/>">여행지 더보기</a>
 				</c:if>
 			</div>
 			<div class="search-re search-res">
@@ -248,10 +248,10 @@ margin-left:6px;
 						<ul class="search-list">
 							<c:forEach items="${re}" var="i">
 								<li class="search-item">
-									<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}'></c:url>"><img class="rounded" width="125px" height="125px" src="<c:url value='/download${i.file.fi_name}'></c:url>"></a>
+									<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}?search=${search}'></c:url>"><img class="rounded" width="125px" height="125px" src="<c:url value='/download${i.file.fi_name}'></c:url>"></a>
 									<div class="search-item-content">${i.pd_content}</div>
 									<div class="item-info">
-										<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}'></c:url>">${i.pd_title}</a>
+										<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}?search=${search}'></c:url>">${i.pd_title}</a>
 										<span><i style="margin-right: 0;"class="fas fa-eye"></i> : ${i.pd_viewcount}</span>
 										<span><i style="margin-right: 0;"class="fas fa-heart"></i>: ${i.wishCount}</span>
 									</div>
@@ -266,10 +266,10 @@ margin-left:6px;
 					</div>
 				</div>
 				<c:if test="${ re.size() != 0}">
-					<a class="detail-link" href="<c:url value='/searchList/searchRe?search=${search}'></c:url>">더보기</a>
+					<a class="detail-link" href="<c:url value='/searchList/searchDetailList?pc_category=2&search=${search}'/>">더보기</a>
 				</c:if>
 				<c:if test="${ re.size() == 0}">
-					<a class="detail-link" href="<c:url value='/searchList/searchRe'></c:url>">음식점 더보기</a>
+					<a class="detail-link" href="<c:url value='/searchList/searchDetailList?pc_category=2'/>">음식점 더보기</a>
 				</c:if>
 			</div>
 			<div class="search-fe search-res">
@@ -279,10 +279,10 @@ margin-left:6px;
 						<ul class="search-list">
 							<c:forEach items="${fe}" var="i">
 								<li class="search-item">
-									<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}'></c:url>"><img class="rounded" width="125px" height="125px" src="<c:url value='/download${i.file.fi_name}'></c:url>"></a>
+									<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}?search=${search}'></c:url>"><img class="rounded" width="125px" height="125px" src="<c:url value='/download${i.file.fi_name}'></c:url>"></a>
 									<div class="search-item-content">${i.pd_content}</div>
 									<div class="item-info">
-										<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}'></c:url>">${i.pd_title}</a>
+										<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}?search=${search}'></c:url>">${i.pd_title}</a>
 										<span><i style="margin-right: 0;"class="fas fa-eye"></i> : ${i.pd_viewcount}</span>
 										<span><i style="margin-right: 0;"class="fas fa-heart"></i>: ${i.wishCount}</span>
 									</div>
@@ -296,12 +296,7 @@ margin-left:6px;
 						</c:if>
 					</div>
 				</div>
-				<c:if test="${ re.size() != 0}">
-					<a class="detail-link" href="<c:url value='/searchList/searchFe?search=${search}'></c:url>">더보기</a>
-				</c:if>
-				<c:if test="${ fe.size() == 0}">
 					<a class="detail-link" href="<c:url value='/searchList/searchFe'></c:url>">축제 더보기</a>
-				</c:if>
 			</div>
 			<div class="search-ao search-res">
 				<h5> 숙박 검색결과</h5>
@@ -310,10 +305,10 @@ margin-left:6px;
 						<ul class="search-list">
 							<c:forEach items="${ac}" var="i">
 								<li class="search-item">
-									<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}'></c:url>"><img class="rounded" width="125px" height="125px" src="<c:url value='/download${i.file.fi_name}'></c:url>"></a>
+									<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}?search=${search}'></c:url>"><img class="rounded" width="125px" height="125px" src="<c:url value='/download${i.file.fi_name}'></c:url>"></a>
 									<div class="search-item-content">${i.pd_content}</div>
 									<div class="item-info">
-										<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}'></c:url>">${i.pd_title}</a>
+										<a href="<c:url value='/product/detail/detailLayoutTMP/${i.pd_num}?search=${search}'></c:url>">${i.pd_title}</a>
 										<span><i style="margin-right: 0;"class="fas fa-eye"></i> : ${i.pd_viewcount}</span>
 										<span><i style="margin-right: 0;"class="fas fa-heart"></i>: ${i.wishCount}</span>
 									</div>
@@ -328,10 +323,10 @@ margin-left:6px;
 					</div>
 				</div>
 				<c:if test="${ ac.size() != 0}">
-					<a class="detail-link" href="<c:url value='/searchList/searchAc?search=${search}'></c:url>">더보기</a>
+					<a class="detail-link" href="<c:url value='/searchList/searchDetailList?pc_category=3&search=${search}'/>">더보기</a>
 				</c:if>
 				<c:if test="${ ac.size() == 0}">
-					<a class="detail-link" href="<c:url value='/searchList/searchAc'></c:url>">숙박 더보기</a>
+					<a class="detail-link" href="<c:url value='/searchList/searchDetailList?pc_category=3'/>">숙박 더보기</a>
 				</c:if>
 			</div>
 			<div class="search-co search-res">

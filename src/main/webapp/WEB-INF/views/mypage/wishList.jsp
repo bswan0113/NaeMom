@@ -27,7 +27,11 @@
 			color:black;
 			font-weight:bold;
 			}
-			
+			td:nth-child(3){
+			overflow:hidden;
+			white-space:nowrap;
+			  text-overflow: ellipsis;
+			}
 	   </style>
 	    
 	<div class="container">

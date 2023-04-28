@@ -17,9 +17,11 @@
 	margin-left: 25%;
 	margin-top: 1%;
 	font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
-	cursor: pointer;
+	cursor: pointer;	
 }
-
+#findid{
+	margin-left: 10px;
+}
 .container{
 	border: none;
 	width: 250px;

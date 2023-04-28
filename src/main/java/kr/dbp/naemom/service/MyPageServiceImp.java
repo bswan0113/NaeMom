@@ -246,7 +246,7 @@ public class MyPageServiceImp implements MyPageService{
 	@Override
 	public CourseItemVO getCourseItem(int co_num) {
 		ArrayList<CourseItemVO> course = myPageDao.getCourseItem(co_num);
-		if(course != null) {
+		if(course != null && course.size()>= 0) {
 			course.get(0).setFile(productDao.getThumbNail(course.get(0).getCi_pd_num(), "썸네일", "product"));
 		}
 		return course.get(0);

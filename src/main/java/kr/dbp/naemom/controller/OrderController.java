@@ -33,6 +33,7 @@ import kr.dbp.naemom.vo.PayDTO;
 import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.Shopping_basketVO;
 
+
 @Controller
 public class OrderController {
 	
@@ -218,6 +219,7 @@ public class OrderController {
 		}
 		return "NO";
 	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/option/insertBuyList", method=RequestMethod.POST)
 	public String buyList(@RequestBody PayDTO dto) {

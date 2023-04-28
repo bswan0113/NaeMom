@@ -75,6 +75,9 @@ public interface ProductService {
 
 	void recentlyCookie(int pd_num, HttpServletRequest request, HttpServletResponse response);
 
+	void insertKeyword(String search, int pd_num);
+
+
 
 
 

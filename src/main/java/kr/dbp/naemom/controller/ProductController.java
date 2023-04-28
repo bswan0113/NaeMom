@@ -131,9 +131,14 @@ public class ProductController {
 
 	//상세페이지 레이아웃
 	@RequestMapping(value="/product/detail/detailLayoutTMP/{i}", method=RequestMethod.GET)
-	public ModelAndView detailLayout(ModelAndView mv, @PathVariable("i")int pd_num, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
-		MemberVO user = new MemberVO();   //임시로그인
-		session.setAttribute("user", user); //임시로그인
+	public ModelAndView detailLayout(ModelAndView mv, @PathVariable("i")int pd_num, HttpSession session, HttpServletRequest request, HttpServletResponse response, Criteria cri) {
+
+		MemberVO user =(MemberVO)session.getAttribute("userInfo");
+		if(cri!=null && cri.getSearch()!=null  && cri.getSearch().trim().length() != 0) {
+			
+			productService.insertKeyword(cri.getSearch(), pd_num);
+		}
+		
 
 		ProductVO product= productService.getProduct(pd_num);
 		ArrayList<FileVO> files = productService.getFiles(pd_num);
@@ -183,6 +188,8 @@ public class ProductController {
 		        option.set(i, optReo);
 		    }
 		}
+		
+		mv.addObject("user", user);
 		mv.addObject("option",option);
 		mv.addObject("wish",wish);
 		mv.addObject("randomProduct", randomProduct);

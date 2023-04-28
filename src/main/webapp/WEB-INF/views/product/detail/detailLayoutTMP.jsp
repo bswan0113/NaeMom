@@ -426,6 +426,7 @@ font-weight:bold;
 	line-height: 16px;
 	margin-bottom: 10px;
 	margin-top:10px;
+	resize: none;
 }
 .comment-box .comment-btn{
 	border-radius: 4px;
@@ -454,6 +455,9 @@ min-height: 500px;
 
 </style>
 <style>
+textarea{
+resize:none;
+}
 .review-box{
     border: 2px solid #d4ebd4;
     background-color: #29c16d72;
@@ -887,7 +891,7 @@ $('#report-modal').click(function(){
 			
 			})
 		}
-		if(table=="reviewComment"){
+		if(table=="review_comment"){
 			ajaxPost(true,report,'<c:url value="/comment/report"></c:url>', function(data){
 				if(data.res){
 					alert('신고가 완료되었습니다. 감사합니다.');
@@ -906,7 +910,7 @@ $(document).on("click","#rc-report-btn",function(){
 		alert('로그인 하세요.');
 	}
 	$('#report-modal').data('num', $(this).data('num'));
-	$('#report-modal').data("table", "reviewComment");
+	$('#report-modal').data("table", "review_comment");
 })
 	
 $('.report-btn').click(function(){

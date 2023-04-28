@@ -51,7 +51,9 @@ public class MyPageController {
 		mv.setViewName("/mypage/profile");
 		return mv;
 		
-	}@RequestMapping(value = "/mypage/profile", method = RequestMethod.POST)
+	}
+	
+	@RequestMapping(value = "/mypage/profile", method = RequestMethod.POST)
 	public ModelAndView myPagePost(ModelAndView mv, MemberVO member, HttpSession session, HttpServletResponse response) {
 		boolean res = myPageService.updateMember(member);
 		if(!res) {
@@ -148,7 +150,7 @@ public class MyPageController {
 		
 		MemberVO user = (MemberVO) session.getAttribute("userInfo");
 		ArrayList<CourseVO> course = myPageService.getCourseList(cri, user.getMe_id());
-		if(course.size() >0) {
+		if(course != null && course.size() >0) {
 			for(int i=0; i<course.size(); i++) {
 				CourseItemVO item = myPageService.getCourseItem(course.get(i).getCo_num());
 				course.get(i).setFile(item.getFile());
