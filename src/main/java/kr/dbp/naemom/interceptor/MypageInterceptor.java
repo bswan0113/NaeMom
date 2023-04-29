@@ -44,7 +44,7 @@ public class MypageInterceptor extends HandlerInterceptorAdapter  {
 		user.setMe_authority(10);
 		user.setMe_gender("남");
 		user.setMe_detail_address("오벨리스크 401호");
-		user.setMe_id("abcd");
+		user.setMe_id("qwer1234");
 		user.setMe_ma_email("zkoiu@naver.com");
 		user.setMe_mileage(100);
 		user.setMe_nickname("건우");
