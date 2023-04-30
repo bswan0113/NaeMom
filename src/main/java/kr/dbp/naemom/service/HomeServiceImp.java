@@ -19,8 +19,7 @@ import kr.dbp.naemom.vo.ProductVO;
 @Service
 public class HomeServiceImp implements HomeService {
 	
-//	String uploadPath = "D:\\uploadfiles";
-	String uploadPath = "/Users/hyunkyulee/final/Uploadfiles";
+	String uploadPath = "D:\\uploadfiles";
 
 	@Autowired
 	HomeDAO homeDao;
