@@ -10,7 +10,7 @@
 	<update id="updateMember">
 	  UPDATE member
 		  SET
-		    me_name = #{me.me_name},
+		  	me_pw = #{me.me_pw},
 		    me_birthday = #{me.me_birthday},
 		    me_detail_address = #{me.me_detail_address},
 		    me_nickname = #{me.me_nickname},
@@ -135,4 +135,7 @@
 	<select id="getCourseItem" resultType="kr.dbp.naemom.vo.CourseItemVO">
 		select * from course_item where ci_co_num =#{co_num}
 	</select>
+	<update id="changeEmail">
+		update member set me_ma_email=#{me_ma_email} where me_id =#{me_id}
+	</update>
 </mapper>

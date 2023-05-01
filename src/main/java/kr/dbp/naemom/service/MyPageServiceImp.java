@@ -3,6 +3,7 @@ package kr.dbp.naemom.service;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,8 +34,10 @@ public class MyPageServiceImp implements MyPageService{
 	@Autowired
 	ProductDAO productDao;
 	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 	
-String uploadPath = "D:\\uploadfiles";
+	String uploadPath = "D:\\uploadfiles";
 	
 	@Override
 	public MemberVO getUserInfo(MemberVO user) {
@@ -48,11 +51,13 @@ String uploadPath = "D:\\uploadfiles";
 	@Override
 	public boolean updateMember(MemberVO member) {
 		if(member==null) return false;
+		String pw = passwordEncoder.encode(member.getMe_pw());
+		member.setMe_pw(pw);
+		System.out.println(member);
 		if(member.getMe_authority()<1 ||
 				member.getMe_birthday()==null||
 				member.getMe_nickname().trim().length()<=0||
 				member.getMe_registered_address().trim().length()<=0||
-				member.getMe_name().trim().length()<=0||
 				member.getMe_phone().trim().length()<=0||
 				member.getMe_street_address().trim().length()<=0
 				) return false;
@@ -249,6 +254,11 @@ String uploadPath = "D:\\uploadfiles";
 			course.get(0).setFile(productDao.getThumbNail(course.get(0).getCi_pd_num(), "썸네일", "product"));
 		}
 		return course.get(0);
+	}
+
+	@Override
+	public boolean changeEmail(String email, String userId) {
+		return myPageDao.changeEmail(email,userId)>=0;
 	}
 
 }

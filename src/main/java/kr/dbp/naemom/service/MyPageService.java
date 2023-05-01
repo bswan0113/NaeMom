@@ -71,6 +71,8 @@ public interface MyPageService {
 
 	CourseItemVO getCourseItem(int co_num);
 
+	boolean changeEmail(String email, String userId);
+
 
 
 }

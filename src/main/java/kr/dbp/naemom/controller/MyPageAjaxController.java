@@ -5,21 +5,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.service.MyPageService;
 import kr.dbp.naemom.service.ProductService;
+import kr.dbp.naemom.utils.GenerateRandomCode;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.ProductVO;
@@ -37,19 +43,17 @@ public class MyPageAjaxController {
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
 	
+    @Autowired
+    private JavaMailSender mailSender;
+	
 	@RequestMapping(value = "/mypage/pwcheck", method=RequestMethod.POST)
 	public Map<String, Object> pwCheck(@RequestParam String pw, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		//MemberVO user =(MemberVO)session.getAttribute("user");
+		MemberVO user =(MemberVO)session.getAttribute("user");
 		
-		//임시 유저 객체
-		MemberVO user=CreteTmpUser(new MemberVO());
 		
 		String DBPW= myPageService.getUserInfo(user).getMe_pw();
-	/*회원기능 구현전 임시 암호화 비교 메서드*/	
-		if(DBPW.equals(pw))map.put("res", true);
-		
-	//	if(passwordEncoder.matches(pw, DBPW))map.put("res", true);
+		if(passwordEncoder.matches(pw, DBPW))map.put("res", true);
 		
 		return map;
 	}
@@ -57,9 +61,7 @@ public class MyPageAjaxController {
 	@RequestMapping(value = "/mypage/update/profileimg", method=RequestMethod.POST)
 	public Map<String, Object> pwCheck(MultipartFile File, HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		//MemberVO user =(MemberVO)session.getAttribute("user");
-		//임시 유저 객체
-		MemberVO user=CreteTmpUser(new MemberVO());
+		MemberVO user =(MemberVO)session.getAttribute("user");
 		if(File==null || File.getOriginalFilename().trim().length()<=0) {
 			map.put("res", false);
 		}
@@ -70,21 +72,7 @@ public class MyPageAjaxController {
 		
 		return map;
 	}
-	//임시 멤버객체생성
-	private MemberVO CreteTmpUser(MemberVO user) {
-		user.setMe_authority(10);
-		user.setMe_gender("남");
-		user.setMe_detail_address("오벨리스크 401호");
-		user.setMe_id("abcd");
-		user.setMe_ma_email("zkoiu@naver.com");
-		user.setMe_mileage(100);
-		user.setMe_nickname("건우");
-		user.setMe_phone("010-3151-7063");
-		user.setMe_street_address("서울시 은평구 가좌로 165");
-		user.setMe_registered_address("서울시 은평구 응암동 375-2");
-		user.setMe_pw("1q2w3e4r!");
-		return user;
-	}
+
 	
 	@RequestMapping(value = "/mypage/getCategory", method=RequestMethod.POST)
 	public Map<String, Object> getCategory(@RequestParam("category") String category) {
@@ -117,6 +105,37 @@ public class MyPageAjaxController {
 		map.put("file", file);
 		return map;
 	}
+
+
+	    @RequestMapping(value = "/sendEmail/mypage/{oriEmail}", method=RequestMethod.GET)
+	    public String sendEmail(@PathVariable("oriEmail")String oriEmail) {
+	    	
+	        String code = GenerateRandomCode.generateRandomCode(); // GenerateRandomCode 클래스의 메서드 사용
+	        oriEmail+=".com";
+	        try {
+	            MimeMessage message = mailSender.createMimeMessage();
+	            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+	            helper.setFrom("jjojjosteve@gmail.com");
+	            helper.setTo(oriEmail);
+	            helper.setSubject("[이메일변경] 이메일 변경인증 코드입니다.");
+	            helper.setText("이메일 변경 인증 코드: " + code, true);
+	            mailSender.send(message);
+	            return code;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return "fail";
+	        }
+	    }  
+		@RequestMapping(value = "/change/email/{id}/{domain}/{extension}/{userId}", method=RequestMethod.GET)
+		public Map<String, Object> searchThumbnail(@PathVariable("id")String id,@PathVariable("domain")String domain,@PathVariable("extension")String extension
+				,@PathVariable("userId")String userId) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			String email=id+"@"+domain+"."+extension;
+			boolean res = myPageService.changeEmail(email,userId);
+			map.put("res", res);
+			return map;
+		}
+
 	
 	
 }

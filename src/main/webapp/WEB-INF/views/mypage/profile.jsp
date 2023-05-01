@@ -38,12 +38,14 @@
 		</div>
 		<div class="form-group">
 			<label for="ma_email">이메일:</label>
-			<input type="text" class="form-control" id="ma_email" name="me_ma_email" value="${user.me_ma_email}">
+			<input type="text" class="form-control" id="ma_email" name="me_ma_email" value="${user.me_ma_email}" readonly>
+			<input type="text" class="form-control" style="display:none;" id="new_email" placeholder="이메일 입력">
+			<input type="text" class="form-control" style="display:none;" id="auth_code" placeholder="코드 입력">
+			<button class="btn btn-success change-email" type="button">이메일변경</button>
 		</div>
 		<div class="form-group">
 			<label for="pw">비밀번호:</label>
-			<input type="text" class="form-control" id="pw" name="me_pw" placeholder="********">
-			<button class="btn btn-success check-pw" type="button">비밀번호 확인</button>
+			<input type="password" class="form-control" id="pw" name="me_pw" placeholder="********">
 		</div>
 		<div class="form-group">
 			<label for="birthday">생일:</label>
@@ -115,7 +117,6 @@
 </style>
 <script>
 
-let pwCheck=false;
 
   $('form').submit(function(event) {
     event.preventDefault(); // 기본 동작(폼 제출)을 막음
@@ -129,10 +130,6 @@ let pwCheck=false;
     }
     
     
-    if(!pwCheck){
-    	alert('비밀번호검사를 진행해주세요!');
-    	return false;
-    }
     
     // 닉네임 필드 검사
     var nicknameInput = $('#nickname');
@@ -190,31 +187,6 @@ let pwCheck=false;
     $(this).unbind('submit').submit();
   });
 
-$('.check-pw').click(function(){
-	   var pw = $('#pw').val();
-	    if(pw.trim().length<=0){
-	    	alert('비밀번호를 입력해주세요')
-	    	return false;
-	    }
-	    $.ajax({
-	    	async:false,
-	        type: 'POST',
-	        data: 'pw=' + pw, 
-	        url: "<c:url value='/mypage/pwcheck'></c:url>",
-	        success: function(data){
-	        	if(data.res){
-	        		alert('비밀번호가 맞습니다!')
-		    		pwCheck = true;
-		    	}
-	        	else{
-	        		alert('비밀번호가 틀립니다!')
-	        		pwCheck = false;
-	        	}
-	        }
-	    });
-
-	    
-})
 
 
 $(document).on("click",".profile-img",function(){
@@ -223,10 +195,6 @@ $(document).on("click",".profile-img",function(){
 });
 
 $(document).on("click",".img-update-btn",function(){
-	if(!pwCheck){
-		alert('비밀번호를 입력해주세요!')
-		return false;
-	}
 	let file = $('#profile-img');
 	let formData = new FormData();
     let files = file[0].files;
@@ -249,6 +217,65 @@ $(document).on("click",".img-update-btn",function(){
         }
     });
 });
+
+let code;
+$(document).on("click",".change-email",function(){
+	$("#ma_email").hide();
+	$('#new_email').show();
+	
+	$('.change-email').removeClass('change-email').addClass('send-code').text('코드발송');
+	alert('변경할 이메일을 입력해주세요')
+	
+})
+
+$(document).on("click",".send-code",function(){
+	if(confirm("이메일 인증이 필요합니다. 인증 코드를 받으시겠습니까?")){
+		$('#auth_code').show();
+		let oriEmail=$("#new_email").val();
+		
+		
+		
+		$.ajax({
+			type: 'GET',
+			url: '<c:url value="/sendEmail/mypage/'+oriEmail+'"></c:url>',
+			success: function(data) {
+				alert('이메일로 인증 코드가 전송되었습니다.');
+				
+				$('.change-email').text('인증코드입력');
+				$('.send-code').removeClass('send-code').addClass('input-code').text('코드입력');
+				code=data;	
+			}
+		});
+	}else{
+		$("#ma_email").show();
+		$('#new_email').hide();
+		$('#auth_code').hide();
+	}
+})
+
+$(document).on("click",".input-code",function(){
+	let email= $('#new_email').val();
+	let userId="${user.me_id}";
+	const [id, domain, extension] = email.split(/[@.]/);
+	if($('#auth_code').val() == code){
+		alert('코드가 일치합니다.');
+		$.ajax({
+			type:'GET',
+			url: '<c:url value="/change/email/'+id+'/'+domain+'/'+extension+'/'+userId+'"></c:url>',
+			success: function(data) {
+				if(data.res){
+					alert('이메일 변경 완료!')
+				}else{
+					alert('이메일 변경실패!')
+				}
+				location.reload();
+			} 
+		})
+	}
+	else{
+		alert('코드가 틀렸습니다.')
+	}
+})
 
 $(document).ready(function() {
 	  // 파일 선택 시 미리보기 기능 활성화

@@ -3,6 +3,8 @@
     pageEncoding="UTF-8"%>
     <title>임시 상세페이지 입니다.</title>
 <div class="container-fluid">
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9be9206bb3b872d93650ec99d8194ab4&libraries=services,clusterer,drawing"></script>
 <h1 style="text-align: center; font-weight:bold">${product.pd_title}</h1><br>
 <h3 style="text-align: center;">${product.pd_subtitle}</h3>
 
@@ -39,10 +41,10 @@
 <div class="form-group detail-box">
 	<h4 style="font-weight: bold;">상세정보</h4>
 	<hr style="font-weight: bold;">
-	<div style="min-height:500px;">${product.pd_content}</div>
+	<div>${product.pd_content}</div>
 	<hr>
 	<div class="information-box">
-		<div style="height: 300px; width:100%;display:inline-block; border:1px black solid">지도배치 예정</div>
+		<div id="map" style="width:500px;height:400px;"></div>
 		<div class="info-detail-box">
 		<c:if test="${product.pd_pc_num==4}">
 			<c:if test="${product.pd_fe_start !=null && product.pd_fe_end !=null }">
@@ -134,7 +136,11 @@
 				</c:if>			
 			</c:if>
 		</div>
-	<a href="#" class="btn btn-dark">예약하러가기</a>
+		<form method="post" action="<c:url value='/option/opList'></c:url>">
+			<input type="hidden" name="pd_num" value="${product.pd_num}">
+			<input type="hidden" name="pd_pc_num" value="${product.pd_pc_num}">
+		<button class="btn btn-dark">예약하러가기</button>
+		</form>
 	</div>
 	<hr>
 </div>
@@ -354,7 +360,6 @@ margin: 20px;
 .comment-box{
 
 width: 100%;
-min-height : 700px;
 
 }
 
@@ -393,7 +398,7 @@ font-weight:bold;
 		font-size:20px;
 	}
 
-	.fas{
+	.container .fas{
 	font-size : 25px;
 	margin-right : 12px;
 	}
@@ -449,9 +454,6 @@ font-weight:bold;
 	height: 500px;
 }
 
-.comment-list{
-min-height: 500px;
-}
 
 </style>
 <style>
@@ -693,7 +695,7 @@ function addPagination(pm){
 function addReviewList(list){
 	str = ''
 	if(list.length==0){
-		str='<span style="color:#dae1e6; text-align:center; line-height:500px;"> 등록된 리뷰가 없어요! </span>';
+		str='<span style="color:#dae1e6; text-align:center; line-height:100px;"> 등록된 리뷰가 없어요! </span>';
 		$('.comment-list').html(str);
 	}
 	for(i = 0; i<list.length; i++){
@@ -1180,5 +1182,43 @@ $("#ao-option").on("change", function(){
       },
     });
 
-
+  </script>
+  <script>
+		  var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		  mapOption = {
+		      center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+		      draggable: false,
+		      level: 3 // 지도의 확대 레벨
+		  };  
+		
+		//지도를 생성합니다    
+		var map = new kakao.maps.Map(mapContainer, mapOption); 
+		
+		//주소-좌표 변환 객체를 생성합니다
+		var geocoder = new kakao.maps.services.Geocoder();
+		
+		//주소로 좌표를 검색합니다
+		geocoder.addressSearch("${product.pd_street_address}", function(result, status) {
+		
+		  // 정상적으로 검색이 완료됐으면 
+		   if (status === kakao.maps.services.Status.OK) {
+		
+		      var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+		
+		      // 결과값으로 받은 위치를 마커로 표시합니다
+		      var marker = new kakao.maps.Marker({
+		          map: map,
+		          position: coords
+		      });
+		
+		      // 인포윈도우로 장소에 대한 설명을 표시합니다
+		      var infowindow = new kakao.maps.InfoWindow({
+		          content: '<div style="width:150px;text-align:center;padding:6px 0;">'+"${product.pd_title}"+'</div>'
+		      });
+		      infowindow.open(map, marker);
+		
+		      // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+		      map.setCenter(coords);
+		  } 
+		});    
   </script>

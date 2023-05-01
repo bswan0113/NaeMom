@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +36,9 @@ public class MyPageController {
 	@Autowired
 	MyPageService myPageService;
 	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
+	
 	@RequestMapping(value = "/mypage/main")
 	public ModelAndView home(ModelAndView mv, HttpSession session) {
 		MemberVO user = (MemberVO) session.getAttribute("user");
@@ -55,6 +59,8 @@ public class MyPageController {
 	
 	@RequestMapping(value = "/mypage/profile", method = RequestMethod.POST)
 	public ModelAndView myPagePost(ModelAndView mv, MemberVO member, HttpSession session, HttpServletResponse response) {
+		MemberVO user =(MemberVO)session.getAttribute("user");
+		member.setMe_authority(user.getMe_authority());
 		boolean res = myPageService.updateMember(member);
 		if(!res) {
 			MessageUtils.alertAndMovePage(response, 
