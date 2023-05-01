@@ -1,58 +1,53 @@
-.btn-find {
-color: white;
-background-color: rgb(118, 229, 168);
-border-color: white;
-margin-left: 25%;
-margin-top: 1%;
-margin-bottom: 3%;
-font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", helvetica, "Apple SD Gothic Neo", sans-serif;
-cursor: pointer;
+.btn-find{
+  color: white;
+  background-color: rgb(118, 229, 168);
+  border-color: white;
+  margin-left: 10%;
+  margin-top: 1%;
+  margin-bottom: 3%;
+  font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", helvetica, "Apple SD Gothic Neo", sans-serif;
+  cursor: pointer;
+  width: 200px;
+  height: 50px;
 }
 
-.btn-main {
-color: white;
-background-color: rgb(118, 229, 168);
-border-color: white;
-margin-left: 25%;
-margin-top: 1%;
-font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", helvetica, "Apple SD Gothic Neo", sans-serif;
-cursor: pointer;
-}
+#findid, #login {
+  margin-left: 10%;
 
-#findid {
-margin-left: 10px;
 }
 
 .container {
-border: none;
-width: 250px;
-height: 250px;
-margin: 10% auto 0 auto;
+  border: none;
+  width: 250px;
+  height: 250px;
+  margin: 10% auto 0 auto;
 }
 
-#name,
-#email,
-#birth,
-#account {
-margin-left: 15%;
-margin-top: 10%;
+#name, #email, #birth, #account {
+  margin-left: 15%;
+  margin-top: 10%;
+  display: inline-block;
+}
+
+#findpw-form{
+  width: 400px;
+  height: 600px;
+  margin-left: 450px;
 }
 
 h1 {
-color: #01e283;
-margin-bottom: 50px;
-text-align: center;
+  color: #01e283;
+  margin-bottom: 50px;
+  text-align: center;
 }
 
-.findpw-form {
-margin-bottom: 30px;
-}
+
 
 footer {
-position: absolute;
-bottom: 0;
-width: 100%;
-height: 50px;
-background-color: #f2f2f2;
-text-align: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  background-color: #f2f2f2;
+  text-align: center;
 }
