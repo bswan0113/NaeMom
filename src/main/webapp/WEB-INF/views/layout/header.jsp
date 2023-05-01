@@ -13,6 +13,7 @@
 
 </head>
 <body>
+
 	<div class="header">
 	
 		<div class="head-box clearfix">
@@ -92,7 +93,6 @@
 					<span class="text-quick">마이페이지</span>
 					</a>
 				</div>
-				<a href="<c:url value='/admin/home/home'></c:url>">관리자페이지 링크</a>
 			</div>
 			<div class="main-menu-box">
 				<nav class="list-menu">

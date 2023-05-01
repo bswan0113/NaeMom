@@ -9,10 +9,9 @@ import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +22,7 @@ import kr.dbp.naemom.service.HomeService;
 import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
+import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.ProductVO;
 
 
@@ -34,8 +34,8 @@ public class HomeController {
 		
 	
 	@RequestMapping(value = "/")
-	public ModelAndView home(ModelAndView mv,HttpServletRequest request, HttpServletResponse response) {
-
+	public ModelAndView home(ModelAndView mv,HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		MemberVO user =(MemberVO)session.getAttribute("user");
 		ArrayList<ProductVO> plist = homeService.getCheckedList();
 		ArrayList<FileVO> flist = homeService.getFileList();
 		ArrayList<FileVO> files = new ArrayList<FileVO>();
@@ -74,7 +74,7 @@ public class HomeController {
 		//축제 
 		ArrayList<ProductVO> festivalList = homeService.getFestivalList();
 		ArrayList<FileVO> festivalFiles = homeService.getFestivalImgList();
-		
+		mv.addObject("user",user);
 		mv.addObject("files", files);
 		mv.addObject("flist",flist);
 		mv.addObject("plist", plist);

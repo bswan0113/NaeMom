@@ -7,6 +7,7 @@
 <script src="<c:url value='/resources/js/home.js'></c:url>"></script>
 <link rel="stylesheet" href="<c:url value='/resources/css/home.css?ver=1.3'></c:url>">
 
+<a class="admin" href="<c:url value='/admin/home/home'></c:url>">관리자페이지 링크</a>
 <div class="main-container-first">
     <div class="first-title title">
     <c:if test="${user == null}">

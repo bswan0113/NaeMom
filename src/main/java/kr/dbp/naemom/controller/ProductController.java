@@ -133,7 +133,7 @@ public class ProductController {
 	@RequestMapping(value="/product/detail/detailLayoutTMP/{i}", method=RequestMethod.GET)
 	public ModelAndView detailLayout(ModelAndView mv, @PathVariable("i")int pd_num, HttpSession session, HttpServletRequest request, HttpServletResponse response, Criteria cri) {
 
-		MemberVO user =(MemberVO)session.getAttribute("userInfo");
+		MemberVO user =(MemberVO)session.getAttribute("user");
 		if(cri!=null && cri.getSearch()!=null  && cri.getSearch().trim().length() != 0) {
 			
 			productService.insertKeyword(cri.getSearch(), pd_num);
