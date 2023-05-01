@@ -140,12 +140,18 @@
 					</div>
 					<div class="option_select_box2">
 						<label>수량 : </label>
-						<select class="option_select amount_food_select" name="" id="amount_food_select" onchange="select_amount(this)">
+						<select class="option_select amount_food_select" name="" id="amount_food_select" onchange="select_amount(this)" style="width:100px">
 							<option value="1">1</option>
 							<option value="2">2</option>
 							<option value="3">3</option>
 							<option value="4">4</option>
 							<option value="5">5</option>
+						</select>
+						<label>시간 : </label>
+						<select class="option_select select_food_time" style="width : 80px">
+							<option value="0">선택</option>
+							<option value="12" class="select_lunch">12시</option>
+							<option value="6" class="select_dinner">6시</option>
 						</select>
 						<label class="ml-1">가격 : </label>
 						<span class="select_price">0</span>
@@ -313,7 +319,7 @@
     	</form>
   </div>
   <script>
-  $('form').click(function(){
+  $('.addOrder').click(function(){
 		let list = [];
 		$('.product_item').each(function(i){
 			let pr_num = $(this).find('[name=pr_num]').val();
@@ -324,6 +330,7 @@
 			let pr_amount = $(this).find('[name=pr_amount]').val();
 			let pr_date = $(this).find('[name=pr_date]').val();
 			let pr_price = $(this).find('[name=pr_price]').val();
+			let pr_time = $(this).find('[name=pr_time]').val();
 			let pr = {
 				pr_num : pr_num,
 				pr_category : pr_category,
@@ -332,7 +339,8 @@
 				pr_option_num : pr_option_num,
 				pr_amount : pr_amount,
 				pr_date : pr_date,
-				pr_price : pr_price
+				pr_price : pr_price,
+				pr_time : pr_time
 			}
 			list.push(pr);
 		})
@@ -575,6 +583,7 @@
 				item_index++;
 			})
 			let item_price = $(this).siblings('.option_select_box2').find('.select_price').text();
+			let item_time = $(this).siblings('.option_select_box2').find('.select_food_time').val();
 			str='';
 			str+=
 				'<li class="product_item">'+
@@ -586,6 +595,7 @@
 	    			'<input type="hidden" name="pr_amount" value='+item_amount+'>'+
 	    			'<input type="hidden" name="pr_date" value='+item_date+'>'+
 	    			'<input type="hidden" name="pr_price" value='+item_price+'>'+
+	    			'<input type="hidden" name="pr_time" value='+item_time+'>'+
 					'<div class="pr_content1">'+
 						'<span name="list['+item_index+'].pr_title">'+item_title+' - </span>'+
 						'<label name="list['+item_index+'].pr_option">메뉴 : '+item_name+'</label>'+
@@ -634,6 +644,7 @@
     			'<input type="hidden" name="pr_amount" value='+item_amount+'>'+
     			'<input type="hidden" name="pr_date" value='+item_date+'>'+
     			'<input type="hidden" name="pr_price" value='+item_price+'>'+
+    			'<input type="hidden" name="pr_time" value="0">'+
 					'<div class="pr_content1">'+
 						'<span name="list['+item_index+'].pr_title">'+item_title+' - </span>'+
 						'<label name="list['+item_index+'].pr_option">연령 : '+item_name+'</label>'+
@@ -682,6 +693,7 @@
     			'<input type="hidden" name="pr_amount" value='+item_amount+'>'+
     			'<input type="hidden" name="pr_date" value='+item_date+'>'+
     			'<input type="hidden" name="pr_price" value='+item_price+'>'+
+    			'<input type="hidden" name="pr_time" value="0">'+
 					'<div class="pr_content1">'+
 						'<span name="list['+item_index+'].pr_title">'+item_title+' - </span>'+
 						'<label name="list['+item_index+'].pr_option">연령 : '+item_name+'</label>'+
@@ -731,6 +743,7 @@
     			'<input type="hidden" name="pr_amount" value='+item_amount+'>'+
     			'<input type="hidden" name="pr_date" value='+item_date+'>'+
     			'<input type="hidden" name="pr_price" value='+item_price+'>'+
+    			'<input type="hidden" name="pr_time" value="0">'+
 					'<div class="pr_content1">'+
 						'<span name="list['+item_index+'].pr_title">'+item_title+' - </span>'+
 						'<label name="list['+item_index+'].pr_option">방 : '+item_name+'</label>'+
@@ -747,8 +760,50 @@
 			priceAll();
 		}
 	})
-	
-
+	//음식점 예약현황 조회
+	var tmp = 0;
+	$('.select_food_time').click(function(){
+		let ro_pd_num = Number($(this).parent().siblings('[name=pr_num]').val());
+		let ro_date = $(this).parent().siblings('.option_select_box1').find('.option_date').val();
+		let foodOption = {
+				ro_pd_num : ro_pd_num,
+				ro_date : ro_date
+		}
+		ajaxPost(foodOption, '<c:url value="/option/checkFood"></c:url>',checkFoodSuccess);
+		console.log(tmp)
+		if(tmp == 12){
+			$(this).find('.select_lunch').attr('disabled',true);
+		}
+		if(tmp == 6){
+			$(this).find('.select_dinner').attr('disabled',true);
+		}
+		if(tmp ==999){
+			$(this).find('.select_lunch').attr('disabled',true);
+			$(this).find('.select_dinner').attr('disabled',true);
+			alert('해당 날짜에 예약이 가득찼습니다.');
+		}
+		
+	})
+	function checkFoodSuccess(data){
+		let lunch = 0;
+		let dinner = 0;
+		data.res.forEach(function(item){
+			if(item.ro_time == '12'){
+				lunch++;
+			}
+			if(item.ro_time == '6'){
+				dinner++;
+			}
+		})
+		if(lunch > 5){
+			tmp = 12;
+		}else if(dinner > 5){
+			tmp = 6;
+		}else if(lunch > 5 || dinner > 5){
+			tmp = 999;
+		}
+		
+	}
   	
   //ajax
   function ajaxPost(obj, url, successFunction){

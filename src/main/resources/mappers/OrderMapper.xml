@@ -25,8 +25,8 @@
   			and fi_table = #{fi_table}
   	</select>
   	<insert id="insertBasket">
-  		insert into shopping_basket(sb_me_id,sb_amount,sb_table,sb_table_key,sb_price, sb_date)
-  		values(#{me_id},#{tmp.pr_amount},#{tmp.pr_category},#{tmp.pr_option_num},#{tmp.pr_price}, #{tmp.pr_date})
+  		insert into shopping_basket(sb_me_id,sb_amount,sb_table,sb_table_key,sb_price, sb_date, sb_time)
+  		values(#{me_id},#{tmp.pr_amount},#{tmp.pr_category},#{tmp.pr_option_num},#{tmp.pr_price}, #{tmp.pr_date}, #{tmp.pr_time})
   	</insert>
   	<resultMap type="kr.dbp.naemom.vo.Shopping_basketVO" id="selectBasketByOption">
   		<id property="sb_num" column="sb_num"/>
@@ -135,6 +135,37 @@
    			where
    				me_id = #{bl.bl_me_id}
    	</update>
+   	<select id="selectFood" resultType="kr.dbp.naemom.vo.Reservated_optionVO">
+   		select * from reservated_option where ro_date = #{ro.ro_date} and ro_pd_num = #{ro.ro_pd_num} and ro_me_id = #{me_id}
+   	</select>
+   	<update id="updateBasket">
+   		update shopping_basket 
+   			set
+   				sb_amount = sb_amount + #{tmp.pr_amount},
+   				sb_price = sb_price + #{tmp.pr_price}
+   			where
+   				sb_me_id = #{me_id} and sb_table = #{tmp.pr_category} and sb_table_key = #{tmp.pr_option_num}
+   				and sb_date = #{tmp.pr_date} and sb_time = #{tmp.pr_tiem}
+   	</update>
+   	<select id="selectBasketById" resultType="kr.dbp.naemom.vo.Shopping_basketVO">
+   		select * from shopping_basket where sb_me_id = #{me_id}
+   	</select>
+   	<select id="selectBasketAndPdNum" resultMap="selectBasketByOption">
+   		select * from shopping_basket where sb_num = #{sb_num}
+   	</select>
+   	<select id="selectDayOff" resultMap="selectDayOffAndTempOff">
+   		select * from day_off where do_pd_num = #{pd_num} and do_state = '임'
+   	</select>
+   	<resultMap type="kr.dbp.naemom.vo.DayOFFVO" id="selectDayOffAndTempOff">
+  		<id property="do_num" column="do_num"/>
+  		<result property="do_pd_num" column="do_pd_num"/>
+  		<result property="do_state" column="do_state"/>
+  		<result property="do_date" column="do_date"/>
+  		<collection property="tempOff" ofType="kr.dbp.naemom.vo.TempOFFVO" column="{do_num=do_num}" select="selectTempOffByDayOff"></collection>
+  	</resultMap>
+  	<select id="selectTempOffByDayOff" resultType="kr.dbp.naemom.vo.TempOFFVO" parameterType="java.util.Map">
+  		select * from temp_off where to_do_num = #{do_num}
+  	</select>
 </mapper>
 
 

@@ -1,6 +1,9 @@
 package kr.dbp.naemom.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import kr.dbp.naemom.dao.OrderDAO;
 import kr.dbp.naemom.vo.Buy_listVO;
+import kr.dbp.naemom.vo.DayOFFVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.OptionListDTO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
@@ -17,7 +21,9 @@ import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.Order_listVO;
 import kr.dbp.naemom.vo.PayDTO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.Reservated_optionVO;
 import kr.dbp.naemom.vo.Shopping_basketVO;
+import kr.dbp.naemom.vo.TempOFFVO;
 import kr.dbp.naemom.vo.Use_memberVO;
 
 @Service
@@ -92,7 +98,22 @@ public class OrderServiceImp implements OrderService{
 		for(OptionListDTO tmp : list) {
 			if(tmp.getPr_num() == 0 || tmp.getPr_amount() == 0 || tmp.getPr_date() == null || tmp.getPr_option() == null)
 				return res=0;
+			ArrayList<Shopping_basketVO> sbList = orderDao.selectBasketById(me_id);
+			if(sbList.size() ==0) {
+				res = orderDao.insertBasket(tmp, me_id);
+				return res;
+			}
+			for(Shopping_basketVO tmp2 : sbList) {
+				if(tmp2.getSb_date().equals(tmp.getPr_date()) && tmp2.getSb_table().equals("restraunt_option") &&
+						tmp.getPr_category().equals("restraunt_option")&& tmp2.getSb_time() == tmp.getPr_time()
+						&& tmp2.getSb_table_key() == tmp.getPr_option_num() && tmp2.getSb_me_id().equals(me_id)) {
+					System.out.println(1);
+					res = orderDao.updateBasket(tmp, me_id);
+					return res;
+				}
+			}
 			res = orderDao.insertBasket(tmp, me_id);
+			
 		}
 		return res;
 		
@@ -262,6 +283,52 @@ public class OrderServiceImp implements OrderService{
 		
 		return 0;
 	}
+
+	@Override
+	public ArrayList<Reservated_optionVO> checkFood(Reservated_optionVO ro, String me_id) {
+		ArrayList<Reservated_optionVO> tmp = new ArrayList<Reservated_optionVO>();
+		if(ro.getRo_date() == null || ro.getRo_pd_num() == 0 || me_id == null) {
+			ro.setRo_option_name("실패");
+			tmp.add(ro);
+			return tmp;
+		}
+		
+		return orderDao.selectFood(ro, me_id);
+	}
+
+	@Override
+	public void checkProduct(String[] list) {
+		for(String tmp : list) {
+			int sb_num = IntegerNum(tmp);
+			Shopping_basketVO item = orderDao.selectBasketAndPdNum(sb_num);
+			int res= 0;
+			if(item.getSb_table().equals("landmark_option")) {
+				int pd_num = item.getTravel().getLo_pd_num();
+				DayOFFVO off = orderDao.selectDayOff(pd_num);
+				for(TempOFFVO temp : off.getTempOff()) {
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					try {
+						Date date1 = format.parse(temp.getTo_start());
+						Date date2 = format.parse(item.getSb_date());
+						Date date3 = format.parse(temp.getTo_end());
+						
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+				}
+			}else if(item.getSb_table().equals("restraunt_option")) {
+				
+			}else if(item.getSb_table().equals("festival_option")) {
+				
+			}else if(item.getSb_table().equals("accomodation_option")) {
+				
+			}
+			
+		}
+		
+	}
+
+
 
 	
 

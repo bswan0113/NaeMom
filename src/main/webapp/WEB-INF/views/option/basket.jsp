@@ -224,7 +224,9 @@
 					</div>
 					<div class="option_select_box2">
 						<label>수량 : </label>
-						<input value="${list.sb_amount }" disabled="disabled" style="width:160px">
+						<input value="${list.sb_amount }" disabled="disabled" style="width:100px">
+						<label>시간 : </label>
+						<input value="${list.sb_time }" disabled="disabled" style="width:100px">
 						<label class="ml-1">가격 : </label>
 						<span class="select_price">${list.sb_price }</span>
 						<span>원</span>
@@ -312,13 +314,20 @@
   				$('form').append(str);
   				
   			})
-  			
+  			let list=[];
+  			$('.addOrder').siblings('[name=sb_num]').each(function(){
+  				list.push($(this).val());
+  			})
+  			ajaxPost(list, '<c:url value="/option/checkProduct"></c:url>', checkProduct);
   			if(confirm('총 '+amount+'개의 상품, '+price+'원 입니다.\n주문하시겠습니까?')){
   				return true;
   			}else{
   				return false;
   			}
   		})
+  		function checkProduct(data){
+  			
+  		}
   		$('.no_product_list').hide();
   		//리스트 삭제 이벤트
 		$('.delete_item').click(function(){

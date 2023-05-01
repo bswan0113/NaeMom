@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import kr.dbp.naemom.vo.Buy_listVO;
+import kr.dbp.naemom.vo.DayOFFVO;
 import kr.dbp.naemom.vo.FileVO;
-import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.OptionListDTO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_festivalVO;
 import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.Reservated_optionVO;
 import kr.dbp.naemom.vo.Shopping_basketVO;
 import kr.dbp.naemom.vo.Use_memberVO;
 
@@ -59,6 +60,19 @@ public interface OrderDAO {
 	int insertMileage(@Param("bl")Buy_listVO bl, @Param("mi_update")int mi_update);
 
 	void updateMemberByMileage(@Param("bl")Buy_listVO bl, @Param("mi_update")int mi_update);
+
+	ArrayList<Reservated_optionVO> selectFood(@Param("ro")Reservated_optionVO ro, @Param("me_id")String me_id);
+
+	int updateBasket(@Param("tmp")OptionListDTO tmp, @Param("me_id")String me_id);
+
+	ArrayList<Shopping_basketVO> selectBasketById(@Param("me_id")String me_id);
+
+	Shopping_basketVO selectBasketAndPdNum(@Param("sb_num")int sb_num);
+
+	DayOFFVO selectDayOff(@Param("pd_num")int pd_num);
+
+	
+
 
 
 

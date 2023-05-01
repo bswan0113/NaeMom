@@ -13,6 +13,7 @@ import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.PayDTO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.Reservated_optionVO;
 import kr.dbp.naemom.vo.Shopping_basketVO;
 import kr.dbp.naemom.vo.Use_memberVO;
 
@@ -61,6 +62,11 @@ public interface OrderService {
 	void insertReservation(Buy_listVO bl);
 
 	int selectReservationRoom(String checkIn);
+
+	ArrayList<Reservated_optionVO> checkFood(Reservated_optionVO ro, String me_id);
+
+	void checkProduct(String[] list);
+
 
 
 	

@@ -30,4 +30,14 @@ public class TempOFFVO {
 				new SimpleDateFormat("yyyy-MM-dd");
 			return format.format(to_end);
 	}
+	public String getTo_start() {
+		SimpleDateFormat format = 
+			new SimpleDateFormat("yyyy-MM-dd");
+		return format.format(to_start);
+	}
+	public String getTo_end() {
+		SimpleDateFormat format = 
+				new SimpleDateFormat("yyyy-MM-dd");
+			return format.format(to_end);
+	}
 }

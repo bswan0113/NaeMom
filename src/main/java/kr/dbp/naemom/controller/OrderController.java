@@ -35,6 +35,7 @@ import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.PayDTO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.Reservated_optionVO;
 import kr.dbp.naemom.vo.Shopping_basketVO;
 import kr.dbp.naemom.vo.Use_memberVO;
 
@@ -113,8 +114,17 @@ public class OrderController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		
 		int res = orderService.addBasket(list, user.getMe_id());
+		map.put("res", res);
+		return map;
+	}
+	@ResponseBody
+	@RequestMapping(value="/option/checkFood", method=RequestMethod.POST)
+	public Map<String, Object> checkFood(@RequestBody Reservated_optionVO ro,HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		ArrayList<Reservated_optionVO> res = orderService.checkFood(ro, user.getMe_id());
 		map.put("res", res);
 		return map;
 	}
@@ -143,6 +153,17 @@ public class OrderController {
 		mv.addObject("fList", fList);
 		mv.setViewName("/option/basket");
 		return mv;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/option/checkProduct", method=RequestMethod.POST)
+	public Map<String, Object> checkProduct(@RequestBody String[]list,HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		orderService.checkProduct(list);
+		
+		
+		
+		//map.put("res", res);
+		return map;
 	}
 	@ResponseBody
 	@RequestMapping(value = "/option/deleteBasket", method=RequestMethod.POST)
@@ -314,7 +335,7 @@ public class OrderController {
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		Buy_listVO bl = orderService.getBuyListByBlNum(bl_num);
 		orderService.insertMileage(bl);
-		//orderService.insertReservation(bl);
+		orderService.insertReservation(bl);
 		mv.addObject("user", user);
 		mv.addObject("bl", bl);
 		mv.setViewName("/option/completeBuy");
