@@ -49,7 +49,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter  {
 
 	    if(user != null) {
 	        HttpSession session = request.getSession();
-	        System.out.println(session);
+	        session.setAttribute("user", user);
+	        
 	        if(user.isAutoLogin()) {
 	        	Cookie cookie = new Cookie("dbpCookie", session.getId());
 	        	//1주일
