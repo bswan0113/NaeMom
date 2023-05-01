@@ -1,47 +1,60 @@
-
-.btn-findid{
-	color:white;
-	background-color: rgb(118, 229, 168);
-	border-color: white;
-	margin-left: 17%;
-	margin-top: 1%;
-	margin-bottom:3%;
-	font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
-	cursor: pointer;
+.btn-findid {
+color: white;
+background-color: rgb(118, 229, 168);
+border-color: white;
+margin-left: 25%;
+margin-top: 1%;
+margin-bottom: 3%;
+font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", helvetica, "Apple SD Gothic Neo", sans-serif;
+cursor: pointer;
 }
 
-#findpw{
-	color:white;
-	background-color: rgb(118, 229, 168);
-	border-color: white;
-	margin-bottom: 10px;	
-	margin-left: 20%;
-	font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
-	cursor: pointer;
-	float:right;
-	
+#findpw {
+color: white;
+background-color: rgb(118, 229, 168);
+border-color: white;
+margin-bottom: 10px;
+font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", helvetica, "Apple SD Gothic Neo", sans-serif;
+cursor: pointer;
+float: right;
 }
-#login{
-	color:white;
-	background-color: rgb(118, 229, 168);
-	border-color: white;	
-	margin-top: 1%;
-	font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
-	cursor: pointer;
 
+#login {
+color: white;
+background-color: rgb(118, 229, 168);
+border-color: white;
+margin-left: 25%;
+margin-top: 1%;
+font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", helvetica, "Apple SD Gothic Neo", sans-serif;
+cursor: pointer;
 }
-.container{
-	border: none;
-	width: 250px;
-	height: 250px;
-	margin-left: 45%;
-	margin-top: 20%;
+
+.container {
+border: none;
+width: 250px;
+height: 250px;
+margin: 10% auto 0 auto;
 }
-#name,#email,#birth,#account{
+
+#name,
+#email,
+#birth,
+#account {
 margin-left: 15%;
 margin-top: 10%;
 }
-h1{
-	color: #01e283;
-	margin-bottom: 50px;
+
+h1 {
+color: #01e283;
+margin-bottom: 50px;
+text-align: center;
+}
+
+footer {
+position: absolute;
+bottom: 0;
+width: 100%;
+height: 50px;
+background-color: #f2f2f2;
+text-align: center;
 }
