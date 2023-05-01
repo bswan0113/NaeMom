@@ -82,7 +82,7 @@ public class MemberController {
 	    if (request.getMethod().equals("POST")) {
 	        MemberVO user = memberService.login(member);
 	        if(user != null && user.getMe_authority() > 0) {
-	            user.setAutoLogin(member.isAutoLogin());
+	            user.setAutoLogin(member.isAutoLogin());	            
 	            mv.addObject("user", user);
 	            mv.addObject("msg", "로그인에 성공했습니다.");
 	            mv.addObject("url", "/");
