@@ -80,8 +80,8 @@
 		values(#{bl.bl_num},#{bl.bl_state},#{bl.bl_total_price},#{bl.bl_stack_mile},#{bl.bl_use_mile},#{bl.bl_me_id},#{bl.bl_name})
 	</insert>
 	<insert id="insertOrderList">
-		insert into order_list(ol_amount, ol_price, ol_table, ol_table_key, ol_date, ol_bl_num)
-		select sb_amount, sb_price, sb_table, sb_table_key, sb_date, #{bl_num}
+		insert into order_list(ol_amount, ol_price, ol_table, ol_table_key, ol_date, ol_bl_num, ol_time)
+		select sb_amount, sb_price, sb_table, sb_table_key, sb_date, #{bl_num} , sb_time
 			from shopping_basket where sb_num = #{sb_num}
 	</insert>
 	<update id="updateBuyList">
@@ -166,6 +166,20 @@
   	<select id="selectTempOffByDayOff" resultType="kr.dbp.naemom.vo.TempOFFVO" parameterType="java.util.Map">
   		select * from temp_off where to_do_num = #{do_num}
   	</select>
+  	<select id="selectFoodOptionByTableKey" resultType="kr.dbp.naemom.vo.Option_restrauntVO">
+  		select * from restraunt_option where reo_num = #{ol_table_key}
+  	</select>
+  	<select id="selectHomeOptionByTableKey" resultType="kr.dbp.naemom.vo.Option_accomodationVO">
+  		select * from accomodation_option where ao_num = #{ol_table_key}
+ 	</select>
+ 	<insert id="insertFoodOption">
+ 		insert into reservated_option(ro_option_name, ro_date, ro_time, ro_pd_num, ro_me_id)
+ 		values(#{food.reo_name}, #{tmp.ol_date}, #{tmp.ol_time},#{food.reo_pd_num},#{me_id})
+ 	</insert>
+	<insert id="insertHomeOption">
+ 		insert into reservation_room(rr_check_in,rr_check_out, rr_ao_num, rr_pd_num, rr_me_id)
+ 		values(#{tmp.ol_date},#{date},#{home.ao_num},#{home.ao_pd_num},#{me_id})
+ 	</insert>
 </mapper>
 
 

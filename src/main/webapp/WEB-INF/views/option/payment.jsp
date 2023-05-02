@@ -207,6 +207,9 @@
 			width:260px; height:60px; display:inline-block; background: #0085da; font-size: 30px;
     		color: #fff; border: 0; border-radius: 5px;
 		}
+		.Layer_btn_close{
+			position: relative;
+		}
   </style>
 </head>
 <body>
@@ -623,13 +626,23 @@
    			}).error(function (data) {
    				//결제 진행시 에러가 발생하면 수행됩니다.
    				ajaxPostString(orderNum, '<c:url value="/option/deleteBuyList"></c:url>', deleteSuccess);
+   			}).cancel(function (data) {
+   				//결제가 취소되면 수행됩니다.
+   				ajaxPostString(orderNum, '<c:url value="/option/deleteBuyList"></c:url>', deleteSuccess);
    			})
    		})
+   		window.onpageshow = function(event) {
+		    if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+		        // Back Forward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우
+		        // 이벤트 추가하는 곳
+		    	ajaxPostString(orderNum, '<c:url value="/option/deleteBuyList"></c:url>', deleteSuccess);
+		    }
+		}
    		function insertSuccess(data){
    			orderNum = data;
    		}
    		function paySuccess(data){
-   			console.log(orderNum)
+   			
    			if(data == "NO"){
    				alert('결제에 실패했습니다.');
    				ajaxPostString(orderNum, '<c:url value="/option/deleteBuyList"></c:url>', deleteSuccess);
@@ -652,7 +665,7 @@
    			console.log(data)
    		}
    		function deleteSuccess(data){
-   			console.log(data)
+   			ajaxPostString(orderNum, '<c:url value="/option/deleteBuyList"></c:url>', qweqweSuccess);
    		}
    		function updateSuccess(data){
    			console.log(data)
@@ -662,6 +675,34 @@
    			$('[name=bl_num]').val(data);
    			$('#completeBuy').submit();
    		}
+   		function qweqweSuccess(data){
+   			
+   		}
+   		$(document).on("submit", "form", function(event){
+   	        window.onbeforeunload = null;
+   		});
+   		window.onbeforeunload = function (event) {
+   			// 표준에 따라 기본 동작 방지
+   		    event.preventDefault();
+   		    
+   		    // ajax 호출
+	   		 $.ajax({
+				type: 'POST',
+				data: JSON.stringify(orderNum),
+				url: '<c:url value="/option/deleteBuyList"></c:url>',
+				contentType:"application/json; charset=UTF-8"
+			 });
+   		}
+   		/* //새로고침시 저장된 buyList삭제
+		window.addEventListener('beforeunload',deleteList );
+		function deleteList(){
+			$.ajax({
+				type: 'POST',
+				data: JSON.stringify(orderNum),
+				url: '<c:url value="/option/deleteBuyList"></c:url>',
+				contentType:"application/json; charset=UTF-8"
+			});
+		} */
    		//ajax
 		function ajaxPost(obj, url, successFunction){
 			$.ajax({

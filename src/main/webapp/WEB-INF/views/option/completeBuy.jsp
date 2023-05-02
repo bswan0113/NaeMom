@@ -117,7 +117,7 @@
    		}
   </style>
 </head>
-<body>
+<body onbeforeunload="return '';">
 	<div class="contents clearfix">
 		<div class="title_box clearfix">
 	    	<label class="option_title">결제완료</label>
@@ -180,7 +180,7 @@
 	
 	</div>
    	<script>
-   		
+	   	
    		
    		//ajax
 		function ajaxPost(obj, url, successFunction){

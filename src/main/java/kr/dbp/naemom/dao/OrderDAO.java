@@ -1,5 +1,6 @@
 package kr.dbp.naemom.dao;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
@@ -12,6 +13,7 @@ import kr.dbp.naemom.vo.Option_accomodationVO;
 import kr.dbp.naemom.vo.Option_festivalVO;
 import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
+import kr.dbp.naemom.vo.Order_listVO;
 import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.Reservated_optionVO;
 import kr.dbp.naemom.vo.Shopping_basketVO;
@@ -70,6 +72,16 @@ public interface OrderDAO {
 	Shopping_basketVO selectBasketAndPdNum(@Param("sb_num")int sb_num);
 
 	DayOFFVO selectDayOff(@Param("pd_num")int pd_num);
+
+	Option_restrauntVO selectFoodOptionByTableKey(@Param("ol_table_key")int ol_table_key);
+
+	Option_accomodationVO selectHomeOptionByTableKey(@Param("ol_table_key")int ol_table_key);
+
+	void insertFoodOption(@Param("tmp")Order_listVO tmp, @Param("food")Option_restrauntVO food, 
+			@Param("me_id")String me_id);
+
+	void insertHomeOption(@Param("tmp")Order_listVO tmp, @Param("home")Option_accomodationVO home,
+			@Param("me_id")String me_id,  @Param("date")LocalDate date);
 
 	
 

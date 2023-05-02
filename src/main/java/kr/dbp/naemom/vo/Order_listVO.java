@@ -17,6 +17,7 @@ public class Order_listVO {
 	int ol_table_key;
 	String ol_table;
 	Date ol_date;
+	int ol_time;
 	
 	public String getOl_date() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

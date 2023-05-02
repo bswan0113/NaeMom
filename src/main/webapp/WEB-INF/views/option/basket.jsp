@@ -298,6 +298,7 @@
 	    	</div>
   </div>
   <script>
+  		var checkPd = true;
   		$('form').submit(function(){
   			if(!$('.option_item').length){
   				alert('장바구니에 상품이 없습니다');
@@ -319,6 +320,8 @@
   				list.push($(this).val());
   			})
   			ajaxPost(list, '<c:url value="/option/checkProduct"></c:url>', checkProduct);
+  			if(!checkPd)
+  				return false;
   			if(confirm('총 '+amount+'개의 상품, '+price+'원 입니다.\n주문하시겠습니까?')){
   				return true;
   			}else{
@@ -326,7 +329,14 @@
   			}
   		})
   		function checkProduct(data){
-  			
+  			let pd_num = data.pd_num;
+  			if(pd_num != 0){
+	  			ajaxPost(pd_num, '<c:url value="/option/impossibleProduct"></c:url>', impossibleProduct);
+  			}
+  		}
+  		function impossibleProduct(data){
+  			alert('"'+data.pd.pd_title+'"는 예약이 가득 찼거나 휴무일입니다.');
+  			checkPd = false;
   		}
   		$('.no_product_list').hide();
   		//리스트 삭제 이벤트
