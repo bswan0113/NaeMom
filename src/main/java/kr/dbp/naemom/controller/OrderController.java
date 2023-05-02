@@ -158,7 +158,7 @@ public class OrderController {
 	@RequestMapping(value = "/option/checkProduct", method=RequestMethod.POST)
 	public Map<String, Object> checkProduct(@RequestBody String[]list,HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		orderService.checkProduct(list);
+		int res = orderService.checkProduct(list);
 		
 		
 		

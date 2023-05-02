@@ -297,7 +297,7 @@ public class OrderServiceImp implements OrderService{
 	}
 
 	@Override
-	public void checkProduct(String[] list) {
+	public int checkProduct(String[] list) {
 		for(String tmp : list) {
 			int sb_num = IntegerNum(tmp);
 			Shopping_basketVO item = orderDao.selectBasketAndPdNum(sb_num);
@@ -308,23 +308,80 @@ public class OrderServiceImp implements OrderService{
 				for(TempOFFVO temp : off.getTempOff()) {
 					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 					try {
-						Date date1 = format.parse(temp.getTo_start());
+						Date date1 = format.parse(temp.getTo_start_str());
 						Date date2 = format.parse(item.getSb_date());
-						Date date3 = format.parse(temp.getTo_end());
-						
+						Date date3 = format.parse(temp.getTo_end_str());
+						System.out.println(date1.getTime());
+						System.out.println(date2.getTime());
+						System.out.println(date3.getTime());
+						if(date1.getTime()<=date2.getTime() && date2.getTime() <=date3.getTime()) {
+							return res=999;
+						}
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
 				}
 			}else if(item.getSb_table().equals("restraunt_option")) {
-				
+				int pd_num = item.getFood().getReo_pd_num();
+				DayOFFVO off = orderDao.selectDayOff(pd_num);
+				for(TempOFFVO temp : off.getTempOff()) {
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					try {
+						Date date1 = format.parse(temp.getTo_start_str());
+						Date date2 = format.parse(item.getSb_date());
+						Date date3 = format.parse(temp.getTo_end_str());
+						System.out.println(date1.getTime());
+						System.out.println(date2.getTime());
+						System.out.println(date3.getTime());
+						if(date1.getTime()<=date2.getTime() && date2.getTime() <=date3.getTime()) {
+							return res=888;
+						}
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+				}
 			}else if(item.getSb_table().equals("festival_option")) {
-				
+				int pd_num = item.getFestival().getFo_pd_num();
+				DayOFFVO off = orderDao.selectDayOff(pd_num);
+				for(TempOFFVO temp : off.getTempOff()) {
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					try {
+						Date date1 = format.parse(temp.getTo_start_str());
+						Date date2 = format.parse(item.getSb_date());
+						Date date3 = format.parse(temp.getTo_end_str());
+						System.out.println(date1.getTime());
+						System.out.println(date2.getTime());
+						System.out.println(date3.getTime());
+						if(date1.getTime()<=date2.getTime() && date2.getTime() <=date3.getTime()) {
+							return res=888;
+						}
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+				}
 			}else if(item.getSb_table().equals("accomodation_option")) {
-				
+				int pd_num = item.getHome().getAo_pd_num();
+				DayOFFVO off = orderDao.selectDayOff(pd_num);
+				for(TempOFFVO temp : off.getTempOff()) {
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					try {
+						Date date1 = format.parse(temp.getTo_start_str());
+						Date date2 = format.parse(item.getSb_date());
+						Date date3 = format.parse(temp.getTo_end_str());
+						System.out.println(date1.getTime());
+						System.out.println(date2.getTime());
+						System.out.println(date3.getTime());
+						if(date1.getTime()<=date2.getTime() && date2.getTime() <=date3.getTime()) {
+							return res=888;
+						}
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 			
 		}
+		return 0;
 		
 	}
 

@@ -65,7 +65,7 @@ public interface OrderService {
 
 	ArrayList<Reservated_optionVO> checkFood(Reservated_optionVO ro, String me_id);
 
-	void checkProduct(String[] list);
+	int checkProduct(String[] list);
 
 
 
