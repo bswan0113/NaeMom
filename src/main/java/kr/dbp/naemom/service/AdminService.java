@@ -76,5 +76,7 @@ public interface AdminService {
 
 	boolean insertHashtag(int pd_num, String[] list);
 
+	void addVisit(String id);
+
 
 }

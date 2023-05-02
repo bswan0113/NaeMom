@@ -7,7 +7,7 @@
 <script src="<c:url value='/resources/js/home.js'></c:url>"></script>
 <link rel="stylesheet" href="<c:url value='/resources/css/home.css?ver=1.3'></c:url>">
 <c:if test="${user.me_authority>9}">
-	<a class="admin fas fa-cog" href="<c:url value='/admin/home/home'></c:url>">관리자페이지</a>
+	<a class="admin fas fa-cog" href="<c:url value='/admin/home/main'></c:url>">관리자페이지</a>
 </c:if>
 <div class="main-container-first">
     <div class="first-title title">

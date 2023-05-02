@@ -205,6 +205,12 @@ public class AdminServiceImp implements AdminService{
 		}
 		return true;
 	}
+
+	@Override
+	public void addVisit(String id) {
+		adminDao.addVisit(id);
+		
+	}
 	
 	
 }

@@ -78,6 +78,8 @@ public interface AdminDAO {
 
 	boolean insertHashtag(@Param("hg_pd_num")int pd_num, @Param("hg_name")String hash);
 
+	void addVisit(@Param("id")String id);
+
 
 
 

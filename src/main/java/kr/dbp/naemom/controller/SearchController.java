@@ -9,8 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
+import kr.dbp.naemom.service.ProductService;
 import kr.dbp.naemom.service.SearchService;
-import kr.dbp.naemom.vo.CalendarVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.ProductVO;
 
@@ -20,9 +20,15 @@ public class SearchController {
 	
 	@Autowired
 	SearchService searchService;
+	@Autowired
+	ProductService productService;
 	
 	@RequestMapping(value = "/searchList/searchMain")
 	public ModelAndView searchMain(ModelAndView mv, Criteria cri) {
+		if(cri!=null && cri.getSearch()!=null  && cri.getSearch().trim().length() != 0) {
+			
+			productService.insertKeyword(cri.getSearch(), 0);
+		}
 		if(cri == null) cri = new Criteria();
 		cri.setPerPageNum(4);
 		ArrayList<ProductVO> landmark = searchService.getProduct(cri,1);
@@ -43,6 +49,11 @@ public class SearchController {
 
 	@RequestMapping(value = "/searchList/searchDetailList")
 	public ModelAndView searchRe(ModelAndView mv, Criteria cri) {
+
+		if(cri!=null && cri.getSearch()!=null  && cri.getSearch().trim().length() != 0) {
+			
+			productService.insertKeyword(cri.getSearch(), 0);
+		}
 		if(cri == null) cri = new Criteria();
 		ArrayList<ProductVO> pList =  searchService.getProduct(cri, cri.getPc_category());
 		int totalCount = searchService.getTotalCount(cri.getPc_category());
