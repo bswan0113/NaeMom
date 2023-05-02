@@ -419,6 +419,14 @@ public class ProductServiceImp implements ProductService{
 		currentProduct.setPath("/");
 	    response.addCookie(currentProduct);
 	}
+
+
+
+	@Override
+	public String[] getHashList(int pd_num) {
+		if(pd_num<1) return null;
+		return productDao.getHash(pd_num);
+	}
 	
 
 

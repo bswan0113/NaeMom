@@ -188,7 +188,7 @@ public class ProductController {
 		        option.set(i, optReo);
 		    }
 		}
-		
+		mv.addObject("hash", getHashtag(pd_num));
 		mv.addObject("user", user);
 		mv.addObject("option",option);
 		mv.addObject("wish",wish);
@@ -203,6 +203,10 @@ public class ProductController {
 	
 	
 	
+	private String[] getHashtag(int pd_num) {
+		return productService.getHashList(pd_num);
+	}
+
 	private ArrayList<Object> getOption(int pd_pc_num, int pd_num) {
 		ArrayList<Object> option=null;
 		if(pd_pc_num>5 || pd_num<0) return null;

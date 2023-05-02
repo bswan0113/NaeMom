@@ -13,6 +13,7 @@ import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.AdminService;
 import kr.dbp.naemom.vo.CourseVO;
+import kr.dbp.naemom.vo.Hash_tagVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.ReviewCommentVO;
 import kr.dbp.naemom.vo.ReviewVO;
@@ -96,4 +97,15 @@ public class AdminController {
 		
 	}
 	
+	@RequestMapping(value = "/admin/insert/hashtag/{pd_num}/{pd_title}")
+	public ModelAndView adminIntoUserPage(ModelAndView mv, @PathVariable("pd_num")int pd_num, @PathVariable("pd_title")String pd_title) {
+		ArrayList<Hash_tagVO> regi = adminService.getHashList(pd_num);
+		
+		mv.addObject("pd_num", pd_num);
+		mv.addObject("title", pd_title);
+		mv.addObject("regi", regi);
+		mv.setViewName("/admin/insert/insertHashtag");
+		return mv;
+		
+	}
 }

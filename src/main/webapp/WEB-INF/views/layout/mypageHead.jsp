@@ -129,7 +129,6 @@ $('.check-pw').click(function(){
 	        url: "<c:url value='/mypage/pwcheck'></c:url>",
 	        success: function(data){
 	        	if(data.res){
-	        		alert('비밀번호가 맞습니다!');
 	        		location.href = "<c:url value='/mypage/profile'></c:url>"; // 수정된 부분
 
 		    	}

@@ -193,5 +193,8 @@
 		insert into search_keyword(sk_keyword, sk_pd_num, sk_date) values(#{search},#{pd_num}, now());
 	</insert>
 
+	<select id="getHash" resultType="String">
+		select hg_name from hash_tag where hg_pd_num= #{hg_pd_num}
+	</select>
 </mapper>
 

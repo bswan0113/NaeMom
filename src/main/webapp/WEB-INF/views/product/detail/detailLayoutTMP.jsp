@@ -10,7 +10,6 @@
 
 <div style="float: right;" class="service-box">
 	
-	
 	<button style="color:
 		<c:if test="${wish.wi_num!=null}">red</c:if>
 		<c:if test="${wish.wi_num==null}">black</c:if>;" 
@@ -40,6 +39,9 @@
 
 <div class="form-group detail-box">
 	<h4 style="font-weight: bold;">상세정보</h4>
+	<c:forEach items="${hash}" var="hash">
+		<span class="hash">&#35;${hash}</span>
+	</c:forEach>
 	<hr style="font-weight: bold;">
 	<div>${product.pd_content}</div>
 	<hr>
@@ -387,7 +389,7 @@ font-weight:bold;
 	}
 
 	.random-title{
-		width: 100%;
+		width: 80%;
 		position: absolute;
 		bottom: 0;
 		left: 0;
@@ -396,6 +398,10 @@ font-weight:bold;
 		font-weight: bold;
 		z-index: 10;
 		font-size:20px;
+		 text-overflow:ellipsis;
+ 		overflow:hidden;
+ 		white-space:nowrap;
+ 		margin-left:20px;
 	}
 
 	.container .fas{
@@ -457,6 +463,11 @@ font-weight:bold;
 
 </style>
 <style>
+.hash{
+color:#ccc;
+font-size:18px;
+font-weight:bold;
+}
 textarea{
 resize:none;
 }
@@ -500,10 +511,13 @@ resize:none;
 content:''; clear:both; display:block;
 }
 
-
-height: 500px;
-width:500px;
-border:1px solid black;
+.map-tag{
+ width:150px;
+ text-align:center;
+ padding:6px 0;
+ text-overflow:ellipsis;
+ overflow:hidden;
+ white-space:nowrap;
 }
 </style>
 
@@ -1213,7 +1227,7 @@ $("#ao-option").on("change", function(){
 		
 		      // 인포윈도우로 장소에 대한 설명을 표시합니다
 		      var infowindow = new kakao.maps.InfoWindow({
-		          content: '<div style="width:150px;text-align:center;padding:6px 0;">'+"${product.pd_title}"+'</div>'
+		          content: '<div class="map-tag">'+"${product.pd_title}"+'</div>'
 		      });
 		      infowindow.open(map, marker);
 		

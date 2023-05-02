@@ -7,6 +7,7 @@ import java.util.Map;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.BuyListVO;
 import kr.dbp.naemom.vo.CourseVO;
+import kr.dbp.naemom.vo.Hash_tagVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.ReportManageVO;
 import kr.dbp.naemom.vo.ReportVO;
@@ -68,6 +69,12 @@ public interface AdminService {
 	boolean deleteComment(int num);
 
 	ArrayList<ReportVO> getReportByType(int num, String type);
+
+	ArrayList<Hash_tagVO> getHashList(int pd_num);
+
+	boolean deleteHashtag(int parseInt);
+
+	boolean insertHashtag(int pd_num, String[] list);
 
 
 }
