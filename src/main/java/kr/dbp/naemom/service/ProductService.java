@@ -77,6 +77,8 @@ public interface ProductService {
 
 	void insertKeyword(String search, int pd_num);
 
+	String[] getHashList(int pd_num);
+
 
 
 

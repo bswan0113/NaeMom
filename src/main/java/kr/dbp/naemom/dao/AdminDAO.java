@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.BuyListVO;
 import kr.dbp.naemom.vo.CourseVO;
+import kr.dbp.naemom.vo.Hash_tagVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.ReportManageVO;
 import kr.dbp.naemom.vo.ReportVO;
@@ -70,6 +71,12 @@ public interface AdminDAO {
 	int deleteComment(@Param("num")int num);
 
 	ArrayList<ReportVO> getReportByType(@Param("table_key")int num, @Param("table")String type);
+
+	ArrayList<Hash_tagVO> getHashtag(@Param("pd_num")int pd_num);
+
+	int deletehashTag(@Param("hg_num")int hg_num);
+
+	boolean insertHashtag(@Param("hg_pd_num")int pd_num, @Param("hg_name")String hash);
 
 
 

@@ -58,17 +58,17 @@
 			<ul class="comment-pagination pagination justify-content-center">
 				<c:if test="${pm.prev}">
 					<li class="page-item">
-						<a class="page-link" href="<c:url value='/mypage/qnaList?page=${pm.startPage-1}'/>">이전</a>
+						<a class="page-link" href="<c:url value='/admin/list/qnaList?page=${pm.startPage-1}'/>">이전</a>
 					</li>
 				</c:if>
 		   	    <c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="i">
 			        <li class="page-item <c:if test="${pm.cri.page == i}"> active</c:if>">
-			            <a class="page-link" href="<c:url value='/mypage/qnaList?page=${i}'/>">${i}</a>
+			            <a class="page-link" href="<c:url value='/admin/list/qnaList?page=${i}'/>">${i}</a>
 			        </li>
 			    </c:forEach>
 			    <c:if test="${pm.next}">
 				    <li class="page-item">
-				    	<a class="page-link" href="<c:url value='/mypage/qnaList?page=${pm.startPage+1}'/>">다음</a>
+				    	<a class="page-link" href="<c:url value='/admin/list/qnaList?page=${pm.startPage+1}'/>">다음</a>
 				    </li>
 			    </c:if>
 			</ul>

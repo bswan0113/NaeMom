@@ -154,6 +154,24 @@ public class AdminAjaxController {
 			
 		return map;
 	}
+
+	
+	@RequestMapping(value = "/admin/delete/hashtag/{num}", method=RequestMethod.GET)
+	public Map<String, Object> deleteHashTag(@PathVariable("num")String num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res= adminService.deleteHashtag(Integer.parseInt(num));
+		map.put("res", res);
+
+		return map;
+	}
+	
+	@RequestMapping(value = "/admin/save/hashtag/{pd_num}", method=RequestMethod.POST)
+	public Map<String, Object> deleteHashTag(@PathVariable("pd_num")int pd_num, @RequestBody String[] list) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = adminService.insertHashtag(pd_num,list);
+		map.put("res", res);
+		return map;
+	}
 	
 
 }

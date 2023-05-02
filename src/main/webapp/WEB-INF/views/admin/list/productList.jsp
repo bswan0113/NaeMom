@@ -9,7 +9,7 @@
    border: 1px solid #dae1e6;
    margin: 0 auto;
    margin-top: 50px;
-   min-width:1200px;
+   width:1350px;
  }
  .search-container{
    width: 80%;
@@ -23,7 +23,14 @@
  padding:20px;
  }
 
-
+.item-link{
+width:150px;
+display:inline-block;
+text-align:center;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+}
 
 .item-img{
 width:100px;
@@ -66,6 +73,7 @@ height:100px;
       	<a class="item-link" href="<c:url value='/product/detail/detailLayoutTMP/${item.pd_num}'></c:url>">${item.pd_title}</a>
         <a href="<c:url value='/admin/insert/updateProduct/${item.pd_num}'></c:url>"class="btn btn-dark product-update" data-num="${item.pd_num}">수정</a>
         <button class="btn btn-dark product-delete" data-num="${item.pd_num}">삭제</button>
+        <a class="btn btn-dark" href="<c:url value='/admin/insert/hashtag/${item.pd_num}/${item.pd_title}'></c:url>">해쉬태그 등록</a>
         <c:if test="${item.pd_pc_num==1}">
          <a class="btn btn-dark" href="<c:url value='/admin/insert/optionLandMark/'></c:url>${item.pd_num}">옵션관리</a>
         </c:if>
