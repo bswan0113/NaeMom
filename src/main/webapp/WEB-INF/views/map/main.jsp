@@ -234,13 +234,24 @@ body {
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7d3f638bdeedf08d5afccc6accd5e919&libraries=services"></script>
 <script>
 	var container = document.getElementById('map');
+	
 	var options = {
-		center: new kakao.maps.LatLng(33.450701, 126.570667),
+		center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표 (서울시청)
 		level: 3
 	};
 
 	var map = new kakao.maps.Map(container, options);
 
+	navigator.geolocation.getCurrentPosition(function(position) {
+	    // 현재 위치를 중심으로 지도 이동
+	    var lat = position.coords.latitude; // 위도
+	    var lng = position.coords.longitude; // 경도
+	    var locPosition = new kakao.maps.LatLng(lat, lng); // 좌표 생성
+	    var marker = new kakao.maps.Marker({ // 마커 생성
+	        position: locPosition
+	    });
+	    map.setCenter(locPosition); // 지도 이동
+	}); 
 	
 	var geocoder = new kakao.maps.services.Geocoder();
 
@@ -270,44 +281,86 @@ body {
 	        map: map,
 	        position: coords
 	      });
+	    } 
 	      
 	      
 	    // 커스텀 오버레이에 표시할 컨텐츠 입니다
 	  	// 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
 	  	// 별도의 이벤트 메소드를 제공하지 않습니다 
-	  	var content = '<div class="wrap">' + 
-	  	            	'<div class="info">' + 
-	  	            		'<div class="title">' + 
-	  	            			title + 
-	              				'<div class="close" onclick="closeOverlay()" title="닫기"></div>' + 
-	              			'</div>' + 
-	  	            		'<div class="body">' + 
-	  	            			'<div class="img">' +
-	  	            				'<img src="<c:url value=""></c:url>" width="73" height="70">' +
-	  	            			'</div>' + 
-	  	            			'<div class="desc">' + 
-	  	            				'<div class="ellipsis">' + address +'</div>' + 
-	  	            				'<div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">홈페이지</a></div>' + 
-	  	            			'</div>' + 
-	  	            		'</div>' + 
-	  	            	'</div>' +    
-	  	            '</div>';
+	  	
+	    
+	    var content = document.createElement('div');
+	    content.classList.add('wrap');
 
-	    }
+	    var info = document.createElement('div');
+	    info.classList.add('info');
+
+	    var titleDiv = document.createElement('div');
+	    titleDiv.classList.add('title');
+	    var titleText = document.createTextNode(title);
+	    titleDiv.appendChild(titleText);
+
+	    var closeBtn = document.createElement('div');
+	    closeBtn.classList.add('close');
+	    closeBtn.setAttribute('title', '닫기');
+	    closeBtn.addEventListener('click', closeOverlay);
+	    titleDiv.appendChild(closeBtn);
+
+	    info.appendChild(titleDiv);
+
+	    var bodyDiv = document.createElement('div');
+	    bodyDiv.classList.add('body');
+
+	    var imgDiv = document.createElement('div');
+	    imgDiv.classList.add('img');
+	    var img = document.createElement('img');
+	    img.setAttribute('src', '<c:url value=""></c:url>');
+	    img.setAttribute('width', '73');
+	    img.setAttribute('height', '70');
+	    imgDiv.appendChild(img);
+	    bodyDiv.appendChild(imgDiv);
+
+	    var descDiv = document.createElement('div');
+	    descDiv.classList.add('desc');
+
+	    var ellipsisDiv = document.createElement('div');
+	    ellipsisDiv.classList.add('ellipsis');
+	    var addressText = document.createTextNode(address);
+	    ellipsisDiv.appendChild(addressText);
+	    descDiv.appendChild(ellipsisDiv);
+
+	    var linkDiv = document.createElement('div');
+	    var link = document.createElement('a');
+	    link.setAttribute('href', '<c:url value=""></c:url>');
+	    link.setAttribute('target', '_blank');
+	    link.classList.add('link');
+	    var linkText = document.createTextNode('상품보기');
+	    link.appendChild(linkText);
+	    linkDiv.appendChild(link);
+	    descDiv.appendChild(linkDiv);
+
+	    bodyDiv.appendChild(descDiv);
+
+	    info.appendChild(bodyDiv);
+
+	    content.appendChild(info);
+	    
 	 	// 마커 위에 커스텀오버레이를 표시합니다
 		// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
-		var overlay = new kakao.maps.CustomOverlay({
-		    content: content,
-		    map: map,
-		    position: marker.getPosition(),
-		});
-
+		var overlay = null;
+	 	
+		
 		// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-		(function(overlay, marker){
-			kakao.maps.event.addListener(marker, 'click', function(map) {
-			    overlay.setMap(map);
-			});			
-		})(marker, overlay);
+		kakao.maps.event.addListener(marker, 'click', function() {
+			if(!overlay)
+				overlay = new kakao.maps.CustomOverlay({
+					content: content,
+					map: map,
+					position: marker.getPosition(),
+			    });
+		    overlay.setMap(map);
+		    
+		});
 
 		// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
 		function closeOverlay() {
@@ -319,26 +372,8 @@ body {
 
 	
 
-	navigator.geolocation.getCurrentPosition(function(position) {
-	    // 현재 위치를 중심으로 지도 이동
-	    var lat = position.coords.latitude; // 위도
-	    var lng = position.coords.longitude; // 경도
-	    var locPosition = new kakao.maps.LatLng(lat, lng); // 좌표 생성
-	    var marker = new kakao.maps.Marker({ // 마커 생성
-	        position: locPosition
-	    });
-	    map.setCenter(locPosition); // 지도 이동
-	    marker.setMap(map); // 마커 지도에 표시
-	}); 
 	
 	
-	map.setMinLevel(3);
-	map.setMaxLevel(10);
-	
-	var customOverlay = new kakao.maps.CustomOverlay({
-	    range: 300
-	});
-
 	
 
 	
