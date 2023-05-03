@@ -1,5 +1,7 @@
 package kr.dbp.naemom.vo;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import lombok.Data;
@@ -17,6 +19,8 @@ public class Buy_listVO {
 	String bl_me_id;
 	String bl_name;
 	
+	Date bl_date;
+	
 	List<Order_listVO> orderlist;
 	Use_memberVO useMember;
 	
@@ -29,6 +33,11 @@ public class Buy_listVO {
 		this.bl_use_mile = bl_use_mile;
 		this.bl_me_id = bl_me_id;
 		this.bl_name = bl_name;
+	}
+	public String getBl_date() {
+		SimpleDateFormat format = 
+			new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return format.format(bl_date);
 	}
 	
 	

@@ -23,9 +23,9 @@
 			text-align:center;
 			line-height:63px;
 			}
-			td >a{
+			td > button{
 			color:black;
-			font-weight:bold;
+			font-weight:bold !important;
 			}
 			td{
 			overflow:hidden;
@@ -40,25 +40,26 @@
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th>결제 정보</th>
 					<th>이용구분</th>
 					<th style="width:250px;">결제 날짜</th>
-					<th>총 가격</th>
 					<th>총 결제 가격</th>
 					<th>적립 마일리지</th>
 					<th>사용 마일리지</th>
+					<th>결제 정보</th>
 				</tr>
 			</thead>
 			<tbody>	
 				<c:forEach items="${buyList}" var="bl">
 					<tr>
-						<td><a href="${bl.bl_num}" class="btn btn-success">결제정보 확인</a></td>
-						<td>${bl.bl_state}</td>
-						<td style="width:250px;">${bl.bl_date_str}</td>
+						<td class="bl_state">${bl.bl_state}</td>
+						<td style="width:250px;">${bl.bl_date}</td>
 						<td>${bl.bl_total_price}</td>
-						<td>${bl.bl_price}</td>
 						<td>${bl.bl_stack_mile}</td>
 						<td>${bl.bl_use_mile}</td>
+						<td>
+							<input type="hidden" name="bl_num" value="${bl.bl_num }">
+							<button class="btn btn-danger btn_cancel">결제취소요청</button>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -89,8 +90,31 @@
 		page : 1,
 		perPageNum : 5			
 	}
-	
-
-	
+	var num = "";
+	$('.btn_cancel').click(function(){
+		let bl_num = $(this).siblings('[name=bl_num]').val()
+		if(confirm('해당 결제를 취소하겠습니까?')){
+			ajaxPost(bl_num, '<c:url value="/mypage/buyCancel"></c:url>', buyCancel);
+		}
+		console.log(num)
+	})
+	function buyCancel(data){
+		if(data.res == 1){
+			alert('결제취소요청을 완료하였습니다.');
+			num = data.bl_num;
+		}
+	}
+	//ajax
+	function ajaxPost(obj, url, successFunction){
+		$.ajax({
+			async:false,
+			type: 'POST',
+			data: JSON.stringify(obj),
+			url: url,
+			dataType:"json",
+			contentType:"application/json; charset=UTF-8",
+			success : successFunction
+		});
+	}
 </script>
     

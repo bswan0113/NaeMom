@@ -12,6 +12,7 @@ import kr.dbp.naemom.dao.ProductDAO;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.utils.UploadFileUtils;
 import kr.dbp.naemom.vo.BuyListVO;
+import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
@@ -232,7 +233,9 @@ public class MyPageServiceImp implements MyPageService{
 
 
 	@Override
-	public ArrayList<BuyListVO> getBuyList(String me_id, Criteria cri) {
+	public ArrayList<Buy_listVO> getBuyList(String me_id, Criteria cri) {
+		if(me_id == null)
+			return null;
 		return myPageDao.getBuyList(me_id, cri);
 	}
 
@@ -259,6 +262,14 @@ public class MyPageServiceImp implements MyPageService{
 	@Override
 	public boolean changeEmail(String email, String userId) {
 		return myPageDao.changeEmail(email,userId)>=0;
+	}
+
+	@Override
+	public int updateBuyList(String bl_num, String me_id) {
+		if(bl_num == null || me_id == null)
+			return 0;
+		String state = "결제취소중";
+		return myPageDao.updateBuyCancel(bl_num, me_id, state);
 	}
 
 }

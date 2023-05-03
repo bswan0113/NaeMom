@@ -222,6 +222,7 @@
 	    box-sizing: border-box;
 	    margin-top:30px;
 	    margin-bottom:30px;
+	    resize:none;
 	  }
 	  .txtNum{
 	    font-size: 16px;
