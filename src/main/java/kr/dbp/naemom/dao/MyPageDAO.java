@@ -71,6 +71,8 @@ public interface MyPageDAO {
 
 	ArrayList<CourseItemVO> getCourseItem(@Param("co_num")int co_num);
 
+	int changeEmail(@Param("me_ma_email")String email, @Param("me_id")String userId);
+
 
 
 

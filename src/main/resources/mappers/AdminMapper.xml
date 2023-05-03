@@ -173,4 +173,16 @@
 		select * from report where rep_table =#{table} and rep_table_key=#{table_key} 
 	</select>
 	
+	<select id="getHashtag" resultType="kr.dbp.naemom.vo.Hash_tagVO">
+		select * from hash_tag where hg_pd_num =#{pd_num}
+	</select>
+	
+	<delete id="deletehashTag">
+		delete from hash_tag where hg_num=#{hg_num}
+	</delete>
+	
+	<insert id="insertHashtag">
+		insert into hash_tag(hg_name, hg_pd_num) values(#{hg_name},#{hg_pd_num})
+	</insert>
+	
 </mapper>

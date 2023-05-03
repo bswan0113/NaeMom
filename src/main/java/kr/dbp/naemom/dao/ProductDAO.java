@@ -73,9 +73,10 @@ public interface ProductDAO {
 
 	public ArrayList<DayOFFVO> getDayOff(@Param("pd_num")int pd_num);
 
+	public void insertKeyword(@Param("search")String search, @Param("pd_num")int pd_num);
 
+	public String[] getHash(@Param("hg_pd_num")int pd_num);
 
-	
 
 
 		

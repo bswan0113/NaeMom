@@ -33,7 +33,6 @@ public class ProductServiceImp implements ProductService{
 	
 
 	String uploadPath = "D:\\uploadfiles";
-//	String uploadPath = "/Users/hyunkyulee/final/Uploadfiles";
 
 
 	@Override
@@ -371,6 +370,13 @@ public class ProductServiceImp implements ProductService{
 		return dayoff;
 	}
 
+
+
+	@Override
+	public void insertKeyword(String search, int pd_num) {
+		productDao.insertKeyword(search, pd_num);
+	}
+
 	
 
 	@Override
@@ -412,6 +418,14 @@ public class ProductServiceImp implements ProductService{
 		currentProduct.setMaxAge(cookieMaxAge);
 		currentProduct.setPath("/");
 	    response.addCookie(currentProduct);
+	}
+
+
+
+	@Override
+	public String[] getHashList(int pd_num) {
+		if(pd_num<1) return null;
+		return productDao.getHash(pd_num);
 	}
 	
 

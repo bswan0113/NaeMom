@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,9 +36,12 @@ public class MyPageController {
 	@Autowired
 	MyPageService myPageService;
 	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
+	
 	@RequestMapping(value = "/mypage/main")
 	public ModelAndView home(ModelAndView mv, HttpSession session) {
-		MemberVO user = (MemberVO) session.getAttribute("userInfo");
+		MemberVO user = (MemberVO) session.getAttribute("user");
 		mv.addObject("user",user);
 		mv.setViewName("/mypage/main");
 		return mv;
@@ -45,7 +49,7 @@ public class MyPageController {
 	
 	@RequestMapping(value = "/mypage/profile", method = RequestMethod.GET)
 	public ModelAndView myPage(ModelAndView mv, HttpSession session) {
-		MemberVO user = (MemberVO) session.getAttribute("userInfo");
+		MemberVO user = (MemberVO) session.getAttribute("user");
 		
 		mv.addObject("user",user);
 		mv.setViewName("/mypage/profile");
@@ -55,6 +59,8 @@ public class MyPageController {
 	
 	@RequestMapping(value = "/mypage/profile", method = RequestMethod.POST)
 	public ModelAndView myPagePost(ModelAndView mv, MemberVO member, HttpSession session, HttpServletResponse response) {
+		MemberVO user =(MemberVO)session.getAttribute("user");
+		member.setMe_authority(user.getMe_authority());
 		boolean res = myPageService.updateMember(member);
 		if(!res) {
 			MessageUtils.alertAndMovePage(response, 
@@ -72,7 +78,7 @@ public class MyPageController {
 	@RequestMapping(value = "/mypage/qnaList")
 	public ModelAndView qnaList(ModelAndView mv, HttpSession session, Criteria cri) {
 		if(cri==null) cri=new Criteria();
-		MemberVO user = (MemberVO) session.getAttribute("userInfo");
+		MemberVO user = (MemberVO) session.getAttribute("user");
 		
 		ArrayList<qnaVO> qnaList = myPageService.getQnaList(user.getMe_id(), cri);
 		int totalCount = myPageService.getQnaCount(user.getMe_id()).size();
@@ -87,7 +93,7 @@ public class MyPageController {
 	@RequestMapping(value = "/mypage/reviewList")
 	public ModelAndView reviewList(ModelAndView mv, HttpSession session, Criteria cri) {
 		if(cri==null) cri=new Criteria();
-		MemberVO user = (MemberVO) session.getAttribute("userInfo");
+		MemberVO user = (MemberVO) session.getAttribute("user");
 		
 		ArrayList<ReviewVO> review = myPageService.getReviewList(cri, user.getMe_id());
 		int totalCount = myPageService.getReviewCount(user.getMe_id());
@@ -107,7 +113,7 @@ public class MyPageController {
 	
 	@RequestMapping(value = "/mypage/qnaInsert", method=RequestMethod.GET)
 	public ModelAndView qnaInsert(ModelAndView mv, HttpSession session) {
-		MemberVO user = (MemberVO) session.getAttribute("userInfo");
+		MemberVO user = (MemberVO) session.getAttribute("user");
 		
 		mv.addObject("user",user);
 		mv.setViewName("/mypage/qnaInsert");
@@ -115,7 +121,7 @@ public class MyPageController {
 	}
 	@RequestMapping(value = "/mypage/qnaInsert", method=RequestMethod.POST)
 	public ModelAndView qnaInsertPost(ModelAndView mv, HttpSession session, qnaVO qna, MultipartFile[] files, HttpServletResponse response) {
-		MemberVO user = (MemberVO) session.getAttribute("userInfo");
+		MemberVO user = (MemberVO) session.getAttribute("user");
 		mv.addObject("user",user);
 		qna.setQa_me_id(user.getMe_id());
 		boolean res = myPageService.insertQna(qna, files);
@@ -133,7 +139,7 @@ public class MyPageController {
 	
 	@RequestMapping(value = "/mypage/qnaDetail/{qa_num}")
 	public ModelAndView qnaInsertPost(ModelAndView mv, HttpSession session, @PathVariable("qa_num")int qa_num) {
-		MemberVO user = (MemberVO) session.getAttribute("userInfo");
+		MemberVO user = (MemberVO) session.getAttribute("user");
 		
 		qnaVO qna = myPageService.getQna(qa_num);
 		qna_AnswerVO answer = myPageService.getAnswer(qa_num);
@@ -148,9 +154,9 @@ public class MyPageController {
 	public ModelAndView couserList(ModelAndView mv, HttpSession session, Criteria cri) {
 		if(cri == null) cri = new Criteria();
 		
-		MemberVO user = (MemberVO) session.getAttribute("userInfo");
+		MemberVO user = (MemberVO) session.getAttribute("user");
 		ArrayList<CourseVO> course = myPageService.getCourseList(cri, user.getMe_id());
-		if(course.size() >0) {
+		if(course != null && course.size() >0) {
 			for(int i=0; i<course.size(); i++) {
 				CourseItemVO item = myPageService.getCourseItem(course.get(i).getCo_num());
 				course.get(i).setFile(item.getFile());
@@ -165,7 +171,7 @@ public class MyPageController {
 	@RequestMapping(value = "/mypage/reserveList")
 	public ModelAndView reserveList(ModelAndView mv, HttpSession session, Criteria cri) {
 		if(cri==null) cri = new Criteria();
-		MemberVO user = (MemberVO) session.getAttribute("userInfo");
+		MemberVO user = (MemberVO) session.getAttribute("user");
 		ArrayList<BuyListVO> buyList = myPageService.getBuyList(user.getMe_id(),cri);
 		
 		int totalCount = myPageService.getBuyListCount(user.getMe_id());
@@ -179,7 +185,7 @@ public class MyPageController {
 	@RequestMapping(value = "/mypage/mileageList")
 	public ModelAndView mileageList(ModelAndView mv, HttpSession session, Criteria cri) {
 		if(cri==null) cri=new Criteria();
-		MemberVO user = (MemberVO) session.getAttribute("userInfo");
+		MemberVO user = (MemberVO) session.getAttribute("user");
 		ArrayList<MileageVO> mileageList = myPageService.getMilageList(user.getMe_id(), cri);
 		int totalCount = myPageService.getMileageCount(user.getMe_id());
 		
@@ -195,7 +201,7 @@ public class MyPageController {
 	public ModelAndView wishList(ModelAndView mv, HttpSession session, Criteria cri) {
 		if(cri==null) cri= new Criteria();
 		
-		MemberVO user = (MemberVO) session.getAttribute("userInfo");
+		MemberVO user = (MemberVO) session.getAttribute("user");
 		ArrayList<WishVO> wishList = myPageService.getWishList(user.getMe_id(), cri);
 		int totalCount = myPageService.getWishCount(user.getMe_id());
 		PageMaker pm = new PageMaker(totalCount, 5, cri);
@@ -213,7 +219,7 @@ public class MyPageController {
 	
 	@RequestMapping(value = "/mypage/deleteQna/{qa_num}", method =RequestMethod.GET)
 	public ModelAndView qnaDelete(ModelAndView mv, HttpSession session, @PathVariable("qa_num")int qa_num, HttpServletResponse response) {
-		MemberVO user = (MemberVO) session.getAttribute("userInfo");
+		MemberVO user = (MemberVO) session.getAttribute("user");
 		mv.addObject("user",user);
 		
 		boolean res= myPageService.deleteQna(qa_num);

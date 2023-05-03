@@ -27,6 +27,12 @@
 		color:black;
 		font-weight:bold;
 		}
+
+		td{
+		overflow:hidden;
+		white-space:nowrap;
+		  text-overflow: ellipsis;
+		}
 	
 	    </style>
 	    

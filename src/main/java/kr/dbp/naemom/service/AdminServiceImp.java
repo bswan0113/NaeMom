@@ -12,6 +12,7 @@ import kr.dbp.naemom.dao.AdminDAO;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.BuyListVO;
 import kr.dbp.naemom.vo.CourseVO;
+import kr.dbp.naemom.vo.Hash_tagVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.ReportManageVO;
 import kr.dbp.naemom.vo.ReportVO;
@@ -182,6 +183,27 @@ public class AdminServiceImp implements AdminService{
 		if(num<=0) return null;
 		if(type==null || type.trim().length()<=0)return null;
 		return adminDao.getReportByType(num, type);
+	}
+
+	@Override
+	public ArrayList<Hash_tagVO> getHashList(int pd_num) {
+		return adminDao.getHashtag(pd_num);
+	}
+
+	@Override
+	public boolean deleteHashtag(int parseInt) {
+		return adminDao.deletehashTag(parseInt) != 0;
+	}
+
+	@Override
+	public boolean insertHashtag(int pd_num, String[] list) {
+		if(pd_num<1) return false;
+		if(list ==null || list.length<1) return false;
+		
+		for(String hash : list) {
+			if(!adminDao.insertHashtag(pd_num,hash))return false;
+		}
+		return true;
 	}
 	
 	

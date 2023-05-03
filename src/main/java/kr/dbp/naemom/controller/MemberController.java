@@ -41,21 +41,25 @@ public class MemberController {
 		mv.setViewName("/account/signup");
 		return mv;
 	}
-	@RequestMapping(value = "/signup", method=RequestMethod.POST)
-	public ModelAndView signupPost(ModelAndView mv, MemberVO member) {
-		System.out.println(member);
+	@RequestMapping(value = "/signup", method = RequestMethod.POST)
+	public ModelAndView signupPost(ModelAndView mv, MemberVO member,
+			HttpServletResponse response) {	
 		boolean res = memberService.signup(member);
+		String msg , url;
 		if(res) {
-			//성공했다고 알림 메세지(추후 구현 예정)
-			mv.setViewName("redirect:/");
+			
+			msg = "회원가입에 성공했습니다.";
+			url = "/";
 		}else {
-			//실패했다고 알림메세지(추후 구현 예정)
-			mv.setViewName("redirect:/signup");
+			
+			msg = "회원가입에 실패했습니다.";
+			url = "/signup";
 		}
-		
+		mv.addObject("url", url);
+		mv.addObject("msg", msg);
+		mv.setViewName("/account/message");
 		return mv;
 	}
-	
 	
 
 	@RequestMapping(value = "/signupsuc", method=RequestMethod.GET)
@@ -66,31 +70,37 @@ public class MemberController {
 	
 
 
-	@RequestMapping(value = "/login", method=RequestMethod.GET)
-	public ModelAndView login(ModelAndView mv, HttpServletRequest request) {
-		String url = request.getHeader("Referer");
-		//다른 URL을 통해 로그인페이지로 온 경우
-		//(단, 로그인 실패로 인해서 login post에서 온 경우는 제외)
-		if(url != null && !url.contains("login")) {
-			request.getSession().setAttribute("prevURL", url);
-		}
-		mv.setViewName("/account/login");
-		return mv;
+	@RequestMapping(value = "/login", method= {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView login(ModelAndView mv, MemberVO member, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	    String url = request.getHeader("Referer");
+	    //다른 URL을 통해 로그인페이지로 온 경우
+	    //(단, 로그인 실패로 인해서 login post에서 온 경우는 제외)
+	    
+	    if(url != null && !url.contains("login")) {
+	        request.getSession().setAttribute("prevURL", url);
+	    }
+
+	    if (request.getMethod().equals("POST")) {
+	        MemberVO user = memberService.login(member);
+	        if(user != null && user.getMe_authority() > 0) {
+	            user.setAutoLogin(member.isAutoLogin());	            
+	            mv.addObject("user", user);
+	            mv.addObject("msg", "로그인에 성공했습니다.");
+	            mv.addObject("url", "/");
+	            mv.setViewName("/account/message");
+	            return mv;
+	        } else {
+	            mv.addObject("msg", "로그인에 실패했습니다.");
+	            mv.addObject("url", "/login");
+	            mv.setViewName("/account/message");
+	            return mv;
+	        }
+	    } else {
+	        mv.setViewName("/account/login");
+	        return mv;
+	    }
 	}
-	@RequestMapping(value = "/login", method=RequestMethod.POST)
-	public ModelAndView loginPost(ModelAndView mv, MemberVO member) {
-		MemberVO user = memberService.login(member);
-		if(user != null) { 
-			mv.setViewName("redirect:/");
-			//자동로그인 체크여부는 화면에서 가져오는 거지 DB에서 가져오는게 아님
-			//user는 DB에서 가져온 회원 정보라 자동 로그인 여부를 알 수가 없음
-			//그래서 화면에서 가져온 member에 있는 자동 로그인 여부를 user에 수정
-			user.setAutoLogin(member.isAutoLogin());
-		}else
-			mv.setViewName("redirect:/login");
-		mv.addObject("user", user);
-		return mv;
-	}
+	
 	
 	@RequestMapping(value = "/logout", method=RequestMethod.GET)
 	public ModelAndView logout(ModelAndView mv, 

@@ -131,9 +131,13 @@ public class ProductController {
 
 	//상세페이지 레이아웃
 	@RequestMapping(value="/product/detail/detailLayoutTMP/{i}", method=RequestMethod.GET)
-	public ModelAndView detailLayout(ModelAndView mv, @PathVariable("i")int pd_num, HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView detailLayout(ModelAndView mv, @PathVariable("i")int pd_num, HttpSession session, HttpServletRequest request, HttpServletResponse response, Criteria cri) {
 
-		MemberVO user =(MemberVO)session.getAttribute("userInfo");
+		MemberVO user =(MemberVO)session.getAttribute("user");
+		if(cri!=null && cri.getSearch()!=null  && cri.getSearch().trim().length() != 0) {
+			
+			productService.insertKeyword(cri.getSearch(), pd_num);
+		}
 		
 
 		ProductVO product= productService.getProduct(pd_num);
@@ -184,7 +188,7 @@ public class ProductController {
 		        option.set(i, optReo);
 		    }
 		}
-		
+		mv.addObject("hash", getHashtag(pd_num));
 		mv.addObject("user", user);
 		mv.addObject("option",option);
 		mv.addObject("wish",wish);
@@ -199,6 +203,10 @@ public class ProductController {
 	
 	
 	
+	private String[] getHashtag(int pd_num) {
+		return productService.getHashList(pd_num);
+	}
+
 	private ArrayList<Object> getOption(int pd_pc_num, int pd_num) {
 		ArrayList<Object> option=null;
 		if(pd_pc_num>5 || pd_num<0) return null;

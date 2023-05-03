@@ -88,7 +88,7 @@ public class AdminAjaxController {
 		int count = 0;
 		Criteria cri = new Criteria();
 		cri.setPage(Integer.parseInt(page));
-		if(type.equals("댓글")) {
+		if(type.equals("리뷰")) {
 			count = adminService.getReCount(id);
 			ArrayList<ReviewVO> ob = adminService.getReList(id, cri);
 			PageMaker pm = new PageMaker(count, 5, cri);
@@ -96,7 +96,7 @@ public class AdminAjaxController {
 			map.put("ob", ob);
 			
 		}
-		else if(type.equals("리뷰")) {
+		else if(type.equals("댓글")) {
 			count = adminService.getRcCount(id);
 			ArrayList<ReviewCommentVO> ob = adminService.getRcList(id, cri);
 			PageMaker pm = new PageMaker(count, 5, cri);
@@ -152,6 +152,24 @@ public class AdminAjaxController {
 			ArrayList<ReportVO> ob = adminService.getReportByType(num, type);
 			map.put("list", ob);
 			
+		return map;
+	}
+
+	
+	@RequestMapping(value = "/admin/delete/hashtag/{num}", method=RequestMethod.GET)
+	public Map<String, Object> deleteHashTag(@PathVariable("num")String num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res= adminService.deleteHashtag(Integer.parseInt(num));
+		map.put("res", res);
+
+		return map;
+	}
+	
+	@RequestMapping(value = "/admin/save/hashtag/{pd_num}", method=RequestMethod.POST)
+	public Map<String, Object> deleteHashTag(@PathVariable("pd_num")int pd_num, @RequestBody String[] list) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = adminService.insertHashtag(pd_num,list);
+		map.put("res", res);
 		return map;
 	}
 	

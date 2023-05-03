@@ -9,14 +9,12 @@ import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,8 +22,8 @@ import kr.dbp.naemom.service.HomeService;
 import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
-import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.MemberVO;
+import kr.dbp.naemom.vo.ProductVO;
 
 
 @Controller
@@ -33,21 +31,21 @@ public class HomeController {
 	
 	@Autowired
 	HomeService homeService;
+
 	
 	@RequestMapping(value = "/")
-	public ModelAndView home(ModelAndView mv,HttpServletRequest request, HttpServletResponse response) {
-
+	public ModelAndView home(ModelAndView mv,HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		MemberVO user =(MemberVO)session.getAttribute("user");
 		ArrayList<ProductVO> plist = homeService.getCheckedList();
 		ArrayList<FileVO> flist = homeService.getFileList();
 		ArrayList<FileVO> files = new ArrayList<FileVO>();
 		List<ProductVO> recentProducts = new ArrayList<ProductVO>();
 		ArrayList<CourseVO> clist = homeService.getCourseList();
 		ArrayList<CourseItemVO> items = new ArrayList<CourseItemVO>();
-		
 		for(int i = 0; i < plist.size() ; i++) {
 			plist.get(i).setFile(homeService.getFiles(plist.get(i).getPd_num()));
 		}
-		
+		//최근 본 상품
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
@@ -63,12 +61,20 @@ public class HomeController {
 				}
 			}
 		}
+		//코스 
 		Collections.shuffle(clist);
-		for(int i=0;i<clist.size();i++) {
-			items.addAll(homeService.getCourseItem(clist.get(i).getCo_num()));
-			
+		int courseCount = Math.min(3, clist.size());
+		List<CourseVO> randomClist = clist.subList(0, courseCount);
+
+		for(int i=0; i<Math.min(clist.size(),3); i++) {
+		    items.addAll(homeService.getCourseItem(randomClist.get(i).getCo_num()));
 		}
 		ArrayList<FileVO> courseFiles = homeService.getProductImgList();;
+		
+		//축제 
+		ArrayList<ProductVO> festivalList = homeService.getFestivalList();
+		ArrayList<FileVO> festivalFiles = homeService.getFestivalImgList();
+		mv.addObject("user",user);
 		mv.addObject("files", files);
 		mv.addObject("flist",flist);
 		mv.addObject("plist", plist);
@@ -76,6 +82,8 @@ public class HomeController {
 		mv.addObject("clist",clist);
 		mv.addObject("items", items);
 		mv.addObject("courseFiles", courseFiles);
+		mv.addObject("festivalList", festivalList);
+		mv.addObject("festivalFiles", festivalFiles);
 		mv.setViewName("/main/home");
 		return mv;
 	}

@@ -15,7 +15,11 @@
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 
+
+	<!-- <resources mapping="/download/**" location="file:/Users/hyunkyulee/final/Uploadfiles/" /> -->
 	<resources mapping="/download/**" location="file:///D:/uploadfiles/" />
+
+
 
 	
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
@@ -55,6 +59,14 @@
 		class="kr.dbp.naemom.interceptor.MypageInterceptor"></beans:bean>
 	<!-- 어느 url에서 인터셉터들이 동작할 건지를 설정 -->
 	<interceptors>
+		<interceptor>
+			<mapping path="/**"/>
+			<beans:ref bean="autoLoginInterceptor"/>
+		</interceptor>
+		<interceptor>
+	        <mapping path="/mypage/**"/>
+	        <beans:ref bean="mypageInterceptor"/>
+	    </interceptor>
 	    <interceptor>
 	        <mapping path="/**"/>
 	        <beans:ref bean="baseInterceptor"/>
@@ -64,22 +76,13 @@
 	        <beans:ref bean="adminInterceptor"/>
 	    </interceptor>
 	    <interceptor>
-
 			<mapping path="/login"/>
 			<beans:ref bean="loginInterceptor"/>
 		</interceptor>
 		<interceptor>
 			<mapping path="/**"/>
-			<beans:ref bean="autoLoginInterceptor"/>
-		</interceptor>
-		<interceptor>
-			<mapping path="/**"/>
 			<beans:ref bean="loginRedirectInterceptor"/>
 		</interceptor>
-		<interceptor>
-	        <mapping path="/**"/>
-	        <beans:ref bean="mypageInterceptor"/>
-	    </interceptor>
 
 	</interceptors>	
 	

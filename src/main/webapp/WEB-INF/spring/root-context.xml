@@ -13,9 +13,7 @@
 	<bean id="dataSource"
 	      class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	    <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-	    <property name="url"
-	              value="jdbc:mysql://localhost:3306/dbp?useSSL=false&amp;serverTimezone=Asia/Seoul">
-	    </property>
+	    <property name="url" value="jdbc:mysql://localhost:3306/dbp?useSSL=false&amp;serverTimezone=Asia/Seoul"></property>
 	    <property name="username" value="root"></property>
 	    <property name="password" value="root"></property>
 	</bean>  
@@ -30,9 +28,11 @@
 	    <property name="host" value="smtp.gmail.com" />
 	    <property name="port" value="587" />
 
+
 	    <property name="username" value="kdw74516052@gmail.com" />
 
 	    <property name="password" value="" />
+
 	    <property name="javaMailProperties">
 	        <props>
 	            <prop key="mail.transport.protocol">smtp</prop>
