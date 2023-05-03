@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.dbp.naemom.dao.MapDAO">
+  	
+  	<select id="selectGetProductList" resultType="kr.dbp.naemom.vo.ProductVO">
+  		select * from product
+  	</select>
+  	
+  	<select id="getFileList" resultType="kr.dbp.naemom.vo.FileVO">
+  		select * from file join file_checked on fc_fi_num = fi_num;
+  	</select>
+  	
+  	<select id="getFile" resultType="kr.dbp.naemom.vo.FileVO">
+  		select * from file where fi_table_key=#{pd_num} and fi_table=#{product} and fi_category=#{fi_category}
+  	</select>
+  	
+</mapper>
