@@ -1,6 +1,5 @@
 package kr.dbp.naemom.controller;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -132,7 +131,6 @@ public class OrderController {
 	@RequestMapping(value="/option/dateConfirm", method=RequestMethod.POST)
 	public Map<String, Object> dateConfirm(@RequestBody String checkIn,HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
-		MemberVO user = (MemberVO)session.getAttribute("user");
 		
 		int res = orderService.selectReservationRoom(checkIn);
 		map.put("res", res);
@@ -158,7 +156,8 @@ public class OrderController {
 	@RequestMapping(value = "/option/checkProduct", method=RequestMethod.POST)
 	public Map<String, Object> checkProduct(@RequestBody String[]list,HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		int pd_num = orderService.checkProduct(list);
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		int pd_num = orderService.checkProduct(list, user.getMe_id());
 		map.put("pd_num", pd_num);
 		return map;
 	}
@@ -231,7 +230,7 @@ public class OrderController {
 	public String bootpay_confirm(Model mv, @RequestBody PayDTO dto) {
 		String success = "";
 		try {
-			Bootpay bootpay = new Bootpay("64424e90922c3400236cdc6d", "ekc3odhyouFWvml0Dh7C4vSJPBBrYqebAFoNWuWIJos=");
+			Bootpay bootpay = new Bootpay("64424e90922c3400236cdc6d", "+4cFoL6IJOcQzITCJ7LRLZMGM/fiymQiTGLgc/AfIJ8=");
 			String bootpay_check = "";
 			bootpay.getAccessToken();
 			HttpResponse res = bootpay.verify(dto.getReceipt_id());
@@ -343,6 +342,7 @@ public class OrderController {
 		Buy_listVO bl = orderService.getBuyListByBlNum(bl_num);
 		orderService.insertMileage(bl);
 		orderService.insertReservation(bl);
+		orderService.deleteAllBasket(bl.getBl_me_id());
 		mv.addObject("bl_num", bl_num);
 		mv.setViewName("redirect:/option/completeBuy");
 		return mv;

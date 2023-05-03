@@ -59,7 +59,7 @@
    		delete from shopping_basket where sb_me_id = #{me_id} and sb_num = #{sb_num} 
    	</delete>
    	<delete id="deleteAllBasket">
-   		delete from shopping_basket
+   		delete from shopping_basket where sb_me_id = #{me_id}
    	</delete>
    	<select id="selectBasketBySbNum" resultMap="selectBasketByOption">
    		select * from shopping_basket where sb_me_id = #{me_id} and sb_num = #{sb_num}
@@ -145,13 +145,13 @@
    				sb_price = sb_price + #{tmp.pr_price}
    			where
    				sb_me_id = #{me_id} and sb_table = #{tmp.pr_category} and sb_table_key = #{tmp.pr_option_num}
-   				and sb_date = #{tmp.pr_date} and sb_time = #{tmp.pr_tiem}
+   				and sb_date = #{tmp.pr_date} and sb_time = #{tmp.pr_time}
    	</update>
    	<select id="selectBasketById" resultType="kr.dbp.naemom.vo.Shopping_basketVO">
    		select * from shopping_basket where sb_me_id = #{me_id}
    	</select>
    	<select id="selectBasketAndPdNum" resultMap="selectBasketByOption">
-   		select * from shopping_basket where sb_num = #{sb_num}
+   		select * from shopping_basket where sb_num = #{sb_num} and sb_me_id = #{me_id}
    	</select>
    	<select id="selectDayOff" resultMap="selectDayOffAndTempOff">
    		select * from day_off where do_pd_num = #{pd_num} and do_state = '임'
@@ -180,6 +180,21 @@
  		insert into reservation_room(rr_check_in,rr_check_out, rr_ao_num, rr_pd_num, rr_me_id)
  		values(#{tmp.ol_date},#{date},#{home.ao_num},#{home.ao_pd_num},#{me_id})
  	</insert>
+ 	<select id="selectReservRoom" resultType="kr.dbp.naemom.vo.Reservation_roomVO">
+ 		select * from reservation_room where rr_ao_num = #{ao_num} and
+ 			((rr_check_in &lt;= #{checkIn} &lt;= rr_check_out) or 
+ 			(rr_check_in &lt;= #{checkOut} &lt;= rr_check_out) or
+ 			(#{checkIn} &lt;= rr_check_in &lt;= #{checkOut}) or 
+ 			(#{checkIn} &lt;= rr_check_out &lt;= #{checkOut}))
+ 	</select>
+ 	<select id="selectReservFood" resultType="int">
+ 		select count(*) from reservated_option where ro_pd_num = #{pd_num} and ro_date = #{date} and ro_time = #{time}
+ 	</select>
+ 	<select id="selectBasketCheck" resultType="int">
+ 		select count(*) from shopping_basket
+ 			join restraunt_option on reo_num = #{item.sb_table_key}
+ 			where reo_pd_num = #{pd_num} and sb_time = #{item.sb_time} and sb_date = #{item.sb_date}
+ 	</select>
 </mapper>
 
 

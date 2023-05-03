@@ -7,8 +7,10 @@ import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -101,6 +103,7 @@ public class OrderServiceImp implements OrderService{
 	public int addBasket(List<OptionListDTO> list, String me_id) {
 		int res = 0;
 		for(OptionListDTO tmp : list) {
+			res= 0;
 			if(tmp.getPr_num() == 0 || tmp.getPr_amount() == 0 || tmp.getPr_date() == null || tmp.getPr_option() == null)
 				return res=0;
 			ArrayList<Shopping_basketVO> sbList = orderDao.selectBasketById(me_id);
@@ -113,11 +116,11 @@ public class OrderServiceImp implements OrderService{
 						tmp.getPr_category().equals("restraunt_option")&& tmp2.getSb_time() == tmp.getPr_time()
 						&& tmp2.getSb_table_key() == tmp.getPr_option_num() && tmp2.getSb_me_id().equals(me_id)) {
 					res = orderDao.updateBasket(tmp, me_id);
-					return res;
 				}
 			}
-			res = orderDao.insertBasket(tmp, me_id);
-			
+			if(res == 0) {
+				res = orderDao.insertBasket(tmp, me_id);
+			}
 		}
 		return res;
 		
@@ -305,10 +308,12 @@ public class OrderServiceImp implements OrderService{
 	}
 
 	@Override
-	public int checkProduct(String[] list) {
+	public int checkProduct(String[] list, String me_id) {
 		for(String tmp : list) {
 			int sb_num = IntegerNum(tmp);
-			Shopping_basketVO item = orderDao.selectBasketAndPdNum(sb_num);
+			Shopping_basketVO item = orderDao.selectBasketAndPdNum(sb_num, me_id);
+			if(item == null)
+				continue;
 			if(item.getSb_table().equals("landmark_option")) {
 				int pd_num = item.getTravel().getLo_pd_num();
 				DayOFFVO off = orderDao.selectDayOff(pd_num);
@@ -319,13 +324,17 @@ public class OrderServiceImp implements OrderService{
 				}
 			}else if(item.getSb_table().equals("restraunt_option")) {
 				int pd_num = item.getFood().getReo_pd_num();
+				int check = orderDao.selectBasketCheck(item,pd_num);
 				DayOFFVO off = orderDao.selectDayOff(pd_num);
 				if(off != null) {
 					pd_num = checkTempOff(pd_num , item, off);
 					if(pd_num != 0)
 						return pd_num;
 				}
-				//int count = orderDao.selectReservFood(item.getFood().get)
+				int count = orderDao.selectReservFood(item.getFood().getReo_pd_num(), item.getSb_date(), item.getSb_time());
+				count = count + check;
+				if(count > 5)
+					return pd_num;
 			}else if(item.getSb_table().equals("festival_option")) {
 				int pd_num = item.getFestival().getFo_pd_num();
 				DayOFFVO off = orderDao.selectDayOff(pd_num);
@@ -342,7 +351,11 @@ public class OrderServiceImp implements OrderService{
 					if(pd_num != 0)
 						return pd_num;
 				}
-				//Reservation_roomVO rr = orderDao.selectReservRoom(item.getHome().getAo_num());
+				LocalDate date = LocalDate.parse(item.getSb_date());
+				date = date.plusDays(item.getSb_time());
+				Reservation_roomVO rr = orderDao.selectReservRoom(item.getHome().getAo_num(),date,item.getSb_date());
+				if(rr != null)
+					return pd_num;
 			}
 			
 		}

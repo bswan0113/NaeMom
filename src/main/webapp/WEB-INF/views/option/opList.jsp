@@ -765,6 +765,10 @@
 	$('.select_food_time').click(function(){
 		let ro_pd_num = Number($(this).parent().siblings('[name=pr_num]').val());
 		let ro_date = $(this).parent().siblings('.option_select_box1').find('.option_date').val();
+		if(ro_date == ''){
+			alert('날짜를 먼저 선택하세요')
+			return false;
+		}
 		let foodOption = {
 				ro_pd_num : ro_pd_num,
 				ro_date : ro_date

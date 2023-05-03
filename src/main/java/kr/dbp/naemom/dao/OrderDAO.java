@@ -16,6 +16,7 @@ import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.Order_listVO;
 import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.Reservated_optionVO;
+import kr.dbp.naemom.vo.Reservation_roomVO;
 import kr.dbp.naemom.vo.Shopping_basketVO;
 import kr.dbp.naemom.vo.Use_memberVO;
 
@@ -69,7 +70,7 @@ public interface OrderDAO {
 
 	ArrayList<Shopping_basketVO> selectBasketById(@Param("me_id")String me_id);
 
-	Shopping_basketVO selectBasketAndPdNum(@Param("sb_num")int sb_num);
+	Shopping_basketVO selectBasketAndPdNum(@Param("sb_num")int sb_num, @Param("me_id")String me_id);
 
 	DayOFFVO selectDayOff(@Param("pd_num")int pd_num);
 
@@ -82,6 +83,13 @@ public interface OrderDAO {
 
 	void insertHomeOption(@Param("tmp")Order_listVO tmp, @Param("home")Option_accomodationVO home,
 			@Param("me_id")String me_id,  @Param("date")LocalDate date);
+
+	Reservation_roomVO selectReservRoom(@Param("ao_num")int ao_num, @Param("checkIn")LocalDate date,
+			@Param("checkOut")String string);
+
+	int selectReservFood(@Param("pd_num")int reo_pd_num, @Param("date")String sb_date, @Param("time")int sb_time);
+
+	int selectBasketCheck(@Param("item")Shopping_basketVO item, @Param("pd_num")int pd_num);
 
 	
 
