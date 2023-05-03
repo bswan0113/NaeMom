@@ -230,7 +230,7 @@ public class OrderController {
 	public String bootpay_confirm(Model mv, @RequestBody PayDTO dto) {
 		String success = "";
 		try {
-			Bootpay bootpay = new Bootpay("64424e90922c3400236cdc6d", "+4cFoL6IJOcQzITCJ7LRLZMGM/fiymQiTGLgc/AfIJ8=");
+			Bootpay bootpay = new Bootpay("64424e90922c3400236cdc6d", "");
 			String bootpay_check = "";
 			bootpay.getAccessToken();
 			HttpResponse res = bootpay.verify(dto.getReceipt_id());
