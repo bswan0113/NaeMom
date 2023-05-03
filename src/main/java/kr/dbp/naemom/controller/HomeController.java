@@ -31,7 +31,7 @@ public class HomeController {
 	
 	@Autowired
 	HomeService homeService;
-		
+
 	
 	@RequestMapping(value = "/")
 	public ModelAndView home(ModelAndView mv,HttpServletRequest request, HttpServletResponse response, HttpSession session) {

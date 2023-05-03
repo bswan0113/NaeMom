@@ -17,6 +17,7 @@ public class OptionListDTO {
 	String pr_option;
 	int pr_amount;
 	Date pr_date;
+	int pr_time;
 	int pr_price;
 	int pr_option_num;
 	

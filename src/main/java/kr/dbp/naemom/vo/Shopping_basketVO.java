@@ -17,6 +17,7 @@ public class Shopping_basketVO {
 	int sb_table_key;
 	int sb_price;
 	Date sb_date;
+	int sb_time;
 	
 	Option_accomodationVO home;
 	Option_landMarkVO travel;

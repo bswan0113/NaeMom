@@ -1,5 +1,7 @@
 package kr.dbp.naemom.vo;
 
+import java.util.ArrayList;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +14,7 @@ public class DayOFFVO {
 	String do_state;
 	String do_date;
 	
+	ArrayList<TempOFFVO> tempOff;
 	
 	
 }

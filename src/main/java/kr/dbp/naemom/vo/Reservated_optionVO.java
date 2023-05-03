@@ -8,22 +8,20 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class order_listVO {
+public class Reservated_optionVO {
 
-	int ol_num;
-	int ol_amount;
-	int price;
-	String ol_bl_num;
-	int ol_table_key;
-	String ol_table;
-	Date ol_date;
+	int ro_num;
+	String ro_option_name;
+	Date ro_date;
+	int ro_time;
+	int ro_pd_num;
+	String ro_me_id;
 	
-	public String getSb_date() {
+	public String getRo_date() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		if(ol_date == null)
+		if(ro_date == null)
 			return "";
-		return format.format(ol_date);
+		return format.format(ro_date);
 	}
-	
 	
 }

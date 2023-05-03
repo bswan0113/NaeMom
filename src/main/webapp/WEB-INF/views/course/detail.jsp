@@ -400,8 +400,8 @@
       </div>
       <div id="map" style="width:1190px;height:400px;margin-bottom:30px;"></div>
     </div>
-    <div style="justify-content:center; width: 1190px;">
-		<a class="btn btn-outline-success" href="<c:url value='/course/list'></c:url>" style="width: 200px;float: left;margin-left: 180px;">목록</a>
+    <div style="justify-content:center; width: 1190px; display:flex">
+		<a class="btn btn-outline-success" href="<c:url value='/course/list'></c:url>" style="width: 200px;float: left;">목록</a>
 		<form action="<c:url value='/option/opList'></c:url>" method="post">
 			<c:forEach items="${prlist }" var="pr">
 				<input type="hidden" name="pd_num" value="${pr.pd_num}">
@@ -409,14 +409,14 @@
 			</c:forEach>
 			<button class="btn btn-outline-success" style="width: 200px;float: left;margin-left: 10px;">옵션 선택하기</button>
 		</form>
-		<%-- <c:if test="${user != null && user.me_id == course.co_me_id }"> --%>
+		<c:if test="${user != null && user.me_id == course.co_me_id }">
 			<a class="btn btn-outline-danger btn-updateCourse" style="width: 200px;float: left;margin-left: 10px;"
 				href="<c:url value='/course/update/${course.co_num}'></c:url>">게시글 수정</a>
 		   
 		    <form action="<c:url value='/course/delete/${course.co_num}'></c:url>" method="post">
 		    	<button class="btn btn-outline-danger btn-deleteCourse" style="width:200px; margin-left:10px">게시글 삭제</button>
 		    </form>
-		<%-- </c:if> --%>
+		</c:if>
     </div>
   </div>
   <script>
@@ -425,10 +425,10 @@
   		location.replace('<c:url value="/course/list"></c:url>');
   	}
   	$('.btn-up, .btn-down').click(function(){
-		//if('${user.me_id}' == ''){
-		//	alert('로그인한 회원만 추천/비추천을 할 수 있습니다.');
-		//	return;
-		//}
+		if('${user.me_id}' == ''){
+			alert('로그인한 회원만 추천/비추천을 할 수 있습니다.');
+			return;
+		}
 		
 		let li_updown = $(this).data('state');
 		let co_num = '${course.co_num}';
@@ -483,8 +483,8 @@
 			$('#report-content').focus();
 			return false;
 		}
-		let me_id = 'qwe';//'${user.me_id}';
-		if(me_id == null){
+		let me_id = '${user.me_id}';
+		if(me_id == ''){
 			alert('로그인을 하신 후 신고하실 수 있습니다');
 			return false;
 		}
