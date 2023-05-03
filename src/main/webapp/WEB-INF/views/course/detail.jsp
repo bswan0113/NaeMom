@@ -419,6 +419,8 @@
 		<%-- </c:if> --%>
     </div>
   </div>
+  <script type="text/javascript" src=""></script>
+  
   <script>
   	if(${course.co_report} >= 10){
   		confirm('블라인드된 게시글입니다.');
@@ -529,7 +531,7 @@
   
   
   
-  /*
+  
   	function reorderMap() {
 	  	map = new kakao.maps.Map(mapContainer, mapOption);
 	  	addresses = new Array();
@@ -657,7 +659,7 @@ for (var i = 0; i < addresses.length; i++) {
 }
 addMarkers();
 reorderMap();
-*/
+
   </script> 
 </body>
 </html>
