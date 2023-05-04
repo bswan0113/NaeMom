@@ -87,7 +87,7 @@
 		<div class="body-container">
 			    <div class="bd-sidebar">
 			      <ul class="nav">
-			        <li class="admin-side"><a href="<c:url value='/admin/home/home'></c:url>">home</a></li>
+			        <li class="admin-side"><a href="<c:url value='/admin/home/main'></c:url>">home</a></li>
 			        <li class="admin-side"><a href="<c:url value='/admin/insert/insertProduct'></c:url>">게시글 등록</a><br></li>
 			        <li class="admin-side"><a href="<c:url value='/admin/list/productList'></c:url>">게시글 조회</a></li>
 			        <li class="admin-side"><a href="<c:url value='/admin/list/qnaList'></c:url>">사용자 문의 조회</a></li>

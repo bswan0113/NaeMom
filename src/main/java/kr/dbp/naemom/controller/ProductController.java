@@ -99,11 +99,6 @@ public class ProductController {
 		mv.setViewName("/admin/insert/updateProduct");
 		return mv;
 	}
-	@RequestMapping(value="/admin/home/home")
-	public ModelAndView adminMain(ModelAndView mv) {
-		mv.setViewName("/admin/home/home");
-		return mv;
-	}
 
 	@RequestMapping(value="/admin/insert/insertProduct", method=RequestMethod.GET)
 	public ModelAndView insertProductget(ModelAndView mv, ProductVO product) {

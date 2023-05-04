@@ -76,5 +76,11 @@ public interface AdminService {
 
 	boolean insertHashtag(int pd_num, String[] list);
 
+	void addVisit(String id);
+
+	void updateVisit(String id);
+
+	boolean getVisit(String id);
+
 
 }

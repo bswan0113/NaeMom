@@ -26,9 +26,10 @@ public class MypageInterceptor extends HandlerInterceptorAdapter  {
 	    @Override
 	    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 	            throws Exception {
-	        HttpSession session = request.getSession();
+	        HttpSession session = request.getSession()
 
 	        if (session.getAttribute("user") != null) {
+
 	            MemberVO user =(MemberVO)session.getAttribute("user");
 
 	            user.setMe_session_limit(new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000));

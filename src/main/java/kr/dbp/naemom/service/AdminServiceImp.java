@@ -18,6 +18,7 @@ import kr.dbp.naemom.vo.ReportManageVO;
 import kr.dbp.naemom.vo.ReportVO;
 import kr.dbp.naemom.vo.ReviewCommentVO;
 import kr.dbp.naemom.vo.ReviewVO;
+import kr.dbp.naemom.vo.VisitedVO;
 import kr.dbp.naemom.vo.qnaVO;
 import kr.dbp.naemom.vo.qna_AnswerVO;
 
@@ -204,6 +205,30 @@ public class AdminServiceImp implements AdminService{
 			if(!adminDao.insertHashtag(pd_num,hash))return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void addVisit(String id) {
+		adminDao.addVisit(id);
+		
+	}
+
+	//수정할 수도 안할 수도
+	@Override
+	public void updateVisit(String id) {
+		if(id==null || id.trim().length()<=0) return;
+		VisitedVO visit = adminDao.getVisit(id);
+		if(visit ==null)return;
+		adminDao.updateVisit(visit.getVi_num());
+		
+		
+	}
+
+	@Override
+	public boolean getVisit(String id) {
+		if(id==null || id.trim().length()<=0) return false;
+		VisitedVO visit = adminDao.getVisit(id);		
+		return visit == null;
 	}
 	
 	

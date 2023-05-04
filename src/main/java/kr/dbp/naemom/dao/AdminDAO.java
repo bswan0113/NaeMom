@@ -13,6 +13,7 @@ import kr.dbp.naemom.vo.ReportManageVO;
 import kr.dbp.naemom.vo.ReportVO;
 import kr.dbp.naemom.vo.ReviewCommentVO;
 import kr.dbp.naemom.vo.ReviewVO;
+import kr.dbp.naemom.vo.VisitedVO;
 import kr.dbp.naemom.vo.qnaVO;
 import kr.dbp.naemom.vo.qna_AnswerVO;
 
@@ -77,6 +78,12 @@ public interface AdminDAO {
 	int deletehashTag(@Param("hg_num")int hg_num);
 
 	boolean insertHashtag(@Param("hg_pd_num")int pd_num, @Param("hg_name")String hash);
+
+	void addVisit(@Param("id")String id);
+
+	void updateVisit(@Param("vi_num")int i);
+
+	VisitedVO getVisit(@Param("id")String id);
 
 
 

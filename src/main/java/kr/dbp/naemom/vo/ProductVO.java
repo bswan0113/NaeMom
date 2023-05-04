@@ -6,6 +6,9 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -68,6 +71,16 @@ public class ProductVO {
 		SimpleDateFormat format = 
 				new SimpleDateFormat("HH:mm");
 			return format.format(pd_close_time);
+	}
+	@Override
+	public String toString() {
+	    ObjectMapper objectMapper = new ObjectMapper();
+	    try {
+	        return objectMapper.writeValueAsString(this);
+	    } catch (JsonProcessingException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
 	}
 
 }
