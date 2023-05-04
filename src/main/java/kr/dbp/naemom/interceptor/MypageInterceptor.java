@@ -27,7 +27,7 @@ public class MypageInterceptor extends HandlerInterceptorAdapter  {
 	    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 	            throws Exception {
 	        HttpSession session = request.getSession();
-	        if (session.getAttribute("user") != null) {
+	        if(session.getAttribute("user") != null) {
 	            MemberVO user =(MemberVO)session.getAttribute("user");
 	            user.setMe_session_limit(new Date(System.currentTimeMillis() - 24 * 60 * 60 * 1000));
 	            Member_profileVO profileImg = myPageService.getProfileImg(user.getMe_id());

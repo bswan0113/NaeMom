@@ -1,9 +1,9 @@
 package kr.dbp.naemom.vo;
 
-import java.util.Date;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 public class CalendarVO {
@@ -56,7 +56,16 @@ public class CalendarVO {
 	    java.text.SimpleDateFormat aa = new java.text.SimpleDateFormat("E");
 	    this.firstDay = aa.format(cal.getTime());
 	}
-
+	@Override
+	public String toString() {
+	    ObjectMapper objectMapper = new ObjectMapper();
+	    try {
+	        return objectMapper.writeValueAsString(this);
+	    } catch (JsonProcessingException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
 	
 	
 }

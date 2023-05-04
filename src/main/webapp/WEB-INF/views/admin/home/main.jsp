@@ -48,69 +48,213 @@
 			<canvas id="yearlykeyword"></canvas>
 		</div>
 		<div class="block">
-			<h5>일간 방문자 통계</h5>
-			선그래프, x축 시간(일), y축 방문자(10명단위)
-			<canvas id="guest"></canvas>
+			<h5>전일 시간대별 방문자 통계</h5>
+			<canvas id="visitDaily"></canvas>
 		</div>
 		<div class="block">
-			<h5>월간 방문자 통계</h5>
-			선그래프, x축 시간(월단위), y축 방문자(100명단위)
+			<h5>전월 일간 방문자 통계</h5>
+			<canvas id="visitMonthly"></canvas>
 		</div>
 		<div class="block">
 			<h5>연간 방문자 통계</h5>
-			선그래프, x축 시간(년단위), y축 방문자(1000명단위)
+			<canvas id="visitYearly"></canvas>
 		</div>
 		<div class="block">
 			<h5>인기상품 랭킹(조회수별)</h5>
-			막대그래프, x축 시간(일), y축 총조회수순으로 10위까지 나열
+			<canvas id="rankingByViewCount"></canvas>
 		</div>
 		<div class="block">
-			<h5>금일의 인기상품(조회수별)</h5>
-			막대그래프, x축 상품, y축 총조회수, 조회수 증가량, 증가량 기준으로 10위까지 나열
+			<h5>금주의 인기상품(조회수별)</h5>
+			<canvas id="rankTodayByViewCount"></canvas>
 		</div>
 		<div class="block">
 			<h5>금월의 인기상품(조회수별)</h5>
-			막대그래프, x축 상품, y축 총조회수, 조회수 증가량, 증가량 기준으로 10위까지 나열
+			<canvas id="rankMonthlyByViewCount"></canvas>
 		</div>
 		<div class="block">
-			<h5>인기상품 랭킹(별점순)</h5>
-			막대그래프, x축 시간(일), y축 총별점순으로 10위까지 나열
+			<h5>인기상품 랭킹(찜순)</h5>
+			<canvas id="rankingByRated"></canvas>
 		</div>
 		<div class="block">
-			<h5>금일의 인기상품(별점순)</h5>
-			막대그래프, x축 상품, y축 총조회수, 조회수 증가량, 증가량 기준으로 10위까지 나열
+			<h5>금주의 인기상품(찜순)</h5>
+			<canvas id="rankingByRatedDaily"></canvas>
 		</div>
 		<div class="block">
-			<h5>금월의 인기상품(별점순)</h5>
-			막대그래프, x축 상품, y축 총조회수, 조회수 증가량, 증가량 기준으로 10위까지 나열
+			<h5>금월의 인기상품(찜순)</h5>
+			<canvas id="rankingByRatedMonthly"></canvas>
 		</div>
 	</div>
 
 <script>
 
-
+let calendar =${calendar}
 let dailyKeyword=${keyword};
 let monthlyKeyword=${keywordM};
 let yearlyKeyword=${keywordY};
+let visitG= ${visit};
+let visitM = ${visitM};
+let visitMG= ${visitMG};
+let visitMM= ${visitMM};
+let visitYG= ${visitYG};
+let visitYM= ${visitYM};
+let productRanking = ${productRanking};
+let weeklyPRanking = ${weeklyPRanking};
+let monthlyPRanking=${monthlyPRanking};
+let productRankingByRated = ${productRankingByRated};
+let rankingByRatedDaily= ${rankingByRatedMonthly};
+let rankingByRatedMonthly= ${rankingByRatedMonthly};
+
 
 $(document).ready(function(){
 	drawpieChart(dailyKeyword,"#dailykeyword");
 	drawpieChart(monthlyKeyword,"#monthlykeyword");
 	drawpieChart(yearlyKeyword,"#yearlykeyword");
-	drawLineGraph(0,"#guest");
-	
+	drawLineGraph(visitG,visitM,"#visitDaily");
+	drawLineGraphMonthly(visitMG,visitMM,"#visitMonthly");
+	drawLineGraphYearly(visitYG,visitYM,"#visitYearly");
+	drawBarGraph(productRanking,"#rankingByViewCount");
+	drawBarGraph2(weeklyPRanking,"#rankTodayByViewCount");
+	drawBarGraph2(monthlyPRanking,"#rankMonthlyByViewCount");
+	drawBarGraphByRated(productRankingByRated,"#rankingByRated");
+	drawBarGraphByRated2(rankingByRatedDaily,"#rankingByRatedDaily");
+	drawBarGraphByRated2(rankingByRatedMonthly,"#rankingByRatedMonthly");
 })
 
-
-
-function drawLineGraph(getData, id){
+function drawLineGraphYearly(getData,getData2, id){
 	let ctx = $(id);
+	let data = [];
+	let data2 = [];
 	// 시간대 데이터
-	let times = ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"];
+	let month = [];
+	let today = new Date();
+	
+	for(let i=0; i<12;i++){ 
+	    month.push(i+1); 
+	    data.push(0);
+	    data2.push(0);
+	}
+	for(let i=0; i<getData.length; i++){
+	    data[parseInt(getData[i].month, 10) - 1]++;
+	}
+	for(let i=0; i<getData2.length; i++){
+	    data2[parseInt(getData2[i].month, 10) - 1]++;
+	}
+		
+	let chart = new Chart(ctx, {
+		  // 차트 종류
+		  type: 'line',
+
+		  // 데이터
+		  data: {
+		    labels: month, // x축의 라벨 값 (시간대)
+		    datasets: [{
+			      label: '비회원', // 데이터 이름
+			      data: data, // y축의 값 (데이터)
+			      fill: false, // 선만 표시
+			      borderColor: '#FF4500 ', // 선 색상
+			      tension: 0.1 // 곡선의 길이 (0~1)
+			    },{
+				      label: '회원', // 데이터 이름
+				      data: data2, // y축의 값 (데이터)
+				      fill: false, // 선만 표시
+				      borderColor: '#00BFFF', // 선 색상
+				      tension: 0.1 // 곡선의 길이 (0~1)
+				    }]
+		  },
+
+		  // 옵션
+		  options: {
+		    scales: {
+		      yAxes: [{
+		        ticks: {
+		          precision: 0,
+		          beginAtZero: true // y축의 최소값을 0으로 지정
+		        }
+		      }]
+		    }
+		  }
+		});
+}
+
+function drawLineGraphMonthly(getData,getData2, id){
+	let ctx = $(id);
+	let data = [];
+	let data2 = [];
+	// 시간대 데이터
+	let day = [];
+	let today = new Date();
+	
+	for(let i=0; i<calendar.lastDay;i++){
+		day.push(i);
+		data.push(0);
+		data2.push(0);
+	}
+	for(let i=0; i<getData.length; i++){
+		let day = parseInt(getData[i].day, 10); // day 변수를 10진수 숫자로 파싱
+		  data[day]++;
+	}
+	for(let i=0; i<getData2.length; i++){
+		let day = parseInt(getData2[i].day, 10); // day 변수를 10진수 숫자로 파싱
+		  data2[day]++;
+	}
+		
+	let chart = new Chart(ctx, {
+		  // 차트 종류
+		  type: 'line',
+
+		  // 데이터
+		  data: {
+		    labels: day, // x축의 라벨 값 (시간대)
+		    datasets: [{
+			      label: '비회원', // 데이터 이름
+			      data: data, // y축의 값 (데이터)
+			      fill: false, // 선만 표시
+			      borderColor: '#FF4500 ', // 선 색상
+			      tension: 0.1 // 곡선의 길이 (0~1)
+			    },{
+				      label: '회원', // 데이터 이름
+				      data: data2, // y축의 값 (데이터)
+				      fill: false, // 선만 표시
+				      borderColor: '#00BFFF', // 선 색상
+				      tension: 0.1 // 곡선의 길이 (0~1)
+				    }]
+		  },
+
+		  // 옵션
+		  options: {
+		    scales: {
+		      yAxes: [{
+		        ticks: {
+		        	precision: 0,
+		          beginAtZero: true // y축의 최소값을 0으로 지정
+		        }
+		      }]
+		    }
+		  }
+		});
+}
+
+function drawLineGraph(getData,getData2, id){
+	
+	let ctx = $(id);
+	let data = [];
+	let data2 = [];
+	// 시간대 데이터
+	let times = [];
+	for (let i = 0; i < 24; i++) {
+	  times.push(i);
+	  data.push(0);
+	  data2.push(0);
+	}
+	
+	for(let i=0; i<getData.length; i++){
+		data[getData[i].hour]++;
+	}
+	for(let i=0; i<getData2.length; i++){
+		data2[getData2[i].hour]++;
+	}
 
 	// 데이터
-	let data = [10, 20, 30, 25, 40, 35, 20, 15, 30, 40, 45, 50, 60, 55, 45, 30, 25, 20, 30, 35, 40, 50, 45, 30];
-	let data2 = [101, 120, 30, 25, 40, 35, 20, 15, 30, 40, 45, 50, 60, 55, 45, 30, 25, 20, 30, 35, 40, 50, 45, 30];
 
 	let chart = new Chart(ctx, {
 	  // 차트 종류
@@ -120,12 +264,18 @@ function drawLineGraph(getData, id){
 	  data: {
 	    labels: times, // x축의 라벨 값 (시간대)
 	    datasets: [{
-		      label: '회원', // 데이터 이름
+		      label: '비회원', // 데이터 이름
 		      data: data, // y축의 값 (데이터)
 		      fill: false, // 선만 표시
-		      borderColor: 'rgb(75, 192, 192)', // 선 색상
+		      borderColor: '#FF4500 ', // 선 색상
 		      tension: 0.1 // 곡선의 길이 (0~1)
-		    }]
+		    },{
+			      label: '회원', // 데이터 이름
+			      data: data2, // y축의 값 (데이터)
+			      fill: false, // 선만 표시
+			      borderColor: '#00BFFF', // 선 색상
+			      tension: 0.1 // 곡선의 길이 (0~1)
+			    }]
 	  },
 
 	  // 옵션
@@ -141,6 +291,8 @@ function drawLineGraph(getData, id){
 	});
 
 }
+
+
 function drawpieChart(getData, id){
     let labels = [];
     let data = {
@@ -161,22 +313,170 @@ function drawpieChart(getData, id){
         data: data,
         options: {
             responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true
-                }
-            }
         },
     };
 
     let myChart = new Chart($(id), config);
 }
 function drawBarGraph(getData, id){
+	let ctx = $(id);
 	
+	let label =[];
+	let data1 = [];
+	
+	for(let i=0; i<getData.length; i++){
+		label.push(getData[i].pd_title);
+		data1.push(getData[i].pd_viewcount);
+	}
+	
+	let data = {
+		labels: label,
+		datasets: [{
+			label: "누적 조회수",
+			data: data1
+		}]
+	};
+
+	let options = {
+		scales: {
+			yAxes: [{
+				ticks: {
+					beginAtZero: true
+				}
+			}]
+		},
+		responsive: true
+		
+	};
+
+	let chart = new Chart(ctx, {
+		type: 'bar',
+		data: data,
+		options: options
+	});
 }
+
+function drawBarGraph2(getData, id){
+	let ctx = $(id);
+	
+	let label =[];
+	let data1 = [];
+	let data2 = [];
+	for(let i=0; i<getData.length; i++){
+		label.push(getData[i].pd_title);
+		data1.push(getData[i].view_dif);
+		data2.push(getData[i].cp_viewcount);
+	}
+	
+	let data = {
+		labels: label,
+		datasets: [{
+			label: "조회수 증가량",
+			data: data1
+		},{
+			label: "누적 조회수",
+			data: data2
+		}],
+			
+	};
+	let options = {
+		scales: {
+			yAxes: [{
+				ticks: {
+					beginAtZero: true
+				}
+			}]
+		},
+		responsive: true
+		
+	};
+
+	let chart = new Chart(ctx, {
+		type: 'bar',
+		data: data,
+		options: options
+	});
+}
+function drawBarGraphByRated(getData, id){
+let ctx = $(id);
+	
+	let label =[];
+	let data1 = [];
+	for(let i=0; i<getData.length; i++){
+		label.push(getData[i].pd_title);
+		data1.push(getData[i].wishcount);
+	}
+	
+	let data = {
+		labels: label,
+		datasets: [{
+			label: "찜갯수",
+			data: data1
+		}]
+	};
+			
+	let options = {
+		scales: {
+			yAxes: [{
+				ticks: {
+					beginAtZero: true
+				}
+			}]
+		},
+		responsive: true
+		
+	};
+
+	let chart = new Chart(ctx, {
+		type: 'bar',
+		data: data,
+		options: options
+	});
+}
+
+function drawBarGraphByRated2(getData, id){
+	let ctx = $(id);
+		
+		let label =[];
+		let data1 = [];
+		let data2 = []
+		for(let i=0; i<getData.length; i++){
+			label.push(getData[i].pd_title);
+			data1.push(getData[i].cp_rated);
+			data2.push(getData[i].rate_dif);
+		}
+		console.log(data1)
+		console.log(data2)
+		
+		let data = {
+			labels: label,
+			datasets: [{
+				label: "찜갯수",
+				data: data1
+			},{
+				label: "찜증가량",
+				data: data2
+			}]
+		};
+				
+		let options = {
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero: true
+					}
+				}]
+			},
+			responsive: true
+			
+		};
+
+		let chart = new Chart(ctx, {
+			type: 'bar',
+			data: data,
+			options: options
+		});
+	}
 </script>
 
 

@@ -41,4 +41,133 @@
 	    ORDER BY count DESC
 	    LIMIT #{count};
 	</select>
+	
+	<select id="getVisit" resultType="kr.dbp.naemom.vo.VisitedVO">
+		SELECT *
+		FROM visited
+		WHERE vi_date BETWEEN #{start} AND #{end} and vi_is_member ="NO"
+	</select>
+	
+	<select id="getVisitM" resultType="kr.dbp.naemom.vo.VisitedVO">
+		SELECT *
+		FROM visited
+		WHERE vi_date BETWEEN #{start} AND #{end} and vi_is_member ="YES"
+	</select>
+	
+	<select id="getVisitMG" resultType="kr.dbp.naemom.vo.VisitedVO">
+		SELECT *
+		FROM visited
+		WHERE vi_date BETWEEN #{start} AND #{end} and vi_is_member ="NO"
+	</select>
+	
+	<select id="getVisitMM" resultType="kr.dbp.naemom.vo.VisitedVO">
+		SELECT *
+		FROM visited
+		WHERE vi_date BETWEEN #{start} AND #{end} and vi_is_member ="YES"
+	</select>
+	
+	<select id="getVisitYG" resultType="kr.dbp.naemom.vo.VisitedVO">
+		SELECT *
+		FROM visited
+		WHERE vi_date BETWEEN #{start} AND #{end} and vi_is_member ="NO"
+	</select>
+	
+	<select id="getVisitYM" resultType="kr.dbp.naemom.vo.VisitedVO">
+		SELECT *
+		FROM visited
+		WHERE vi_date BETWEEN #{start} AND #{end} and vi_is_member ="YES"
+	</select>
+	
+	<select id="getProductRanking" resultType="kr.dbp.naemom.vo.ProductVO">
+		select pd_viewcount, pd_title from product order by pd_viewcount desc limit #{limit}
+	</select>
+	
+	<select id="getWeeklyPRanking" resultType="kr.dbp.naemom.vo.ChangeProductVO">
+	SELECT  *
+		FROM (
+		  SELECT 
+		    pd_title,
+		    a.cp_date as cp_date,
+		    a.cp_viewcount as cp_viewcount,
+		    (a.cp_viewcount - b.cp_viewcount) AS view_dif
+		  FROM change_product a
+		  INNER JOIN change_product b
+		    ON a.cp_pd_num = b.cp_pd_num
+		    AND DATEDIFF(a.cp_date, b.cp_date) = 7
+		  INNER JOIN product
+		    ON a.cp_pd_num = pd_num
+		  WHERE a.cp_date > DATE_ADD(NOW(), INTERVAL -14 DAY)
+		  ORDER BY view_dif DESC
+		) AS  view_dif
+		LIMIT #{limit};			
+	</select>
+	
+	<select id="getMonthlyPRanking" resultType="kr.dbp.naemom.vo.ChangeProductVO">
+		SELECT  *
+			FROM (
+			  SELECT 
+			    pd_title,
+			    a.cp_date as cp_date,
+			    a.cp_viewcount as cp_viewcount,
+			    (a.cp_viewcount - b.cp_viewcount) AS view_dif
+			  FROM change_product a
+			  INNER JOIN change_product b
+			    ON a.cp_pd_num = b.cp_pd_num
+			    AND DATEDIFF(a.cp_date, b.cp_date) = 30
+			  INNER JOIN product
+			    ON a.cp_pd_num = pd_num
+			  WHERE a.cp_date > DATE_ADD(NOW(), INTERVAL -60 DAY)
+			  ORDER BY view_dif DESC
+			) AS  view_dif
+			LIMIT 10;				
+	</select>
+	
+	<select id="getProductRankingByRated" resultType="kr.dbp.naemom.vo.WishVO">
+		select count(wi_num) as wishcount, pd_title from wishitem 
+		left join product on wi_pd_num = pd_num
+		group by wi_pd_num
+		order by wishcount desc
+		limit #{limit}
+	</select>
+	
+	<select id="getProductRankingByRatedDaily" resultType="kr.dbp.naemom.vo.ChangeProductVO">
+		SELECT  *
+			FROM (
+			  SELECT 
+			    pd_title,
+			    a.cp_rated as cp_rated,
+			    a.cp_viewcount as cp_viewcount,
+			    (a.cp_rated - b.cp_rated) AS rate_dif
+			  FROM change_product a
+			  INNER JOIN change_product b
+			    ON a.cp_pd_num = b.cp_pd_num
+			    AND DATEDIFF(a.cp_date, b.cp_date) = 7
+			  INNER JOIN product
+			    ON a.cp_pd_num = pd_num
+			  WHERE a.cp_date > DATE_ADD(NOW(), INTERVAL -14 DAY)
+			  ORDER BY rate_dif DESC
+			) AS  rate_dif
+			LIMIT #{limit};	
+	</select>
+	
+	
+	<select id="getProductRankingByRatedMonthly" resultType="kr.dbp.naemom.vo.ChangeProductVO">
+		SELECT  *
+			FROM (
+			  SELECT 
+			    pd_title,
+			    a.cp_rated as cp_rated,
+			    a.cp_viewcount as cp_viewcount,
+			    (a.cp_rated - b.cp_rated) AS rate_dif
+			  FROM change_product a
+			  INNER JOIN change_product b
+			    ON a.cp_pd_num = b.cp_pd_num
+			    AND DATEDIFF(a.cp_date, b.cp_date) = 30
+			  INNER JOIN product
+			    ON a.cp_pd_num = pd_num
+			  WHERE a.cp_date > DATE_ADD(NOW(), INTERVAL -60 DAY)
+			  ORDER BY rate_dif DESC
+			) AS  rate_dif
+			LIMIT #{limit};	
+	</select>
 </mapper>

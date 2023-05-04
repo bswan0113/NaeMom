@@ -78,5 +78,9 @@ public interface AdminService {
 
 	void addVisit(String id);
 
+	void updateVisit(String id);
+
+	boolean getVisit(String id);
+
 
 }

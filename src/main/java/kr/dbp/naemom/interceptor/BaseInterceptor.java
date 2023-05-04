@@ -36,7 +36,9 @@ public class BaseInterceptor extends HandlerInterceptorAdapter  {
 			clientCookie.setPath("/");
 			clientCookie.setMaxAge(time);
 			response.addCookie(clientCookie);
-			adminService.addVisit(session.getId());
+			if(adminService.getVisit(session.getId())) {
+				adminService.addVisit(session.getId());
+			}
 		}
 		return true;
 	}
