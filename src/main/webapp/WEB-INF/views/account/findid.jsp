@@ -15,12 +15,18 @@
 <body>
 	<h1>아이디 찾기</h1>
 	<form id="findid-form" method="post" action="<c:url value='/processFindId'/>" accept-charset="UTF-8">
-		<label for="me_name">이름:</label>
-		<input type="text" id="me_name" name="me_name" required><br><br>
-		<label for="me_ma_email">이메일:</label>
-		<input type="email" id="me_ma_email" name="me_ma_email" required><br><br>
-		<label for="me_birthday">생년월일:</label>
-		<input type="text" id="me_birthday" name="me_birthday" required><br><br>
+		<div class="row">
+			<label for="me_name" class="col-3">이름:</label>
+			<input type="text" id="me_name" name="me_name" required class="col-9">
+		</div>
+		<div class="row">
+		<label for="me_ma_email" class="col-3">이메일:</label>
+		<input type="email" id="me_ma_email" name="me_ma_email" required class="col-9">
+		</div>
+		<div class="row">
+		<label for="me_birthday"  class="col-3">생년월일:</label>
+		<input type="text" id="me_birthday" name="me_birthday" required class="col-9">
+		</div>
 		<button type="submit" class="btn-findid">아이디 검색</button><br>	
 		<a href="findpw" id="findpw"><button type="button">비밀번호 찾기</button></a>
 		<a href="login" id="login"><button type="button">로그인</button></a>
