@@ -15,6 +15,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.util.WebUtils;
 
 import kr.dbp.naemom.service.MyPageService;
+import kr.dbp.naemom.utils.MessageUtils;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.Member_profileVO;
 
@@ -39,7 +40,11 @@ public class MypageInterceptor extends HandlerInterceptorAdapter  {
 	            Integer expirationMileage = myPageService.getexpirationMileage(user.getMe_id());
 	            if(expirationMileage != null)user.setExpirationMileage(expirationMileage);
 	            else user.setExpirationMileage(0);
+	            return true;
 	        }
+			MessageUtils.alertAndMovePage(response, 
+					"로그인 해주세요!", 
+					"/naemom", "/login");
 	        return true;
 	    }
 
