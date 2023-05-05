@@ -130,16 +130,18 @@ public class ProductController {
 
 		MemberVO user =(MemberVO)session.getAttribute("user");
 		if(cri!=null && cri.getSearch()!=null  && cri.getSearch().trim().length() != 0) {
-			
-			productService.insertKeyword(cri.getSearch(), pd_num);
+			if(user == null)productService.insertKeyword(cri.getSearch(), pd_num);
+			else if(user != null)productService.insertKeywordWithId(cri.getSearch(), pd_num,user.getMe_id());
 		}
-		
 
 		ProductVO product= productService.getProduct(pd_num);
 		ArrayList<FileVO> files = productService.getFiles(pd_num);
 		ArrayList<ProductVO> randomProduct = productService.getRandomProduct();
 		ArrayList<FileVO> random = productService.getThumbNailByRandomProduct(randomProduct);
-		WishVO wish = productService.getWish(user.getMe_id(), pd_num);
+		if(user != null) {
+			WishVO wish = productService.getWish(user.getMe_id(), pd_num);
+			mv.addObject("wish",wish);
+		}
 		Double rating =productService.getRatingAvg(pd_num);
 		
 		Cookie[] cookies = request.getCookies();
@@ -186,7 +188,7 @@ public class ProductController {
 		mv.addObject("hash", getHashtag(pd_num));
 		mv.addObject("user", user);
 		mv.addObject("option",option);
-		mv.addObject("wish",wish);
+
 		mv.addObject("randomProduct", randomProduct);
 		mv.addObject("random", random);
 		mv.addObject("files", files);

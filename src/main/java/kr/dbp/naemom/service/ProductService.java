@@ -10,15 +10,10 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.DayOFFVO;
 import kr.dbp.naemom.vo.FileVO;
-import kr.dbp.naemom.vo.LikeVO;
 import kr.dbp.naemom.vo.Option_accomodationVO;
-import kr.dbp.naemom.vo.Option_festivalVO;
-import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
-import kr.dbp.naemom.vo.ReviewVO;
-import kr.dbp.naemom.vo.TempOFFVO;
 import kr.dbp.naemom.vo.WishVO;
 
 public interface ProductService {
@@ -78,6 +73,8 @@ public interface ProductService {
 	void insertKeyword(String search, int pd_num);
 
 	String[] getHashList(int pd_num);
+
+	void insertKeywordWithId(String me_id, int i, String string);
 
 
 
