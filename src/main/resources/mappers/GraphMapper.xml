@@ -16,18 +16,21 @@
 			LIMIT #{count};
   	</select>
 
-  	<select id="getTotalSearchCountM" resultType="int">
-    SELECT COUNT(sk_num) FROM search_keyword WHERE sk_date >= DATE_SUB(NOW(), INTERVAL 7 DAY);
-	</select>
-	
-	<select id="getSearchKeywordM" resultType="kr.dbp.naemom.vo.SearchKeywordVO">
-	    SELECT COUNT(sk_num) AS count, sk_keyword
-	    FROM search_keyword
-	    WHERE sk_date >= DATE_SUB(NOW(), INTERVAL 7 DAY)
-	    GROUP BY sk_keyword
-	    ORDER BY count DESC
-	    LIMIT #{count};
-	</select>
+<!-- getTotalSearchCountM -->
+<select id="getTotalSearchCountM" resultType="int">
+    SELECT COUNT(sk_num) FROM search_keyword WHERE sk_date BETWEEN DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-01') AND LAST_DAY(NOW() - INTERVAL 1 MONTH);
+</select>
+
+<!-- getSearchKeywordM -->
+<select id="getSearchKeywordM" resultType="kr.dbp.naemom.vo.SearchKeywordVO">
+    SELECT COUNT(sk_num) AS count, sk_keyword
+    FROM search_keyword
+    WHERE sk_date BETWEEN DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-01') AND LAST_DAY(NOW() - INTERVAL 1 MONTH)
+    GROUP BY sk_keyword
+    ORDER BY count DESC
+    LIMIT #{count};
+</select>
+
 	
 	<select id="getTotalSearchCountY" resultType="int">
     SELECT COUNT(sk_num) FROM search_keyword  
