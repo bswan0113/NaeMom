@@ -2,7 +2,6 @@ package kr.dbp.naemom.controller;
 
 
 import java.util.ArrayList;
-import java.util.Currency;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -25,6 +24,7 @@ import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.MileageVO;
+import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.ReviewVO;
 import kr.dbp.naemom.vo.WishVO;
 import kr.dbp.naemom.vo.qnaVO;

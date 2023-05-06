@@ -31,6 +31,10 @@ public class MemberVO {
 	private String me_post;
 	Member_profileVO member_profile;
 	int expirationMileage;
+	int me_score_ao;
+	int me_score_fe;
+	int me_score_la;
+	int me_score_reo;
 	
 	public String getMe_birthday_str() {
 		SimpleDateFormat format =

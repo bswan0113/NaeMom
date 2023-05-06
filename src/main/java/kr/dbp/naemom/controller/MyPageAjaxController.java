@@ -135,6 +135,20 @@ public class MyPageAjaxController {
 			map.put("res", res);
 			return map;
 		}
+		
+		@RequestMapping(value = "/main/rec/{count}", method=RequestMethod.GET)
+		public Map<String, Object> getMainRec(@PathVariable("count")int count, HttpSession session) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			MemberVO user =(MemberVO)session.getAttribute("user");
+			ArrayList<ProductVO> rec = myPageService.getRecPr(user, count);
+			ArrayList<FileVO> img = new ArrayList<FileVO>();
+			for(int i=0; i<rec.size();i++) {
+				img.add(productService.getThumbnail(rec.get(i).getPd_num()));
+			}
+			map.put("img",img);
+			map.put("rec",rec);
+			return map;
+		}
 
 	
 	

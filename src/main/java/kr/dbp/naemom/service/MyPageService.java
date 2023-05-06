@@ -73,6 +73,8 @@ public interface MyPageService {
 
 	boolean changeEmail(String email, String userId);
 
+	ArrayList<ProductVO> getRecPr(MemberVO user, int count);
+
 
 
 }

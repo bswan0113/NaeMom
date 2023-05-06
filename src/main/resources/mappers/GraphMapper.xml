@@ -30,16 +30,19 @@
 	</select>
 	
 	<select id="getTotalSearchCountY" resultType="int">
-    SELECT COUNT(sk_num) FROM search_keyword WHERE sk_date >= DATE_SUB(NOW(), INTERVAL 1 YEAR);
+    SELECT COUNT(sk_num) FROM search_keyword  
+    	WHERE sk_date >= STR_TO_DATE(CONCAT(YEAR(CURDATE())-1, '-01-01'), '%Y-%m-%d')
+   	 	AND STR_TO_DATE(CONCAT(YEAR(CURDATE()), '-01-01'), '%Y-%m-%d') > sk_date 
 	</select>
 	
 	<select id="getSearchKeywordY" resultType="kr.dbp.naemom.vo.SearchKeywordVO">
-	    SELECT COUNT(sk_num) AS count, sk_keyword
-	    FROM search_keyword
-	    WHERE sk_date >= DATE_SUB(NOW(), INTERVAL 1 YEAR)
-	    GROUP BY sk_keyword
-	    ORDER BY count DESC
-	    LIMIT #{count};
+	             SELECT COUNT(sk_num) AS count, sk_keyword
+    FROM search_keyword
+    WHERE sk_date >= STR_TO_DATE(CONCAT(YEAR(CURDATE())-1, '-01-01'), '%Y-%m-%d')
+    AND STR_TO_DATE(CONCAT(YEAR(CURDATE()), '-01-01'), '%Y-%m-%d') > sk_date 
+    GROUP BY sk_keyword
+    ORDER BY count DESC
+    LIMIT #{count};
 	</select>
 	
 	<select id="getVisit" resultType="kr.dbp.naemom.vo.VisitedVO">

@@ -59,6 +59,10 @@
 		class="kr.dbp.naemom.interceptor.MypageInterceptor"></beans:bean>
 	<!-- 어느 url에서 인터셉터들이 동작할 건지를 설정 -->
 	<interceptors>
+	    <interceptor>
+	        <mapping path="/**"/>
+	        <beans:ref bean="baseInterceptor"/>
+	    </interceptor>
 		<interceptor>
 			<mapping path="/**"/>
 			<beans:ref bean="autoLoginInterceptor"/>
@@ -66,10 +70,6 @@
 		<interceptor>
 	        <mapping path="/mypage/**"/>
 	        <beans:ref bean="mypageInterceptor"/>
-	    </interceptor>
-	    <interceptor>
-	        <mapping path="/**"/>
-	        <beans:ref bean="baseInterceptor"/>
 	    </interceptor>
 	    <interceptor>
 	        <mapping path="/admin/**"/>

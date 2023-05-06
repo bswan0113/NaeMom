@@ -37,6 +37,7 @@ public class ProductVO {
 	Date pd_fe_end;
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	Date pd_fe_start;
+	int pd_score;
 
 	ArrayList<DayOFFVO> dayoff;
 	

@@ -138,4 +138,11 @@
 	<update id="changeEmail">
 		update member set me_ma_email=#{me_ma_email} where me_id =#{me_id}
 	</update>
+	
+	<select id="getProductByuserPrefer" resultType="kr.dbp.naemom.vo.ProductVO">
+		select * from product 
+        where pd_pc_num=#{pd_pc_category}
+		order by pd_score desc
+		limit #{limit_start}, 2
+	</select>
 </mapper>

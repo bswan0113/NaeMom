@@ -12,6 +12,7 @@ import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.Member_profileVO;
 import kr.dbp.naemom.vo.MileageVO;
+import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.Qna_Sub_categoryVO;
 import kr.dbp.naemom.vo.ReviewVO;
 import kr.dbp.naemom.vo.WishVO;
@@ -72,6 +73,8 @@ public interface MyPageDAO {
 	ArrayList<CourseItemVO> getCourseItem(@Param("co_num")int co_num);
 
 	int changeEmail(@Param("me_ma_email")String email, @Param("me_id")String userId);
+
+	ArrayList<ProductVO> getProductByuserPrefer(@Param("pd_pc_category")int table, @Param("limit_start")int count);
 
 
 
