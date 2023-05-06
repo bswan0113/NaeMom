@@ -88,33 +88,52 @@ $(document).ready(function() {
 	  $("form").submit(function() {
 		let vali = true;
 	    $(".option-item").each(function(index) {
-	      let menuName = $(this).find("#name").val();
-	      let menuDescription = $(this).find("#room_detail").val();
-	      let menuPrice = $(this).find("#price").val();
-	      let menuImage = $(this).find("#file").val();
-	      if (menuName.trim().length <= 0) {
-	        alert("방이름을 입력해주세요.");
-	        vali = false;
-	        return false;
-	      }
+	        let name = $(this).parent().find('#name').val();
+	        let price = $(this).parent().find('#price').val();
+	        let room_detail = $(this).parent().find('#room_detail').val();
+	        let room_number =$(this).parent().find('#room_number').val();
+	        let capacity =$(this).parent().find('#capacity').val();
+		      if (name.trim().length <= 0) {
+			        alert("방이름을 입력해주세요.");
+			        vali = false;
+			        return false;
+			      }
+		      if (price.trim().length <= 0) {
+			        alert("가격을 입력해주세요.");
+			        vali = false;
+			        return false;
+			      }
+		      if (room_detail.trim().length <= 0) {
+			        alert("방설명을 입력해주세요.");
+			        vali = false;
+			        return false;
+			      }
+		      if (room_number.trim().length <= 0) {
+			        alert("방번호을 입력해주세요.");
+			        vali = false;
+			        return false;
+			      }
+		      if (capacity.trim().length <= 0) {
+			        alert("방 수용인원을 입력해주세요.");
+			        vali = false;
+			        return false;
+			      }
+			    if (!/^\d+$/.test(capacity)) {
+			        alert('최대 수용인원의 값이 잘못되었습니다.');
+			        vali = false;
+			        return false;
+			    }
+			    if (!/^\d+$/.test(price)) {
+			        alert('가격의 값이 잘못되었습니다.');
+			        vali = false;
+			        return false;
+			    }
+			    if (!/^\d+$/.test(room_number)) {
+			        alert('방번호가 잘못되었습니다.');
+			        vali = false;
+			        return false;
+			    }
 
-	      if (menuDescription.trim().length <= 0) {
-	        alert("방설명을 입력해주세요.");
-	        vali = false;
-	        return false;
-	      }
-
-	      if (menuPrice == '') {
-	        alert("가격을 입력해주세요.");
-	        vali = false;
-	        return false;
-	      }
-
-	      if (menuImage == '') {
-	        alert("이미지를 첨부해주세요.");
-	        vali = false;
-	        return false;
-	      }
 	    
 	    });
 	    if(!vali) return false; 	    
@@ -175,7 +194,7 @@ $('.update-saved').click(function() {
     let room_detail = $(this).parent().find('#room_detail').val();
     let room_number =$(this).parent().find('#room_number').val();
     let capacity =$(this).parent().find('#capacity').val();
-    let pd_num =$(this).parent().data('num')
+    let pd_num =$(this).parent().data('num');
 
     let saved = $(this).parent();
     let items = 
@@ -222,7 +241,38 @@ $('.saved-list').on('click', '.update-item', function() {
     let file =$(this).parent().find('#file');
     let room_number = $(this).parent().find('#room_number').val();
     let capacity = $(this).parent().find('#capacity').val();
-   
+    if (name.trim().length <= 0) {
+        alert("방이름을 입력해주세요.");
+        return false;
+      }
+  if (price.trim().length <= 0) {
+        alert("가격을 입력해주세요.");
+        return false;
+      }
+  if (room_detail.trim().length <= 0) {
+        alert("방설명을 입력해주세요.");
+        return false;
+      }
+  if (room_number.trim().length <= 0) {
+        alert("방번호을 입력해주세요.");
+        return false;
+      }
+  if (capacity.trim().length <= 0) {
+        alert("방 수용인원을 입력해주세요.");
+        return false;
+      }
+    if (!/^\d+$/.test(capacity)) {
+        alert('최대 수용인원의 값이 잘못되었습니다.');
+        return false;
+    }
+    if (!/^\d+$/.test(price)) {
+        alert('가격의 값이 잘못되었습니다.');
+        return false;
+    }
+    if (!/^\d+$/.test(room_number)) {
+        alert('방번호가 잘못되었습니다.');
+        return false;
+    }
 	let ao={
 			ao_num:ao_num,
 			ao_pd_num:pd_num,

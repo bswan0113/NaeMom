@@ -79,13 +79,31 @@
   </tbody>
 </table>
 <script>
+
+
 $('form').submit(function(event) {
     event.preventDefault(); // 기본 제출 이벤트를 중지합니다.
 
     let to_start = $('#start_date').val();
     let to_end = $('#end_date').val();
-    console.log(to_start);
-    console.log(to_end);
+    
+
+	if(to_start == ''){
+		alert('시작날짜를 입력해주세요.')
+		return;
+    }
+    if(to_end == ''){
+    	alert('종료날짜를 입력해주세요.')
+		return;    	
+    }
+    if(!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(to_start)){
+        alert('시작날짜의 형식이 잘못되었습니다.');
+        return;
+    }
+    if(!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(to_end)){
+        alert('종료날짜의 형식이 잘못되었습니다.');
+        return;
+    }
     if (to_start > to_end) {
         alert('시작날짜가 종료날짜보다 큽니다!');
         return;
