@@ -40,7 +40,6 @@
 	        </beans:list>
 	    </beans:property>
 	</beans:bean>
-		
 	
 	<context:component-scan base-package="kr.dbp.naemom.*" />
 		<!-- 인터셉터 등록 -->
