@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.AdminService;
+import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
 import kr.dbp.naemom.vo.MemberVO;
@@ -107,5 +108,17 @@ public class AdminController {
 		mv.setViewName("/admin/insert/insertHashtag");
 		return mv;
 		
+	}
+	
+	
+	@RequestMapping(value = "/admin/list/buyCancelList")
+	public ModelAndView buyCancelList(ModelAndView mv, Criteria cri) {
+		if(cri==null) cri = new Criteria();
+		ArrayList<Buy_listVO> list = adminService.getBuyCancelList(cri);
+		
+		mv.addObject("list", list);
+		//mv.addObject("pm", pm);
+		mv.setViewName("/admin/list/buyCancelList");
+		return mv;
 	}
 }

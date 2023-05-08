@@ -6,6 +6,7 @@ import java.util.Map;
 
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.BuyListVO;
+import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
 import kr.dbp.naemom.vo.MemberVO;
@@ -75,6 +76,8 @@ public interface AdminService {
 	boolean deleteHashtag(int parseInt);
 
 	boolean insertHashtag(int pd_num, String[] list);
+
+	ArrayList<Buy_listVO> getBuyCancelList(Criteria cri);
 
 
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import kr.dbp.naemom.dao.AdminDAO;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.BuyListVO;
+import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
 import kr.dbp.naemom.vo.MemberVO;
@@ -204,6 +205,13 @@ public class AdminServiceImp implements AdminService{
 			if(!adminDao.insertHashtag(pd_num,hash))return false;
 		}
 		return true;
+	}
+
+	@Override
+	public ArrayList<Buy_listVO> getBuyCancelList(Criteria cri) {
+		String cancel = "결제취소중";
+		
+		return adminDao.selectBuyCancelList(cancel,cri);
 	}
 	
 	

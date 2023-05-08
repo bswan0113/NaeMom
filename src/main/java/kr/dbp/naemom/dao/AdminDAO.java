@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.BuyListVO;
+import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
 import kr.dbp.naemom.vo.MemberVO;
@@ -77,6 +78,8 @@ public interface AdminDAO {
 	int deletehashTag(@Param("hg_num")int hg_num);
 
 	boolean insertHashtag(@Param("hg_pd_num")int pd_num, @Param("hg_name")String hash);
+
+	ArrayList<Buy_listVO> selectBuyCancelList(@Param("cancel")String cancel, @Param("cri")Criteria cri);
 
 
 

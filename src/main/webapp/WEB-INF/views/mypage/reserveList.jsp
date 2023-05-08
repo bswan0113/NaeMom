@@ -92,11 +92,16 @@
 	}
 	var num = "";
 	$('.btn_cancel').click(function(){
+		num="";
 		let bl_num = $(this).siblings('[name=bl_num]').val()
 		if(confirm('해당 결제를 취소하겠습니까?')){
 			ajaxPost(bl_num, '<c:url value="/mypage/buyCancel"></c:url>', buyCancel);
 		}
-		console.log(num)
+		if(num == bl_num){
+			let state = $(this).parent().siblings('.bl_state').text('결제취소중');
+			$(this).attr('disabled',true);
+			$(this).css('background-color','grey');
+		}
 	})
 	function buyCancel(data){
 		if(data.res == 1){
