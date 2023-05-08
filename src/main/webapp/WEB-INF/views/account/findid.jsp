@@ -38,11 +38,36 @@
 		$("#findid-form").on("submit", function(event) {
 			event.preventDefault();
 			
-			// 필수 입력 필드들이 모두 입력되었는지 검증
-			if ($(this).find("input[required]").filter(function() { return !this.value; }).length > 0) {
-				alert("모든 필드를 입력해주세요.");
+			// 이름 유효성 검사
+			let name = $(this).find("input[name=me_name]").val();
+			if (!name) {
+				alert("이름은 필수항목입니다.");
+				return false;
+			} else if (name.length > 13) {
+				alert("이름은 13자 이하로 입력해주세요.");
 				return false;
 			}
+
+			// 이메일 유효성 검사
+			let email = $(this).find("input[name=me_ma_email]").val();
+			if (!email) {
+				alert("이메일은 필수항목입니다.");
+				return false;
+			} else if (!email.includes("@")) {
+				alert("알 수 없는 이메일 형식입니다.");
+				return false;
+			}
+
+			// 생일 유효성 검사
+			let birth = $(this).find("input[name=me_birthday]").val();
+			if (!birth) {
+				alert("생일은 필수항목입니다.");
+				return false;
+			} else if (!/^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/.test(birth)) {
+				alert("잘못된 생일 형식입니다. yyyy-MM-dd 형식으로 입력해주세요.");
+				return false;
+			}
+			
 			let data = $(this).serialize()
 			console.log(data);
 			
@@ -65,10 +90,9 @@
 					console.error("Error occurred:", xhr.responseText);
 				}
 			});
-		return false;
+			return false;
 		});
 	});
-	 
 </script>
 </body>
 </html>
