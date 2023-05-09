@@ -138,10 +138,10 @@
 				</c:if>			
 			</c:if>
 		</div>
-		<form method="post" action="<c:url value='/option/opList'></c:url>">
+		<form method="post" action="<c:url value='/option/opList' id="reserve-form"></c:url>">
 			<input type="hidden" name="pd_num" value="${product.pd_num}">
 			<input type="hidden" name="pd_pc_num" value="${product.pd_pc_num}">
-		<button class="btn btn-dark">예약하러가기</button>
+			<button class="btn btn-dark">예약하러가기</button>
 		</form>
 	</div>
 	<hr>
@@ -536,6 +536,16 @@ selectReviewList(cri);
 
 let starRate=0;
 
+
+$(document).on("submit","#reserve-form",function(e){
+	e.preventDefault();
+	if("${user.me_id}" == ''){
+		alert("로그인해주세요!");
+		return;
+	}
+	
+	$(this).unbind();
+})
 
 $(document).on("click",".like-btns",function(){
 	let li_re_num = $(this).parents('.review-comment-container').data('num');
