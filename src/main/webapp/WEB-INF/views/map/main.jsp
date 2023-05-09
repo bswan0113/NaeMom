@@ -83,7 +83,6 @@ body {
 }
 
 #menu {
-	margin-bottom: 20px;
 	overflow: hidden;
 	position: relative;
 	padding: 0 11px;
@@ -226,9 +225,30 @@ body {
 .search-text{
 	text-align:center; 
 	font-weight:bold; 
-	font-size:30px;
+	font-size: 30px;
 	color : #808080;
+	margin-top: 50px
 }
+
+.select_product {
+  padding: 10px 30px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  width: 100%;
+  font-size: 20px;
+}
+
+.select_product:hover {
+  background-color: #e9e9e9;
+}
+
+.select_product td {
+  max-height: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 </style>
 <div id="sidebar">
 	<div id="logo">
@@ -256,21 +276,15 @@ body {
 				data-pd-pc-num="4">축제</a></li>
 		</ul>
 	</div>
-	<div>
+	<div class="">
 		<div class="search-text">
 			<p>검색어를 입력하세요</p>
 		</div>
 		<table class="product-table">
 			<thead>
-				<th>상품</th>
-				<th>내용</th>
-				<th></th>
 			</thead>
 			<tbody class="productList">
-				<tr class="select_product" onclick="redirectToDetailPage()">
-				    <td>1</td>
-				    <td>2</td>
-				    <td>3</td>
+				<tr class="select_product">  
 				</tr>
 			</tbody>
 		</table>
@@ -281,143 +295,143 @@ body {
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7d3f638bdeedf08d5afccc6accd5e919&libraries=services"></script>
 <script>
-	var container = document.getElementById('map');
+var container = document.getElementById('map');
+
+var options = {
+	center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표 (서울시청)
+	level: 3
+};
+
+var map = new kakao.maps.Map(container, options);
+
+navigator.geolocation.getCurrentPosition(function(position) {
+    // 현재 위치를 중심으로 지도 이동
+    var lat = position.coords.latitude; // 위도
+    var lng = position.coords.longitude; // 경도
+    var locPosition = new kakao.maps.LatLng(lat, lng); // 좌표 생성
+    var marker = new kakao.maps.Marker({ // 마커 생성
+        position: locPosition
+    });
+    map.setCenter(locPosition); // 지도 이동
+}); 
+
+var geocoder = new kakao.maps.services.Geocoder();
+
+//product 정보를 가져와 배열에 저장
+var positions = [];
+<c:forEach items="${plist}" var="item">
+	var obj = {
+			pdNum : "${item.pd_num}",
+			title : "${item.pd_title}",
+			address : "${item.pd_street_address}"
+	}
+	positions.push(obj);
+</c:forEach>
+
+positions.forEach(function(position, index) {
+  var title = position.title;
+  var address = position.address;
+  //주소로 좌표를 검색합니다
+  geocoder.addressSearch(address, function(result, status) {
+
+    // 정상적으로 검색이 완료됐으면 
+    if (status === kakao.maps.services.Status.OK) {
+
+      var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+      // 결과값으로 받은 위치를 마커로 표시합니다
+      var marker = new kakao.maps.Marker({
+        map: map,
+        position: coords
+      });
+    } 
+      
+      
+    // 커스텀 오버레이에 표시할 컨텐츠 입니다
+  	// 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
+  	// 별도의 이벤트 메소드를 제공하지 않습니다 
+  	
+    
+    var content = document.createElement('div');
+    content.classList.add('wrap');
+
+    var info = document.createElement('div');
+    info.classList.add('info');
+
+    var titleDiv = document.createElement('div');
+    titleDiv.classList.add('title');
+    var titleText = document.createTextNode(title);
+    titleDiv.appendChild(titleText);
+
+    var closeBtn = document.createElement('div');
+    closeBtn.classList.add('close');
+    closeBtn.setAttribute('title', '닫기');
+    closeBtn.addEventListener('click', closeOverlay);
+    titleDiv.appendChild(closeBtn);
+
+    info.appendChild(titleDiv);
+
+    var bodyDiv = document.createElement('div');
+    bodyDiv.classList.add('body');
+
+    var imgDiv = document.createElement('div');
+    imgDiv.classList.add('img');
+    var img = document.createElement('img');
+    img.setAttribute('src', '<c:url value=""></c:url>');
+    img.setAttribute('width', '73');
+    img.setAttribute('height', '70');
+    imgDiv.appendChild(img);
+    bodyDiv.appendChild(imgDiv);
+
+    var descDiv = document.createElement('div');
+    descDiv.classList.add('desc');
+
+    var ellipsisDiv = document.createElement('div');
+    ellipsisDiv.classList.add('ellipsis');
+    var addressText = document.createTextNode(address);
+    ellipsisDiv.appendChild(addressText);
+    descDiv.appendChild(ellipsisDiv);
+
+    var linkDiv = document.createElement('div');
+    var link = document.createElement('a');
+    link.setAttribute('href', '<c:url value="/product/detail/detailLayoutTMP/' + position.pdNum + '"></c:url>');
+    link.setAttribute('target', '_blank');
+    link.classList.add('link');
+    var linkText = document.createTextNode('상품보기');
+    link.appendChild(linkText);
+    linkDiv.appendChild(link);
+    descDiv.appendChild(linkDiv);
+
+    bodyDiv.appendChild(descDiv);
+
+    info.appendChild(bodyDiv);
+
+    content.appendChild(info);
+    
+ 	// 마커 위에 커스텀오버레이를 표시합니다
+	// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+	var overlay = null;
+ 	
 	
-	var options = {
-		center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표 (서울시청)
-		level: 3
-	};
-
-	var map = new kakao.maps.Map(container, options);
-
-	navigator.geolocation.getCurrentPosition(function(position) {
-	    // 현재 위치를 중심으로 지도 이동
-	    var lat = position.coords.latitude; // 위도
-	    var lng = position.coords.longitude; // 경도
-	    var locPosition = new kakao.maps.LatLng(lat, lng); // 좌표 생성
-	    var marker = new kakao.maps.Marker({ // 마커 생성
-	        position: locPosition
-	    });
-	    map.setCenter(locPosition); // 지도 이동
-	}); 
-	
-	var geocoder = new kakao.maps.services.Geocoder();
-
-	//product 정보를 가져와 배열에 저장
-	var positions = [];
-	<c:forEach items="${plist}" var="item">
-		var obj = {
-				pdNum : "${item.pd_num}",
-				title : "${item.pd_title}",
-				address : "${item.pd_street_address}"
-		}
-		positions.push(obj);
-	</c:forEach>
-	
-	positions.forEach(function(position, index) {
-	  var title = position.title;
-	  var address = position.address;
-	  //주소로 좌표를 검색합니다
-	  geocoder.addressSearch(address, function(result, status) {
-
-	    // 정상적으로 검색이 완료됐으면 
-	    if (status === kakao.maps.services.Status.OK) {
-
-	      var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-	      // 결과값으로 받은 위치를 마커로 표시합니다
-	      var marker = new kakao.maps.Marker({
-	        map: map,
-	        position: coords
-	      });
-	    } 
-	      
-	      
-	    // 커스텀 오버레이에 표시할 컨텐츠 입니다
-	  	// 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
-	  	// 별도의 이벤트 메소드를 제공하지 않습니다 
-	  	
+	// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+	kakao.maps.event.addListener(marker, 'click', function() {
+		if(!overlay)
+			overlay = new kakao.maps.CustomOverlay({
+				content: content,
+				map: map,
+				position: marker.getPosition(),
+		    });
+	    overlay.setMap(map);
 	    
-	    var content = document.createElement('div');
-	    content.classList.add('wrap');
-
-	    var info = document.createElement('div');
-	    info.classList.add('info');
-
-	    var titleDiv = document.createElement('div');
-	    titleDiv.classList.add('title');
-	    var titleText = document.createTextNode(title);
-	    titleDiv.appendChild(titleText);
-
-	    var closeBtn = document.createElement('div');
-	    closeBtn.classList.add('close');
-	    closeBtn.setAttribute('title', '닫기');
-	    closeBtn.addEventListener('click', closeOverlay);
-	    titleDiv.appendChild(closeBtn);
-
-	    info.appendChild(titleDiv);
-
-	    var bodyDiv = document.createElement('div');
-	    bodyDiv.classList.add('body');
-
-	    var imgDiv = document.createElement('div');
-	    imgDiv.classList.add('img');
-	    var img = document.createElement('img');
-	    img.setAttribute('src', '<c:url value=""></c:url>');
-	    img.setAttribute('width', '73');
-	    img.setAttribute('height', '70');
-	    imgDiv.appendChild(img);
-	    bodyDiv.appendChild(imgDiv);
-
-	    var descDiv = document.createElement('div');
-	    descDiv.classList.add('desc');
-
-	    var ellipsisDiv = document.createElement('div');
-	    ellipsisDiv.classList.add('ellipsis');
-	    var addressText = document.createTextNode(address);
-	    ellipsisDiv.appendChild(addressText);
-	    descDiv.appendChild(ellipsisDiv);
-
-	    var linkDiv = document.createElement('div');
-	    var link = document.createElement('a');
-	    link.setAttribute('href', '<c:url value="/product/detail/detailLayoutTMP/' + position.pdNum + '"></c:url>');
-	    link.setAttribute('target', '_blank');
-	    link.classList.add('link');
-	    var linkText = document.createTextNode('상품보기');
-	    link.appendChild(linkText);
-	    linkDiv.appendChild(link);
-	    descDiv.appendChild(linkDiv);
-
-	    bodyDiv.appendChild(descDiv);
-
-	    info.appendChild(bodyDiv);
-
-	    content.appendChild(info);
-	    
-	 	// 마커 위에 커스텀오버레이를 표시합니다
-		// 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
-		var overlay = null;
-	 	
-		
-		// 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
-		kakao.maps.event.addListener(marker, 'click', function() {
-			if(!overlay)
-				overlay = new kakao.maps.CustomOverlay({
-					content: content,
-					map: map,
-					position: marker.getPosition(),
-			    });
-		    overlay.setMap(map);
-		    
-		});
-
-		// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
-		function closeOverlay() {
-		    overlay.setMap(null);
-		}
-		
-	  });
 	});
+
+	// 커스텀 오버레이를 닫기 위해 호출되는 함수입니다 
+	function closeOverlay() {
+	    overlay.setMap(null);
+	}
+	
+  });
+});
 
 	
 
@@ -476,36 +490,71 @@ function searchProductTable(product,pdCategory){
 		  let pd_pc_name = pdCategory.pc_category
 		  $('.search-text').hide();
 		  str +=
-			'<tr class="select_product" onclick="redirectToDetailPage(this)">'+
+			'<tr class="select_product">'+
 				'<td>'+product.pd_title+'</td>'+
-				'<td>'+product.pd_subtitle+'</td>'+
+				'<td>'+product.pd_content+'</td>'+
+				'<input type="hidden" class="pd_address" value="' + product.pd_street_address + '">' +
 				'<td class="find_pdNum" style="display:none;">'+product.pd_num+'</td>'+
 			'</tr>'
 	  }
 	return str;
 }; 
 
-$('.select_product').click(function() {
-	  // 상품 주소 가져오기
-	  var address = $(this).find('.find_pdAddress').text();
+$(document).on('click','.select_product',function() {
+    // 선택된 상품의 주소 가져오기
+    var address = $(this).find('.pd_address').val();
+    // 주소-좌표 변환 객체 생성
+    var geocoder = new kakao.maps.services.Geocoder();
+    // 주소로 좌표 검색
+    geocoder.addressSearch(address, function(result, status) {
+      // 정상적으로 검색이 완료됐으면 
+      if (status === kakao.maps.services.Status.OK) {
+        // 결과값으로 받은 위치를 지도 중심으로 설정합니다
+        map.setCenter(new kakao.maps.LatLng(result[0].road_address.y, result[0].road_address.x));
+      }
+    });
+}); 
 
-	  // 주소로 좌표 검색하기
-	  geocoder.addressSearch(address, function(result, status) {
-	    if (status === kakao.maps.services.Status.OK) {
-	      // 좌표 가져오기
-	      var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-	      
-	      // 지도 중앙 좌표 이동하기
-	      map.setCenter(coords);
-	    }
-	  });
-	});
+//각각의 메뉴를 클릭했을 때 해당 카테고리에 맞는 상품 목록 출력
+$(document).on('click','.menu-li', function() {
+  // 클릭한 메뉴의 pc_num 값을 가져옴
+  var pcNum = $(this).data('pd-pc-num');
+  console.log(pcNum);
+  // 해당 카테고리에 맞는 상품 목록 출력
+  printProductList(pcNum);
+});
 
-/* function redirectToDetailPage(row) {
-    const pdNum = row.querySelector('.find_pdNum').textContent;
-    window.location.href = '/naemom/product/detail/detailLayoutTMP/' + pdNum;
+// 해당 카테고리에 맞는 상품 목록 출력하는 함수
+function printProductList(pcNum) {
+	// 상품 목록을 출력하는 코드
+	// 각각의 상품을 출력할 때 pd_pc_num 값을 확인하여 해당 카테고리에 맞는 상품만 출력하도록 설정
+	for (var i = 0; i < productList.length; i++) {
+		if (productList[i].pd_pc_num == pcNum) {
+			// 해당 카테고리에 맞는 상품 출력
+			var productTable = generateProductTable(pcNum);
+			$('.product_table').html(productTable);
+			//ajax로 추가하기
+		}
+	}
 }
- */
+
+function generateProductTable(pcNum) {
+	var str = '';
+	for (var i = 0; i < productList.length; i++) {
+		if (productList[i].pd_pc_num == pcNum) {
+			var product = productList[i];
+			var pdCategory = getCategory(product.pd_pc_num);
+			str +=
+				'<tr class="select_product">'+
+					'<td>'+product.pd_title+'</td>'+
+					'<td>'+product.pd_content+'</td>'+
+					'<input type="hidden" class="pd_address" value="' + product.pd_street_address + '">' +
+					'<td class="find_pdNum" style="display:none;">'+product.pd_num+'</td>'+
+				'</tr>';
+		}
+	}
+};
+
 function ajaxPost(obj, url, successFunction){
 	$.ajax({
 		async:false,
@@ -517,5 +566,6 @@ function ajaxPost(obj, url, successFunction){
 		success : successFunction
 	});
 }
+
 
 </script>
