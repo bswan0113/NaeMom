@@ -147,7 +147,6 @@ public class ProductController {
 		Cookie[] cookies = request.getCookies();
 		Cookie abuseCheck = null;
 		ArrayList<String> check = new ArrayList<String>();
-		
 		if (cookies != null && cookies.length > 0){
 			for(int i=0; i<cookies.length; i++) {
 				check.add(cookies[i].getName());
@@ -157,6 +156,7 @@ public class ProductController {
             		abuseCheck= new Cookie("viewcount"+pd_num+cookies[i].getValue(), session.getId());
             		abuseCheck.setMaxAge(60 * 60 * 24);
             		response.addCookie(abuseCheck);
+            		break;
             	}
             	
             }

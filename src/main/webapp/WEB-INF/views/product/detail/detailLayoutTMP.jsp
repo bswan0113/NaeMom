@@ -46,7 +46,7 @@
 	<div>${product.pd_content}</div>
 	<hr>
 	<div class="information-box">
-		<div id="map" style="width:500px;height:400px;"></div>
+		<div id="map" style="width:1100px;height:400px; margin:0 auto;"></div>
 		<div class="info-detail-box">
 		<c:if test="${product.pd_pc_num==4}">
 			<c:if test="${product.pd_fe_start !=null && product.pd_fe_end !=null }">
@@ -138,7 +138,7 @@
 				</c:if>			
 			</c:if>
 		</div>
-		<form method="post" action="<c:url value='/option/opList' id="reserve-form"></c:url>">
+		<form method="post"  id="reserve-form"action="<c:url value='/option/opList'></c:url>">
 			<input type="hidden" name="pd_num" value="${product.pd_num}">
 			<input type="hidden" name="pd_pc_num" value="${product.pd_pc_num}">
 			<button class="btn btn-dark">예약하러가기</button>
@@ -303,6 +303,15 @@ text-align:start;
 .rc-info{
 text-align:start;
 }
+
+.swiper-slide {
+   display: flex;
+   justify-content: center;
+   overflow:hidden;
+}
+
+
+
 
 .re-comment-list{
 }
