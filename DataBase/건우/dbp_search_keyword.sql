@@ -1,0 +1,54 @@
+-- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
+--
+-- Host: localhost    Database: dbp
+-- ------------------------------------------------------
+-- Server version	8.0.32
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `search_keyword`
+--
+
+DROP TABLE IF EXISTS `search_keyword`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `search_keyword` (
+  `sk_num` int NOT NULL AUTO_INCREMENT,
+  `sk_keyword` varchar(45) NOT NULL,
+  `sk_pd_num` int DEFAULT NULL,
+  `sk_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `sk_id` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`sk_num`)
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `search_keyword`
+--
+
+LOCK TABLES `search_keyword` WRITE;
+/*!40000 ALTER TABLE `search_keyword` DISABLE KEYS */;
+INSERT INTO `search_keyword` VALUES (1,'여행지3',4,'2023-04-27 19:14:26',NULL),(2,'dad',4,'2023-04-27 19:24:46',NULL),(3,'dasd',3,'2023-04-27 19:24:46',NULL),(4,'여행지',3,'2023-05-08 16:02:22',NULL),(5,'여행지',3,'2023-05-08 16:02:22',NULL),(6,'여행',0,'2023-05-08 16:02:22',NULL),(7,'ㅇㅁㄴㅇㅁㅇ',0,'2023-05-08 16:02:22',NULL),(8,'ㅋㅍ',0,'2023-05-08 16:02:22',NULL),(9,'ㅁㄻㄴ',0,'2023-05-08 16:02:22',NULL),(10,'ㅁㄻㄴ',0,'2023-05-08 16:02:22',NULL),(11,'ㅇㅁㄴㅇㅇㅁㄴ',0,'2023-05-08 16:02:22',NULL),(12,'ㅁㄻㄴㅁ',0,'2023-05-08 16:02:22',NULL),(13,'ㅋㅌㅊㅋㅌㅊㅋ',0,'2023-05-08 16:02:22',NULL),(14,'ㅁㄴㅇㅎㅁ',0,'2023-05-08 16:02:22',NULL),(15,'ㄻ',0,'2023-05-08 16:02:22',NULL),(16,'ㅇ',0,'2023-05-08 16:02:22',NULL),(17,'ㅇ',0,'2023-05-08 16:02:22',NULL),(18,'ㅇ',0,'2023-05-08 16:02:22',NULL),(19,'ㅇㅁㄴㅇ',0,'2023-05-08 16:02:22',NULL),(20,'ㅇ',0,'2023-05-08 16:02:22',NULL),(21,'ㅇ',0,'2023-05-08 16:02:22',NULL),(22,'ㅇ',0,'2023-05-08 16:02:22',NULL),(23,'ㅇㅁㄴㅇㅁㄴ',0,'2023-05-08 16:02:22',NULL),(24,'oyiy',0,'2023-05-08 16:02:22',NULL),(25,'ㅇㅀㅇㅀ',0,'2023-05-08 16:02:22',NULL),(26,'ㅁㅇㅎ',0,'2023-05-08 16:02:22',NULL),(27,'ㅎㅌㅌㅎ',0,'2023-05-08 16:02:22',NULL),(28,'ㅎㅎㄴ',0,'2023-05-08 16:02:22',NULL),(29,'ㅎㄶㄶㄴㅇ',0,'2023-05-08 16:02:22',NULL),(30,'ㄶㅁㅎ츝',0,'2023-05-08 16:02:22',NULL),(31,'ㅎㄴㅇㅎ',0,'2023-05-08 16:02:22',NULL),(32,'ㅌㅌㅌ',0,'2023-05-08 16:02:22',NULL),(33,'ㅌㅌ',0,'2023-05-08 16:02:22',NULL),(34,'ㅌㅌ',0,'2023-05-08 16:02:22',NULL),(35,'ㅌ',0,'2023-05-08 16:02:22',NULL),(36,'ㅌ',0,'2023-05-08 16:02:22',NULL),(37,'ㅌ',0,'2023-05-08 16:02:22',NULL),(38,'ㅌ',0,'2023-05-08 16:02:22',NULL),(39,'ㅌ',0,'2023-05-08 16:02:22',NULL),(40,'ㅌ',0,'2023-05-08 16:02:22',NULL),(41,'ㄹㅇㄶㄶ',0,'2023-05-08 16:02:22','agh0113!'),(42,'여행지',0,'2023-05-08 16:02:22','agh0113!'),(43,'여행지',0,'2023-05-08 16:02:22','agh0113!'),(44,'여행지',1,'2023-05-08 16:02:22',NULL),(45,'여행지',0,'2023-05-08 16:02:22','agh0113!'),(46,'여행지',1,'2023-05-08 16:02:22','agh0113!'),(47,'ㅌㅌ',0,'2023-05-08 16:02:22','agh0113!'),(48,'4',0,'2023-05-08 16:02:22','agh0113!'),(49,'4',5,'2023-05-08 16:02:22','agh0113!'),(50,'4',5,'2022-05-09 16:02:40',NULL),(51,'여행지',0,'2022-05-09 16:02:40','agh0113!'),(52,'여행지',1,'2022-05-09 16:02:40','agh0113!'),(63,'여행지',0,'2022-05-09 16:02:40','agh0113!'),(64,'여행지',0,'2022-05-09 16:02:40','agh0113!'),(71,'agh0113!',1,'2022-05-09 16:02:40','agh0113!'),(72,'여행지',1,'2022-05-09 16:02:40','agh0113!'),(73,'4',0,'2022-05-09 16:02:40','agh0113!'),(74,'4',5,'2022-05-09 16:02:40','agh0113!');
+/*!40000 ALTER TABLE `search_keyword` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-05-09 16:56:24
