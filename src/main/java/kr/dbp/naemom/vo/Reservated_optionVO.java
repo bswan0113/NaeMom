@@ -16,6 +16,7 @@ public class Reservated_optionVO {
 	int ro_time;
 	int ro_pd_num;
 	String ro_me_id;
+	String ro_bl_num;
 	
 	public String getRo_date() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

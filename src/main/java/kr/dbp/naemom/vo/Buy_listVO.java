@@ -18,6 +18,7 @@ public class Buy_listVO {
 	int bl_use_mile;
 	String bl_me_id;
 	String bl_name;
+	String bl_receipt_id;
 	
 	Date bl_date;
 	

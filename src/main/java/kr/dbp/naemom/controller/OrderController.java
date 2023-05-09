@@ -231,7 +231,7 @@ public class OrderController {
 	public String bootpay_confirm(Model mv, @RequestBody PayDTO dto) {
 		String success = "";
 		try {
-			Bootpay bootpay = new Bootpay("64424e90922c3400236cdc6d", "");
+			Bootpay bootpay = new Bootpay("64424e90922c3400236cdc6d", "+4cFoL6IJOcQzITCJ7LRLZMGM/fiymQiTGLgc/AfIJ8=");
 			String bootpay_check = "";
 			bootpay.getAccessToken();
 			HttpResponse res = bootpay.verify(dto.getReceipt_id());
@@ -259,6 +259,7 @@ public class OrderController {
 				{
 					System.out.println("이니시스 부트페이 비교 검증 성공");
 					success = "OK";
+					orderService.updateBuyListByReceipt(dto.getOrder_id(),dto.getReceipt_id());
 					//성공
 					return success;
 				}
@@ -302,7 +303,6 @@ public class OrderController {
 	public String insertUseMember(@RequestBody Use_memberVO useMember,HttpSession session) {
 		String success = "OK";
 		useMember.setUm_bl_num(useMember.getUm_bl_num().replaceAll("[^\\w+]", ""));
-		System.out.println(useMember);
 		int res = orderService.insertUseMember(useMember);
 		if(res == 0) {
 			success = "NO";

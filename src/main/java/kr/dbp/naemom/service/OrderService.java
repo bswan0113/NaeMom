@@ -67,6 +67,8 @@ public interface OrderService {
 
 	int checkProduct(String[] list, String me_id);
 
+	void updateBuyListByReceipt(String bl_num, String receipt_id);
+
 
 
 	

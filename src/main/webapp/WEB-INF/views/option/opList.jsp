@@ -102,6 +102,10 @@
 			padding: 0;
 			line-height: 0;
 		}
+		.overStop{
+		    font-size: 30px; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
+   			width: 400px;
+		}
 
   </style>
 </head>
@@ -123,7 +127,7 @@
         			<input type="hidden" name="pr_category" value="${list.pd_pc_num }">
         			<input type="hidden" name="pr_title" value="${list.pd_title }">
         			<input type="hidden" name="pr_num" value="${list.pd_num }">
-					<label style="font-size: 30px; font-weight: 500;">${list.pd_title} <span class="item_category" style="font-size: 20px; font-weight: 100;">음식점</span></label>
+					<label class="overStop">${list.pd_title} <span class="item_category" style="font-size: 20px; font-weight: 100;">음식점</span></label>
 					<button class="select_item btn btn-outline-success" type="button">선택</button>
 					<div class="option_select_box1">
 						<label>메뉴 : </label>
@@ -177,7 +181,7 @@
         			<input type="hidden" name="pr_category" value="${list.pd_pc_num }">
         			<input type="hidden" name="pr_title" value="${list.pd_title}">
         			<input type="hidden" name="pr_num" value="${list.pd_num }">
-					<label style="font-size: 30px; font-weight: 500;">${list.pd_title} <span class="item_category" style="font-size: 20px; font-weight: 100;">축제</span></label>
+					<label class="overStop">${list.pd_title} <span class="item_category" style="font-size: 20px; font-weight: 100;">축제</span></label>
 					<button class="select_item btn btn-outline-success" type="button">선택</button>
 					<div class="option_select_box1">
 						<label>연령 : </label>
@@ -225,9 +229,9 @@
         			<input type="hidden" name="pr_category" value="${list.pd_pc_num }">
         			<input type="hidden" name="pr_num" value="${list.pd_num }">
         			<input type="hidden" name="pr_title" value="${list.pd_title }">
-					<label style="font-size: 30px; font-weight: 500;">${list.pd_title} <span class="item_category" style="font-size: 20px; font-weight: 100;">여행지</span></label>
+					<label class="overStop">${list.pd_title} <span class="item_category" style="font-size: 20px; font-weight: 100;">여행지</span></label>
 					<button class="select_item btn btn-outline-success" type="button">선택</button>
-					<div class="option_select_box1">
+        			<div class="option_select_box1">
 						<label>연령 : </label>
 						<select class="option_select menu_travel_select" name="" id="menu_travel_select" onchange="select_menu(this)">
 							<option value="0" selected>선택</option>
@@ -273,7 +277,7 @@
         			<input type="hidden" name="pr_category" value="${list.pd_pc_num }">
         			<input type="hidden" name="pr_title" value="${list.pd_title }">
         			<input type="hidden" name="pr_num" value="${list.pd_num }">
-					<label style="font-size: 30px; font-weight: 500;">${list.pd_title} <span class="item_category" style="font-size: 20px; font-weight: 100;">여행지</span></label>
+					<label class="overStop">${list.pd_title} <span class="item_category" style="font-size: 20px; font-weight: 100;">여행지</span></label>
 					<button class="select_item btn btn-outline-success" type="button">선택</button>
 					<div class="option_select_box1">
 						<label>방 선택 : </label>

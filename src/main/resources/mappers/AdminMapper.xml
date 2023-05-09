@@ -191,6 +191,30 @@
 			LIMIT #{cri.pageStart}, #{cri.perPageNum}
 	</select>
 	<select id="selectCountBuyList" resultType="int">
-		select count(*) from buy_list where bl_state = #{cancel}
+		select count(*) from buy_list 
 	</select>
+	<select id="selectBuyListByNum" resultType="kr.dbp.naemom.vo.Buy_listVO">
+		select * from buy_list where bl_num = #{bl_num}
+	</select>
+	<update id="updateBuyList">
+		update buy_list set bl_state = #{state} where bl_num = #{bl_num}
+	</update>
+	<delete id="deleteOrderList">
+		delete from order_list where ol_bl_num = #{bl_num}
+	</delete>
+	<delete id="deleteRoomOption">
+		delete from reservation_room where rr_bl_num = #{bl_num}
+	</delete>
+	<delete id="deleteFoodOption">
+		delete from reservated_option where ro_bl_num = #{bl_num}
+	</delete>
+	<select id="selectMileage" resultType="kr.dbp.naemom.vo.MileageVO">
+		select * from mileage where mi_bl_num = #{bl_num}
+	</select>
+	<update id="updateMemberByMile">
+		update member set me_mileage = me_mileage - #{mi.mi_update} where me_id = #{mi.mi_me_id}
+	</update>
+	<delete id="deleteMileage">
+		delete from mileage where mi_bl_num = #{bl_num}
+	</delete>
 </mapper>

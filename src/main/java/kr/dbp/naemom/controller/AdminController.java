@@ -1,14 +1,22 @@
 package kr.dbp.naemom.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.dbp.naemom.bootpay.Bootpay;
+import kr.dbp.naemom.bootpay.request.Cancel;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.AdminService;
@@ -16,6 +24,7 @@ import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
 import kr.dbp.naemom.vo.MemberVO;
+import kr.dbp.naemom.vo.PayDTO;
 import kr.dbp.naemom.vo.ReviewCommentVO;
 import kr.dbp.naemom.vo.ReviewVO;
 import kr.dbp.naemom.vo.qnaVO;
@@ -122,4 +131,38 @@ public class AdminController {
 		mv.setViewName("/admin/list/buyCancelList");
 		return mv;
 	}
+	@ResponseBody
+	@RequestMapping(value = "/admin/cancelBuyList", method=RequestMethod.POST)
+	public Map<String, Object> courseSearchProduct(@RequestBody PayDTO cancelItem) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println(cancelItem.getOrder_id());
+		Buy_listVO tmp = adminService.getBuyListByNum(cancelItem.getOrder_id());
+		Cancel cancel = new Cancel();
+		cancel.receiptId = tmp.getBl_receipt_id();
+		cancel.name = cancelItem.getOrder_name();
+		cancel.reason = cancelItem.getReContent();
+		try {
+			Bootpay bootpay = new Bootpay("64424e90922c3400236cdc6d", "+4cFoL6IJOcQzITCJ7LRLZMGM/fiymQiTGLgc/AfIJ8=");
+			bootpay.getAccessToken();
+			HttpResponse res = bootpay.receiptCancel(cancel);
+            String str = IOUtils.toString(res.getEntity().getContent(), "UTF-8");
+            map.put("str", str);
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return map;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/admin/cancelListAndReserve", method=RequestMethod.POST)
+	public Map<String, Object> cancelListAndReserve(@RequestBody String bl_num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		bl_num = bl_num.replaceAll("[^\\w+]", "");
+		adminService.updateBuyList(bl_num);
+		
+		return map;
+	}
+	
 }

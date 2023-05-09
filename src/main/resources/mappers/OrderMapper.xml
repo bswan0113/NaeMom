@@ -173,12 +173,12 @@
   		select * from accomodation_option where ao_num = #{ol_table_key}
  	</select>
  	<insert id="insertFoodOption">
- 		insert into reservated_option(ro_option_name, ro_date, ro_time, ro_pd_num, ro_me_id)
- 		values(#{food.reo_name}, #{tmp.ol_date}, #{tmp.ol_time},#{food.reo_pd_num},#{me_id})
+ 		insert into reservated_option(ro_option_name, ro_date, ro_time, ro_pd_num, ro_me_id, ro_bl_num)
+ 		values(#{food.reo_name}, #{tmp.ol_date}, #{tmp.ol_time},#{food.reo_pd_num},#{me_id}, #{bl_num})
  	</insert>
 	<insert id="insertHomeOption">
- 		insert into reservation_room(rr_check_in,rr_check_out, rr_ao_num, rr_pd_num, rr_me_id)
- 		values(#{tmp.ol_date},#{date},#{home.ao_num},#{home.ao_pd_num},#{me_id})
+ 		insert into reservation_room(rr_check_in,rr_check_out, rr_ao_num, rr_pd_num, rr_me_id, rr_bl_num)
+ 		values(#{tmp.ol_date},#{date},#{home.ao_num},#{home.ao_pd_num},#{me_id}, #{bl_num})
  	</insert>
  	<select id="selectReservRoom" resultType="kr.dbp.naemom.vo.Reservation_roomVO">
  		select * from reservation_room where rr_ao_num = #{ao_num} and
@@ -195,6 +195,13 @@
  			join restraunt_option on reo_num = #{item.sb_table_key}
  			where reo_pd_num = #{pd_num} and sb_time = #{item.sb_time} and sb_date = #{item.sb_date}
  	</select>
+ 	<update id="updateBuyListByReceipt">
+ 		update buy_list
+ 			set 
+ 				bl_receipt_id = #{receipt_id}
+ 			where
+ 				bl_num = #{bl_num}
+ 	</update>
 </mapper>
 
 

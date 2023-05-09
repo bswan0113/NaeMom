@@ -81,5 +81,9 @@ public interface AdminService {
 
 	int getBuyListCount();
 
+	Buy_listVO getBuyListByNum(String bl_num);
+
+	void updateBuyList(String bl_num);
+
 
 }
