@@ -1306,7 +1306,7 @@ DELIMITER ;;
 /*!50003 SET character_set_results = utf8mb4 */ ;;
 /*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = 'SYSTEM' */ ;;
 /*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `vi_cleanup_event` ON SCHEDULE EVERY 1 WEEK STARTS '2023-05-09 19:39:45' ON COMPLETION PRESERVE ENABLE DO DELETE FROM visited WHERE vi_date < DATE_SUB(NOW(), INTERVAL 2 YEAR) */ ;;
