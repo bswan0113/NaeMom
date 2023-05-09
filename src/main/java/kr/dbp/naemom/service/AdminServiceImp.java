@@ -208,10 +208,14 @@ public class AdminServiceImp implements AdminService{
 	}
 
 	@Override
-	public ArrayList<Buy_listVO> getBuyCancelList(Criteria cri) {
-		String cancel = "결제취소중";
+	public ArrayList<Buy_listVO> getAllBuyList(Criteria cri) {
 		
-		return adminDao.selectBuyCancelList(cancel,cri);
+		return adminDao.selectAllBuyList(cri);
+	}
+
+	@Override
+	public int getBuyListCount() {
+		return adminDao.selectCountBuyList();
 	}
 	
 	

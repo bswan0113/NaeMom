@@ -185,8 +185,12 @@
 		insert into hash_tag(hg_name, hg_pd_num) values(#{hg_name},#{hg_pd_num})
 	</insert>
 	
-	<select id="selectBuyCancelList" resultType="kr.dbp.naemom.vo.Buy_listVO">
-		select * from buy_list where bl_state = #{cancel}
+	<select id="selectAllBuyList" resultType="kr.dbp.naemom.vo.Buy_listVO">
+		select * from buy_list 
+		 	order by bl_num desc
 			LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	<select id="selectCountBuyList" resultType="int">
+		select count(*) from buy_list where bl_state = #{cancel}
 	</select>
 </mapper>

@@ -268,7 +268,7 @@ public class MyPageServiceImp implements MyPageService{
 	public int updateBuyList(String bl_num, String me_id) {
 		if(bl_num == null || me_id == null)
 			return 0;
-		String state = "결제취소중";
+		String state = "결제취소요청";
 		return myPageDao.updateBuyCancel(bl_num, me_id, state);
 	}
 

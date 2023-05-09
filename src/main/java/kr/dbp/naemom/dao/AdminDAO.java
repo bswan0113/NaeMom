@@ -79,7 +79,9 @@ public interface AdminDAO {
 
 	boolean insertHashtag(@Param("hg_pd_num")int pd_num, @Param("hg_name")String hash);
 
-	ArrayList<Buy_listVO> selectBuyCancelList(@Param("cancel")String cancel, @Param("cri")Criteria cri);
+	ArrayList<Buy_listVO> selectAllBuyList(@Param("cri")Criteria cri);
+
+	int selectCountBuyList();
 
 
 

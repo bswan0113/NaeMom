@@ -22,9 +22,9 @@
 		}
 	
 	    </style>
-	<div class="container">
-	<h3>문의 조회</h3>
-		<table class="table table-striped">
+	<div class="container mt-4">
+	<h3>결제관리</h3>
+		<table class="table table-striped mt-4">
 			<thead>
 				<tr>
 					<th>결제상태</th>
@@ -43,12 +43,16 @@
 						<td>${li.bl_total_price }</td>
 						<td>${li.bl_stack_mile }</td>
 						<td>${li.bl_use_mile }</td>
-						<td></td>
+						<td>
+							<input type="hidden" name="bl_num" value="${li.bl_num }">
+							<button class="btn btn-danger btn_cancel">결제취소</button>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 			<ul class="comment-pagination pagination justify-content-center">
+				
 				<c:if test="${pm.prev}">
 					<li class="page-item">
 						<a class="page-link" href="<c:url value='/admin/list/buyCancelList?page=${pm.startPage-1}'/>">이전</a>
@@ -56,7 +60,7 @@
 				</c:if>
 		   	    <c:forEach begin="${pm.startPage}" end="${pm.endPage}" var="i">
 			        <li class="page-item <c:if test="${pm.cri.page == i}"> active</c:if>">
-			            <a class="page-link" href="<c:url value='/admin/list/buyCancelList?page=${i}'/>">${i+1}</a>
+			            <a class="page-link" href="<c:url value='/admin/list/buyCancelList?page=${i}'/>">${i}</a>
 			        </li>
 			    </c:forEach>
 			    <c:if test="${pm.next}">
@@ -66,6 +70,12 @@
 			    </c:if>
 			</ul>
 	</div>
+	<script>
+		let cri={
+			page : 1,
+			perPageNum : 5			
+		}
+	</script>
 
 	
     

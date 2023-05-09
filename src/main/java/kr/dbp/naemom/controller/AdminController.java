@@ -114,10 +114,11 @@ public class AdminController {
 	@RequestMapping(value = "/admin/list/buyCancelList")
 	public ModelAndView buyCancelList(ModelAndView mv, Criteria cri) {
 		if(cri==null) cri = new Criteria();
-		ArrayList<Buy_listVO> list = adminService.getBuyCancelList(cri);
-		
+		ArrayList<Buy_listVO> list = adminService.getAllBuyList(cri);
+		int totalCount = adminService.getBuyListCount();
+		PageMaker pm = new PageMaker(totalCount, 10, cri);
 		mv.addObject("list", list);
-		//mv.addObject("pm", pm);
+		mv.addObject("pm", pm);
 		mv.setViewName("/admin/list/buyCancelList");
 		return mv;
 	}

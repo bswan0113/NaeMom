@@ -77,7 +77,9 @@ public interface AdminService {
 
 	boolean insertHashtag(int pd_num, String[] list);
 
-	ArrayList<Buy_listVO> getBuyCancelList(Criteria cri);
+	ArrayList<Buy_listVO> getAllBuyList(Criteria cri);
+
+	int getBuyListCount();
 
 
 }
