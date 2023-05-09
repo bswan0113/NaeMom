@@ -15,5 +15,25 @@
   	<select id="getFile" resultType="kr.dbp.naemom.vo.FileVO">
   		select * from file where fi_table_key=#{pd_num} and fi_table=#{product} and fi_category=#{fi_category}
   	</select>
+
+	<select id="selectProductByCategory" parameterType="int" resultType="kr.dbp.naemom.vo.ProductVO">
+	  SELECT * FROM product WHERE pd_pc_num = #{pd_pc_num}
+	</select>
   	
+  	<select id="selectSearchProduct" resultType="kr.dbp.naemom.vo.ProductVO">
+  		select * from product where pd_title like concat('%',#{product.pd_title},'%')
+  	</select>
+  	
+  	<select id="selectProductCategory" resultType="kr.dbp.naemom.vo.ProductCategoryVO">
+  		select * from product_category
+  	</select>
+  	
+  	<select id="selectProductNum" resultType="kr.dbp.naemom.vo.ProductVO">
+  		select * from product where pd_num = #{pd_num}
+  	</select>
+  	
+  	<select id="selectProductImg" resultType="kr.dbp.naemom.vo.FileVO">
+  		select * from file where fi_table_key = #{pd_num} and fi_category like concat('%',#{fi_category},'%') 
+  			and fi_table = #{fi_table}
+  	</select>
 </mapper>

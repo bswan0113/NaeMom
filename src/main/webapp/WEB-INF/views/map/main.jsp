@@ -1,95 +1,112 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
- 
- <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+	pageEncoding="UTF-8"%>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <!-- jQuery library -->
 
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"></script>
 
 <!-- Popper JS -->
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <!-- fontawesome -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous"></link>
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
+	crossorigin="anonymous"></link>
 
 <link rel="shortcut icon" href="#">
 
 <!-- Latest compiled JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
- <style>
-*{
-    margin: 0;
-    padding: 0;
-}
-ul, li{
-    list-style :none;
-}
-a{
-    text-decoration: none;
-    color: black;
-}
-body {
-    margin: 0;
-    padding: 0;
-    font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
-  	line-height: 16px; font-size: 12px; color: #202020;
-}
-#map {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: calc(100% - 400px);
-    z-index: 1;
-    left: 400px;
+<style>
+* {
+	margin: 0;
+	padding: 0;
 }
 
+ul, li {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕",
+		helvetica, "Apple SD Gothic Neo", sans-serif;
+	line-height: 16px;
+	font-size: 12px;
+	color: #202020;
+}
+
+#map {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: calc(100% - 400px);
+	z-index: 1;
+	left: 400px;
+}
 
 #sidebar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 400px;
-    height: 100vh;
-    background-color: white;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 400px;
+	height: 100vh;
+	background-color: white;
 }
 /* 사이드바 헤더 */
 #logo {
-    text-align: center;
+	text-align: center;
 }
+
 #search {
-    background-color: #29c16d;
-    margin-bottom : 0;
+	background-color: #29c16d;
+	margin-bottom: 0;
 }
+
 #menu {
-    margin-bottom: 20px;
-    overflow: hidden;
-    position: relative;
-    padding: 0 11px;
-    background-color: #29c16d;
+	margin-bottom: 20px;
+	overflow: hidden;
+	position: relative;
+	padding: 0 11px;
+	background-color: #29c16d;
 }
 
-.menu-li{
-	float : left;
+.menu-li {
+	float: left;
 	padding: 12px 9px;
-	color : white !important;
+	color: white !important;
 }
 
-.menu-li a{
+.menu-li a {
 	padding: 6px 0 5px;
-    font-size: 15px;
-    font-weight: 600;
-    color: #fff;
-    display: block;
-    overflow: hidden;
-    width: 70px;
-    border-radius: 3px;
-    text-align: center;
-    text-decoration: none;
+	font-size: 15px;
+	font-weight: 600;
+	color: #fff;
+	display: block;
+	overflow: hidden;
+	width: 70px;
+	border-radius: 3px;
+	text-align: center;
+	text-decoration: none;
 }
 
 /* 맵 오버레이 */
@@ -106,6 +123,7 @@ body {
 	font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
 	line-height: 1.5;
 }
+
 .wrap * {
 	padding: 0;
 	margin: 0;
@@ -142,7 +160,8 @@ body {
 	color: #888;
 	width: 17px;
 	height: 17px;
-	background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');
+	background:
+		url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');
 }
 
 .info .close:hover {
@@ -191,7 +210,8 @@ body {
 	bottom: 0;
 	width: 22px;
 	height: 12px;
-	background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+	background:
+		url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
 }
 
 .info .link {
@@ -199,19 +219,26 @@ body {
 }
 
 /* 사이드바 바디 */
-
-.menu-content{
-
+.menu-content {
+	
 }
 
- </style> 
- <div id="sidebar">
+.search-text{
+	text-align:center; 
+	font-weight:bold; 
+	font-size:30px;
+	color : #808080;
+}
+</style>
+<div id="sidebar">
 	<div id="logo">
-		<a href="<c:url value="/"></c:url>"><img src="<c:url value ='/resources/img/logo.png'></c:url>" alt="#"></a>
+		<a href="<c:url value="/"></c:url>"><img
+			src="<c:url value ='/resources/img/logo.png'></c:url>" alt="#"></a>
 	</div>
 	<div id="search" class="form-group">
 		<div class="input-group">
-			<input type="text" class="form-control" placeholder="장소 검색">
+			<input type="text" class="form-control product-search"
+				placeholder="장소 검색">
 			<div class="input-group-append">
 				<button class="btn btn-success btn-search">검색</button>
 			</div>
@@ -219,19 +246,40 @@ body {
 	</div>
 	<div id="menu">
 		<ul class="menu-ul">
-			<li class="menu-li"><a href="#" class="menu-li">여행</a></li>
-			<li class="menu-li"><a href="#" class="menu-li">음식</a></li>
-			<li class="menu-li"><a href="#" class="menu-li">숙박</a></li>
-			<li class="menu-li"><a href="#" class="menu-li">축제</a></li>
+			<li class="menu-li"><a href="#" class="menu-li"
+				data-pd-pc-num="1">여행</a></li>
+			<li class="menu-li"><a href="#" class="menu-li"
+				data-pd-pc-num="2">음식</a></li>
+			<li class="menu-li"><a href="#" class="menu-li"
+				data-pd-pc-num="3">숙박</a></li>
+			<li class="menu-li"><a href="#" class="menu-li"
+				data-pd-pc-num="4">축제</a></li>
 		</ul>
 	</div>
-	<div id="menu-content">
-		<p>상품을 검색하세요.</p>
+	<div>
+		<div class="search-text">
+			<p>검색어를 입력하세요</p>
+		</div>
+		<table class="product-table">
+			<thead>
+				<th>상품</th>
+				<th>내용</th>
+				<th></th>
+			</thead>
+			<tbody class="productList">
+				<tr class="select_product" onclick="redirectToDetailPage()">
+				    <td>1</td>
+				    <td>2</td>
+				    <td>3</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
-</div> 
-<div id="map" style="float : right"></div>
+</div>
+<div id="map" style="float: right"></div>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7d3f638bdeedf08d5afccc6accd5e919&libraries=services"></script>
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7d3f638bdeedf08d5afccc6accd5e919&libraries=services"></script>
 <script>
 	var container = document.getElementById('map');
 	
@@ -259,6 +307,7 @@ body {
 	var positions = [];
 	<c:forEach items="${plist}" var="item">
 		var obj = {
+				pdNum : "${item.pd_num}",
 				title : "${item.pd_title}",
 				address : "${item.pd_street_address}"
 		}
@@ -331,7 +380,7 @@ body {
 
 	    var linkDiv = document.createElement('div');
 	    var link = document.createElement('a');
-	    link.setAttribute('href', '<c:url value=""></c:url>');
+	    link.setAttribute('href', '<c:url value="/product/detail/detailLayoutTMP/' + position.pdNum + '"></c:url>');
 	    link.setAttribute('target', '_blank');
 	    link.classList.add('link');
 	    var linkText = document.createTextNode('상품보기');
@@ -372,10 +421,101 @@ body {
 
 	
 
-	
-	
-	
 
-	
-	
+<!-- 사이드 바 -->
+
+$(document).ready(function(){
+	  let array = [];
+	  <c:forEach items="${pd_num}" var="num">
+	 	 array.push(${num})
+	 	  ajaxPost(${num}, '<c:url value="/map/selectProduct"></c:url>');
+	  </c:forEach>
+	 	
+});
+
+$('.product-table').hide();
+
+
+
+$('.btn-search').click(function(){
+	  let product_search = $('.product-search').val();
+	  let product = {
+			  pd_title : product_search
+	  }
+	  ajaxPost(product, '<c:url value="/map/searchProduct"></c:url>', searchSuccess);
+	  
+	  
+})
+
+function searchSuccess(data,e){
+	  str = '';
+	  if(data.product == ''){
+		  alert('일치하는 상품이 없습니다.')
+		  return;
+	  }
+	  
+	  for(i = 0; i<data.products.length; i++){
+		  for(j=0; j<data.pdCategory.length;j++){
+		  	str += searchProductTable(data.products[i],data.pdCategory[j]);
+		  }
+	  }
+	  
+	  $('.productList').html(str);
+	  $('.product-table').show();
+	  $('.select-product').click(function(){
+		  let pd_nums = $(this).find('.find_pdNum').text(); 
+		  ajaxPost(products, '<c:url value="/map/selectProduct"></c:url>', searchProductTable);
+	  })
+	  
+}
+
+
+function searchProductTable(product,pdCategory){
+	  str='';
+	  if(product.pd_pc_num == pdCategory.pc_num){
+		  let pd_pc_name = pdCategory.pc_category
+		  $('.search-text').hide();
+		  str +=
+			'<tr class="select_product" onclick="redirectToDetailPage(this)">'+
+				'<td>'+product.pd_title+'</td>'+
+				'<td>'+product.pd_subtitle+'</td>'+
+				'<td class="find_pdNum" style="display:none;">'+product.pd_num+'</td>'+
+			'</tr>'
+	  }
+	return str;
+}; 
+
+$('.select_product').click(function() {
+	  // 상품 주소 가져오기
+	  var address = $(this).find('.find_pdAddress').text();
+
+	  // 주소로 좌표 검색하기
+	  geocoder.addressSearch(address, function(result, status) {
+	    if (status === kakao.maps.services.Status.OK) {
+	      // 좌표 가져오기
+	      var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	      
+	      // 지도 중앙 좌표 이동하기
+	      map.setCenter(coords);
+	    }
+	  });
+	});
+
+/* function redirectToDetailPage(row) {
+    const pdNum = row.querySelector('.find_pdNum').textContent;
+    window.location.href = '/naemom/product/detail/detailLayoutTMP/' + pdNum;
+}
+ */
+function ajaxPost(obj, url, successFunction){
+	$.ajax({
+		async:false,
+		type: 'POST',
+		data: JSON.stringify(obj),
+		url: url,
+		dataType:"json",
+		contentType:"application/json; charset=UTF-8",
+		success : successFunction
+	});
+}
+
 </script>

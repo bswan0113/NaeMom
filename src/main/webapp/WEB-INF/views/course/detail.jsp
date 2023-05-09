@@ -419,7 +419,7 @@
 		<%-- </c:if> --%>
     </div>
   </div>
-  <script type="text/javascript" src=""></script>
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7d3f638bdeedf08d5afccc6accd5e919&libraries=services"></script>
   
   <script>
   	if(${course.co_report} >= 10){
