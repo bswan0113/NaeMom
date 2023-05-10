@@ -173,6 +173,7 @@ public class MyPageController {
 		MemberVO user = (MemberVO) session.getAttribute("user");
 		//ArrayList<BuyListVO> buyList = myPageService.getBuyList(user.getMe_id(),cri);
 		ArrayList<Buy_listVO> buyList = myPageService.getBuyList(user.getMe_id(),cri);
+		System.out.println(buyList);
 		int totalCount = myPageService.getBuyListCount(user.getMe_id());
 		PageMaker pm = new PageMaker(totalCount, 5, cri);
 		mv.addObject("pm", pm);

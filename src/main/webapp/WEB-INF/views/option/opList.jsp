@@ -104,7 +104,7 @@
 		}
 		.overStop{
 		    font-size: 30px; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
-   			width: 400px;
+   			width: 380px;
 		}
 
   </style>

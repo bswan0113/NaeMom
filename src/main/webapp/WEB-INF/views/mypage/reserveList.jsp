@@ -58,7 +58,8 @@
 						<td>${bl.bl_use_mile}</td>
 						<td>
 							<input type="hidden" name="bl_num" value="${bl.bl_num }">
-							<button class="btn btn-danger btn_cancel">결제취소요청</button>
+							
+							<button class="btn btn-danger btn_cancel" <c:if test="${bl.bl_state =='결제취소' || bl.bl_state =='결제취소중' }">disabled</c:if>>결제취소요청</button>
 						</td>
 					</tr>
 				</c:forEach>
