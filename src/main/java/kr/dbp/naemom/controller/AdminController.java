@@ -20,6 +20,7 @@ import kr.dbp.naemom.bootpay.request.Cancel;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.AdminService;
+import kr.dbp.naemom.utils.ApiKey;
 import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
@@ -36,6 +37,8 @@ public class AdminController {
 	
 	@Autowired
 	AdminService adminService;
+	
+	String api = new ApiKey().getBootpayKim();
 	
 
 	@RequestMapping(value = "/admin/list/qnaList")
@@ -142,7 +145,8 @@ public class AdminController {
 		cancel.name = cancelItem.getOrder_name();
 		cancel.reason = cancelItem.getReContent();
 		try {
-			Bootpay bootpay = new Bootpay("64424e90922c3400236cdc6d", "+4cFoL6IJOcQzITCJ7LRLZMGM/fiymQiTGLgc/AfIJ8=");
+			
+			Bootpay bootpay = new Bootpay("64424e90922c3400236cdc6d", api);
 			bootpay.getAccessToken();
 			HttpResponse res = bootpay.receiptCancel(cancel);
             String str = IOUtils.toString(res.getEntity().getContent(), "UTF-8");

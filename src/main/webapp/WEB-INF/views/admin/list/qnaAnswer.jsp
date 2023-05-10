@@ -21,20 +21,17 @@
 	    <p>${qna.qa_content}</p>
 	  </div>
 	</div>
-	
+	<label style="display:block; font-size: 20px;">답변 등록 : </label>
 	<form class="answer-box" action="<c:url value='/admin/list/qnaAnswer'></c:url>" method="post">
 		<textarea class="form-control answer-input" name="qaa_content"></textarea>
 		<input type="hidden" name="qaa_qa_num" value="${qna.qa_num}">
-		<button class="btn btn-success delete-btn">답변 작성</button>
+		<button class="btn btn-success delete-btn mt-3" >답변 작성</button>
 	</form>
 </div>
 
 <style>
 .answer-input{
-min-height:500px;
-}
-.answer-box{
-border: 1px solid #dae1e6;
+min-height:500px; width:80%; resize:none;
 }
 
 .board-post {

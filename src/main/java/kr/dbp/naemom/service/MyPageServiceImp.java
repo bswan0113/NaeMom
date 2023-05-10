@@ -298,4 +298,10 @@ public class MyPageServiceImp implements MyPageService{
 		return product;
 	}
 
+@Override
+public int getCourseListCount(String me_id) {
+	
+	return myPageDao.selectCourseListCount(me_id);
+}
+
 }

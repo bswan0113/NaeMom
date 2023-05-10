@@ -129,7 +129,8 @@
 			}
 		}
 		function cancelOtherSuccess(){
-			location.href.reload();
+			alert('결제가 취소되었습니다.')
+			location.reload();
 		}
 		//ajax
 	  	function ajaxPost(obj, url, successFunction){

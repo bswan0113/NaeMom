@@ -22,8 +22,8 @@
 			<div class="search-containerbox clearfix">
 				<div class="search-box clearfix">
 					<form action="<c:url value='/searchList/searchMain'></c:url>">
-						<input type="text" placeholder="여행을 떠나요" class="search" name="search" style="border-radius:10px;">
-						<button style="border:1px solid black; border-left:none; border-radius: 0 10px 10px 0;" type="submit" class="btn-search"><i class="fas fa-search"></i></button>
+						<input type="text" placeholder="여행을 떠나요" class="search" name="search" style="border-radius:10px;" autocomplete="off" >
+						<button style="border-radius: 0 10px 10px 0;" type="submit" class="btn-search"><i class="fas fa-search"></i></button>
 					</form>
 				</div>
 				<div class="search-keyword">
@@ -88,11 +88,30 @@
 					<span class="text-quick">장바구니</span>
 					</a>
 				</div>
-				<div class="box-menu">
-					<a href="<c:url value="/mypage/main"></c:url>" class="btn-quick"><i class="fas fa-user"></i>
-					<span class="text-quick">마이페이지</span>
-					</a>
-				</div>
+				<c:if test="${user != null }">
+					<div class="box-menu">
+						<a href="<c:url value="/mypage/main"></c:url>" class="btn-quick"><i class="fas fa-user"></i>
+						<span class="text-quick">마이페이지</span>
+						</a>
+					</div>
+				</c:if>
+				<c:if test="${user == null }">
+					<div class="box-menu">
+						<a href="<c:url value="/login"></c:url>" class="btn-quick"><i class="fas fa-user"></i>
+						<span class="text-quick">로그인/<br>회원가입</span>
+						</a>
+					</div>
+				</c:if>
+				<c:if test="${user != null }">
+					<div class="logOut">
+						<a href="<c:url value="/logout"></c:url>" class="btn-quick logOut-link"><i class="fas fa-times-circle"></i>
+						<span class="logout-text">로그아웃</span>
+						</a>
+					</div>
+				</c:if>
+				<c:if test="${user.me_authority>9}">
+					<a class="admin fas fa-cog" href="<c:url value='/admin/home/main'></c:url>" style="margin-left:60px; color:#29c16d">관리자페이지</a>
+				</c:if>
 			</div>
 			<div class="main-menu-box">
 				<nav class="list-menu">
@@ -118,10 +137,12 @@
 	<script>
 		$('.search').focus(function(){
 			$(this).css('background-color','#fff');
+			$('.btn-search').css('background-color','#fff');
 			$('.search-keyword').css('display','block');
 		})
 		$('.search').blur(function(){
-			$(this).css('background-color','rgba(0,0,0,0.1)');
+			$(this).css('background-color','#eef0f2');
+			$('.btn-search').css('background-color','#eef0f2');
 			$('.search-keyword').css('display','none');
 		})
 	</script>

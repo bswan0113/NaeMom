@@ -6,24 +6,8 @@
 
 <script src="<c:url value='/resources/js/home.js'></c:url>"></script>
 <link rel="stylesheet" href="<c:url value='/resources/css/home.css?ver=1.3'></c:url>">
-<c:if test="${user.me_authority>9}">
-	<a class="admin fas fa-cog" href="<c:url value='/admin/home/main'></c:url>">관리자페이지</a>
-</c:if>
 <div class="main-container-first">
     <div class="first-title title">
-    <c:if test="${user == null}">
-			<li class="nav-item">
-				<a class="nav-link" href="<c:url value='/signup'></c:url>">회원가입</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="<c:url value='/login'></c:url>">로그인</a>
-			</li>
-		</c:if>
-		<c:if test="${user != null }">
-			<li class="nav-item">
-				<a class="nav-link" href="<c:url value='/logout'></c:url>">로그아웃</a>
-			</li>
-		</c:if>
         <h2>메인</h2>
     </div>
     <div class="btn-container">

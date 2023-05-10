@@ -154,5 +154,8 @@
 		order by pd_score desc
 		limit #{limit_start}, 2
 	</select>
+	<select id="selectCourseListCount" resultType="int">
+		select count(*) from course where co_me_id = #{me_id}
+	</select>
 
 </mapper>

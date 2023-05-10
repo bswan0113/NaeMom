@@ -3,7 +3,7 @@
     pageEncoding="UTF-8"%>
 
 <style>
-form{
+.body-bottom > form{
 width:80%;
 margin: 0 auto;
 padding:30px;

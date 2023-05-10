@@ -145,10 +145,10 @@
   	</select>
   	
   	<select id="getAoFileByOption" resultType="kr.dbp.naemom.vo.FileVO">
-  		SELECT * FROM file left join accomodation_option  on  fi_table_key =ao_pd_num where fi_table=#{fi_table} and fi_table_key=#{fi_table_key}
+  		SELECT * FROM file left join accomodation_option  on  fi_table_key =ao_num where fi_table=#{fi_table} and fi_table_key=#{fi_table_key}
   	</select>
   	<select id="getReoFileByOption" resultType="kr.dbp.naemom.vo.FileVO">
-  		SELECT * FROM file left join restraunt_option  on  fi_table_key =reo_pd_num where fi_table=#{fi_table} and fi_table_key=#{fi_table_key}
+  		SELECT * FROM file left join restraunt_option  on  fi_table_key =reo_num where fi_table=#{fi_table} and fi_table_key=#{fi_table_key}
   	</select>
   	<delete id="deleteProduct">
   		delete from product where pd_num =#{pd_num}

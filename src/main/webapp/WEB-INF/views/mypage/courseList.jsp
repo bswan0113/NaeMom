@@ -30,29 +30,29 @@
 			font-weight:bold;
 			}
 			
-<<<<<<< HEAD
-			td:nth-child(4){
-			overflow:hidden;
-			text-overflow:ellipsis;
-			white-space:nowrap;
-=======
+
 			td:nth-child(1),
 			td:nth-child(2),
 			td:nth-child(4),
 			td:nth-child(5){
 			overflow:hidden;
 			white-space:nowrap;
-			  text-overflow: ellipsis;
->>>>>>> ahn
+			text-overflow: ellipsis;
+
 			}
-			
+			.trCourse{
+			border-bottom: 2px solid #dee2e6; border-top: 1px solid #dee2e6;
+			}
+			.table td, .trCourse th{
+				border:0 !important;
+			}
 	   </style>
 	    
 	<div class="container">
 	<h3>작성 코스 목록</h3>
 		<table class="table table-striped">
 			<thead>
-				<tr>
+				<tr class="trCourse">
 					<th>코스 구분</th>
 					<th>일정 구분</th>
 					<th></th>

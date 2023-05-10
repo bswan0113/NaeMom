@@ -212,7 +212,7 @@
 	<select id="selectMileage" resultType="kr.dbp.naemom.vo.MileageVO">
 		select * from mileage where mi_bl_num = #{bl_num}
 	</select>
-	<update id="updateMemberByMile">
+	<update id="updateMember">
 		update member set me_mileage = me_mileage - #{mi.mi_update} where me_id = #{mi.mi_me_id}
 	</update>
 	<delete id="deleteMileage">

@@ -14,7 +14,7 @@
   <script src="<c:url value='/resources/js/jquery.min.js'></c:url>"></script>
   <script src="<c:url value='/resources/js/jquery-ui.min.js'></c:url>"></script>
   <script src="<c:url value='/resources/js/bootstrap.bundle.min.js'></c:url>"></script>
-  <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=&libraries=services"></script> -->
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${api }&libraries=services"></script>
   <title>courseDetail</title>
   <style>
   	*{
@@ -530,7 +530,7 @@
   
   
   
-  /*
+  
   	function reorderMap() {
 	  	map = new kakao.maps.Map(mapContainer, mapOption);
 	  	addresses = new Array();
@@ -658,7 +658,7 @@ for (var i = 0; i < addresses.length; i++) {
 }
 addMarkers();
 reorderMap();
-*/
+
   </script> 
 </body>
 </html>

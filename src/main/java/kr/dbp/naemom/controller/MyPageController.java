@@ -163,9 +163,11 @@ public class MyPageController {
 				course.get(i).setFile(item.getFile());
 			}
 		}
-		
+		int totalCount = myPageService.getCourseListCount(user.getMe_id());
+		PageMaker pm = new PageMaker(totalCount, 5, cri);
 		mv.addObject("cor",course);
 		mv.addObject("user",user);
+		mv.addObject("pm", pm);
 		mv.setViewName("/mypage/courseList");
 		return mv;
 	}

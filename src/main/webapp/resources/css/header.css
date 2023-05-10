@@ -40,7 +40,7 @@ a,a:hover, a:visited{
 }
 
 .head-box .search-containerbox .search{
-  width: 560px; height: 50px; border: 1px solid black; background-color:#eef0f2;
+  width: 580px; height: 50px; border: 1px solid black; background-color:#eef0f2;
   font-size: 15px; float: left;  padding: 0 5px;
 }
 .header .head-box .search-containerbox{
@@ -55,8 +55,8 @@ a,a:hover, a:visited{
   border-radius: 10px;
 }
 .head-box .search-containerbox .search-box form .btn-search{
-  width: 50px; height: 50px; position: absolute; border: none; 
-  top: 25px; right: 10px; bottom: 0; cursor: pointer; padding: 0; outline: 0;
+  width: 46px; height: 46px; position: absolute; border: none; 
+  top: 27px; right: 4px; bottom: 0; cursor: pointer; padding: 0; outline: 0;
   font-size: 30px;line-height: 50px; color: black; text-align: center;
 }
 .header .head-box .main-menu-box{
@@ -133,4 +133,14 @@ a,a:hover, a:visited{
 .box-quickMenu .box-menu .text-quick{
   display: block; font-size: 8px; color: #000;
   font-family: "SF Pro KR", "SF Pro Display", "SF Pro Icons", -apple-system, BlinkMacSystemFont, "Noto Sans KR", "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.logOut-link{
+	position: absolute; width: 100px; top: 30px;
+}
+.logout-text{
+	display: block; font-size: 8px; color: #000;
+  font-family: "SF Pro KR", "SF Pro Display", "SF Pro Icons", -apple-system, BlinkMacSystemFont, "Noto Sans KR", "Segoe UI", Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.logOut-link i{
+	font-size: 30px; color: #000; margin-left:4px;
 }
