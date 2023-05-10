@@ -76,6 +76,9 @@ public interface MyPageService {
 
 	int updateBuyList(String bl_num, String me_id);
 
+	ArrayList<ProductVO> getRecPr(MemberVO user, int count);
+
+
 
 
 }

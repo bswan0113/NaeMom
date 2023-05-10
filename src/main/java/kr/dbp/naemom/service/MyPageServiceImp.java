@@ -270,6 +270,32 @@ public class MyPageServiceImp implements MyPageService{
 			return 0;
 		String state = "결제취소요청";
 		return myPageDao.updateBuyCancel(bl_num, me_id, state);
+  }
+
+  @Override
+	public ArrayList<ProductVO> getRecPr(MemberVO user, int count) {
+		int fe = user.getMe_score_fe();
+		int ao = user.getMe_score_ao();
+		int reo = user.getMe_score_reo();
+		int la = user.getMe_score_la();
+	    
+	    int maxScore = user.getMe_score_fe(); // 첫 번째 값을 최대값으로 설정
+	    int table = 4; // 기본값으로 테이블명을 설정해놓습니다.
+
+	    if (ao > maxScore) {
+	        maxScore = ao;
+	        table = 3; // ao가 최대값일 때 테이블명을 설정합니다.
+	    }
+	    if (reo > maxScore) {
+	        maxScore = reo;
+	        table = 2; // reo가 최대값일 때 테이블명을 설정합니다.
+	    }
+	    if (la > maxScore) {
+	        maxScore = la;
+	        table = 1; // la가 최대값일 때 테이블명을 설정합니다.
+	    }
+	    ArrayList<ProductVO> product= myPageDao.getProductByuserPrefer(table, count);
+		return product;
 	}
 
 }

@@ -2,7 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
        <title>관리자페이지 - 상세등록</title> 
-       <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
    	<h1 class="text-primary">게시글 등록</h1> <br><hr>
 	<form action="<c:url value='/admin/insert/insertProduct'></c:url>" method="post" enctype="multipart/form-data">
 		<div class="form-group">
@@ -124,6 +123,15 @@ $(document).ready(function(){
 		    	alert('운영시간을 입력해주세요');
 		    	return false;
 		    }
+		    if (!/^\d+$/.test(pd_capacity)) {
+		        alert('최대 수용인원의 값이 잘못되었습니다.');
+		        return false;
+		    }
+
+		    if (!/^\d{2}:\d{2}$/.test(pd_close_time) || !/^\d{2}:\d{2}$/.test(pd_open_time)) {
+		        alert('운영시간은 HH:mm 형식으로 입력해주세요');
+		        return false;
+		    }
 		    if(pd_content == ''){
 		    	alert('내용을 입력해주세요');
 		    	return false;
@@ -133,6 +141,7 @@ $(document).ready(function(){
 		    	return false;
 		    }
 		    $(this).unbind('submit').submit();
+		   
 	})
 });
 

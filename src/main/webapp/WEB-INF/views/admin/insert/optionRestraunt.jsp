@@ -93,6 +93,11 @@ $(document).ready(function() {
 	        vali = false;
 	        return false;
 	      }
+	      if (!/^\d+$/.test(menuPrice)) {
+		        alert('가격의 값이 잘못되었습니다.');
+		        vali = false;
+		        return false;
+		    }
 
 	      if (menuImage == '') {
 	        alert("이미지를 첨부해주세요.");
@@ -177,6 +182,7 @@ $('.update-saved').click(function() {
     let price = $(this).parent().find('#price').val();
     let content = $(this).parent().find('#content').val();
     let pd_num =$(this).parent().data('num')
+    let file =$(this).parent().find('#file');
     let saved = $(this).parent();
     let items = 
         '<div class="option-item">'+
@@ -219,8 +225,32 @@ $('.saved-list').on('click', '.update-item', function() {
 			reo_price : price,
 			reo_content : content
 	}
+    if (name.trim().length <= 0) {
+        alert("메뉴명을 입력해주세요.");
+        return false;
+      }
+
+      if (content.trim().length <= 0) {
+        alert("메뉴설명을 입력해주세요.");
+        return false;
+      }
+
+      if (price == '') {
+        alert("가격을 입력해주세요.");
+        return false;
+      }
+
+      if (!/^\d+$/.test(price)) {
+	        alert('가격의 값이 잘못되었습니다.');
+	        return false;
+     }
 	
 	 ajaxPost(true,reo,"<c:url value='/update/option/restraunt'></c:url>",function(data){
+		 	if(file.val() ==''){
+				alert('수정성공!');
+				location.reload();
+		 		return;
+		 	}
 			if(data.res){
 				let formData = new FormData();
 				let files = file[0].files;
@@ -264,6 +294,9 @@ $('.saved-list').on('click', '.delete-item', function() {
     let price = $(this).parent().find('#price').val();
     let content = $(this).parent().find('#content').val();
     let reo_num= $(this).parent().prev().data('num');
+
+
+    
 	let reo={
 			reo_num:reo_num,
 			reo_pd_num:pd_num,
@@ -271,6 +304,7 @@ $('.saved-list').on('click', '.delete-item', function() {
 			reo_price : price,
 			reo_content : content
 	}
+	
     
 	   ajaxPost(true,reo,"<c:url value='/delete/option/restraunt'></c:url>",function(data){
 	    	if(data.res) {

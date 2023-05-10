@@ -85,5 +85,12 @@ public interface AdminService {
 
 	void updateBuyList(String bl_num);
 
+	void addVisit(String id);
+
+	void updateVisit(String id);
+
+	boolean getVisit(String id);
+
+
 
 }

@@ -118,9 +118,17 @@ $(document).on("click",".save-btn",function(){
 	let pd_num =${pd_num};
 	let list = [];
 	let input = $('.insert-input');
+	let empty = false;
 	input.each(function(){
+		if($(this).val().trim().length == 0){
+			empty=true;
+		}
 		list.push($(this).val());
 	})
+	if(empty){
+		alert('입력되지 않은 항목이 있습니다.')
+		return;
+	}
 	
 	
 	$.ajax({

@@ -48,12 +48,29 @@ let pd_num =$('.container-fluid').data('pd_num');
 
 $('#saveOption').click(function(){
 	let optionItem= [];
+	let res = false;
   $('.option-item').each(function(index) {
 	    let age = $(this).find('input[name="lo_age"]').val();
 	    let price = $(this).find('input[name="lo_price"]').val();
 
+	    if(age.trim().length == 0){
+	    	alert('구분을 입력해주세요.');
+	    	return;
+	    }
+	    if(price.trim().length == 0){
+	    	alert('가격을 입력해주세요.');
+	    	return;
+	    }			    
+	    if (!/^\d+$/.test(price)) {
+	        alert('가격의 값이 잘못되었습니다.');
+	        vali = false;
+	        return false;
+	    }
 	  optionItem.push(createOptionItem(age,price));
+	  res=true;
 	  });
+  if(!res)return;	  
+  
   ajaxPost(true,optionItem,"<c:url value='/insert/option/landmark'></c:url>",function(data){
   	if(data.res) {
 		alert('추가성공!');
@@ -97,6 +114,19 @@ $('.saved-list').on('click', '.update-item', function() {
     let age = $(this).parent().find('#age').val();
     let price = $(this).parent().find('#price').val();
     let lo_num= $(this).parent().prev().data('num');
+    if(age.trim().length == 0){
+    	alert('구분을 입력해주세요.');
+    	return;
+    }
+    if(price.trim().length == 0){
+    	alert('가격을 입력해주세요.');
+    	return;
+    }			    
+    if (!/^\d+$/.test(price)) {
+        alert('가격의 값이 잘못되었습니다.');
+        vali = false;
+        return false;
+    }
 	let lo={
 			lo_num:lo_num,
 			lo_pd_num:pd_num,

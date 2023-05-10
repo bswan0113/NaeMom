@@ -121,7 +121,8 @@
   	<update id="updateViewCount">
   		update product 
   			set 
-  				pd_viewcount = pd_viewcount+1 
+  				pd_viewcount = pd_viewcount+1,
+  				pd_score = pd_score+1
   			where 
   				pd_num = #{pd_num}
   	</update>
@@ -192,9 +193,17 @@
 	<insert id="insertKeyword">
 		insert into search_keyword(sk_keyword, sk_pd_num, sk_date) values(#{search},#{pd_num}, now());
 	</insert>
+	
+	<insert id="insertKeywordWithId">
+		insert into search_keyword(sk_keyword, sk_pd_num, sk_date, sk_id) values(#{search},#{pd_num}, now(),#{id});
+	</insert>
 
 	<select id="getHash" resultType="String">
 		select hg_name from hash_tag where hg_pd_num= #{hg_pd_num}
+	</select>
+	
+	<select id="getProductPk" resultType="Integer">
+		select pd_num from product
 	</select>
 </mapper>
 

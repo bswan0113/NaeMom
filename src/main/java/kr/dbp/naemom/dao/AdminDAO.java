@@ -15,6 +15,7 @@ import kr.dbp.naemom.vo.ReportManageVO;
 import kr.dbp.naemom.vo.ReportVO;
 import kr.dbp.naemom.vo.ReviewCommentVO;
 import kr.dbp.naemom.vo.ReviewVO;
+import kr.dbp.naemom.vo.VisitedVO;
 import kr.dbp.naemom.vo.qnaVO;
 import kr.dbp.naemom.vo.qna_AnswerVO;
 
@@ -99,6 +100,13 @@ public interface AdminDAO {
 	void deleteMileage(@Param("bl_num")String bl_num);
 
 	void updateMember(@Param("mi")MileageVO mi);
+
+	void addVisit(@Param("id")String id);
+
+	void updateVisit(@Param("vi_num")int i);
+
+	VisitedVO getVisit(@Param("id")String id);
+
 
 
 

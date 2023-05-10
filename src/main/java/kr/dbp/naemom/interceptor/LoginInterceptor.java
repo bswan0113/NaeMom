@@ -12,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import kr.dbp.naemom.service.AdminService;
 import kr.dbp.naemom.service.MemberService;
 import kr.dbp.naemom.vo.MemberVO;
 
@@ -19,6 +20,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter  {
 	
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	AdminService adminService;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response,Object handler)
@@ -65,6 +69,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter  {
 	        	user.setMe_session_limit(date);
 	        	memberService.updateMemberBySession(user);
 	        }
+			if(!adminService.getVisit(session.getId())) {
+				adminService.updateVisit(session.getId());
+			}
 	    }
 	}
 }

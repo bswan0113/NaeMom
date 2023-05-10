@@ -40,21 +40,24 @@
 			<label for="subtitle">부제목:</label>
 			<input type="text" class="form-control" id="subtitle" name="pd_subtitle" value="${product.pd_subtitle}">
 		</div>
-		<div class="form-group">
-			<label for="registerd_address">(api적용예정)지번주소:</label>
-			<input type="text" class="form-control" id="registerd_address" name="pd_registerd_address" value="${product.pd_registerd_address}">
+		<div class="form-group">                   
+			<input class="form-control" placeholder="주소입력" name="me_post" id="me_post"readonly="readonly" value="${product.pd_street_address}">
+		 	<button type="button" class="btn btn-success" onclick="execPostCode();">주소 찾기</button>                               
 		</div>
+		
+			<input type="hidden" class="form-control" id="registerd_address" name="pd_registerd_address" value="${product.pd_registerd_address}">
+			<input type="hidden" class="form-control" id="street_address" name="pd_street_address" value="${product.pd_street_address}">
+			
 		<div class="form-group">
-			<label for="street_address">(api적용예정)도로명 주소:</label>
-			<input type="text" class="form-control" id="street_address" name="pd_street_address" value="${product.pd_street_address}">
-		</div>
-		<div class="form-group">
-			<label for="detail_address">(api적용예정)상세 주소:</label>
+			<label for="detail_address">상세 주소:</label>
 			<input type="text" class="form-control" id="detail_address" name="pd_detail_address" value="${product.pd_detail_address}">
 		</div>
 		<div class="form-group">
 			<label for="parking">주차 가능 여부:</label>
-			<input type="text" class="form-control" id="parking" name="pd_parking" value="${product.pd_parking}">
+			<select class="form-control" name="pd_parking" id="parking">
+				<option value="가능">가능</option>
+				<option value="불가능">불가능</option>
+			</select>
 		</div>
 		<div class="form-group">
 			<label for="capacity">최대인원:</label>
@@ -80,6 +83,73 @@
 	</form>
 
 <script>
+$(document).ready(function(){
+	$('form').submit(function(e){
+		e.preventDefault();
+		  var pd_title = $('#title').val().trim();
+		    var pd_subtitle = $('#subtitle').val().trim();
+		    var address = $('#street_address').val().trim();
+		    var pd_parking = $('#parking').val();
+		    var pd_capacity = $('#capacity').val();
+		    var pd_open_time = $('#open_time').val();
+		    var pd_close_time = $('#close_time').val();
+		    var pd_content = $('#content').val();
+		    var thum = $('.thum').val();
+		    if($('#category').val()== 0){
+		    	alert('카테고리를 선택해주세요');
+		    	return false;
+		    }
+		    if(pd_title == ''){
+		    	alert('상품명을 입력해주세요');
+		    	return false;
+		    }
+		    
+		    if(pd_subtitle == ''){
+		    	alert('부제를 입력해주세요');
+		    	return false;
+		    }
+		    
+		    if(address == ''){
+		    	alert('주소를 입력해주세요');
+		    	return false;
+		    }
+		    
+		    
+		    if(pd_parking == ''){
+		    	alert('주차가능여부를 입력해주세요');
+		    	return false;
+		    }
+		    
+		    if(pd_capacity == ''){
+		    	alert('최대 수용인원을 입력해주세요');
+		    	return false;
+		    }
+		    
+		    if(pd_close_time == '' || pd_open_time==''){
+		    	alert('운영시간을 입력해주세요');
+		    	return false;
+		    }
+		    if (!/^\d+$/.test(pd_capacity)) {
+		        alert('최대 수용인원의 값이 잘못되었습니다.');
+		        return false;
+		    }
+
+		    if (!/^\d{2}:\d{2}$/.test(pd_close_time) || !/^\d{2}:\d{2}$/.test(pd_open_time)) {
+		        alert('운영시간은 HH:mm 형식으로 입력해주세요');
+		        return false;
+		    }
+
+		    if(pd_content == ''){
+		    	alert('내용을 입력해주세요');
+		    	return false;
+		    }
+		    if(thum == ''){
+		    	alert("썸네일을 등록해주세요");
+		    	return false;
+		    }
+		    $(this).unbind('submit').submit();
+	})
+});
 
 
 
@@ -206,6 +276,48 @@ function ajaxGet(async, url, successFunc){
 		contentType:"application/json; charset=UTF-8",
 		success : successFunc
 	});
+}
+function execPostCode() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+           // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+           // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+           // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+           var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+           var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+
+           // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+           // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+           if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+               extraRoadAddr += data.bname;
+           }
+           // 건물명이 있고, 공동주택일 경우 추가한다.
+           if(data.buildingName !== '' && data.apartment === 'Y'){
+              extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+           }
+           // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+           if(extraRoadAddr !== ''){
+               extraRoadAddr = ' (' + extraRoadAddr + ')';
+           }
+           // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+           if(fullRoadAddr !== ''){
+               fullRoadAddr += extraRoadAddr;
+           }
+
+           // 우편번호와 주소 정보를 해당 필드에 넣는다.
+           console.log(data.zonecode);
+           console.log(fullRoadAddr);
+           
+           
+           $("[name=pd_street_address]").val(fullRoadAddr);
+           $("[name=pd_registerd_address]").val(data.jibunAddress);
+           $("[name=me_post]").val(fullRoadAddr);
+           /* document.getElementById('signUpUserPostNo').value = data.zonecode; //5자리 새우편번호 사용
+           document.getElementById('signUpUserCompanyAddress').value = fullRoadAddr;
+           document.getElementById('signUpUserCompanyAddressDetail').value = data.jibunAddress; */
+       }
+    }).open();
 }
 </script>
 

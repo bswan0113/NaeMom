@@ -18,6 +18,7 @@
 	     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 	     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 	     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	      <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	     
 	    
 	   
@@ -87,7 +88,7 @@
 		<div class="body-container">
 			    <div class="bd-sidebar">
 			      <ul class="nav">
-			        <li class="admin-side"><a href="<c:url value='/admin/home/home'></c:url>">home</a></li>
+			        <li class="admin-side"><a href="<c:url value='/admin/home/main'></c:url>">home</a></li>
 			        <li class="admin-side"><a href="<c:url value='/admin/insert/insertProduct'></c:url>">게시글 등록</a><br></li>
 			        <li class="admin-side"><a href="<c:url value='/admin/list/productList'></c:url>">게시글 조회</a></li>
 			        <li class="admin-side"><a href="<c:url value='/admin/list/qnaList'></c:url>">사용자 문의 조회</a></li>
