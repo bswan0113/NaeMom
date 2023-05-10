@@ -73,6 +73,7 @@ border:1px solid #dae1e6;
 top:20%;
 left:30%;
 background:#dae1e6;
+z-index:10;
 }
 
 .note-detail td .content{
