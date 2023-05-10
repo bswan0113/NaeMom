@@ -78,6 +78,8 @@ public interface MyPageService {
 
 	ArrayList<ProductVO> getRecPr(MemberVO user, int count);
 
+	int getUnreadMailCount(String me_id);
+
 
 
 

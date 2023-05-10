@@ -79,6 +79,8 @@ public interface MyPageDAO {
 
 	ArrayList<ProductVO> getProductByuserPrefer(@Param("pd_pc_category")int table, @Param("limit_start")int count);
 
+	int getUnreadMailCount(@Param("id")String me_id);
+
 
 
 

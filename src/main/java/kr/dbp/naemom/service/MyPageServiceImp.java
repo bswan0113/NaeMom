@@ -298,4 +298,9 @@ public class MyPageServiceImp implements MyPageService{
 		return product;
 	}
 
+@Override
+public int getUnreadMailCount(String me_id) {
+	return myPageDao.getUnreadMailCount(me_id);
+}
+
 }
