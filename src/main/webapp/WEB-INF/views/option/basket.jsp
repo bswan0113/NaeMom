@@ -298,6 +298,11 @@
 	    	</div>
   </div>
   <script>
+	 	window.onpageshow = function(event) {
+			if ( event.persisted || window.performance.navigation.type === 2) {
+		        location.reload();
+		    }
+		}
   		var checkPd = true;
   		$('form').submit(function(){
   			if(!$('.option_item').length){
@@ -307,14 +312,7 @@
   			}
   			let amount = $('.allAmount').text();
   			let price = $('.allPrice').text();
-  			$('.option_item').each(function(i){
-  				let sb_num = $(this).find('[name=sb_num]').val();
-  				str='';
-  				str +=
-  					'<input type="hidden" name="sb_num" value="'+sb_num+'">';
-  				$('form').append(str);
-  				
-  			})
+  			
   			let list=[];
   			$('.addOrder').siblings('[name=sb_num]').each(function(){
   				list.push($(this).val());
@@ -323,6 +321,14 @@
   			if(!checkPd)
   				return false;
   			if(confirm('총 '+amount+'개의 상품, '+price+'원 입니다.\n주문하시겠습니까?')){
+  				$('.option_item').each(function(i){
+  	  				let sb_num = $(this).find('[name=sb_num]').val();
+  	  				str='';
+  	  				str +=
+  	  					'<input type="hidden" name="sb_num" value="'+sb_num+'">';
+  	  				$('form').append(str);
+  	  				
+  	  			})
   				return true;
   			}else{
   				return false;

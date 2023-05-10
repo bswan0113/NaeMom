@@ -1,8 +1,6 @@
 package kr.dbp.naemom.service;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,9 +9,11 @@ import org.springframework.stereotype.Service;
 import kr.dbp.naemom.dao.AdminDAO;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.BuyListVO;
+import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
 import kr.dbp.naemom.vo.MemberVO;
+import kr.dbp.naemom.vo.MileageVO;
 import kr.dbp.naemom.vo.ReportManageVO;
 import kr.dbp.naemom.vo.ReportVO;
 import kr.dbp.naemom.vo.ReviewCommentVO;
@@ -208,6 +208,39 @@ public class AdminServiceImp implements AdminService{
 	}
 
 	@Override
+	public ArrayList<Buy_listVO> getAllBuyList(Criteria cri) {
+		
+		return adminDao.selectAllBuyList(cri);
+	}
+
+	@Override
+	public int getBuyListCount() {
+		return adminDao.selectCountBuyList();
+	}
+
+	@Override
+	public Buy_listVO getBuyListByNum(String bl_num) {
+		
+		return adminDao.selectBuyListByNum(bl_num);
+	}
+
+	@Override
+	public void updateBuyList(String bl_num) {
+		//buy_list 수정
+		String state = "결제취소";
+		adminDao.updateBuyList(bl_num,state);
+		//order_list 삭제
+		adminDao.deleteOrderList(bl_num);
+		//옵션삭제
+		adminDao.deleteRoomOption(bl_num);
+		adminDao.deleteFoodOption(bl_num);
+		//적립마일리지 삭제
+		MileageVO mi = adminDao.selectMileage(bl_num);
+		adminDao.updateMember(mi);
+		adminDao.deleteMileage(bl_num);
+  }	
+  
+  @Override
 	public void addVisit(String id) {
 		adminDao.addVisit(id);
 		
@@ -229,6 +262,7 @@ public class AdminServiceImp implements AdminService{
 		if(id==null || id.trim().length()<=0) return false;
 		VisitedVO visit = adminDao.getVisit(id);		
 		return visit == null;
+
 	}
 	
 	

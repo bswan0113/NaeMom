@@ -2,16 +2,21 @@ package kr.dbp.naemom.controller;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,11 +24,12 @@ import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.MyPageService;
 import kr.dbp.naemom.utils.MessageUtils;
-import kr.dbp.naemom.vo.BuyListVO;
+import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.MileageVO;
+import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.ReviewVO;
 import kr.dbp.naemom.vo.WishVO;
@@ -35,9 +41,6 @@ public class MyPageController {
 	
 	@Autowired
 	MyPageService myPageService;
-	
-	@Autowired
-	BCryptPasswordEncoder passwordEncoder;
 	
 	@RequestMapping(value = "/mypage/main")
 	public ModelAndView home(ModelAndView mv, HttpSession session) {
@@ -59,8 +62,6 @@ public class MyPageController {
 	
 	@RequestMapping(value = "/mypage/profile", method = RequestMethod.POST)
 	public ModelAndView myPagePost(ModelAndView mv, MemberVO member, HttpSession session, HttpServletResponse response) {
-		MemberVO user =(MemberVO)session.getAttribute("user");
-		member.setMe_authority(user.getMe_authority());
 		boolean res = myPageService.updateMember(member);
 		if(!res) {
 			MessageUtils.alertAndMovePage(response, 
@@ -156,7 +157,7 @@ public class MyPageController {
 		
 		MemberVO user = (MemberVO) session.getAttribute("user");
 		ArrayList<CourseVO> course = myPageService.getCourseList(cri, user.getMe_id());
-		if(course != null && course.size() >0) {
+		if(course.size() >0) {
 			for(int i=0; i<course.size(); i++) {
 				CourseItemVO item = myPageService.getCourseItem(course.get(i).getCo_num());
 				course.get(i).setFile(item.getFile());
@@ -172,8 +173,9 @@ public class MyPageController {
 	public ModelAndView reserveList(ModelAndView mv, HttpSession session, Criteria cri) {
 		if(cri==null) cri = new Criteria();
 		MemberVO user = (MemberVO) session.getAttribute("user");
-		ArrayList<BuyListVO> buyList = myPageService.getBuyList(user.getMe_id(),cri);
-		
+		//ArrayList<BuyListVO> buyList = myPageService.getBuyList(user.getMe_id(),cri);
+		ArrayList<Buy_listVO> buyList = myPageService.getBuyList(user.getMe_id(),cri);
+		System.out.println(buyList);
 		int totalCount = myPageService.getBuyListCount(user.getMe_id());
 		PageMaker pm = new PageMaker(totalCount, 5, cri);
 		mv.addObject("pm", pm);
@@ -182,6 +184,18 @@ public class MyPageController {
 		mv.setViewName("/mypage/reserveList");
 		return mv;
 	}
+	@ResponseBody
+	@RequestMapping(value = "/mypage/buyCancel", method=RequestMethod.POST)
+	public Map<String, Object> buyCancel(@RequestBody String bl_num, HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO) session.getAttribute("user");
+		bl_num = bl_num.replaceAll("[^\\w+]", "");
+		int res = myPageService.updateBuyList(bl_num, user.getMe_id());
+		map.put("res", res);
+		map.put("bl_num", bl_num);
+		return map;
+	}
+	
 	@RequestMapping(value = "/mypage/mileageList")
 	public ModelAndView mileageList(ModelAndView mv, HttpSession session, Criteria cri) {
 		if(cri==null) cri=new Criteria();

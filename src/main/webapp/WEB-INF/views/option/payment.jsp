@@ -580,7 +580,7 @@
    			let id = $('.buyer_id').val();
    			let date = dateString();
    			let order_id = id+date;
-   			let order_name = pd_title+' 외 ' + String(count)+'건';
+   			let order_name = pd_title+' 등 ' + String(count)+'건';
    			let method = '';
    			$('input[name=payType]:checked').each(function(){
    				method = $(this).val();

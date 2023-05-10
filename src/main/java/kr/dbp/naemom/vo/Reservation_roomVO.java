@@ -16,6 +16,7 @@ public class Reservation_roomVO {
 	int rr_ao_num;
 	int rr_pd_num;
 	String rr_me_id;
+	String rr_bl_num;
 	
 	public String getRr_check_in() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");

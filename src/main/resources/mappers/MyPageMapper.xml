@@ -113,7 +113,7 @@
 		AND 7>= DATEDIFF(DATE_ADD(mi_date, INTERVAL 5 YEAR), NOW());
 	</select>
 	
-	<select id="getBuyList" resultType="kr.dbp.naemom.vo.BuyListVO">
+	<select id="getBuyList" resultType="kr.dbp.naemom.vo.Buy_listVO">
 		select * from buy_list where bl_me_id =#{me_id}
 		ORDER BY bl_num DESC 
 			  LIMIT #{cri.pageStart}, #{cri.perPageNum}
@@ -138,6 +138,15 @@
 	<update id="changeEmail">
 		update member set me_ma_email=#{me_ma_email} where me_id =#{me_id}
 	</update>
+
+	<update id="updateBuyCancel">
+		update buy_list
+			set
+				bl_state = #{state}
+			where 
+				bl_num = #{bl_num} and bl_me_id = #{me_id}
+	</update>
+
 	
 	<select id="getProductByuserPrefer" resultType="kr.dbp.naemom.vo.ProductVO">
 		select * from product 
@@ -145,4 +154,5 @@
 		order by pd_score desc
 		limit #{limit_start}, 2
 	</select>
+
 </mapper>

@@ -6,9 +6,11 @@ import org.apache.ibatis.annotations.Param;
 
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.BuyListVO;
+import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
 import kr.dbp.naemom.vo.MemberVO;
+import kr.dbp.naemom.vo.MileageVO;
 import kr.dbp.naemom.vo.ReportManageVO;
 import kr.dbp.naemom.vo.ReportVO;
 import kr.dbp.naemom.vo.ReviewCommentVO;
@@ -79,11 +81,32 @@ public interface AdminDAO {
 
 	boolean insertHashtag(@Param("hg_pd_num")int pd_num, @Param("hg_name")String hash);
 
+	ArrayList<Buy_listVO> selectAllBuyList(@Param("cri")Criteria cri);
+
+	int selectCountBuyList();
+
+	Buy_listVO selectBuyListByNum(@Param("bl_num")String bl_num);
+
+	void updateBuyList(@Param("bl_num")String bl_num, @Param("state")String state);
+
+	void deleteOrderList(@Param("bl_num")String bl_num);
+
+	void deleteRoomOption(@Param("bl_num")String bl_num);
+
+	void deleteFoodOption(@Param("bl_num")String bl_num);
+
+	MileageVO selectMileage(@Param("bl_num")String bl_num);
+
+	void deleteMileage(@Param("bl_num")String bl_num);
+
+	void updateMember(@Param("mi")MileageVO mi);
+
 	void addVisit(@Param("id")String id);
 
 	void updateVisit(@Param("vi_num")int i);
 
 	VisitedVO getVisit(@Param("id")String id);
+
 
 
 
