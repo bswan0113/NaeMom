@@ -82,5 +82,11 @@ public interface AdminService {
 
 	boolean getVisit(String id);
 
+	String getAttendance(String me_id);
+
+	void insertAttendance(String me_id);
+
+	boolean insertAtMile(String me_id);
+
 
 }

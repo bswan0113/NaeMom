@@ -27,6 +27,9 @@ public class LoginRedirectInterceptor extends HandlerInterceptorAdapter  {
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		if(user != null) {
+			if(adminService.getAttendance(user.getMe_id())==null) {
+				adminService.insertAttendance(user.getMe_id());
+			}
 			String url = (String)session.getAttribute("prevURL");
 			if(url != null) {
 				response.sendRedirect(url);
