@@ -50,7 +50,7 @@ public class MapServiceImp implements MapService {
 	}
 
 	@Override
-	public ProductVO getSelectProduct(int pd_num) {
+	public ArrayList<ProductVO> getSelectProduct(int pd_num) {
 		return mapDao.selectProductNum(pd_num);
 	}
 
@@ -59,6 +59,11 @@ public class MapServiceImp implements MapService {
 		String fi_category = "게시글 썸네일";
 		String fi_table = "product";
 		return mapDao.selectProductImg(pd_num, fi_category, fi_table);
+	}
+
+	@Override
+	public ArrayList<ProductVO> getSearchProductAddress(ProductVO product) {
+		return mapDao.selectSearchProductAddress(product);
 	}
 
 }

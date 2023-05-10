@@ -34,9 +34,11 @@ public class MapController {
 		ArrayList<ProductVO> plist = mapService.getProductList();
 		ArrayList<FileVO> flist = mapService.getFileList();
 		ArrayList<FileVO> files = new ArrayList<FileVO>();
+		ArrayList<ProductCategoryVO> clist = mapService.getProductCategory();
 		for(int i = 0; i < plist.size() ; i++) {
 			plist.get(i).setFile(mapService.getFiles(plist.get(i).getPd_num()));
 		}
+		mv.addObject("clist",clist);
 		mv.addObject("files", files);
 		mv.addObject("plist", plist);
 		mv.setViewName("map/main");
@@ -61,9 +63,11 @@ public class MapController {
 	public Map<String, Object> mapSearchProduct(@RequestBody ProductVO product,HttpServletResponse response) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<ProductVO> products = mapService.getSearchProduct(product);
+//		ArrayList<ProductVO> productAddress = mapService.getSearchProductAddress(product);
 		ArrayList<ProductCategoryVO> pdCategory = mapService.getProductCategory();
 		map.put("products", products);
 		map.put("pdCategory", pdCategory);
+//		map.put("productAddress", productAddress);
 		return map;
 	}
 	
@@ -71,10 +75,12 @@ public class MapController {
 	@RequestMapping(value = "/map/selectProduct", method=RequestMethod.POST)
 	public Map<String, Object> mapSelectProduct(@RequestBody int pd_num) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		ProductVO selectProduct = mapService.getSelectProduct(pd_num);
+		ArrayList<ProductVO> plist = mapService.getSelectProduct(pd_num);
+		ArrayList<ProductCategoryVO> clist = mapService.getProductCategory();
 		FileVO file = mapService.getProductImg(pd_num);
+		map.put("clist", clist);
 		map.put("file", file);
-		map.put("selectProduct", selectProduct);
+		map.put("plist", plist);
 		return map;
 	}
 

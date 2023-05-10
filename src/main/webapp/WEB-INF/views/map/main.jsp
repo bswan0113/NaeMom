@@ -266,14 +266,10 @@ body {
 	</div>
 	<div id="menu">
 		<ul class="menu-ul">
-			<li class="menu-li"><a href="#" class="menu-li"
-				data-pd-pc-num="1">여행</a></li>
-			<li class="menu-li"><a href="#" class="menu-li"
-				data-pd-pc-num="2">음식</a></li>
-			<li class="menu-li"><a href="#" class="menu-li"
-				data-pd-pc-num="3">숙박</a></li>
-			<li class="menu-li"><a href="#" class="menu-li"
-				data-pd-pc-num="4">축제</a></li>
+			<li class="menu-li" data-num="1"><a href="#">여행</a></li>
+			<li class="menu-li" data-num="2"><a href="#">음식</a></li>
+			<li class="menu-li" data-num="3"><a href="#">숙박</a></li>
+			<li class="menu-li" data-num="4"><a href="#">축제</a></li>
 		</ul>
 	</div>
 	<div class="">
@@ -447,22 +443,27 @@ $(document).ready(function(){
 	 	
 });
 
-$('.product-table').hide();
-
-
-
 $('.btn-search').click(function(){
 	  let product_search = $('.product-search').val();
-	  let product = {
-			  pd_title : product_search
+	  $('.productList').empty();
+	  if(product_search === '') {
+		    alert('검색어를 입력해주세요');
+		    return;
 	  }
+	  
+	  let product = {
+			  pd_title : product_search,
+			  pd_street_address : product_search
+	  }
+	 	console.log(product);
 	  ajaxPost(product, '<c:url value="/map/searchProduct"></c:url>', searchSuccess);
 	  
 	  
 })
 
 function searchSuccess(data,e){
-	  str = '';
+	console.log(data);
+	  let str = '';
 	  if(data.product == ''){
 		  alert('일치하는 상품이 없습니다.')
 		  return;
@@ -474,7 +475,8 @@ function searchSuccess(data,e){
 		  }
 	  }
 	  
-	  $('.productList').html(str);
+	  $('.search-text').hide();
+	  $('.product-table').html(str);
 	  $('.product-table').show();
 	  $('.select-product').click(function(){
 		  let pd_nums = $(this).find('.find_pdNum').text(); 
@@ -485,18 +487,26 @@ function searchSuccess(data,e){
 
 
 function searchProductTable(product,pdCategory){
-	  str='';
-	  if(product.pd_pc_num == pdCategory.pc_num){
-		  let pd_pc_name = pdCategory.pc_category
-		  $('.search-text').hide();
-		  str +=
-			'<tr class="select_product">'+
-				'<td>'+product.pd_title+'</td>'+
-				'<td>'+product.pd_content+'</td>'+
-				'<input type="hidden" class="pd_address" value="' + product.pd_street_address + '">' +
-				'<td class="find_pdNum" style="display:none;">'+product.pd_num+'</td>'+
-			'</tr>'
-	  }
+	// 검색결과 초기화
+	$('.productList').html('');
+	// 검색창 초기화
+	$('.product-search').val('');
+	// 검색어를 입력하세요. 안내 문구 표시
+	$('.search-text').show();
+
+	  
+	str='';
+	if(product.pd_pc_num == pdCategory.pc_num){
+		let pd_pc_name = pdCategory.pc_category
+		$('.search-text').hide();
+		str +=
+		'<tr class="select_product">'+
+			'<td>'+product.pd_title+'</td>'+
+			'<td>'+product.pd_content+'</td>'+
+			'<input type="hidden" class="pd_address" value="' + product.pd_street_address + '">' +
+			'<td class="find_pdNum" style="display:none;">'+product.pd_num+'</td>'+
+		'</tr>'
+	}
 	return str;
 }; 
 
@@ -515,45 +525,82 @@ $(document).on('click','.select_product',function() {
     });
 }); 
 
+
+
+
 //각각의 메뉴를 클릭했을 때 해당 카테고리에 맞는 상품 목록 출력
 $(document).on('click','.menu-li', function() {
-  // 클릭한 메뉴의 pc_num 값을 가져옴
-  var pcNum = $(this).data('pd-pc-num');
-  console.log(pcNum);
-  // 해당 카테고리에 맞는 상품 목록 출력
-  printProductList(pcNum);
+	$('.search-text').val(''); 
+	$('.product-list').empty(); // 기존 상품 목록 삭제
+	$('.search-text').css('display', 'none');
+	// 클릭한 메뉴의 pc_num 값을 가져옴
+	var pcNum = $(this).data('num');
+	// 해당 카테고리에 맞는 상품 목록 출력
+	getProductList(pcNum);
 });
 
-// 해당 카테고리에 맞는 상품 목록 출력하는 함수
-function printProductList(pcNum) {
-	// 상품 목록을 출력하는 코드
-	// 각각의 상품을 출력할 때 pd_pc_num 값을 확인하여 해당 카테고리에 맞는 상품만 출력하도록 설정
+
+function getProductList(pcNum) {
+	console.log(generateProductTable(pcNum));
+	console.log(typeof(pcNum));
+	ajaxPost(pcNum, '<c:url value="/map/selectProduct"></c:url>', function(data) {
+		console.log(data);
+		var productTable = generateProductTable(data.plist);
+		$('.product-table').html(productTable);
+	});
+
+}
+
+
+function generateProductTable(productList) {
+	var str = '';
 	for (var i = 0; i < productList.length; i++) {
-		if (productList[i].pd_pc_num == pcNum) {
-			// 해당 카테고리에 맞는 상품 출력
-			var productTable = generateProductTable(pcNum);
-			$('.product_table').html(productTable);
-			//ajax로 추가하기
+		
+		var product = productList[i];
+		var pdCategory = getCategory(product.pd_pc_num);
+		str +=
+			'<tr class="select_product">'+
+				'<td>'+product.pd_title+'</td>'+
+				'<td>'+product.pd_content+'</td>'+
+				'<input type="hidden" class="pd_address" value="' + product.pd_address + '">' +
+				'<td class="find_pdNum" style="display:none;">'+product.pd_num+'</td>'+
+			'</tr>';
+		
+	}
+	return str;
+}
+
+
+
+function getCategory(pcNum) {
+	for (var i = 0; i < categoryList.length; i++) {
+		if (categoryList[i].pc_num == pcNum) {
+			return categoryList[i].pcCategory;
 		}
 	}
 }
 
-function generateProductTable(pcNum) {
-	var str = '';
-	for (var i = 0; i < productList.length; i++) {
-		if (productList[i].pd_pc_num == pcNum) {
-			var product = productList[i];
-			var pdCategory = getCategory(product.pd_pc_num);
-			str +=
-				'<tr class="select_product">'+
-					'<td>'+product.pd_title+'</td>'+
-					'<td>'+product.pd_content+'</td>'+
-					'<input type="hidden" class="pd_address" value="' + product.pd_street_address + '">' +
-					'<td class="find_pdNum" style="display:none;">'+product.pd_num+'</td>'+
-				'</tr>';
-		}
-	}
-};
+
+var productList = [];
+<c:forEach items="${plist}" var="item">
+	var obj = {
+			pd_pc_num: "${item.pd_pc_num}",
+			pdNum : "${item.pd_num}",
+			title : "${item.pd_title}",
+			content : "${item.pd_content}",
+			address : "${item.pd_street_address}"
+	};
+	productList.push(obj);
+</c:forEach>
+
+var categoryList = [];
+<c:forEach items="${clist}" var="item">
+	var obj = {
+		pcNum: "${item.pc_num}",
+		pcCategory: "${item.pc_category}"
+	};
+	categoryList.push(obj);
+</c:forEach>  	
 
 function ajaxPost(obj, url, successFunction){
 	$.ajax({
@@ -566,6 +613,5 @@ function ajaxPost(obj, url, successFunction){
 		success : successFunction
 	});
 }
-
 
 </script>

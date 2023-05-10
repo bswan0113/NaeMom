@@ -22,7 +22,10 @@ public interface MapDAO {
 
 	ArrayList<ProductCategoryVO> selectProductCategory();
 
-	ProductVO selectProductNum(@Param("pd_num")int pd_num);
+	ArrayList<ProductVO> selectProductNum(@Param("pd_num")int pd_num);
 
 	FileVO selectProductImg(@Param("pd_num")int pd_num, @Param("fi_category")String fi_category, @Param("fi_table")String fi_table);
+
+	ArrayList<ProductVO> selectSearchProductAddress(ProductVO product);
+
 }

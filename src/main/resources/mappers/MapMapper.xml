@@ -24,16 +24,22 @@
   		select * from product where pd_title like concat('%',#{product.pd_title},'%')
   	</select>
   	
+  	<select id="selectSearchProductAddress" resultType="kr.dbp.naemom.vo.ProductVO">
+  		select * from product where pd_street_address like concat('%',#{product.pd_street_address},'%')
+  	</select>
+  	
+  	
   	<select id="selectProductCategory" resultType="kr.dbp.naemom.vo.ProductCategoryVO">
   		select * from product_category
   	</select>
   	
   	<select id="selectProductNum" resultType="kr.dbp.naemom.vo.ProductVO">
-  		select * from product where pd_num = #{pd_num}
+  		select * from product where pd_pc_num = #{pd_num}
   	</select>
   	
   	<select id="selectProductImg" resultType="kr.dbp.naemom.vo.FileVO">
   		select * from file where fi_table_key = #{pd_num} and fi_category like concat('%',#{fi_category},'%') 
   			and fi_table = #{fi_table}
   	</select>
+  	
 </mapper>

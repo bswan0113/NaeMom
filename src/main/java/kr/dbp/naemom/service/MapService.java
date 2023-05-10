@@ -21,8 +21,10 @@ public interface MapService {
 
 	ArrayList<ProductCategoryVO> getProductCategory();
 
-	ProductVO getSelectProduct(int pd_num);
+	ArrayList<ProductVO> getSelectProduct(int pd_num);
 
 	FileVO getProductImg(int pd_num);
+
+	ArrayList<ProductVO> getSearchProductAddress(ProductVO product);
 
 }
