@@ -66,6 +66,7 @@ bin
 .settings
 .springBeans
 */src/main/java/META-INF/MANIFEST.MF
+*/src/main/java/kr/dbp/naemom/utils/ApiKey.java
 
 # IDEA artifacts and output dirs
 *.iml
