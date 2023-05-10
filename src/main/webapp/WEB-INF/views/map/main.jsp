@@ -289,7 +289,7 @@ body {
 <div id="map" style="float: right"></div>
 
 <script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7d3f638bdeedf08d5afccc6accd5e919&libraries=services"></script>
+	src=""></script>
 <script>
 var container = document.getElementById('map');
 
