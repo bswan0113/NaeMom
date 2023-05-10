@@ -4,9 +4,10 @@
     <title>임시 상세페이지 입니다.</title>
 <div class="container-fluid">
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9be9206bb3b872d93650ec99d8194ab4&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${apikey}&libraries=services,clusterer,drawing"></script>
 <h1 style="text-align: center; font-weight:bold">${product.pd_title}</h1><br>
 <h3 style="text-align: center;">${product.pd_subtitle}</h3>
+
 
 <div style="float: right;" class="service-box">
 	

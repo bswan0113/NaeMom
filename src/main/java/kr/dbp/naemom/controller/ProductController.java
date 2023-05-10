@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.ProductService;
+import kr.dbp.naemom.utils.ApiKey;
 import kr.dbp.naemom.utils.MessageUtils;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
@@ -185,6 +186,7 @@ public class ProductController {
 		        option.set(i, optReo);
 		    }
 		}
+		mv.addObject("apikey", new ApiKey().getKakaoGunwo());
 		mv.addObject("hash", getHashtag(pd_num));
 		mv.addObject("user", user);
 		mv.addObject("option",option);
