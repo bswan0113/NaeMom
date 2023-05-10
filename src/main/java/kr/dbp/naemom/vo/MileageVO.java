@@ -19,7 +19,7 @@ public class MileageVO {
 	Date mi_date;
 	int mi_update;
 	String mi_me_id;
-	int mi_bl_num;
+	String mi_bl_num;
 	
 	public String getMi_date_str() {
 		SimpleDateFormat format = 

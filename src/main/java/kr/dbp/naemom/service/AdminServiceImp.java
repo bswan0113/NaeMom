@@ -264,6 +264,21 @@ public class AdminServiceImp implements AdminService{
 		return visit == null;
 
 	}
+
+	@Override
+	public String getAttendance(String me_id) {
+		return adminDao.getAttendance(me_id);
+	}
+
+	@Override
+	public void insertAttendance(String me_id) {
+		adminDao.insetAttendance(me_id);
+	}
+
+	@Override
+	public boolean insertAtMile(String me_id) {
+		return adminDao.insertAtMile(me_id);
+	}
 	
 	
 }

@@ -2,9 +2,18 @@ package kr.dbp.naemom.controller;
 
 
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -15,10 +24,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import java.net.URLEncoder;
 
 import kr.dbp.naemom.service.HomeService;
+import kr.dbp.naemom.utils.ApiKey;
 import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
@@ -138,6 +151,56 @@ public class HomeController {
 		mv.setViewName("redirect:/");
 		return mv;
 	}
+	
+	@RequestMapping(value = "/gpt/ask", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> askgpt(@RequestParam("ask") String ask) {
+	    Map<String, Object> map = new HashMap<String, Object>();
+	    String apiUrl = "https://api.openai.com/v1/completions";
+	    String apiKey = new ApiKey().getGpt();
+	    String prompt = ask;
+
+	    try {
+	        URL url = new URL(apiUrl);
+	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	        conn.setDoOutput(true);
+	        conn.setRequestMethod("POST");
+	        conn.setRequestProperty("Authorization", "Bearer " + apiKey);
+	        conn.setRequestProperty("Content-Type", "application/json");
+
+	        String postData = "{ \"prompt\": \"" + URLEncoder.encode(prompt, "UTF-8") + "\", \"max_tokens\": 100 }";
+	        byte[] postDataBytes = postData.getBytes(StandardCharsets.UTF_8);
+
+	        DataOutputStream outputStream = new DataOutputStream(conn.getOutputStream());
+	        outputStream.write(postDataBytes);
+	        outputStream.flush();
+	        outputStream.close();
+
+	        if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
+	            BufferedReader responseReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	            String line;
+	            StringBuilder response = new StringBuilder();
+	            while ((line = responseReader.readLine()) != null) {
+	                response.append(line);
+	            }
+	            responseReader.close();
+
+	            System.out.println(response.toString());
+
+	            // 응답을 파싱하여 필요한 정보를 map에 추가
+	            // 예: map.put("response", response.toString());
+	            map.put("api", response.toString());
+	        } else {
+	        }
+
+	        conn.disconnect();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+
+	    return map;
+	}
+
 
 
 }

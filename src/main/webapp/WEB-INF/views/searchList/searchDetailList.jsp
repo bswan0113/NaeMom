@@ -9,6 +9,10 @@
   padding: 20px;
 }
 
+p{
+margin-bottom:0;
+}
+
 .detail-search-window-box form {
   display: flex;
   justify-content: center;

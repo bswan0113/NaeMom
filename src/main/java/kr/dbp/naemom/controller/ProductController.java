@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.ProductService;
+import kr.dbp.naemom.utils.ApiKey;
 import kr.dbp.naemom.utils.MessageUtils;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
@@ -147,7 +148,6 @@ public class ProductController {
 		Cookie[] cookies = request.getCookies();
 		Cookie abuseCheck = null;
 		ArrayList<String> check = new ArrayList<String>();
-		
 		if (cookies != null && cookies.length > 0){
 			for(int i=0; i<cookies.length; i++) {
 				check.add(cookies[i].getName());
@@ -157,6 +157,7 @@ public class ProductController {
             		abuseCheck= new Cookie("viewcount"+pd_num+cookies[i].getValue(), session.getId());
             		abuseCheck.setMaxAge(60 * 60 * 24);
             		response.addCookie(abuseCheck);
+            		break;
             	}
             	
             }
@@ -185,6 +186,7 @@ public class ProductController {
 		        option.set(i, optReo);
 		    }
 		}
+		mv.addObject("apikey", new ApiKey().getKakaoGunwo());
 		mv.addObject("hash", getHashtag(pd_num));
 		mv.addObject("user", user);
 		mv.addObject("option",option);

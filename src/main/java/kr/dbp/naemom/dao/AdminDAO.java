@@ -107,6 +107,12 @@ public interface AdminDAO {
 
 	VisitedVO getVisit(@Param("id")String id);
 
+	String getAttendance(@Param("id")String me_id);
+
+	void insetAttendance(@Param("id")String me_id);
+
+	boolean insertAtMile(@Param("id")String me_id);
+
 
 
 
