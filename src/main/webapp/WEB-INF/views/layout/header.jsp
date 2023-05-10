@@ -93,6 +93,7 @@
 					<span class="text-quick">마이페이지</span>
 					</a>
 				</div>
+				<a href="<c:url value='/note/noteList'></c:url>">쪽지함</a>
 			</div>
 			<div class="main-menu-box">
 				<nav class="list-menu">

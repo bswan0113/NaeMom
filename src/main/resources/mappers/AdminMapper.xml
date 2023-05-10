@@ -198,7 +198,7 @@
 	</update>
 	
 	<select id="getAttendance" resultType="String">
-		select ad_me_id from attendance where ad_me_id =#{id}
+		select ad_me_id from attendance where ad_me_id = #{id} and DATE(ad_date) = CURDATE();
 	</select>
 	
 	<insert id="insetAttendance">
