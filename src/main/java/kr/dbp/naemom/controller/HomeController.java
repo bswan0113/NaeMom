@@ -2,7 +2,6 @@ package kr.dbp.naemom.controller;
 
 
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,14 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,12 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import kr.dbp.naemom.service.HomeService;
-import kr.dbp.naemom.utils.ApiKey;
+import kr.dbp.naemom.utils.UseGPT;
 import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
@@ -157,34 +144,9 @@ public class HomeController {
 	
 	@RequestMapping(value = "/gpt/ask", method = RequestMethod.POST)
 	@ResponseBody
-	public String askGpt(@RequestParam("ask") String ask) {
-	    String apiKey = new ApiKey().getGpt();
-	    String result ="";
-	 
-	            try {
-	                HttpClient httpClient = HttpClients.createDefault();
-	                HttpPost request = new HttpPost("https://api.openai.com/v1/completions");
-	                request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey);
-	                request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
-
-	                String requestBody = "{\"prompt\": \"" + ask + "\", \"max_tokens\": 50, \"model\": \"text-davinci-003\"}";
-	                request.setEntity(new StringEntity(requestBody, "UTF-8"));
-
-	                HttpResponse response = httpClient.execute(request);
-	                HttpEntity responseEntity = response.getEntity();
-
-
-	                String jsonResponse= EntityUtils.toString(responseEntity, "UTF-8");
-	                JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
-	                JsonArray choicesArray = jsonObject.get("choices").getAsJsonArray();
-	                JsonObject firstChoiceObject = choicesArray.get(0).getAsJsonObject();
-	                result += firstChoiceObject.get("text").getAsString();
-	                System.out.println(result);
-	                return result;
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	                return null;
-	    }
+	public String askGpt(@RequestParam("ask") String ask, HttpSession session) {
+		MemberVO user =(MemberVO)session.getAttribute("user");
+	    return UseGPT.getAnswer(ask,user);
 	}
 	
 	

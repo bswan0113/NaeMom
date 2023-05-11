@@ -77,7 +77,7 @@
 		
 		    <!-- Modal body -->
 		    <div class="modal-body">
-		    	<input id="slice-count"type="number" class="form-control" min="2" max="30" value="5">
+		    	<input id="slice-count"type="number" class="form-control" min="2" max="10" value="5">
 		    	<canvas width="400" height='400' id="roulette"></canvas>
 		    	<button class="btn btn-success go-spin">돌리기!</button>
 		    	<button class="btn btn-success fill-roulette">추천상품으로 채우기</button>
@@ -114,47 +114,73 @@ $(document).ready(function() {
 		})
 	})
     let ctx = $('#roulette')[0].getContext("2d");
+	let angle = 0;
+	let spinSpeed = 0.05; // 회전 속도
+	let spin;
 
-	
+	function spinRoulette() {
+		let sliceCount=$('#slice-count').val();
+	  angle += spinSpeed;
+	  if (angle > Math.PI * 2) {
+	    angle = angle - Math.PI * 2;
+	  }
+
+	  ctx.save(); // 기존 상태를 저장
+	  ctx.clearRect(0, 0, ctx.width, ctx.height);
+	  ctx.translate(ctx.width / 2, ctx.height / 2); // 중심점 이동
+	  ctx.rotate(angle); // 각도만큼 회전
+
+	  // 여기서 다시 룰렛을 그립니다. drawRoulette() 함수를 약간 수정할 필요가 있을 수 있습니다.
+	  drawRoulette(sliceCount);
+
+	  ctx.restore(); // 원래 상태를 복구
+
+	  spin = requestAnimationFrame(spinRoulette); // 다음 프레임에서 이 함수를 다시 실행
+	}
+
+	$('.go-spin').click(function() {
+	  // 애니메이션 시작
+	  spin = requestAnimationFrame(spinRoulette);
+	});
+
     drawRoulette(5);
     $('#slice-count').change(function() {
     	drawRoulette($(this).val());
     	});
     
     function drawRoulette(sliceCount,product) {
-    	  let angleIncrement = (2 * Math.PI) / sliceCount;
-    	  let startAngle = 0;
-    	  let endAngle = angleIncrement;
-    	  let arc = Math.PI / (sliceCount / 2);
+    	if(sliceCount>10){
+    		alert('10개까지만 선택이 가능해요!');
+    		return;
+    	}
+        let angleIncrement = (2 * Math.PI) / sliceCount;
+        let startAngle = 0;
+        let endAngle = angleIncrement;
+        let arc = Math.PI / (sliceCount / 2);
+        
+        // 10가지 색상을 배열에 저장합니다.
+        let colors = ["#FF0000", "#FF7F00", "#FFFF00", "#00FF00", "#0000FF", "#4B0082", "#8B00FF", "#FF1493", "#1E90FF", "#3CB371"];
+        
+        for (let i = 0; i < sliceCount; i++) {
+            ctx.beginPath();
+            ctx.moveTo(225, 200);
+            ctx.arc(225, 200, 170, startAngle, endAngle);
+            ctx.lineTo(225, 200);
+            ctx.strokeStyle = "#ccc"; // 테두리 색상 설정
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // i에 10을 나눈 나머지를 인덱스로 사용하여 색상을 선택하고 설정합니다.
+            ctx.fillStyle = colors[i % 10];
+            ctx.fill();
+            ctx.closePath();
 
-    	  for (let i = 0; i < sliceCount; i++) {
-    	    ctx.beginPath();
-    	    ctx.moveTo(225, 200);
-    	    ctx.arc(225, 200, 170, startAngle, endAngle);
-    	    ctx.lineTo(225, 200);
-      	  	ctx.strokeStyle = "#ccc"; // 테두리 색상 설정
-    	  	ctx.lineWidth = 2;
-      	  	ctx.stroke();
-
-    	    // 랜덤한 색상 생성
-    	    let randomColor = getRandomColor();
-    	    ctx.fillStyle = randomColor;
-    	    ctx.fill();
-    	    ctx.closePath();
-
-    	    startAngle += angleIncrement;
-    	    endAngle += angleIncrement;
-    	  }
+            startAngle += angleIncrement;
+            endAngle += angleIncrement;
+        }
     }
 
-    	function getRandomColor() {
-    	  const letters = "0123456789ABCDEF";
-    	  let color = "#";
-    	  for (let i = 0; i < 6; i++) {
-    	    color += letters[Math.floor(Math.random() * 16)];
-    	  }
-    	  return color;
-    	}
+
   });
 
 </script>
