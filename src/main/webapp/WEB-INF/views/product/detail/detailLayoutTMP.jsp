@@ -558,6 +558,10 @@ $(document).on("submit","#reserve-form",function(e){
 })
 
 $(document).on("click",".like-btns",function(){
+	if("${user.me_id}" == ''){
+		alert("로그인해주세요!");
+		return;
+	}
 	let li_re_num = $(this).parents('.review-comment-container').data('num');
 	let li_updown= $(this).data('like');
 	let li_table="review";
@@ -818,6 +822,7 @@ function selectLike(review){
 	let likeInt=0;
 	ajaxPost(false,review,'<c:url value="/view/userLike"></c:url>',function(data){
 		likeInt=data.like;
+		
 	});
 	return likeInt;
 }
@@ -926,6 +931,7 @@ $('#report-modal').click(function(){
 				}
 			
 			})
+			location.reload();
 		}
 		if(table=="review_comment"){
 			ajaxPost(true,report,'<c:url value="/comment/report"></c:url>', function(data){
@@ -934,28 +940,43 @@ $('#report-modal').click(function(){
 					$('#report-modal').data('num','');
 					$('#report-modal').data('table','');
 				}
+				location.reload();
 				
 			})
 		}
 	});
 
-
-$(document).on("click","#rc-report-btn",function(){
-	if('${user.me_id}' == ''){
+function a(){
+	$("#rc-report-btn").off('click')
+	$("#rc-report-btn").click(function(){
 		
-		alert('로그인 하세요.');
-	}
-	$('#report-modal').data('num', $(this).data('num'));
-	$('#report-modal').data("table", "review_comment");
-})
+		if('${user.me_id}' == ''){
+			console.log($(this).data("target"))
+			$(this).data("target","");
+			console.log($(this).data("target"))
+			alert('로그인 하세요.');
+			return false;
+		}else{
+			
+			$(this).data("target","#myModal");
+			$('#report-modal').data('num', $(this).data('num'));
+			$('#report-modal').data("table", "review_comment");
+		}
+	});
 	
-$('.report-btn').click(function(){
+}
+	
+$('.report-btn').click(function(e){
+	e.preventDefault();
 	if('${user.me_id}' == ''){
-		
+		$(this).data("target","");
 		alert('로그인 하세요.');
+		return false;
+	}else{
+		$(this).data("target","#myModal");
+		$('#report-modal').data('num', $(this).data('num'));
+		$('#report-modal').data("table", "review");
 	}
-	$('#report-modal').data('num', $(this).data('num'));
-	$('#report-modal').data("table", "review");
 })
 
 
@@ -963,6 +984,7 @@ $('.rc-insert').click(function(){
 	if('${user.me_id}' == ''){
 		
 		alert('로그인 하세요.');
+		return;
 	}
 	let rc_content=$(this).prev().val();
 	let rc_num=$(this).data('num');
@@ -986,6 +1008,7 @@ $(document).on("click","#rc-delete-btn",function(){
 	if('${user.me_id}' == ''){
 		
 		alert('로그인 하세요.');
+		return;
 	}
 	let rc_num = $(this).data('num');
 	let rc_re_num = $(this).parent().parent().data('num');
@@ -1002,6 +1025,7 @@ $(document).on("click","#rc-delete-btn",function(){
 			alert('삭제실패했어요!');
 			return;
 		}
+		location.reload();
 		
 	})
 
@@ -1053,7 +1077,7 @@ function addRCList(rCList){
 			str += createRComment(rCList[i]);
 		}
 		$('.re-comment-list').html(str);
-		
+		a();
 }		
 
 function createRComment(rComment){
@@ -1105,6 +1129,7 @@ function addRCPagination(rCPm){
 function listSuccess(data){
 	addReviewList(data.list, data.reFile);
 	addPagination(data.pm);
+
 }
 	
 function selectReviewList(cri){
@@ -1136,7 +1161,7 @@ $('.review-delete-btn').click(function(){
 			}else{
 				alert('댓글 삭제 실패!');
 			}
-			
+			location.reload();
 		} )
 		
 	}

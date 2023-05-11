@@ -44,7 +44,7 @@ public class HomeController {
 	
 	@Autowired
 	HomeService homeService;
-
+	
 	
 	@RequestMapping(value = "/")
 	public ModelAndView home(ModelAndView mv,HttpServletRequest request, HttpServletResponse response, HttpSession session) {
@@ -199,6 +199,13 @@ public class HomeController {
 	    }
 
 	    return map;
+	}
+	
+	@RequestMapping(value = "/fill-roulette", method = RequestMethod.GET)
+	@ResponseBody
+	public ArrayList<ProductVO> fillRoulette() {
+		ArrayList<ProductVO> list = homeService.getProductListByScore();
+		return list;
 	}
 
 

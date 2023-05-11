@@ -225,14 +225,7 @@ $(document).on("click","#files-save-btn",function(){
 		        data : formData,		          
 		        type: "POST",
 		        success : function(data){
-		            if(data.res) {
-		            	alert('변경성공!');
-		            	location.reload();
-		            }
-		            else{
-		            	alert('변경 실패!');
-		            	location.reload();
-		            }
+		           location.reload();
 		        }
 		    });
 });

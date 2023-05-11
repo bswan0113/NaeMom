@@ -115,7 +115,9 @@
 </ul>
     <button data-toggle="modal" data-target="#myModal" class="btn btn-success btn-update">프로필 편집하기</button>
     <div id="note-box">
-    	<div class="send-count">${user.unreadMail}</div>
+    	<c:if test="${user.unreadMail>0}">
+    		<div class="send-count">${user.unreadMail}</div>
+    	</c:if>
 	    <a href="<c:url value='/note/noteList'></c:url>"><i class="fas fa-envelope"></i>쪽지함</a>
     </div>
 <!-- 신고 모달 -->

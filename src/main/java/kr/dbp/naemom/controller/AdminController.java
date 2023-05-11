@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import kr.dbp.naemom.bootpay.request.Cancel;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.AdminService;
+import kr.dbp.naemom.utils.MessageUtils;
 import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
@@ -99,7 +103,13 @@ public class AdminController {
 	
 
 	@RequestMapping(value = "/mypage/profile/{me_id}", method = RequestMethod.GET)
-	public ModelAndView adminIntoUserPage(ModelAndView mv,	@PathVariable("me_id")String me_id) {
+	public ModelAndView adminIntoUserPage(ModelAndView mv,	@PathVariable("me_id")String me_id,HttpSession session, HttpServletResponse response) {
+		MemberVO auth =(MemberVO)session.getAttribute("user");
+		if(auth.getMe_authority()<10) {
+			MessageUtils.alertAndMovePage(response, 
+					"권한이 없습니다!", 
+					"/naemom", "");
+		}
 		MemberVO user = adminService.getUserInfo(me_id);
 		mv.addObject("user",user);
 		mv.setViewName("/mypage/profile");
