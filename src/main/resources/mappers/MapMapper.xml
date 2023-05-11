@@ -9,7 +9,7 @@
   	</select>
   	
   	<select id="getFileList" resultType="kr.dbp.naemom.vo.FileVO">
-  		select * from file join file_checked on fc_fi_num = fi_num;
+  		select * from file
   	</select>
   	
   	<select id="getFile" resultType="kr.dbp.naemom.vo.FileVO">
@@ -21,12 +21,10 @@
 	</select>
   	
   	<select id="selectSearchProduct" resultType="kr.dbp.naemom.vo.ProductVO">
-  		select * from product where pd_title like concat('%',#{product.pd_title},'%')
-  	</select>
-  	
-  	<select id="selectSearchProductAddress" resultType="kr.dbp.naemom.vo.ProductVO">
-  		select * from product where pd_street_address like concat('%',#{product.pd_street_address},'%')
-  	</select>
+  		SELECT * FROM product
+  		LEFT JOIN product_checked ON pdc_pd_num = pd_num
+  		WHERE pd_title LIKE CONCAT('%', #{product.pd_title}, '%') OR pd_street_address LIKE CONCAT('%', #{product.pd_street_address}, '%')
+	</select>
   	
   	
   	<select id="selectProductCategory" resultType="kr.dbp.naemom.vo.ProductCategoryVO">

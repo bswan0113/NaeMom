@@ -289,7 +289,7 @@ body {
 <div id="map" style="float: right"></div>
 
 <script type="text/javascript"
-	src=""></script>
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7d3f638bdeedf08d5afccc6accd5e919&libraries=services"></script>
 <script>
 var container = document.getElementById('map');
 
@@ -323,6 +323,18 @@ var positions = [];
 	}
 	positions.push(obj);
 </c:forEach>
+
+var files = [];
+<c:forEach items="${files}" var="fi">
+	var obj = {
+			fiNum : "${fi.fi_num}",
+			fiName : "${fi.fi_name}",
+			fiTable : "${fi.fi_table}",
+			fiTableKey : "${fi.fi_table_key}"
+	}
+	files.push(obj);
+</c:forEach>
+
 
 positions.forEach(function(position, index) {
   var title = position.title;
@@ -370,10 +382,11 @@ positions.forEach(function(position, index) {
     var bodyDiv = document.createElement('div');
     bodyDiv.classList.add('body');
 
+    var imgSrc = '<c:url value="/download' + files[index].fiName + '"></c:url>';
     var imgDiv = document.createElement('div');
     imgDiv.classList.add('img');
     var img = document.createElement('img');
-    img.setAttribute('src', '<c:url value=""></c:url>');
+    img.setAttribute('src', imgSrc);
     img.setAttribute('width', '73');
     img.setAttribute('height', '70');
     imgDiv.appendChild(img);
@@ -453,13 +466,13 @@ $('.btn-search').click(function(){
 	  
 	  let product = {
 			  pd_title : product_search,
-			  pd_street_address : product_search
+			  pd_street_address: product_search
 	  }
 	 	console.log(product);
 	  ajaxPost(product, '<c:url value="/map/searchProduct"></c:url>', searchSuccess);
 	  
 	  
-})
+});
 
 function searchSuccess(data,e){
 	console.log(data);
@@ -478,12 +491,17 @@ function searchSuccess(data,e){
 	  $('.search-text').hide();
 	  $('.product-table').html(str);
 	  $('.product-table').show();
-	  $('.select-product').click(function(){
-		  let pd_nums = $(this).find('.find_pdNum').text(); 
+	  /* $('.select_product').click(function(){
+	  	  let pd_nums = $(this).find('.find_pdNum').text(); 
 		  ajaxPost(products, '<c:url value="/map/selectProduct"></c:url>', searchProductTable);
-	  })
+	  }) */
+	 
 	  
 }
+/* $(document).on('click','.select_product', function(){
+	let pd_nums = $(this).find('.find_pdNum').text(); 
+	  ajaxPost(products, '<c:url value="/map/selectProduct"></c:url>', searchProductTable);
+}) */
 
 
 function searchProductTable(product,pdCategory){
@@ -541,10 +559,7 @@ $(document).on('click','.menu-li', function() {
 
 
 function getProductList(pcNum) {
-	console.log(generateProductTable(pcNum));
-	console.log(typeof(pcNum));
 	ajaxPost(pcNum, '<c:url value="/map/selectProduct"></c:url>', function(data) {
-		console.log(data);
 		var productTable = generateProductTable(data.plist);
 		$('.product-table').html(productTable);
 	});
@@ -562,7 +577,7 @@ function generateProductTable(productList) {
 			'<tr class="select_product">'+
 				'<td>'+product.pd_title+'</td>'+
 				'<td>'+product.pd_content+'</td>'+
-				'<input type="hidden" class="pd_address" value="' + product.pd_address + '">' +
+				'<input type="hidden" class="pd_address" value="' + product.pd_street_address + '">' +
 				'<td class="find_pdNum" style="display:none;">'+product.pd_num+'</td>'+
 			'</tr>';
 		

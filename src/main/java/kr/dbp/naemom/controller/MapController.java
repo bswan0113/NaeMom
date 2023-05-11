@@ -35,10 +35,16 @@ public class MapController {
 		ArrayList<FileVO> flist = mapService.getFileList();
 		ArrayList<FileVO> files = new ArrayList<FileVO>();
 		ArrayList<ProductCategoryVO> clist = mapService.getProductCategory();
-		for(int i = 0; i < plist.size() ; i++) {
-			plist.get(i).setFile(mapService.getFiles(plist.get(i).getPd_num()));
+
+		
+		for (int i = 0; i < flist.size(); i++) {
+		    if (flist.get(i).getFi_category().equals("게시글 썸네일")) {
+		        files.add(flist.get(i));
+		    }
 		}
+		
 		mv.addObject("clist",clist);
+		mv.addObject("flist",flist);
 		mv.addObject("files", files);
 		mv.addObject("plist", plist);
 		mv.setViewName("map/main");
@@ -58,16 +64,15 @@ public class MapController {
 	    mv.setViewName("map/main");
 	    return mv;
 	}
+	
 	@ResponseBody
 	@RequestMapping(value = "/map/searchProduct", method=RequestMethod.POST)
 	public Map<String, Object> mapSearchProduct(@RequestBody ProductVO product,HttpServletResponse response) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<ProductVO> products = mapService.getSearchProduct(product);
-//		ArrayList<ProductVO> productAddress = mapService.getSearchProductAddress(product);
 		ArrayList<ProductCategoryVO> pdCategory = mapService.getProductCategory();
 		map.put("products", products);
 		map.put("pdCategory", pdCategory);
-//		map.put("productAddress", productAddress);
 		return map;
 	}
 	
