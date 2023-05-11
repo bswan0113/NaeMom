@@ -4,7 +4,9 @@ package kr.dbp.naemom.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -144,9 +146,11 @@ public class HomeController {
 	
 	@RequestMapping(value = "/gpt/ask", method = RequestMethod.POST)
 	@ResponseBody
-	public String askGpt(@RequestParam("ask") String ask, HttpSession session) {
+	public Map<String,Object> askGpt(@RequestParam("ask") String ask, HttpSession session) {
+		Map<String,Object> map = new HashMap<String,Object>();
 		MemberVO user =(MemberVO)session.getAttribute("user");
-	    return UseGPT.getAnswer(ask,user);
+		map.put("res", UseGPT.getAnswer(ask,user));
+	    return map;
 	}
 	
 	

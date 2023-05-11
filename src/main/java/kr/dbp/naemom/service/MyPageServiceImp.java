@@ -126,8 +126,7 @@ public class MyPageServiceImp implements MyPageService{
 		if(qna==null||
 				qna.getQa_content().trim().length()<=0||
 				qna.getQa_me_id().trim().length()<=0||
-				qna.getQa_title().trim().length()<=0||
-				qna.getQa_pd_num()<=0) return false;
+				qna.getQa_title().trim().length()<=0) return false;
 		qna.setQa_state("0");
 		boolean res=myPageDao.insertQna(qna);
 		if(res)insertQnaFile(files, qna.getQa_num());

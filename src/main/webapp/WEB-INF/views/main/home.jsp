@@ -177,8 +177,8 @@ $(document).on("click", ".btn-gpt", function() {
 	    data: {
 	      ask: ask
 	    },
-	    success: function(result) {
-	    	$('.res-gpt').text(result);
+	    success: function(data) {
+	    	$('.res-gpt').text(data.res);
 	    },
 	  });
 	  
