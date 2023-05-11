@@ -107,6 +107,12 @@ public class MemberController {
 			HttpSession session,
 			HttpServletResponse response) throws IOException {
 		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('이미 로그아웃되었거나 잘못된 접근입니다.');location.href='/naemom'</script>");
+			out.flush();
+		}
 		if(user != null) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();

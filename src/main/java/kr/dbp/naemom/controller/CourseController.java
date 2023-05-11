@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.CourseService;
+import kr.dbp.naemom.utils.ApiKey;
 import kr.dbp.naemom.utils.MessageUtils;
 import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
@@ -41,6 +42,8 @@ public class CourseController {
 	@Autowired
 	CourseService courseService;
 	
+	String api = new ApiKey().getKakaoGunwo();
+	
 	@RequestMapping(value = "/course/insert", method=RequestMethod.GET)
 	public ModelAndView course(ModelAndView mv, int [] pd_num,HttpSession session,HttpServletResponse response) {
 		MemberVO user = (MemberVO)session.getAttribute("user");
@@ -48,6 +51,7 @@ public class CourseController {
 			MessageUtils.alertAndMovePage(response, 
 					"로그인하신 후 이용가능합니다.", "/naemom", "/login");
 		}
+		mv.addObject("api", api);
 		mv.addObject("pd_num", pd_num);
 		mv.setViewName("/course/insert");
 		return mv;
@@ -67,6 +71,7 @@ public class CourseController {
 			msg = "코스 등록에 성공했습니다.";
 		}
 		courseService.insertCourseItem(cos.getCo_num(),pd_num);
+		mv.addObject("api", api);
 		mv.addObject("msg",msg);
 		mv.addObject("url","/course/list");
 		mv.setViewName("/course/message");
@@ -146,6 +151,7 @@ public class CourseController {
             
         }
 		CourseVO course = courseService.getcourseByNum(co_num);
+		mv.addObject("api", api);
 		mv.addObject("user", user);
 		mv.addObject("like", likeVo);
 		mv.addObject("tags", tags);
@@ -197,6 +203,7 @@ public class CourseController {
 		ArrayList<ProductVO> prlist = new ArrayList<ProductVO>();
 		ArrayList<Hash_tagVO> tags = new ArrayList<Hash_tagVO>();
 		selectList(items,files,prlist,tags);
+		mv.addObject("api", api);
 		mv.addObject("tags", tags);
 		mv.addObject("prlist", prlist);
 		mv.addObject("course",course);

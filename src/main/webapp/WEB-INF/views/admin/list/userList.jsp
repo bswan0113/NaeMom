@@ -236,7 +236,7 @@ overflow:hidden;
 		    <!-- Modal body -->
 		    <div class="modal-body">
 		    	<select class="form-control select-boardType">
-		    		<option value="0">-카테고리 선택-</option>
+		    		<option value="0" selected>-카테고리 선택-</option>
 		    		<option value="코스">코스</option>
 		    		<option value="리뷰">리뷰</option>
 		    		<option value="댓글">댓글</option>
@@ -351,8 +351,8 @@ function getPaymentList(id, page){
                 let tr = $('<tr>');
                 let state = $('<td>').text(data.bl[i].bl_state);
                 let bl_total_price = $('<td>').text(data.bl[i].bl_total_price);
-                let bl_date = $('<td>').text(data.bl[i].bl_date_str);
-                let button = $('<a>').addClass("btn btn-success").attr("href", "<c:url value='/" + data.bl[i].bl_num + "'/>").text("결제정보");
+                let bl_date = $('<td>').text(data.bl[i].bl_date);
+                let button = $('<a>').addClass("btn btn-success").attr("href", "<c:url value='/mypage/reserveList/" + data.bl[i].bl_me_id + "'></c:url>").text("결제정보");
            		let link = $('<td>').html(button);
                 
                 tr.append(state,link,bl_total_price,bl_date);

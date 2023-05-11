@@ -39,7 +39,7 @@ public interface AdminService {
 
 	ArrayList<ReportManageVO> getReportList(String id, Criteria cri);
 
-	ArrayList<BuyListVO> getBuyList(String id, Criteria cri);
+	ArrayList<Buy_listVO> getBuyList(String id, Criteria cri);
 
 	int getReportCount(String id);
 
@@ -90,6 +90,10 @@ public interface AdminService {
 	void updateVisit(String id);
 
 	boolean getVisit(String id);
+
+	ArrayList<Buy_listVO> getAllBuyListByState(Criteria cri, String state);
+
+	int getBuyListCountByState(String state);
 
 
 

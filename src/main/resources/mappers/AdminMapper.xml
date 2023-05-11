@@ -51,7 +51,7 @@
 		update member set me_authority = #{me.me_authority} where me_id =#{me.me_id}
 	</update>
 
-	<select id="getBuyList" resultType="kr.dbp.naemom.vo.BuyListVO">
+	<select id="getBuyList" resultType="kr.dbp.naemom.vo.Buy_listVO">
 		select * from buy_list where bl_me_id=#{id}
 			LIMIT #{cri.pageStart}, #{cri.perPageNum}
 	</select>
@@ -194,6 +194,14 @@
 	<select id="selectCountBuyList" resultType="int">
 		select count(*) from buy_list 
 	</select>
+	<select id="selectAllBuyListBystate" resultType="kr.dbp.naemom.vo.Buy_listVO">
+		select * from buy_list where bl_state = #{state}
+		 	order by bl_num desc
+			LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	<select id="selectCountBuyListBystate" resultType="int">
+		select count(*) from buy_list where bl_state = #{state}
+	</select>
 	<select id="selectBuyListByNum" resultType="kr.dbp.naemom.vo.Buy_listVO">
 		select * from buy_list where bl_num = #{bl_num}
 	</select>
@@ -212,7 +220,7 @@
 	<select id="selectMileage" resultType="kr.dbp.naemom.vo.MileageVO">
 		select * from mileage where mi_bl_num = #{bl_num}
 	</select>
-	<update id="updateMemberByMile">
+	<update id="updateMember">
 		update member set me_mileage = me_mileage - #{mi.mi_update} where me_id = #{mi.mi_me_id}
 	</update>
 	<delete id="deleteMileage">

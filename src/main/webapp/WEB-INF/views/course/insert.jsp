@@ -10,8 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="<c:url value='/resources/css/bootstrap.min.css'></c:url>">
   <link rel="stylesheet" href="<c:url value='/resources/css/jquery-ui.min.css'></c:url>">
-  <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=&libraries=services"></script> -->
-  <script src="<c:url value='/resources/js/jquery.min.js'></c:url>"></script>
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${api }&libraries=services"></script>
   <script src="<c:url value='/resources/js/jquery-ui.min.js'></c:url>"></script>
   <script src="<c:url value='/resources/js/bootstrap.bundle.min.js'></c:url>"></script>
   <title>courseInsert</title>
@@ -326,13 +325,13 @@
 	      <div class="mapIntoduce">
 	        <div class="introduce_text form-group">
 	          <label class="cos-title-name mb-3">코스설명</label>
-	          <textarea name="co_content" id="text_box" maxlength="200" class="co_content" title="코스소개" placeholder="코스에 대한 설명을 작성하세요."></textarea>
+	          <textarea name="co_content" id="text_box" maxlength="200" class="co_content" title="코스소개" placeholder="코스에 대한 설명을 작성하세요." style="resize:none;"></textarea>
 	          <p class="txtNum">현재 글자수 <span class="textNum">0</span>자 / 최대 글자수 200자</p>
 	        </div>
 	      </div>
 	      <div id="map" style="width:1190px;height:400px;"></div>
 	    </div>
-	    <button class="btn btn-outline-success btn-insertCourse col-12 mt-3">게시글 작성</button>
+	    <button class="btn btn-outline-success btn-insertCourse mt-3" style="width:1190px">게시글 작성</button>
 
 	</form>
   </div>
@@ -397,7 +396,7 @@
 	        	$('.totalCourseList').text('0');
 	        	$('.cos_item_origin').show();
 	        }
-	        //reorderMap();
+	        reorderMap();
 		});
 		
 	
@@ -478,7 +477,7 @@
 		$('.cos-list').append(str);
 		$('.product_search').val('');
 		$('.search_table').hide();
-		//reorderMap()
+		reorderMap()
 		
   }
  
@@ -586,7 +585,7 @@
     	 
     	stop: function(event, ui) {
 	        reorder();
-	        //reorderMap();
+	        reorderMap();
     		let productList=new Array(10);
     		$('.cos-item').each(function(i, box) {
     				
@@ -618,7 +617,7 @@
     	
    	};
     
-	/* var mapContainer = document.getElementById('map'); 
+	 var mapContainer = document.getElementById('map'); 
 	var mapOption = { 
 	  center: new kakao.maps.LatLng(33.450701, 126.570667), 
 	  level: 8 
@@ -729,7 +728,7 @@ async function addMarkers() {
 }
 }
 
-addMarkers(); */
+addMarkers(); 
  
   </script>
 </body>

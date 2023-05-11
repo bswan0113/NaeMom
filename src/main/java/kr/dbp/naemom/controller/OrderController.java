@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.bootpay.Bootpay;
 import kr.dbp.naemom.service.OrderService;
+import kr.dbp.naemom.utils.ApiKey;
 import kr.dbp.naemom.utils.MessageUtils;
 import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.FileVO;
@@ -46,6 +47,8 @@ public class OrderController {
 	
 	@Autowired
 	OrderService orderService;
+	
+	String api = new ApiKey().getBootpayKim();
 	
 	@RequestMapping(value = "/option/opList", method=RequestMethod.GET)
 	public ModelAndView opList(ModelAndView mv,HttpSession session,HttpServletResponse response) {
@@ -231,7 +234,8 @@ public class OrderController {
 	public String bootpay_confirm(Model mv, @RequestBody PayDTO dto) {
 		String success = "";
 		try {
-			Bootpay bootpay = new Bootpay("64424e90922c3400236cdc6d", "+4cFoL6IJOcQzITCJ7LRLZMGM/fiymQiTGLgc/AfIJ8=");
+			System.out.println(api);
+			Bootpay bootpay = new Bootpay("64424e90922c3400236cdc6d", api);
 			String bootpay_check = "";
 			bootpay.getAccessToken();
 			HttpResponse res = bootpay.verify(dto.getReceipt_id());

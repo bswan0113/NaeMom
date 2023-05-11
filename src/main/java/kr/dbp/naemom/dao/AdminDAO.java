@@ -41,7 +41,7 @@ public interface AdminDAO {
 
 	int preventUser(@Param("me")MemberVO user);
 
-	ArrayList<BuyListVO> getBuyList(@Param("id")String id, @Param("cri")Criteria cri);
+	ArrayList<Buy_listVO> getBuyList(@Param("id")String id, @Param("cri")Criteria cri);
 
 	ArrayList<ReportManageVO> getReportList(@Param("id")String id, @Param("cri")Criteria cri);
 
@@ -106,6 +106,10 @@ public interface AdminDAO {
 	void updateVisit(@Param("vi_num")int i);
 
 	VisitedVO getVisit(@Param("id")String id);
+
+	ArrayList<Buy_listVO> selectAllBuyListBystate(@Param("cri")Criteria cri, @Param("state")String state);
+
+	int selectCountBuyListBystate(@Param("state")String state);
 
 
 

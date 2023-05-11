@@ -78,6 +78,8 @@ public interface MyPageService {
 
 	ArrayList<ProductVO> getRecPr(MemberVO user, int count);
 
+	int getCourseListCount(String me_id);
+
 
 
 

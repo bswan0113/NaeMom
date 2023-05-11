@@ -16,6 +16,7 @@ import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.AdminService;
 import kr.dbp.naemom.vo.BuyListVO;
+import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.ReportManageVO;
@@ -73,7 +74,7 @@ public class AdminAjaxController {
 		Criteria cri = new Criteria();   
 		int pageNum = Integer.parseInt(page);
 	    cri.setPage(pageNum);
-	    ArrayList<BuyListVO> buyList = adminService.getBuyList(id,cri);
+	    ArrayList<Buy_listVO> buyList = adminService.getBuyList(id,cri);
 
 	    int totalCount = adminService.getPaymentCount(id);
 	    PageMaker pm = new PageMaker(totalCount,5,cri);

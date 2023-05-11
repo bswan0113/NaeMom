@@ -163,9 +163,11 @@ public class MyPageController {
 				course.get(i).setFile(item.getFile());
 			}
 		}
-		
+		int totalCount = myPageService.getCourseListCount(user.getMe_id());
+		PageMaker pm = new PageMaker(totalCount, 5, cri);
 		mv.addObject("cor",course);
 		mv.addObject("user",user);
+		mv.addObject("pm", pm);
 		mv.setViewName("/mypage/courseList");
 		return mv;
 	}
@@ -173,9 +175,7 @@ public class MyPageController {
 	public ModelAndView reserveList(ModelAndView mv, HttpSession session, Criteria cri) {
 		if(cri==null) cri = new Criteria();
 		MemberVO user = (MemberVO) session.getAttribute("user");
-		//ArrayList<BuyListVO> buyList = myPageService.getBuyList(user.getMe_id(),cri);
 		ArrayList<Buy_listVO> buyList = myPageService.getBuyList(user.getMe_id(),cri);
-		System.out.println(buyList);
 		int totalCount = myPageService.getBuyListCount(user.getMe_id());
 		PageMaker pm = new PageMaker(totalCount, 5, cri);
 		mv.addObject("pm", pm);
