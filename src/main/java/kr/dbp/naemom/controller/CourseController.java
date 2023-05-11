@@ -51,6 +51,7 @@ public class CourseController {
 			MessageUtils.alertAndMovePage(response, 
 					"로그인하신 후 이용가능합니다.", "/naemom", "/login");
 		}
+		mv.addObject("api", api);
 		mv.addObject("pd_num", pd_num);
 		mv.setViewName("/course/insert");
 		return mv;

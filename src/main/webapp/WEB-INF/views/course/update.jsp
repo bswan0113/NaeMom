@@ -13,7 +13,7 @@
   <script src="<c:url value='/resources/js/jquery.min.js'></c:url>"></script>
   <script src="<c:url value='/resources/js/jquery-ui.min.js'></c:url>"></script>
   <script src="<c:url value='/resources/js/bootstrap.bundle.min.js'></c:url>"></script>
-  <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=&libraries=services"></script> -->
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${api }&libraries=services"></script>
   <title>courseUpdate</title>
   <style>
   	*{
@@ -368,13 +368,13 @@
 	      <div class="mapIntoduce">
 	        <div class="introduce_text form-group">
 	          <label class="cos-title-name mb-3">코스설명</label>
-	          <textarea name="co_content" id="text_box" maxlength="200" class="co_content" title="코스소개" placeholder="코스에 대한 설명을 작성하세요.">${course.co_content }</textarea>
+	          <textarea name="co_content" id="text_box" maxlength="200" class="co_content" title="코스소개" placeholder="코스에 대한 설명을 작성하세요." style="resize:none;">${course.co_content }</textarea>
 	          <p class="txtNum">현재 글자수 <span class="textNum">0</span>자 / 최대 글자수 200자</p>
 	        </div>
 	      </div>
 	      <div id="map" style="width:1190px;height:400px;"></div>
 	    </div>
-	    <button class="btn btn-outline-success btn-insertCourse col-12 mt-3">게시글 수정</button>
+	    <button class="btn btn-outline-success btn-insertCourse mt-3" style="width:1190px">게시글 수정</button>
 	</form>
   </div>
   <script>
@@ -431,7 +431,7 @@
         	$('.cos_item_origin').show();
         }
 	 
-		//reorderMap();
+		reorderMap();
 	});
   	
   //리스트에 추가 위한 상품검색
@@ -511,7 +511,7 @@
 		$('.cos-list').append(str);
 		$('.product_search').val('');
 		$('.search_table').hide();
-		//reorderMap();
+		reorderMap();
   }
   
   //상품리스트 저장위한 str
@@ -618,7 +618,7 @@
     	 
     	stop: function(event, ui) {
 	        reorder();
-	      	//reorderMap();
+	      	reorderMap();
     		let productList=new Array(10);
     		$('.cos-item').each(function(i, box) {
 	            let listNum = $(this).find('.numbering');
@@ -649,7 +649,7 @@
     	
    	}
   
-	/* var mapContainer = document.getElementById('map'); 
+	 var mapContainer = document.getElementById('map'); 
 var mapOption = { 
   center: new kakao.maps.LatLng(33.450701, 126.570667), 
   level: 8 
@@ -758,7 +758,7 @@ async function addMarkers() {
 }
 }
 
-addMarkers(); */
+addMarkers(); 
 
   </script>
 </body>

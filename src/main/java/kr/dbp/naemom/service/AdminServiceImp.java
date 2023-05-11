@@ -96,8 +96,8 @@ public class AdminServiceImp implements AdminService{
 	}
 
 	@Override
-	public ArrayList<BuyListVO> getBuyList(String id, Criteria cri) {
-		if(id==null||id.trim().length()<=0) return new ArrayList<BuyListVO>();
+	public ArrayList<Buy_listVO> getBuyList(String id, Criteria cri) {
+		if(id==null||id.trim().length()<=0) return new ArrayList<Buy_listVO>();
 		return adminDao.getBuyList(id, cri);
 	}
 
@@ -209,13 +209,23 @@ public class AdminServiceImp implements AdminService{
 
 	@Override
 	public ArrayList<Buy_listVO> getAllBuyList(Criteria cri) {
-		
+		//String state = "결제완료";
 		return adminDao.selectAllBuyList(cri);
 	}
 
 	@Override
 	public int getBuyListCount() {
+		//String state = "결제완료";
 		return adminDao.selectCountBuyList();
+	}
+	@Override
+	public ArrayList<Buy_listVO> getAllBuyListByState(Criteria cri,String state) {
+		return adminDao.selectAllBuyListBystate(cri,state);
+	}
+
+	@Override
+	public int getBuyListCountByState(String state) {
+		return adminDao.selectCountBuyListBystate(state);
 	}
 
 	@Override

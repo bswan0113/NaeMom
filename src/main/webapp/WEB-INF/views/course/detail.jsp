@@ -326,6 +326,12 @@
 			<label>비추천수</label>
 			<div class="form-control down_sector">${course.co_down }</div>
 		</div>
+		<c:if test="${user.me_authority == 10 }">
+			<div class="cos-type6 form-inline" style="margin-left:520px; margin-top:30px;">
+				<label>신고수</label>
+				<div class="form-control down_sector">${course.co_report }</div>
+			</div>
+		</c:if>
     </div>
 	<div style="display:flex; justify-content:center; margin-top:20px">
 		<c:if test="${like == null || like.li_updown != 1}">
@@ -410,7 +416,7 @@
 			</c:forEach>
 			<button class="btn btn-outline-success" style="width: 200px;float: left;margin-left: 10px;">옵션 선택하기</button>
 		</form>
-		<c:if test="${user != null && user.me_id == course.co_me_id }">
+		<c:if test="${(user != null && user.me_id == course.co_me_id) || user.me_authority ==10 }">
 			<a class="btn btn-outline-danger btn-updateCourse" style="width: 200px;float: left;margin-left: 10px;"
 				href="<c:url value='/course/update/${course.co_num}'></c:url>">게시글 수정</a>
 		   
@@ -422,8 +428,10 @@
   </div>
   <script>
   	if(${course.co_report} >= 10){
-  		confirm('블라인드된 게시글입니다.');
-  		location.replace('<c:url value="/course/list"></c:url>');
+  		if('${user.me_authority}'< 10){
+	  		confirm('블라인드된 게시글입니다.');
+  			location.replace('<c:url value="/course/list"></c:url>');
+  		}
   	}
   	$('.btn-up, .btn-down').click(function(){
 		if('${user.me_id}' == ''){

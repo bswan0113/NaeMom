@@ -20,10 +20,29 @@
 		  white-space: nowrap;
 		  text-overflow: ellipsis;
 		}
-	
+		.controller-box{
+			float:right; margin-bottom:30px;
+		}
+		.btn_controll{
+			font-weight:bold;
+		}
 	    </style>
 	<div class="container mt-4">
 		<h3>결제관리</h3>
+		<div class="controller-box">
+			<a href="<c:url value='/admin/list/buyCancelList'></c:url>">
+				<button class="btn_controll btn-success btn">모든 결제</button>
+			</a>
+			<a href="<c:url value='/admin/list/buyCancelList/결제완료'></c:url>">
+				<button class="btn_controll btn-success btn">결제완료</button>
+			</a>
+			<a href="<c:url value='/admin/list/buyCancelList/결제취소요청'></c:url>">
+				<button class="btn_controll btn-success btn">결제취소요청</button>
+			</a>
+			<a href="<c:url value='/admin/list/buyCancelList/결제취소'></c:url>">
+				<button class="btn_controll btn-success btn">결제취소</button>
+			</a>
+		</div>
 		<!-- 결제취소 모달 -->
 	  	<div class="modal common-modal" id="myModal" style="top:30%">
 		  	<div class="modal-dialog">

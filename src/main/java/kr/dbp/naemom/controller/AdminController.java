@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,7 @@ import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.AdminService;
 import kr.dbp.naemom.utils.ApiKey;
+import kr.dbp.naemom.utils.MessageUtils;
 import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.Hash_tagVO;
@@ -101,14 +105,41 @@ public class AdminController {
 	}
 	
 
-	@RequestMapping(value = "/mypage/profile/{me_id}", method = RequestMethod.GET)
-	public ModelAndView adminIntoUserPage(ModelAndView mv,	@PathVariable("me_id")String me_id) {
-		MemberVO user = adminService.getUserInfo(me_id);
-		mv.addObject("user",user);
-		mv.setViewName("/mypage/profile");
-		return mv;
-		
-	}
+
+   @RequestMapping(value = "/mypage/profile/{me_id}", method = RequestMethod.GET)
+   public ModelAndView adminIntoUserPage(ModelAndView mv,   @PathVariable("me_id")String me_id,HttpSession session, HttpServletResponse response) {
+      MemberVO auth =(MemberVO)session.getAttribute("user");
+      if(auth.getMe_authority()<10) {
+         MessageUtils.alertAndMovePage(response, 
+               "권한이 없습니다!", 
+               "/naemom", "");
+      }
+      MemberVO user = adminService.getUserInfo(me_id);
+      mv.addObject("user",user);
+      mv.setViewName("/mypage/profile");
+      return mv;
+      
+   }
+   @RequestMapping(value = "/mypage/reserveList/{bl_me_id}", method = RequestMethod.GET)
+   public ModelAndView adminIntoUserBuyList(ModelAndView mv,Criteria cri,   @PathVariable("bl_me_id")String bl_me_id,HttpSession session, HttpServletResponse response) {
+      MemberVO auth =(MemberVO)session.getAttribute("user");
+      if(auth.getMe_authority()<10) {
+         MessageUtils.alertAndMovePage(response, 
+               "권한이 없습니다!", 
+               "/naemom", "");
+      }
+      MemberVO user = adminService.getUserInfo(bl_me_id);
+      if(cri==null) cri = new Criteria();
+      ArrayList<Buy_listVO> buyList = adminService.getBuyList(bl_me_id, cri);
+      int totalCount = adminService.getPaymentCount(bl_me_id);
+      PageMaker pm = new PageMaker(totalCount, 5, cri);
+      mv.addObject("pm", pm);
+      mv.addObject("buyList", buyList);
+      mv.addObject("user",user);
+      mv.setViewName("/mypage/reserveList");
+      return mv;
+      
+   }
 	
 	@RequestMapping(value = "/admin/insert/hashtag/{pd_num}/{pd_title}")
 	public ModelAndView adminIntoUserPage(ModelAndView mv, @PathVariable("pd_num")int pd_num, @PathVariable("pd_title")String pd_title) {
@@ -128,6 +159,17 @@ public class AdminController {
 		if(cri==null) cri = new Criteria();
 		ArrayList<Buy_listVO> list = adminService.getAllBuyList(cri);
 		int totalCount = adminService.getBuyListCount();
+		PageMaker pm = new PageMaker(totalCount, 10, cri);
+		mv.addObject("list", list);
+		mv.addObject("pm", pm);
+		mv.setViewName("/admin/list/buyCancelList");
+		return mv;
+	}
+	@RequestMapping(value = "/admin/list/buyCancelList/{state}")
+	public ModelAndView buyCancelList(ModelAndView mv, Criteria cri, @PathVariable String state) {
+		if(cri==null) cri = new Criteria();
+		ArrayList<Buy_listVO> list = adminService.getAllBuyListByState(cri,state);
+		int totalCount = adminService.getBuyListCountByState(state);
 		PageMaker pm = new PageMaker(totalCount, 10, cri);
 		mv.addObject("list", list);
 		mv.addObject("pm", pm);

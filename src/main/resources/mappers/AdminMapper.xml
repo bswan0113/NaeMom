@@ -51,7 +51,7 @@
 		update member set me_authority = #{me.me_authority} where me_id =#{me.me_id}
 	</update>
 
-	<select id="getBuyList" resultType="kr.dbp.naemom.vo.BuyListVO">
+	<select id="getBuyList" resultType="kr.dbp.naemom.vo.Buy_listVO">
 		select * from buy_list where bl_me_id=#{id}
 			LIMIT #{cri.pageStart}, #{cri.perPageNum}
 	</select>
@@ -193,6 +193,14 @@
 	</select>
 	<select id="selectCountBuyList" resultType="int">
 		select count(*) from buy_list 
+	</select>
+	<select id="selectAllBuyListBystate" resultType="kr.dbp.naemom.vo.Buy_listVO">
+		select * from buy_list where bl_state = #{state}
+		 	order by bl_num desc
+			LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	<select id="selectCountBuyListBystate" resultType="int">
+		select count(*) from buy_list where bl_state = #{state}
 	</select>
 	<select id="selectBuyListByNum" resultType="kr.dbp.naemom.vo.Buy_listVO">
 		select * from buy_list where bl_num = #{bl_num}
