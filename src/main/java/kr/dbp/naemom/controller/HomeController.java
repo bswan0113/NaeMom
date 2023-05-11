@@ -2,25 +2,24 @@ package kr.dbp.naemom.controller;
 
 
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +28,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import kr.dbp.naemom.service.HomeService;
 import kr.dbp.naemom.utils.ApiKey;
@@ -154,52 +157,36 @@ public class HomeController {
 	
 	@RequestMapping(value = "/gpt/ask", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> askgpt(@RequestParam("ask") String ask) {
-	    Map<String, Object> map = new HashMap<String, Object>();
-	    String apiUrl = "https://api.openai.com/v1/completions";
+	public String askGpt(@RequestParam("ask") String ask) {
 	    String apiKey = new ApiKey().getGpt();
-	    String prompt = ask;
+	    String result ="";
+	 
+	            try {
+	                HttpClient httpClient = HttpClients.createDefault();
+	                HttpPost request = new HttpPost("https://api.openai.com/v1/completions");
+	                request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey);
+	                request.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
 
-	    try {
-	        URL url = new URL(apiUrl);
-	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-	        conn.setDoOutput(true);
-	        conn.setRequestMethod("POST");
-	        conn.setRequestProperty("Authorization", "Bearer " + apiKey);
-	        conn.setRequestProperty("Content-Type", "application/json");
+	                String requestBody = "{\"prompt\": \"" + ask + "\", \"max_tokens\": 50, \"model\": \"text-davinci-003\"}";
+	                request.setEntity(new StringEntity(requestBody, "UTF-8"));
 
-	        String postData = "{ \"prompt\": \"" + URLEncoder.encode(prompt, "UTF-8") + "\", \"max_tokens\": 100 }";
-	        byte[] postDataBytes = postData.getBytes(StandardCharsets.UTF_8);
+	                HttpResponse response = httpClient.execute(request);
+	                HttpEntity responseEntity = response.getEntity();
 
-	        DataOutputStream outputStream = new DataOutputStream(conn.getOutputStream());
-	        outputStream.write(postDataBytes);
-	        outputStream.flush();
-	        outputStream.close();
 
-	        if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-	            BufferedReader responseReader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-	            String line;
-	            StringBuilder response = new StringBuilder();
-	            while ((line = responseReader.readLine()) != null) {
-	                response.append(line);
-	            }
-	            responseReader.close();
-
-	            System.out.println(response.toString());
-
-	            // 응답을 파싱하여 필요한 정보를 map에 추가
-	            // 예: map.put("response", response.toString());
-	            map.put("api", response.toString());
-	        } else {
-	        }
-
-	        conn.disconnect();
-	    } catch (IOException e) {
-	        e.printStackTrace();
+	                String jsonResponse= EntityUtils.toString(responseEntity, "UTF-8");
+	                JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
+	                JsonArray choicesArray = jsonObject.get("choices").getAsJsonArray();
+	                JsonObject firstChoiceObject = choicesArray.get(0).getAsJsonObject();
+	                result += firstChoiceObject.get("text").getAsString();
+	                System.out.println(result);
+	                return result;
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	                return null;
 	    }
-
-	    return map;
 	}
+	
 	
 	@RequestMapping(value = "/fill-roulette", method = RequestMethod.GET)
 	@ResponseBody

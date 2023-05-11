@@ -145,7 +145,6 @@ public class AdminController {
 	@RequestMapping(value = "/admin/cancelBuyList", method=RequestMethod.POST)
 	public Map<String, Object> courseSearchProduct(@RequestBody PayDTO cancelItem) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		System.out.println(cancelItem.getOrder_id());
 		Buy_listVO tmp = adminService.getBuyListByNum(cancelItem.getOrder_id());
 		Cancel cancel = new Cancel();
 		cancel.receiptId = tmp.getBl_receipt_id();

@@ -11,8 +11,8 @@
 </c:if>
 <div class="form-group gpt-box">
 	<input class="form-control gpt-ask" type="search" placeholder="gpt에게 질문하세요!">
-	<button class="btn btn-success btn-gpt">질문하기</button>
-	<div class="res-gpt">
+	<button class="btn btn-success btn-gpt" style="width:100%;">질문하기</button>
+	<div class="res-gpt" style="border:2px solid white; height:88px; line-height:40px; background:#dae1e6; padding:4px;">
 	</div>
 </div>
 <div class="main-container-first">
@@ -169,8 +169,7 @@
 
 $(document).on("click", ".btn-gpt", function() {
 	  let ask = $('.gpt-ask').val();
-	  console.log(ask);
-	  
+	  $('.res-gpt').text("답변중입니다. 잠시 기다려주세요.");
 	  $.ajax({
 		aysnc:false,
 	    url: "<c:url value='/gpt/ask'></c:url>",
@@ -178,8 +177,8 @@ $(document).on("click", ".btn-gpt", function() {
 	    data: {
 	      ask: ask
 	    },
-	    success: function(data) {
-	    	console.log(data);
+	    success: function(result) {
+	    	$('.res-gpt').text(result);
 	    },
 	  });
 	  
