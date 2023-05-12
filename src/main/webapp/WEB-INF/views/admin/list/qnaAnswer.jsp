@@ -97,7 +97,8 @@ $(document).ready(function(){
 		let qna ={
 				qa_title:"${qna.qa_title}",
 				qa_qs_category:"${qna.qa_qs_category}",
-				qa_content:$('.content').text()
+				qa_content:$('.content').text(),
+				qa_pd_num:"${qna.qa_pd_num}"
 		}
 		$.ajax({
 			async:false,

@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.service.HomeService;
+import kr.dbp.naemom.utils.Fortune;
 import kr.dbp.naemom.utils.UseGPT;
 import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
@@ -154,13 +155,13 @@ public class HomeController {
 	}
 	
 	
-	@RequestMapping(value = "/fill-roulette", method = RequestMethod.GET)
+	@RequestMapping(value = "/fortune", method = RequestMethod.GET)
 	@ResponseBody
-	public ArrayList<ProductVO> fillRoulette() {
-		ArrayList<ProductVO> list = homeService.getProductListByScore();
-		return list;
+	public Map<String, String> fortune() {
+	    Map<String, String> response = new HashMap<String, String>();
+	    response.put("message", Fortune.fortune());
+	    return response;
 	}
-
 
 
 }

@@ -177,9 +177,7 @@ public class AdminAjaxController {
 	@RequestMapping(value = "/getSample", method=RequestMethod.POST)
 	public Map<String, Object> getSampleAnswer(@RequestBody qnaVO qna) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		
-		map.put("res", UseGPT.getAnswerForAdmin(qna.getQa_content()));
-
+		map.put("res", UseGPT.getAnswerForAdmin(qna));
 		return map;
 	}
 
