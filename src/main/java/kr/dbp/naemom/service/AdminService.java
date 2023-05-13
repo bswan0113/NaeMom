@@ -91,9 +91,17 @@ public interface AdminService {
 
 	boolean getVisit(String id);
 
+
 	ArrayList<Buy_listVO> getAllBuyListByState(Criteria cri, String state);
 
 	int getBuyListCountByState(String state);
+
+	String getAttendance(String me_id);
+
+	void insertAttendance(String me_id);
+
+	boolean insertAtMile(String me_id);
+
 
 
 

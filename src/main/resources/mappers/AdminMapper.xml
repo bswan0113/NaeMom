@@ -239,5 +239,16 @@
 		update visited set vi_is_member = "YES" where vi_num =#{vi_num}
 	</update>
 	
+	<select id="getAttendance" resultType="String">
+		select ad_me_id from attendance where ad_me_id = #{id} and DATE(ad_date) = CURDATE();
+	</select>
+	
+	<insert id="insetAttendance">
+		insert into attendance(ad_me_id) value(#{id})
+	</insert>
+	<insert id="insertAtMile">
+		insert into mileage(mi_update, mi_me_id) values(5, #{id})
+	</insert>
+	
 
 </mapper>

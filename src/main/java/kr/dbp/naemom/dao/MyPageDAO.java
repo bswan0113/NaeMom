@@ -79,7 +79,11 @@ public interface MyPageDAO {
 
 	ArrayList<ProductVO> getProductByuserPrefer(@Param("pd_pc_category")int table, @Param("limit_start")int count);
 
+
 	int selectCourseListCount(@Param("me_id")String me_id);
+
+	int getUnreadMailCount(@Param("id")String me_id);
+
 
 
 

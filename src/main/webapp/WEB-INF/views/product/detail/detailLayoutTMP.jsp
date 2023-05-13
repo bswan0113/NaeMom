@@ -4,9 +4,10 @@
     <title>임시 상세페이지 입니다.</title>
 <div class="container-fluid">
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9be9206bb3b872d93650ec99d8194ab4&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${apikey}&libraries=services,clusterer,drawing"></script>
 <h1 style="text-align: center; font-weight:bold">${product.pd_title}</h1><br>
 <h3 style="text-align: center;">${product.pd_subtitle}</h3>
+
 
 <div style="float: right;" class="service-box">
 	
@@ -46,7 +47,7 @@
 	<div>${product.pd_content}</div>
 	<hr>
 	<div class="information-box">
-		<div id="map" style="width:500px;height:400px;"></div>
+		<div id="map" style="width:1100px;height:400px; margin:0 auto;"></div>
 		<div class="info-detail-box">
 		<c:if test="${product.pd_pc_num==4}">
 			<c:if test="${product.pd_fe_start !=null && product.pd_fe_end !=null }">
@@ -138,10 +139,10 @@
 				</c:if>			
 			</c:if>
 		</div>
-		<form method="post" action="<c:url value='/option/opList'></c:url>">
+		<form method="post"  id="reserve-form"action="<c:url value='/option/opList'></c:url>">
 			<input type="hidden" name="pd_num" value="${product.pd_num}">
 			<input type="hidden" name="pd_pc_num" value="${product.pd_pc_num}">
-		<button class="btn btn-dark">예약하러가기</button>
+			<button class="btn btn-dark">예약하러가기</button>
 		</form>
 	</div>
 	<hr>
@@ -303,6 +304,15 @@ text-align:start;
 .rc-info{
 text-align:start;
 }
+
+.swiper-slide {
+   display: flex;
+   justify-content: center;
+   overflow:hidden;
+}
+
+
+
 
 .re-comment-list{
 }
@@ -537,7 +547,21 @@ selectReviewList(cri);
 let starRate=0;
 
 
+$(document).on("submit","#reserve-form",function(e){
+	e.preventDefault();
+	if("${user.me_id}" == ''){
+		alert("로그인해주세요!");
+		return;
+	}
+	
+	$(this).unbind();
+})
+
 $(document).on("click",".like-btns",function(){
+	if("${user.me_id}" == ''){
+		alert("로그인해주세요!");
+		return;
+	}
 	let li_re_num = $(this).parents('.review-comment-container').data('num');
 	let li_updown= $(this).data('like');
 	let li_table="review";
@@ -798,6 +822,7 @@ function selectLike(review){
 	let likeInt=0;
 	ajaxPost(false,review,'<c:url value="/view/userLike"></c:url>',function(data){
 		likeInt=data.like;
+		
 	});
 	return likeInt;
 }
@@ -906,6 +931,7 @@ $('#report-modal').click(function(){
 				}
 			
 			})
+			location.reload();
 		}
 		if(table=="review_comment"){
 			ajaxPost(true,report,'<c:url value="/comment/report"></c:url>', function(data){
@@ -914,28 +940,43 @@ $('#report-modal').click(function(){
 					$('#report-modal').data('num','');
 					$('#report-modal').data('table','');
 				}
+				location.reload();
 				
 			})
 		}
 	});
 
-
-$(document).on("click","#rc-report-btn",function(){
-	if('${user.me_id}' == ''){
+function a(){
+	$("#rc-report-btn").off('click')
+	$("#rc-report-btn").click(function(){
 		
-		alert('로그인 하세요.');
-	}
-	$('#report-modal').data('num', $(this).data('num'));
-	$('#report-modal').data("table", "review_comment");
-})
+		if('${user.me_id}' == ''){
+			console.log($(this).data("target"))
+			$(this).data("target","");
+			console.log($(this).data("target"))
+			alert('로그인 하세요.');
+			return false;
+		}else{
+			
+			$(this).data("target","#myModal");
+			$('#report-modal').data('num', $(this).data('num'));
+			$('#report-modal').data("table", "review_comment");
+		}
+	});
 	
-$('.report-btn').click(function(){
+}
+	
+$('.report-btn').click(function(e){
+	e.preventDefault();
 	if('${user.me_id}' == ''){
-		
+		$(this).data("target","");
 		alert('로그인 하세요.');
+		return false;
+	}else{
+		$(this).data("target","#myModal");
+		$('#report-modal').data('num', $(this).data('num'));
+		$('#report-modal').data("table", "review");
 	}
-	$('#report-modal').data('num', $(this).data('num'));
-	$('#report-modal').data("table", "review");
 })
 
 
@@ -943,6 +984,7 @@ $('.rc-insert').click(function(){
 	if('${user.me_id}' == ''){
 		
 		alert('로그인 하세요.');
+		return;
 	}
 	let rc_content=$(this).prev().val();
 	let rc_num=$(this).data('num');
@@ -966,6 +1008,7 @@ $(document).on("click","#rc-delete-btn",function(){
 	if('${user.me_id}' == ''){
 		
 		alert('로그인 하세요.');
+		return;
 	}
 	let rc_num = $(this).data('num');
 	let rc_re_num = $(this).parent().parent().data('num');
@@ -982,6 +1025,7 @@ $(document).on("click","#rc-delete-btn",function(){
 			alert('삭제실패했어요!');
 			return;
 		}
+		location.reload();
 		
 	})
 
@@ -1033,7 +1077,7 @@ function addRCList(rCList){
 			str += createRComment(rCList[i]);
 		}
 		$('.re-comment-list').html(str);
-		
+		a();
 }		
 
 function createRComment(rComment){
@@ -1085,6 +1129,7 @@ function addRCPagination(rCPm){
 function listSuccess(data){
 	addReviewList(data.list, data.reFile);
 	addPagination(data.pm);
+
 }
 	
 function selectReviewList(cri){
@@ -1116,7 +1161,7 @@ $('.review-delete-btn').click(function(){
 			}else{
 				alert('댓글 삭제 실패!');
 			}
-			
+			location.reload();
 		} )
 		
 	}

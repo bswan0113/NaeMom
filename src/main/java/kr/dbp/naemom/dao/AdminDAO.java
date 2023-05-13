@@ -110,6 +110,12 @@ public interface AdminDAO {
 	ArrayList<Buy_listVO> selectAllBuyListBystate(@Param("cri")Criteria cri, @Param("state")String state);
 
 	int selectCountBuyListBystate(@Param("state")String state);
+	String getAttendance(@Param("id")String me_id);
+
+	void insetAttendance(@Param("id")String me_id);
+
+	boolean insertAtMile(@Param("id")String me_id);
+
 
 
 

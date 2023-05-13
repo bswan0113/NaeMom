@@ -116,4 +116,8 @@
      	select * from file where fi_category like concat('%',#{fi_category},'%') and fi_table = #{fi_table}
      </select>
      
+     <select id="getProductListByScore" resultType="kr.dbp.naemom.vo.ProductVO">
+     	select pd_title, pd_num from product order by pd_score limit 0,10
+     </select>
+     
 </mapper>

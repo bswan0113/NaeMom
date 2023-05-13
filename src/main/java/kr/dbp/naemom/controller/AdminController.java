@@ -103,8 +103,6 @@ public class AdminController {
 		mv.setViewName("/admin/list/userList");
 		return mv;
 	}
-	
-
 
    @RequestMapping(value = "/mypage/profile/{me_id}", method = RequestMethod.GET)
    public ModelAndView adminIntoUserPage(ModelAndView mv,   @PathVariable("me_id")String me_id,HttpSession session, HttpServletResponse response) {
@@ -140,6 +138,7 @@ public class AdminController {
       return mv;
       
    }
+
 	
 	@RequestMapping(value = "/admin/insert/hashtag/{pd_num}/{pd_title}")
 	public ModelAndView adminIntoUserPage(ModelAndView mv, @PathVariable("pd_num")int pd_num, @PathVariable("pd_title")String pd_title) {
@@ -180,7 +179,6 @@ public class AdminController {
 	@RequestMapping(value = "/admin/cancelBuyList", method=RequestMethod.POST)
 	public Map<String, Object> courseSearchProduct(@RequestBody PayDTO cancelItem) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		System.out.println(cancelItem.getOrder_id());
 		Buy_listVO tmp = adminService.getBuyListByNum(cancelItem.getOrder_id());
 		Cancel cancel = new Cancel();
 		cancel.receiptId = tmp.getBl_receipt_id();

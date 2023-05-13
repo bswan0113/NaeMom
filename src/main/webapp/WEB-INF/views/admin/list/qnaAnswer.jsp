@@ -18,11 +18,12 @@
 	  </div>
 	  <div class="board-post-content">
 	 	 <strong>문의 내용 : </strong><br>
-	    <p>${qna.qa_content}</p>
+	    <p class="content">${qna.qa_content}</p>
 	  </div>
 	</div>
 	<label style="display:block; font-size: 20px;">답변 등록 : </label>
 	<form class="answer-box" action="<c:url value='/admin/list/qnaAnswer'></c:url>" method="post">
+		<button class="btn btn-dark sample" type="button">샘플 답변 확인하기</button>
 		<textarea class="form-control answer-input" name="qaa_content"></textarea>
 		<input type="hidden" name="qaa_qa_num" value="${qna.qa_num}">
 		<button class="btn btn-success delete-btn mt-3" >답변 작성</button>
@@ -31,8 +32,11 @@
 
 <style>
 .answer-input{
+
 min-height:500px; width:80%; resize:none;
+
 }
+
 
 .board-post {
   border: 1px solid #d8d8d8;
@@ -88,4 +92,29 @@ min-height:500px; width:80%; resize:none;
 </style>
 
 
+<script>
+$(document).ready(function(){
+	$('.sample').click(function(){
+		$('.answer-input').text("잠시 기다려주세요");
+		let qna ={
+				qa_title:"${qna.qa_title}",
+				qa_qs_category:"${qna.qa_qs_category}",
+				qa_content:$('.content').text(),
+				qa_pd_num:"${qna.qa_pd_num}"
+		}
+		$.ajax({
+			async:false,
+			type: 'POST',
+			data: JSON.stringify(qna),
+			url: "<c:url value='/getSample'></c:url>",
+			dataType:"json",
+			contentType:"application/json; charset=UTF-8",
+			success : function(data){
+				$('.answer-input').text(data.res);
+				
+			} 
+		});
+	});
+});
 
+</script>

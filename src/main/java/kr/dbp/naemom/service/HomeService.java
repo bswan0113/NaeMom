@@ -50,6 +50,8 @@ public interface HomeService {
 
 	ArrayList<FileVO> getFestivalImgList();
 
+	ArrayList<ProductVO> getProductListByScore();
+
 
 
 	

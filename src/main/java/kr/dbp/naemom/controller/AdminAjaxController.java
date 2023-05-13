@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.AdminService;
+import kr.dbp.naemom.utils.UseGPT;
 import kr.dbp.naemom.vo.BuyListVO;
 import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseVO;
@@ -23,6 +24,7 @@ import kr.dbp.naemom.vo.ReportManageVO;
 import kr.dbp.naemom.vo.ReportVO;
 import kr.dbp.naemom.vo.ReviewCommentVO;
 import kr.dbp.naemom.vo.ReviewVO;
+import kr.dbp.naemom.vo.qnaVO;
 
 @RestController
 public class AdminAjaxController {
@@ -173,6 +175,11 @@ public class AdminAjaxController {
 		map.put("res", res);
 		return map;
 	}
-	
+	@RequestMapping(value = "/getSample", method=RequestMethod.POST)
+	public Map<String, Object> getSampleAnswer(@RequestBody qnaVO qna) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("res", UseGPT.getAnswerForAdmin(qna));
+		return map;
+	}
 
 }

@@ -45,6 +45,7 @@ public class MypageInterceptor extends HandlerInterceptorAdapter  {
 	            Integer expirationMileage = myPageService.getexpirationMileage(user.getMe_id());
 	            if(expirationMileage != null)user.setExpirationMileage(expirationMileage);
 	            else user.setExpirationMileage(0);
+	            user.setUnreadMail(myPageService.getUnreadMailCount(user.getMe_id()));
 	            return true;
 	        }
 			MessageUtils.alertAndMovePage(response, 

@@ -47,6 +47,32 @@
   .btn-update:hover {
     background-color: #239a55;
   }
+  #note-box{
+	margin-left:10px;
+   border:1px solid white;
+   position:relative;
+   display:inline-block;
+  }
+  #note-box a{
+  font-size:22px;
+    height:50px;
+  line-height:150px;
+  width:150px;
+  margin-left:20px;
+  margin-right:3px;
+  color:#29c16d;
+  }
+  .send-count{
+  position:absolute;
+  background-color:red;
+  border-radius:100%;
+  color:white;
+  width:20px;
+  height:20px;
+  font-size:14px;
+  text-align:center;
+  top:57px;
+  }
 </style>
 
 <ul class="profile-list">
@@ -88,6 +114,12 @@
   </li>
 </ul>
     <button data-toggle="modal" data-target="#myModal" class="btn btn-success btn-update">프로필 편집하기</button>
+    <div id="note-box">
+    	<c:if test="${user.unreadMail>0}">
+    		<div class="send-count">${user.unreadMail}</div>
+    	</c:if>
+	    <a href="<c:url value='/note/noteList'></c:url>"><i class="fas fa-envelope"></i>쪽지함</a>
+    </div>
 <!-- 신고 모달 -->
   <div class="modal common-modal" id="myModal">
     <div class="modal-dialog">

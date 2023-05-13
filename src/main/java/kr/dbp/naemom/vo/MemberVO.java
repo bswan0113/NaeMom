@@ -35,6 +35,7 @@ public class MemberVO {
 	int me_score_fe;
 	int me_score_la;
 	int me_score_reo;
+	int unreadMail;
 	
 	public String getMe_birthday_str() {
 		SimpleDateFormat format =

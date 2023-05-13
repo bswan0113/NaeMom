@@ -157,5 +157,8 @@
 	<select id="selectCourseListCount" resultType="int">
 		select count(*) from course where co_me_id = #{me_id}
 	</select>
+	<select id="getUnreadMailCount" resultType="Integer">
+		select count(*) from note where nt_receiver=#{id} and nt_is_read=0
+	</select>
 
 </mapper>

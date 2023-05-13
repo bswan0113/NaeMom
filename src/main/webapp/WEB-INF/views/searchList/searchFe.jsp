@@ -308,7 +308,6 @@ function addFesInfo(){
 						pdList.push(product)
 			}
 		}
-		
 	});
 		return pdList;
 	

@@ -53,7 +53,6 @@ public class MyPageController {
 	@RequestMapping(value = "/mypage/profile", method = RequestMethod.GET)
 	public ModelAndView myPage(ModelAndView mv, HttpSession session) {
 		MemberVO user = (MemberVO) session.getAttribute("user");
-		
 		mv.addObject("user",user);
 		mv.setViewName("/mypage/profile");
 		return mv;
