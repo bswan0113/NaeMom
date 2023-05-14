@@ -224,7 +224,9 @@
 					</div>
 					<div class="option_select_box2">
 						<label>수량 : </label>
-						<input value="${list.sb_amount }" disabled="disabled" style="width:160px">
+						<input value="${list.sb_amount }" disabled="disabled" style="width:100px">
+						<label>시간 : </label>
+						<input value="${list.sb_time }" disabled="disabled" style="width:100px">
 						<label class="ml-1">가격 : </label>
 						<span class="select_price">${list.sb_price }</span>
 						<span>원</span>
@@ -262,17 +264,8 @@
 						<input type="text" class="option_date" value="${list.sb_date}" disabled="disabled">
 					</div>
 					<div class="option_select_box2">
-						<label>인원 : </label>
-						<input value="${list.home.ao_capacity }" disabled="disabled" style="width:60px">
-						<label>추가인원 : </label>
-						<c:choose>
-							<c:when test="${list.sb_amount-list.home.ao_capacity > 0 }">
-								<input value="${list.sb_amount-list.home.ao_capacity }" disabled="disabled" style="width:60px">
-							</c:when>
-							<c:otherwise>
-								<input value="없음" disabled="disabled" style="width:60px">
-							</c:otherwise>
-						</c:choose>
+						<label>숙박 : </label>
+						<input value="${list.sb_amount }" disabled="disabled" style="width:60px">박
 						<label class="ml-1">가격 : </label>
 						<span class="select_price">${list.sb_price }</span>
 						<span>원</span>
@@ -305,22 +298,52 @@
 	    	</div>
   </div>
   <script>
+	 	window.onpageshow = function(event) {
+			if ( event.persisted || window.performance.navigation.type === 2) {
+		        location.reload();
+		    }
+		}
+  		var checkPd = true;
   		$('form').submit(function(){
+  			if(!$('.option_item').length){
+  				alert('장바구니에 상품이 없습니다');
+  				return false;
+  				
+  			}
   			let amount = $('.allAmount').text();
   			let price = $('.allPrice').text();
-  			$('.option_item').each(function(i){
-  				let sb_num = $(this).find('[name=sb_num]').val();
-  				str='';
-  				str +=
-  					'<input type="hidden" name="sb_num" value="'+sb_num+'">';
-  				$('form').append(str);
-  				
-  			})
   			
+  			let list=[];
+  			$('.addOrder').siblings('[name=sb_num]').each(function(){
+  				list.push($(this).val());
+  			})
+  			ajaxPost(list, '<c:url value="/option/checkProduct"></c:url>', checkProduct);
+  			if(!checkPd)
+  				return false;
   			if(confirm('총 '+amount+'개의 상품, '+price+'원 입니다.\n주문하시겠습니까?')){
+  				$('.option_item').each(function(i){
+  	  				let sb_num = $(this).find('[name=sb_num]').val();
+  	  				str='';
+  	  				str +=
+  	  					'<input type="hidden" name="sb_num" value="'+sb_num+'">';
+  	  				$('form').append(str);
+  	  				
+  	  			})
   				return true;
+  			}else{
+  				return false;
   			}
   		})
+  		function checkProduct(data){
+  			let pd_num = data.pd_num;
+  			if(pd_num != 0){
+	  			ajaxPost(pd_num, '<c:url value="/option/impossibleProduct"></c:url>', impossibleProduct);
+  			}
+  		}
+  		function impossibleProduct(data){
+  			alert('"'+data.pd.pd_title+'"는 예약이 가득 찼거나 휴무일입니다.');
+  			checkPd = false;
+  		}
   		$('.no_product_list').hide();
   		//리스트 삭제 이벤트
 		$('.delete_item').click(function(){

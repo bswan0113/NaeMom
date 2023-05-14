@@ -207,6 +207,9 @@
 			width:260px; height:60px; display:inline-block; background: #0085da; font-size: 30px;
     		color: #fff; border: 0; border-radius: 5px;
 		}
+		.Layer_btn_close{
+			position: relative;
+		}
   </style>
 </head>
 <body>
@@ -322,7 +325,7 @@
 											<input type="hidden" value="${basket.sb_num }" class="sb_num" name="sb_num">
 											<div class="product_option">
 												<span>${basket.home.ao_name }</span> / 
-												<span>${basket.sb_amount } 개</span>
+												<span>${basket.sb_amount } 박</span>
 											</div>
 											<div class="product_date">
 												<p>${basket.sb_date }</p>
@@ -459,7 +462,10 @@
 			</table>
 		</div>
 		<div class="btn_box">
-			<button type="button" id="paymentBtn" class="paymentBtn">결제하기</button>
+			<form action="<c:url value ='/option/completeBuy'></c:url>" id="completeBuy" method="post">
+				<input type="hidden" name="bl_num">
+				<button type="button" id="paymentBtn" class="paymentBtn">결제하기</button>
+			</form>
 		</div>
 	
 	</div>
@@ -566,11 +572,15 @@
    		}
    		//결제
    		$('.paymentBtn').click(function(){
+   			if($('.insertName').val() == '' || $('.insertEmail').val() == '' || $('.insertPhone').val() == ''){
+				alert('이용자 정보를 입력해주세요.')   				
+   				return false;
+   			}
    			let price = Number($('#totalPayPrice').text());
    			let id = $('.buyer_id').val();
    			let date = dateString();
    			let order_id = id+date;
-   			let order_name = pd_title+' 외 ' + String(count)+'건';
+   			let order_name = pd_title+' 등 ' + String(count)+'건';
    			let method = '';
    			$('input[name=payType]:checked').each(function(){
    				method = $(this).val();
@@ -591,6 +601,7 @@
    				add_mile : addMile,
    				sb_num : sb_num
    			}
+   			//결제전 buy_list등록
    			ajaxPostString(payData, '<c:url value="/option/insertBuyList"></c:url>', insertSuccess);
    			var orderNum = '';
    			const response = BootPay.request({
@@ -608,34 +619,90 @@
    			  	"display_success_result":true,
    			 	"display_error_result" : true
    			  }
-   			}).done(function(data){
+   			}).done(function(data){//결제완료
    				console.log(data)
+   				//결제검증
    				ajaxPostString(data, '<c:url value="/option/bootpay_confirm"></c:url>', paySuccess);
    			}).error(function (data) {
    				//결제 진행시 에러가 발생하면 수행됩니다.
    				ajaxPostString(orderNum, '<c:url value="/option/deleteBuyList"></c:url>', deleteSuccess);
+   			}).cancel(function (data) {
+   				//결제가 취소되면 수행됩니다.
+   				ajaxPostString(orderNum, '<c:url value="/option/deleteBuyList"></c:url>', deleteSuccess);
    			})
    		})
+   		window.onpageshow = function(event) {
+		    if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+		        // Back Forward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우
+		        // 이벤트 추가하는 곳
+		    	ajaxPostString(orderNum, '<c:url value="/option/deleteBuyList"></c:url>', deleteSuccess);
+		    }
+		}
    		function insertSuccess(data){
    			orderNum = data;
    		}
    		function paySuccess(data){
-   			console.log(orderNum)
+   			
    			if(data == "NO"){
    				alert('결제에 실패했습니다.');
    				ajaxPostString(orderNum, '<c:url value="/option/deleteBuyList"></c:url>', deleteSuccess);
    			}else if(data == "OK"){
-   				alert('결제에 성공했습니다.')
+   				let user_name = $('.insertName').val();
+   	   			let user_email = $('.insertEmail').val();
+   	   			let user_phone = $('.insertPhone').val();
+   	   			let user = {
+   	   					um_bl_num : orderNum,
+   	   					um_name : user_name,
+   	   					um_email : user_email,
+   	   					um_phone : user_phone
+   	   			}
+   				alert('결제에 성공했습니다.');
+   	   			ajaxPostString(user, '<c:url value="/option/insertUseMember"></c:url>', useMember);
    				ajaxPostString(orderNum, '<c:url value="/option/updateBuyList"></c:url>', updateSuccess);
    			}
    		}
-   		
-   		function deleteSuccess(data){
+   		function useMember(data){
    			console.log(data)
+   		}
+   		function deleteSuccess(data){
+   			ajaxPostString(orderNum, '<c:url value="/option/deleteBuyList"></c:url>', qweqweSuccess);
    		}
    		function updateSuccess(data){
    			console.log(data)
+   			if(data == "NO")
+   				alert("예상치 못한 오류 발생");
+   			
+   			$('[name=bl_num]').val(data);
+   			$('#completeBuy').submit();
    		}
+   		function qweqweSuccess(data){
+   			
+   		}
+   		$(document).on("submit", "form", function(event){
+   	        window.onbeforeunload = null;
+   		});
+   		window.onbeforeunload = function (event) {
+   			// 표준에 따라 기본 동작 방지
+   		    event.preventDefault();
+   		    
+   		    // ajax 호출
+	   		 $.ajax({
+				type: 'POST',
+				data: JSON.stringify(orderNum),
+				url: '<c:url value="/option/deleteBuyList"></c:url>',
+				contentType:"application/json; charset=UTF-8"
+			 });
+   		}
+   		/* //새로고침시 저장된 buyList삭제
+		window.addEventListener('beforeunload',deleteList );
+		function deleteList(){
+			$.ajax({
+				type: 'POST',
+				data: JSON.stringify(orderNum),
+				url: '<c:url value="/option/deleteBuyList"></c:url>',
+				contentType:"application/json; charset=UTF-8"
+			});
+		} */
    		//ajax
 		function ajaxPost(obj, url, successFunction){
 			$.ajax({

@@ -22,8 +22,7 @@ public class ProductOptionServiceImp implements ProductOptionService{
 	@Autowired
 	ProductOptionDAO productOptionDao;
 
-//	String uploadPath = "D:\\uploadfiles";
-	String uploadPath = "/Users/hyunkyulee/final/Uploadfiles";
+String uploadPath = "D:\\uploadfiles";
 	
 	@Override
 	public boolean deleteFestival(int fo_num) {
@@ -34,7 +33,9 @@ public class ProductOptionServiceImp implements ProductOptionService{
 	@Override
 	public boolean insertFestival(ArrayList<Option_festivalVO> list) {
 		if(list==null || list.size()<=0)return false;
+		int fo_pd_num = list.get(0).getFo_pd_num();
 		for(Option_festivalVO item : list) {
+			item.setFo_num(fo_pd_num);
 			if(item.getFo_age()== null) return false;
 			if(item.getFo_pd_num()<=0) return false;
 			if(item.getFo_price()<=0) return false;
@@ -59,7 +60,9 @@ public class ProductOptionServiceImp implements ProductOptionService{
 	@Override
 	public boolean insertLandmark(ArrayList<Option_landMarkVO> list) {
 		if(list==null || list.size()<=0)return false;
+		int la_pd_num = list.get(0).getLo_pd_num();
 			for(Option_landMarkVO item : list) {
+				item.setLo_num(la_pd_num);
 				if(item.getLo_age()== null) return false;
 				if(item.getLo_pd_num()<=0) return false;
 				if(item.getLo_price()<=0) return false;
@@ -146,8 +149,10 @@ public class ProductOptionServiceImp implements ProductOptionService{
 		    if(list == null || list.size() <= 0 || files == null || files.length <= 0) {
 		        return false;
 		    }
+		    int num =list.get(0).getReo_pd_num();
 		    for(int i=0; i<list.size(); i++) {
 		        Option_restrauntVO option = list.get(i);
+		        option.setReo_num(num);
 		        if(option.getReo_content() == null || option.getReo_content().trim().length() <= 0 ||
 		                option.getReo_name() == null || option.getReo_name().trim().length() <= 0 ||
 		                option.getReo_pd_num() <= 0 || option.getReo_price() <= 0) {
@@ -224,11 +229,13 @@ public class ProductOptionServiceImp implements ProductOptionService{
 
 		@Override
 		public boolean insertAccomodation(ArrayList<Option_accomodationVO> list, MultipartFile[] files) {
-		    if(list == null || list.size() <= 0 || files == null || files.length <= 0) {
+		    if(list == null || list.size() <= 0) {
 		        return false;
 		    }
+		    int pd_num = list.get(0).getAo_pd_num(); // 0번째 인덱스의 pd_num 값을 가져옴
 		    for(int i=0; i<list.size(); i++) {
 		        Option_accomodationVO option = list.get(i);
+		        option.setAo_pd_num(pd_num);
 		        if(option.getAo_room_detail() == null || option.getAo_room_detail().trim().length() <= 0 ||
 		                option.getAo_name() == null || option.getAo_name().trim().length() <= 0 ||
 		                option.getAo_pd_num() <= 0 || option.getAo_price() <= 0||

@@ -3,6 +3,7 @@ package kr.dbp.naemom.service;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,6 +12,7 @@ import kr.dbp.naemom.dao.ProductDAO;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.utils.UploadFileUtils;
 import kr.dbp.naemom.vo.BuyListVO;
+import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
@@ -33,9 +35,10 @@ public class MyPageServiceImp implements MyPageService{
 	@Autowired
 	ProductDAO productDao;
 	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 	
-//	String uploadPath = "D:\\uploadfiles";
-	String uploadPath = "/Users/hyunkyulee/final/Uploadfiles";
+	String uploadPath = "D:\\uploadfiles";
 	
 	@Override
 	public MemberVO getUserInfo(MemberVO user) {
@@ -49,11 +52,13 @@ public class MyPageServiceImp implements MyPageService{
 	@Override
 	public boolean updateMember(MemberVO member) {
 		if(member==null) return false;
+		String pw = passwordEncoder.encode(member.getMe_pw());
+		member.setMe_pw(pw);
+		System.out.println(member);
 		if(member.getMe_authority()<1 ||
 				member.getMe_birthday()==null||
 				member.getMe_nickname().trim().length()<=0||
 				member.getMe_registered_address().trim().length()<=0||
-				member.getMe_name().trim().length()<=0||
 				member.getMe_phone().trim().length()<=0||
 				member.getMe_street_address().trim().length()<=0
 				) return false;
@@ -121,8 +126,7 @@ public class MyPageServiceImp implements MyPageService{
 		if(qna==null||
 				qna.getQa_content().trim().length()<=0||
 				qna.getQa_me_id().trim().length()<=0||
-				qna.getQa_title().trim().length()<=0||
-				qna.getQa_pd_num()<=0) return false;
+				qna.getQa_title().trim().length()<=0) return false;
 		qna.setQa_state("0");
 		boolean res=myPageDao.insertQna(qna);
 		if(res)insertQnaFile(files, qna.getQa_num());
@@ -228,7 +232,9 @@ public class MyPageServiceImp implements MyPageService{
 
 
 	@Override
-	public ArrayList<BuyListVO> getBuyList(String me_id, Criteria cri) {
+	public ArrayList<Buy_listVO> getBuyList(String me_id, Criteria cri) {
+		if(me_id == null)
+			return null;
 		return myPageDao.getBuyList(me_id, cri);
 	}
 
@@ -251,5 +257,55 @@ public class MyPageServiceImp implements MyPageService{
 		}
 		return course.get(0);
 	}
+
+	@Override
+	public boolean changeEmail(String email, String userId) {
+		return myPageDao.changeEmail(email,userId)>=0;
+	}
+
+	@Override
+	public int updateBuyList(String bl_num, String me_id) {
+		if(bl_num == null || me_id == null)
+			return 0;
+		String state = "결제취소요청";
+		return myPageDao.updateBuyCancel(bl_num, me_id, state);
+  }
+
+  @Override
+	public ArrayList<ProductVO> getRecPr(MemberVO user, int count) {
+		int fe = user.getMe_score_fe();
+		int ao = user.getMe_score_ao();
+		int reo = user.getMe_score_reo();
+		int la = user.getMe_score_la();
+	    
+	    int maxScore = user.getMe_score_fe(); // 첫 번째 값을 최대값으로 설정
+	    int table = 4; // 기본값으로 테이블명을 설정해놓습니다.
+
+	    if (ao > maxScore) {
+	        maxScore = ao;
+	        table = 3; // ao가 최대값일 때 테이블명을 설정합니다.
+	    }
+	    if (reo > maxScore) {
+	        maxScore = reo;
+	        table = 2; // reo가 최대값일 때 테이블명을 설정합니다.
+	    }
+	    if (la > maxScore) {
+	        maxScore = la;
+	        table = 1; // la가 최대값일 때 테이블명을 설정합니다.
+	    }
+	    ArrayList<ProductVO> product= myPageDao.getProductByuserPrefer(table, count);
+		return product;
+	}
+
+@Override
+public int getCourseListCount(String me_id) {
+	
+	return myPageDao.selectCourseListCount(me_id);
+}
+@Override
+public int getUnreadMailCount(String me_id) {
+	return myPageDao.getUnreadMailCount(me_id);
+
+}
 
 }

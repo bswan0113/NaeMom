@@ -7,11 +7,6 @@ import org.apache.ibatis.annotations.Param;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.DayOFFVO;
 import kr.dbp.naemom.vo.FileVO;
-import kr.dbp.naemom.vo.LikeVO;
-import kr.dbp.naemom.vo.Option_accomodationVO;
-import kr.dbp.naemom.vo.Option_festivalVO;
-import kr.dbp.naemom.vo.Option_landMarkVO;
-import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.ReviewVO;
@@ -75,9 +70,12 @@ public interface ProductDAO {
 
 	public void insertKeyword(@Param("search")String search, @Param("pd_num")int pd_num);
 
+	public String[] getHash(@Param("hg_pd_num")int pd_num);
 
+	public ArrayList<Integer> getProductPk();
 
-	
+	public void insertKeywordWithId(@Param("search")String search, @Param("pd_num")int pd_num, @Param("id")String id);
+
 
 
 		

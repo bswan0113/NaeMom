@@ -15,13 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.AdminService;
+import kr.dbp.naemom.utils.UseGPT;
 import kr.dbp.naemom.vo.BuyListVO;
+import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.ReportManageVO;
 import kr.dbp.naemom.vo.ReportVO;
 import kr.dbp.naemom.vo.ReviewCommentVO;
 import kr.dbp.naemom.vo.ReviewVO;
+import kr.dbp.naemom.vo.qnaVO;
 
 @RestController
 public class AdminAjaxController {
@@ -73,7 +76,7 @@ public class AdminAjaxController {
 		Criteria cri = new Criteria();   
 		int pageNum = Integer.parseInt(page);
 	    cri.setPage(pageNum);
-	    ArrayList<BuyListVO> buyList = adminService.getBuyList(id,cri);
+	    ArrayList<Buy_listVO> buyList = adminService.getBuyList(id,cri);
 
 	    int totalCount = adminService.getPaymentCount(id);
 	    PageMaker pm = new PageMaker(totalCount,5,cri);
@@ -154,6 +157,29 @@ public class AdminAjaxController {
 			
 		return map;
 	}
+
 	
+	@RequestMapping(value = "/admin/delete/hashtag/{num}", method=RequestMethod.GET)
+	public Map<String, Object> deleteHashTag(@PathVariable("num")String num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res= adminService.deleteHashtag(Integer.parseInt(num));
+		map.put("res", res);
+
+		return map;
+	}
+	
+	@RequestMapping(value = "/admin/save/hashtag/{pd_num}", method=RequestMethod.POST)
+	public Map<String, Object> deleteHashTag(@PathVariable("pd_num")int pd_num, @RequestBody String[] list) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		boolean res = adminService.insertHashtag(pd_num,list);
+		map.put("res", res);
+		return map;
+	}
+	@RequestMapping(value = "/getSample", method=RequestMethod.POST)
+	public Map<String, Object> getSampleAnswer(@RequestBody qnaVO qna) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("res", UseGPT.getAnswerForAdmin(qna));
+		return map;
+	}
 
 }

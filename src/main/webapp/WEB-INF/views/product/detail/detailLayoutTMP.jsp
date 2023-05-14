@@ -3,11 +3,13 @@
     pageEncoding="UTF-8"%>
     <title>임시 상세페이지 입니다.</title>
 <div class="container-fluid">
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${apikey}&libraries=services,clusterer,drawing"></script>
 <h1 style="text-align: center; font-weight:bold">${product.pd_title}</h1><br>
 <h3 style="text-align: center;">${product.pd_subtitle}</h3>
 
+
 <div style="float: right;" class="service-box">
-	
 	
 	<button style="color:
 		<c:if test="${wish.wi_num!=null}">red</c:if>
@@ -38,11 +40,14 @@
 
 <div class="form-group detail-box">
 	<h4 style="font-weight: bold;">상세정보</h4>
+	<c:forEach items="${hash}" var="hash">
+		<span class="hash">&#35;${hash}</span>
+	</c:forEach>
 	<hr style="font-weight: bold;">
-	<div style="min-height:500px;">${product.pd_content}</div>
+	<div>${product.pd_content}</div>
 	<hr>
 	<div class="information-box">
-		<div style="height: 300px; width:100%;display:inline-block; border:1px black solid">지도배치 예정</div>
+		<div id="map" style="width:1100px;height:400px; margin:0 auto;"></div>
 		<div class="info-detail-box">
 		<c:if test="${product.pd_pc_num==4}">
 			<c:if test="${product.pd_fe_start !=null && product.pd_fe_end !=null }">
@@ -134,7 +139,11 @@
 				</c:if>			
 			</c:if>
 		</div>
-	<a href="#" class="btn btn-dark">예약하러가기</a>
+		<form method="post"  id="reserve-form"action="<c:url value='/option/opList'></c:url>">
+			<input type="hidden" name="pd_num" value="${product.pd_num}">
+			<input type="hidden" name="pd_pc_num" value="${product.pd_pc_num}">
+			<button class="btn btn-dark">예약하러가기</button>
+		</form>
 	</div>
 	<hr>
 </div>
@@ -296,6 +305,15 @@ text-align:start;
 text-align:start;
 }
 
+.swiper-slide {
+   display: flex;
+   justify-content: center;
+   overflow:hidden;
+}
+
+
+
+
 .re-comment-list{
 }
 .re-comment-item{
@@ -354,7 +372,6 @@ margin: 20px;
 .comment-box{
 
 width: 100%;
-min-height : 700px;
 
 }
 
@@ -382,7 +399,7 @@ font-weight:bold;
 	}
 
 	.random-title{
-		width: 100%;
+		width: 80%;
 		position: absolute;
 		bottom: 0;
 		left: 0;
@@ -391,9 +408,13 @@ font-weight:bold;
 		font-weight: bold;
 		z-index: 10;
 		font-size:20px;
+		 text-overflow:ellipsis;
+ 		overflow:hidden;
+ 		white-space:nowrap;
+ 		margin-left:20px;
 	}
 
-	.fas{
+	.container .fas{
 	font-size : 25px;
 	margin-right : 12px;
 	}
@@ -449,12 +470,14 @@ font-weight:bold;
 	height: 500px;
 }
 
-.comment-list{
-min-height: 500px;
-}
 
 </style>
 <style>
+.hash{
+color:#ccc;
+font-size:18px;
+font-weight:bold;
+}
 textarea{
 resize:none;
 }
@@ -498,10 +521,13 @@ resize:none;
 content:''; clear:both; display:block;
 }
 
-
-height: 500px;
-width:500px;
-border:1px solid black;
+.map-tag{
+ width:150px;
+ text-align:center;
+ padding:6px 0;
+ text-overflow:ellipsis;
+ overflow:hidden;
+ white-space:nowrap;
 }
 </style>
 
@@ -521,7 +547,21 @@ selectReviewList(cri);
 let starRate=0;
 
 
+$(document).on("submit","#reserve-form",function(e){
+	e.preventDefault();
+	if("${user.me_id}" == ''){
+		alert("로그인해주세요!");
+		return;
+	}
+	
+	$(this).unbind();
+})
+
 $(document).on("click",".like-btns",function(){
+	if("${user.me_id}" == ''){
+		alert("로그인해주세요!");
+		return;
+	}
 	let li_re_num = $(this).parents('.review-comment-container').data('num');
 	let li_updown= $(this).data('like');
 	let li_table="review";
@@ -693,7 +733,7 @@ function addPagination(pm){
 function addReviewList(list){
 	str = ''
 	if(list.length==0){
-		str='<span style="color:#dae1e6; text-align:center; line-height:500px;"> 등록된 리뷰가 없어요! </span>';
+		str='<span style="color:#dae1e6; text-align:center; line-height:100px;"> 등록된 리뷰가 없어요! </span>';
 		$('.comment-list').html(str);
 	}
 	for(i = 0; i<list.length; i++){
@@ -782,6 +822,7 @@ function selectLike(review){
 	let likeInt=0;
 	ajaxPost(false,review,'<c:url value="/view/userLike"></c:url>',function(data){
 		likeInt=data.like;
+		
 	});
 	return likeInt;
 }
@@ -890,6 +931,7 @@ $('#report-modal').click(function(){
 				}
 			
 			})
+			location.reload();
 		}
 		if(table=="review_comment"){
 			ajaxPost(true,report,'<c:url value="/comment/report"></c:url>', function(data){
@@ -898,28 +940,43 @@ $('#report-modal').click(function(){
 					$('#report-modal').data('num','');
 					$('#report-modal').data('table','');
 				}
+				location.reload();
 				
 			})
 		}
 	});
 
-
-$(document).on("click","#rc-report-btn",function(){
-	if('${user.me_id}' == ''){
+function a(){
+	$("#rc-report-btn").off('click')
+	$("#rc-report-btn").click(function(){
 		
-		alert('로그인 하세요.');
-	}
-	$('#report-modal').data('num', $(this).data('num'));
-	$('#report-modal').data("table", "review_comment");
-})
+		if('${user.me_id}' == ''){
+			console.log($(this).data("target"))
+			$(this).data("target","");
+			console.log($(this).data("target"))
+			alert('로그인 하세요.');
+			return false;
+		}else{
+			
+			$(this).data("target","#myModal");
+			$('#report-modal').data('num', $(this).data('num'));
+			$('#report-modal').data("table", "review_comment");
+		}
+	});
 	
-$('.report-btn').click(function(){
+}
+	
+$('.report-btn').click(function(e){
+	e.preventDefault();
 	if('${user.me_id}' == ''){
-		
+		$(this).data("target","");
 		alert('로그인 하세요.');
+		return false;
+	}else{
+		$(this).data("target","#myModal");
+		$('#report-modal').data('num', $(this).data('num'));
+		$('#report-modal').data("table", "review");
 	}
-	$('#report-modal').data('num', $(this).data('num'));
-	$('#report-modal').data("table", "review");
 })
 
 
@@ -927,6 +984,7 @@ $('.rc-insert').click(function(){
 	if('${user.me_id}' == ''){
 		
 		alert('로그인 하세요.');
+		return;
 	}
 	let rc_content=$(this).prev().val();
 	let rc_num=$(this).data('num');
@@ -950,6 +1008,7 @@ $(document).on("click","#rc-delete-btn",function(){
 	if('${user.me_id}' == ''){
 		
 		alert('로그인 하세요.');
+		return;
 	}
 	let rc_num = $(this).data('num');
 	let rc_re_num = $(this).parent().parent().data('num');
@@ -966,6 +1025,7 @@ $(document).on("click","#rc-delete-btn",function(){
 			alert('삭제실패했어요!');
 			return;
 		}
+		location.reload();
 		
 	})
 
@@ -1017,7 +1077,7 @@ function addRCList(rCList){
 			str += createRComment(rCList[i]);
 		}
 		$('.re-comment-list').html(str);
-		
+		a();
 }		
 
 function createRComment(rComment){
@@ -1069,6 +1129,7 @@ function addRCPagination(rCPm){
 function listSuccess(data){
 	addReviewList(data.list, data.reFile);
 	addPagination(data.pm);
+
 }
 	
 function selectReviewList(cri){
@@ -1100,7 +1161,7 @@ $('.review-delete-btn').click(function(){
 			}else{
 				alert('댓글 삭제 실패!');
 			}
-			
+			location.reload();
 		} )
 		
 	}
@@ -1180,5 +1241,43 @@ $("#ao-option").on("change", function(){
       },
     });
 
-
+  </script>
+  <script>
+		  var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		  mapOption = {
+		      center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+		      draggable: false,
+		      level: 3 // 지도의 확대 레벨
+		  };  
+		
+		//지도를 생성합니다    
+		var map = new kakao.maps.Map(mapContainer, mapOption); 
+		
+		//주소-좌표 변환 객체를 생성합니다
+		var geocoder = new kakao.maps.services.Geocoder();
+		
+		//주소로 좌표를 검색합니다
+		geocoder.addressSearch("${product.pd_street_address}", function(result, status) {
+		
+		  // 정상적으로 검색이 완료됐으면 
+		   if (status === kakao.maps.services.Status.OK) {
+		
+		      var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+		
+		      // 결과값으로 받은 위치를 마커로 표시합니다
+		      var marker = new kakao.maps.Marker({
+		          map: map,
+		          position: coords
+		      });
+		
+		      // 인포윈도우로 장소에 대한 설명을 표시합니다
+		      var infowindow = new kakao.maps.InfoWindow({
+		          content: '<div class="map-tag">'+"${product.pd_title}"+'</div>'
+		      });
+		      infowindow.open(map, marker);
+		
+		      // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+		      map.setCenter(coords);
+		  } 
+		});    
   </script>

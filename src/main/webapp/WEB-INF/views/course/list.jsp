@@ -205,9 +205,9 @@
 				</div> 
 			</div>
 		</form>
-		
-			<a class="btn btn-outline-success" href="<c:url value='/course/insert'></c:url>">글쓰기</a>
-		
+			
+				<a class="btn btn-outline-success" href="<c:url value='/course/insert'></c:url>">글쓰기</a>
+			
 	</div>
   
 	

@@ -32,8 +32,7 @@ public class ProductServiceImp implements ProductService{
 	ProductDAO productDao;
 	
 
-//	String uploadPath = "D:\\uploadfiles";
-	String uploadPath = "/Users/hyunkyulee/final/Uploadfiles";
+	String uploadPath = "D:\\uploadfiles";
 
 
 	@Override
@@ -141,15 +140,17 @@ public class ProductServiceImp implements ProductService{
 	@Override
 	public ArrayList<ProductVO> getRandomProduct() {
 		ArrayList<ProductVO> list = new ArrayList<ProductVO>();
-		int totalCount = productDao.getTotalCountOfProduct();
-		int random;
+		ArrayList<Integer> pdList= productDao.getProductPk();
 		int amount =10;
 		ProductVO file;
+		ArrayList<Integer> random = new ArrayList<Integer>();
+		for(int i=0; i<amount;i++) {
+			int randomPd =(int)(Math.random()*pdList.size());
+			random.add(pdList.get(randomPd));
+		}
 		for(int i=0; i<amount; i++) {
-			random = (int)(Math.random()*totalCount+1);
-			file = productDao.selectProductByNum(random);
+			file = productDao.selectProductByNum(random.get(i));
 			list.add(file);
-			
 		}
 		return list;	
 	}
@@ -420,6 +421,26 @@ public class ProductServiceImp implements ProductService{
 		currentProduct.setPath("/");
 	    response.addCookie(currentProduct);
 	}
+
+
+
+	@Override
+	public String[] getHashList(int pd_num) {
+		if(pd_num<1) return null;
+		return productDao.getHash(pd_num);
+	}
+
+
+
+	@Override
+	public void insertKeywordWithId(String search, int pd_num, String id) {
+		System.out.println(id);
+		productDao.insertKeywordWithId(search, pd_num, id);
+	}
+
+
+
+	
 	
 
 

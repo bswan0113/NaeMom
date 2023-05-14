@@ -71,10 +71,11 @@ public class MemberController {
 
 
 	@RequestMapping(value = "/login", method= {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView login(ModelAndView mv, MemberVO member, HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView login(ModelAndView mv, MemberVO member, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 	    String url = request.getHeader("Referer");
 	    //다른 URL을 통해 로그인페이지로 온 경우
 	    //(단, 로그인 실패로 인해서 login post에서 온 경우는 제외)
+	    
 	    if(url != null && !url.contains("login")) {
 	        request.getSession().setAttribute("prevURL", url);
 	    }
@@ -82,7 +83,7 @@ public class MemberController {
 	    if (request.getMethod().equals("POST")) {
 	        MemberVO user = memberService.login(member);
 	        if(user != null && user.getMe_authority() > 0) {
-	            user.setAutoLogin(member.isAutoLogin());
+	            user.setAutoLogin(member.isAutoLogin());	            
 	            mv.addObject("user", user);
 	            mv.addObject("msg", "로그인에 성공했습니다.");
 	            mv.addObject("url", "/");
@@ -106,6 +107,12 @@ public class MemberController {
 			HttpSession session,
 			HttpServletResponse response) throws IOException {
 		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null) {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('이미 로그아웃되었거나 잘못된 접근입니다.');location.href='/naemom'</script>");
+			out.flush();
+		}
 		if(user != null) {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();

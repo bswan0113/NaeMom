@@ -47,6 +47,32 @@
   .btn-update:hover {
     background-color: #239a55;
   }
+  #note-box{
+	margin-left:10px;
+   border:1px solid white;
+   position:relative;
+   display:inline-block;
+  }
+  #note-box a{
+  font-size:22px;
+    height:50px;
+  line-height:150px;
+  width:150px;
+  margin-left:20px;
+  margin-right:3px;
+  color:#29c16d;
+  }
+  .send-count{
+  position:absolute;
+  background-color:red;
+  border-radius:100%;
+  color:white;
+  width:20px;
+  height:20px;
+  font-size:14px;
+  text-align:center;
+  top:57px;
+  }
 </style>
 
 <ul class="profile-list">
@@ -54,14 +80,14 @@
     <span>프로필 사진:</span>
     <br>
     <c:if test="${user.member_profile ==null}">
-    <img src="https://via.placeholder.com/200x200" alt="프로필 사진" width="200" height="200">
+   	 <img src="https://via.placeholder.com/200x200" alt="프로필 사진" width="200" height="200">
     </c:if>
     <c:if test="${user.member_profile !=null}">
       <img src="<c:url value='/download${user.member_profile.mf_name}'/>" alt="프로필 사진" width="200" height="200">
     </c:if>
   </li>
   <li>
-    <span>아이디:</span><br>
+    <span>아이디:</span>
     ${user.me_id}
     <span>닉네임 :</span>
      ${user.me_nickname}
@@ -87,4 +113,66 @@
     ${user.expirationMileage}
   </li>
 </ul>
-    <a href="<c:url value="/mypage/profile"></c:url>"class="btn-update">프로필 편집하기</a>
+    <button data-toggle="modal" data-target="#myModal" class="btn btn-success btn-update">프로필 편집하기</button>
+    <div id="note-box">
+    	<c:if test="${user.unreadMail>0}">
+    		<div class="send-count">${user.unreadMail}</div>
+    	</c:if>
+	    <a href="<c:url value='/note/noteList'></c:url>"><i class="fas fa-envelope"></i>쪽지함</a>
+    </div>
+<!-- 신고 모달 -->
+  <div class="modal common-modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">비밀번호 입력</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+			비밀번호 입력 : 
+			<input class="form-control" id="pw" type="password">
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success check-pw" data-dismiss="modal" id="report-modal">입력</button>
+          <button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+    
+    
+<script>
+$('.check-pw').click(function(){
+	   var pw = $('#pw').val();
+	    if(pw.trim().length<=0){
+	    	alert('비밀번호를 입력해주세요')
+	    	return false;
+	    }
+	    $.ajax({
+	        type: 'POST',
+	        data: 'pw=' + pw, 
+	        url: "<c:url value='/mypage/pwcheck'></c:url>",
+	        success: function(data){
+	        	if(data.res){
+	        		location.href = "<c:url value='/mypage/profile'></c:url>"; // 수정된 부분
+
+		    	}
+	        	else{
+	        		alert('비밀번호가 틀립니다!')
+	        		location.reload();
+	        		
+	        	}
+	        }
+	    });
+
+	    
+})
+
+</script>

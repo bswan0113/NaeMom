@@ -2,6 +2,9 @@ package kr.dbp.naemom.vo;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -32,6 +35,15 @@ public class FileVO implements Serializable{
 			this.fi_table_key = fi_table_key;
 		}
 		
-		
+		@Override
+		public String toString() {
+		    ObjectMapper objectMapper = new ObjectMapper();
+		    try {
+		        return objectMapper.writeValueAsString(this);
+		    } catch (JsonProcessingException e) {
+		        e.printStackTrace();
+		        return null;
+		    }
+		}		
 		
 }

@@ -1,10 +1,8 @@
 package kr.dbp.naemom.dao;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.multipart.MultipartFile;
 
 import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
@@ -50,6 +48,8 @@ public interface HomeDAO {
 	ArrayList<ProductVO> selectFestivalList();
 
 	ArrayList<FileVO> selectFestivalImgList(@Param("fi_category")String fi_category, @Param("fi_table")String fi_table);
+
+	ArrayList<ProductVO> getProductListByScore();
 
 
 	

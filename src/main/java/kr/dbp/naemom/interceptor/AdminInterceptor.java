@@ -17,10 +17,12 @@ public class AdminInterceptor extends HandlerInterceptorAdapter  {
 			throws Exception {
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		//if(!user.getMe_authority()<9) {
-		//	response.sendRedirect(request.getContextPath() + "/");
-		//	return false;
-		//}
-		return true;
+		if(user != null) {
+			if(user.getMe_authority()>9) {
+				return true;
+			}
+		}
+		response.sendRedirect(request.getContextPath() + "/");
+		return false;
 	}
 }

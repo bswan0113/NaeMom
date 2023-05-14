@@ -3,6 +3,7 @@ package kr.dbp.naemom.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.OptionListDTO;
@@ -12,7 +13,9 @@ import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.PayDTO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.Reservated_optionVO;
 import kr.dbp.naemom.vo.Shopping_basketVO;
+import kr.dbp.naemom.vo.Use_memberVO;
 
 public interface OrderService {
 
@@ -42,13 +45,30 @@ public interface OrderService {
 
 	ArrayList<Shopping_basketVO> getBasketBySbNum(String me_id, String[] sb_num);
 
-	MemberVO getMember(String me_id);
+
 
 	String insertBuyList(PayDTO dto, String me_id);
 
 	int updateBuyList(String bl_num, String me_id);
 
 	int deleteBuyList(String bl_num, String me_id);
+
+	Buy_listVO getBuyListByBlNum(String bl_num);
+
+	int insertUseMember(Use_memberVO useMember);
+
+	void insertMileage(Buy_listVO bl);
+
+	void insertReservation(Buy_listVO bl);
+
+	int selectReservationRoom(String checkIn);
+
+	ArrayList<Reservated_optionVO> checkFood(Reservated_optionVO ro, String me_id);
+
+	int checkProduct(String[] list, String me_id);
+
+	void updateBuyListByReceipt(String bl_num, String receipt_id);
+
 
 
 	

@@ -1,44 +1,79 @@
-
-.btn-find{
-	color:white;
-	background-color: rgb(118, 229, 168);
-	border-color: white;
-	margin-left: 17%;
-	margin-top: 1%;
-	margin-bottom:3%;
-	font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
-	cursor: pointer;
+/* 검색 결과 출력 영역 */
+#result {
+  border: 1px solid rgb(118, 229, 168);
+  color: black;
+  width: 50%;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  height: 66px;
+  margin-top: 40px;
+}
+.row {
+  margin-bottom: 20px;
+  margin-right: 110px;
 }
 
-.btn-main{
-	color:white;
-	background-color: rgb(118, 229, 168);
-	border-color: white;
-	margin-left: 25%;
-	margin-top: 1%;
-	font-family: -apple-system,BlinkMacSystemFont,"Malgun Gothic","맑은 고딕",helvetica,"Apple SD Gothic Neo",sans-serif;
-	cursor: pointer;	
+/* 아이디 검색 버튼 스타일 */
+.btn-find {
+  background-color: rgb(118, 229, 168);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-bottom: 15px;
 }
-#findid{
-	margin-left: 10px;
+
+/* 버튼 스타일 */
+button:not(.btn-find) {
+  background-color: transparent;
+  color: #01e283;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
 }
-.container{
-	border: none;
-	width: 250px;
-	height: 250px;
-	margin-left: 45%;
-	margin-bottom: 30%;
+
+/* 폼 전체 스타일 */
+#findpw-form{
+  margin: 0 auto;
+  width: 50%;
+  text-align: center;
 }
-#name,#email,#birth,#account{
-margin-left: 15%;
-margin-top: 10%;
+
+/* 헤더와 푸터 스타일 */
+header, footer {
+  background-color: #f2f2f2;
+  color: #01e283;
+  padding: 10px;
+  text-align: center;
 }
-h1{
-	color: #01e283;
-	margin-bottom: 100px;
-	width: 300px;
-	margin-right: 50px;
+
+/* h1 태그 스타일 */
+h1 {
+  text-align: center;
+  color: rgb(118, 229, 168);
+  margin-bottom: 30px;
 }
-findpw-form{
-	margin-bottom: 30px;
+
+/* 새로운 스타일 */
+body {
+  position: relative;
+  min-height: 100vh;
+}
+
+main {
+  margin-bottom: 50px; /* 푸터 높이만큼 여백 추가 */
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  background-color: #f2f2f2;
+  text-align: center;
 }

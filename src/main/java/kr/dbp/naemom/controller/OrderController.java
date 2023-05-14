@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.json.simple.JSONObject;
@@ -20,8 +23,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.bootpay.Bootpay;
-import kr.dbp.naemom.bootpay.response.ResDefault;
 import kr.dbp.naemom.service.OrderService;
+import kr.dbp.naemom.utils.ApiKey;
+import kr.dbp.naemom.utils.MessageUtils;
+import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.OptionListDTO;
@@ -31,7 +36,9 @@ import kr.dbp.naemom.vo.Option_landMarkVO;
 import kr.dbp.naemom.vo.Option_restrauntVO;
 import kr.dbp.naemom.vo.PayDTO;
 import kr.dbp.naemom.vo.ProductVO;
+import kr.dbp.naemom.vo.Reservated_optionVO;
 import kr.dbp.naemom.vo.Shopping_basketVO;
+import kr.dbp.naemom.vo.Use_memberVO;
 
 
 @Controller
@@ -41,15 +48,26 @@ public class OrderController {
 	@Autowired
 	OrderService orderService;
 	
+	String api = new ApiKey().getBootpayKim();
+	
 	@RequestMapping(value = "/option/opList", method=RequestMethod.GET)
-	public ModelAndView opList(ModelAndView mv) {
-		
+	public ModelAndView opList(ModelAndView mv,HttpSession session,HttpServletResponse response) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null) {
+			MessageUtils.alertAndMovePage(response, 
+					"로그인하신 후 이용가능합니다.", "/naemom", "/login");
+		}
 		mv.setViewName("/option/opList");
 		return mv;
 	}
 	@RequestMapping(value = "/option/opList", method=RequestMethod.POST)
-	public ModelAndView selectOption(ModelAndView mv, @RequestParam("pd_num")String[] pd_num, 
+	public ModelAndView selectOption(ModelAndView mv, @RequestParam("pd_num")String[] pd_num,HttpSession session,HttpServletResponse response, 
 			@RequestParam("pd_pc_num")String[] pd_pc_num) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null) {
+			MessageUtils.alertAndMovePage(response, 
+					"로그인하신 후 이용가능합니다.", "/naemom", "/login");
+		}
 		ArrayList<ProductVO> pdList = new ArrayList<ProductVO>();
 		ArrayList<FileVO> fList = new ArrayList<FileVO>();
 		ArrayList<Option_landMarkVO> travelList = new ArrayList<Option_landMarkVO>();
@@ -96,27 +114,39 @@ public class OrderController {
 	
 	@ResponseBody
 	@RequestMapping(value="/option/test", method=RequestMethod.POST)
-	public Map<String, Object> test(@RequestBody List<OptionListDTO> list){
+	public Map<String, Object> test(@RequestBody List<OptionListDTO> list,HttpSession session){
 		Map<String, Object> map = new HashMap<String, Object>();
-		//지워야될코드
-		String id = "qwe";
-		MemberVO user = new MemberVO();
-		//MemberVO user = (MemberVO)session.getAttribute("user");
-		//지워야될코드
-		user.setMe_id(id);
+		MemberVO user = (MemberVO)session.getAttribute("user");
 		int res = orderService.addBasket(list, user.getMe_id());
 		map.put("res", res);
 		return map;
 	}
-	
+	@ResponseBody
+	@RequestMapping(value="/option/checkFood", method=RequestMethod.POST)
+	public Map<String, Object> checkFood(@RequestBody Reservated_optionVO ro,HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		ArrayList<Reservated_optionVO> res = orderService.checkFood(ro, user.getMe_id());
+		map.put("res", res);
+		return map;
+	}
+	@ResponseBody
+	@RequestMapping(value="/option/dateConfirm", method=RequestMethod.POST)
+	public Map<String, Object> dateConfirm(@RequestBody String checkIn,HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		int res = orderService.selectReservationRoom(checkIn);
+		map.put("res", res);
+		return map;
+	}
 	@RequestMapping(value = "/option/basket", method=RequestMethod.GET)
-	public ModelAndView Basket(ModelAndView mv) {
-		//지워야될코드
-		String id = "qwe";
-		MemberVO user = new MemberVO();
-		//MemberVO user = (MemberVO)session.getAttribute("user");
-		//지워야될코드
-		user.setMe_id(id);
+	public ModelAndView Basket(ModelAndView mv,HttpSession session,HttpServletResponse response) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null) {
+			MessageUtils.alertAndMovePage(response, 
+					"로그인하신 후 이용가능합니다.", "/naemom", "/login");
+		}
 		ArrayList<Shopping_basketVO> basket = orderService.getBasket(user.getMe_id());
 		ArrayList<ProductVO> prList = orderService.getProductByBasket(basket);
 		ArrayList<FileVO> fList = orderService.getFileListByBasket(basket);
@@ -127,15 +157,29 @@ public class OrderController {
 		return mv;
 	}
 	@ResponseBody
-	@RequestMapping(value = "/option/deleteBasket", method=RequestMethod.POST)
-	public Map<String, Object> deleteBasket(@RequestBody int sb_num) {
+	@RequestMapping(value = "/option/checkProduct", method=RequestMethod.POST)
+	public Map<String, Object> checkProduct(@RequestBody String[]list,HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		//지워야될코드
-		String id = "qwe";
-		MemberVO user = new MemberVO();
-		//MemberVO user = (MemberVO)session.getAttribute("user");
-		//지워야될코드
-		user.setMe_id(id);
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		int pd_num = orderService.checkProduct(list, user.getMe_id());
+		map.put("pd_num", pd_num);
+		return map;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/option/impossibleProduct", method=RequestMethod.POST)
+	public Map<String, Object> impossibleProduct(@RequestBody String pd_num,HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		ProductVO pd = orderService.getProductByPdNum(pd_num);
+		map.put("pd", pd);
+		return map;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/option/deleteBasket", method=RequestMethod.POST)
+	public Map<String, Object> deleteBasket(@RequestBody int sb_num,HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		
 		int res = orderService.deleteBasket(sb_num,user.getMe_id());
 		
 		map.put("res", res);
@@ -143,32 +187,42 @@ public class OrderController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "/option/deleteAllBasket", method=RequestMethod.POST)
-	public Map<String, Object> deleteAllBasket(@RequestBody int sb_num) {
+	public Map<String, Object> deleteAllBasket(@RequestBody int sb_num,HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		//지워야될코드
-		String id = "qwe";
-		MemberVO user = new MemberVO();
-		//MemberVO user = (MemberVO)session.getAttribute("user");
-		//지워야될코드
-		user.setMe_id(id);
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		
 		int res = orderService.deleteAllBasket(user.getMe_id());
 		
 		map.put("res", res);
 		return map;
 	}
+	@RequestMapping(value = "/option/paymentList", method=RequestMethod.GET)
+	public ModelAndView paymentList(ModelAndView mv,HttpSession session,HttpServletResponse response) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null) {
+			MessageUtils.alertAndMovePage(response, 
+					"로그인하신 후 이용가능합니다.", "/naemom", "/login");
+		}else {
+			MessageUtils.alertAndMovePage(response, 
+					"장바구니에서 상품을 주문해주세요.", "/naemom", "/option/basket");
+		}
+		
+		mv.setViewName("/option/payment");
+		return mv;
+	}
 	@RequestMapping(value = "/option/paymentList", method=RequestMethod.POST)
-	public ModelAndView paymentList(ModelAndView mv,@RequestParam("sb_num")String[]sb_num) {
-		//지워야될코드
-		String id = "qwe";
-		MemberVO user = new MemberVO();
-		//MemberVO user = (MemberVO)session.getAttribute("user");
-		//지워야될코드
-		user.setMe_id(id);
-		MemberVO member = orderService.getMember(user.getMe_id());
+	public ModelAndView paymentList(ModelAndView mv,@RequestParam("sb_num")String[]sb_num,HttpSession session,HttpServletResponse response) {
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null) {
+			MessageUtils.alertAndMovePage(response, 
+					"로그인하신 후 이용가능합니다.", "/naemom", "/login");
+		}
 		ArrayList<Shopping_basketVO> basket = orderService.getBasketBySbNum(user.getMe_id(),sb_num);
 		ArrayList<ProductVO> prList = orderService.getProductByBasket(basket);
 		ArrayList<FileVO> fList = orderService.getFileListByBasket(basket);
-		mv.addObject("member", member);
+		mv.addObject("member", user);
 		mv.addObject("prList", prList);
 		mv.addObject("basket", basket);
 		mv.addObject("fList", fList);
@@ -180,7 +234,8 @@ public class OrderController {
 	public String bootpay_confirm(Model mv, @RequestBody PayDTO dto) {
 		String success = "";
 		try {
-			Bootpay bootpay = new Bootpay("64424e90922c3400236cdc6d", "HDHG4jse5QYS0TIMJbBH5spsC9rjKMgCbE4cd4eP9Lg=");
+			System.out.println(api);
+			Bootpay bootpay = new Bootpay("64424e90922c3400236cdc6d", api);
 			String bootpay_check = "";
 			bootpay.getAccessToken();
 			HttpResponse res = bootpay.verify(dto.getReceipt_id());
@@ -208,58 +263,62 @@ public class OrderController {
 				{
 					System.out.println("이니시스 부트페이 비교 검증 성공");
 					success = "OK";
+					orderService.updateBuyListByReceipt(dto.getOrder_id(),dto.getReceipt_id());
 					//성공
-					return "OK";
+					return success;
 				}
 			}
 		} catch (Exception e) {
 		    e.printStackTrace();
 		    success = "NO";
-		    return "NO";
+		    return success;
 		}
-		return "NO";
+		return success;
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/option/insertBuyList", method=RequestMethod.POST)
-	public String buyList(@RequestBody PayDTO dto) {
-		//지워야될코드
-		String id = "qwe";
-		MemberVO user = new MemberVO();
-		//MemberVO user = (MemberVO)session.getAttribute("user");
-		//지워야될코드
-		user.setMe_id(id);
+	public String buyList(@RequestBody PayDTO dto,HttpSession session) {
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		
 		String res = orderService.insertBuyList(dto,user.getMe_id());
 		
 		return res;
 	}
 	@ResponseBody
 	@RequestMapping(value = "/option/updateBuyList", method=RequestMethod.POST)
-	public String updatebuyList(@RequestBody String bl_num) {
-		//지워야될코드
-		String id = "qwe";
-		MemberVO user = new MemberVO();
-		//MemberVO user = (MemberVO)session.getAttribute("user");
-		//지워야될코드
-		user.setMe_id(id);
+	public String updatebuyList(@RequestBody String bl_num,HttpSession session) {
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		
 		String success = "OK";
 		bl_num = bl_num.replaceAll("[^\\w+]", "");
 		int res = orderService.updateBuyList(bl_num,user.getMe_id());
 		if(res == 0) {
 			success = "NO";
+		}else {
+			success=bl_num;
 		}
-		System.out.println(success);
+		return success;
+	}
+	@ResponseBody
+	@RequestMapping(value = "/option/insertUseMember", method=RequestMethod.POST)
+	public String insertUseMember(@RequestBody Use_memberVO useMember,HttpSession session) {
+		String success = "OK";
+		useMember.setUm_bl_num(useMember.getUm_bl_num().replaceAll("[^\\w+]", ""));
+		int res = orderService.insertUseMember(useMember);
+		if(res == 0) {
+			success = "NO";
+		}
 		return success;
 	}
 	@ResponseBody
 	@RequestMapping(value = "/option/deleteBuyList", method=RequestMethod.POST)
-	public String deletebuyList(@RequestBody String bl_num) {
-		//지워야될코드
-		String id = "qwe";
-		MemberVO user = new MemberVO();
-		//MemberVO user = (MemberVO)session.getAttribute("user");
-		//지워야될코드
-		user.setMe_id(id);
+	public String deletebuyList(@RequestBody String bl_num,HttpSession session) {
+		
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		
 		String success = "OK";
 		bl_num = bl_num.replaceAll("[^\\w+]", "");
 		int res = orderService.deleteBuyList(bl_num,user.getMe_id());
@@ -268,7 +327,32 @@ public class OrderController {
 		}
 		return success;
 	}
-	
+	@RequestMapping(value = "/option/completeBuy", method=RequestMethod.GET)
+	public ModelAndView getCompleteBuy(ModelAndView mv,HttpSession session,HttpServletResponse response,String bl_num) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		if(user == null) {
+			MessageUtils.alertAndMovePage(response, 
+					"로그인하신 후 이용가능합니다.", "/naemom", "/login");
+		}else {
+			/*MessageUtils.alertAndMovePage(response, 
+					"잘못된 접근입니다.\n메인화면으로 이동합니다.", "/naemom", "/");*/
+			Buy_listVO bl = orderService.getBuyListByBlNum(bl_num);
+			mv.addObject("bl", bl);
+		}
+		mv.setViewName("/option/completeBuy");
+		return mv;
+	}
+	@RequestMapping(value = "/option/completeBuy", method=RequestMethod.POST)
+	public ModelAndView completeBuy(ModelAndView mv,HttpSession session,String bl_num) {
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		Buy_listVO bl = orderService.getBuyListByBlNum(bl_num);
+		orderService.insertMileage(bl);
+		orderService.insertReservation(bl);
+		orderService.deleteAllBasket(bl.getBl_me_id());
+		mv.addObject("bl_num", bl_num);
+		mv.setViewName("redirect:/option/completeBuy");
+		return mv;
+	}
 	
 	
 	

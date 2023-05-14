@@ -2,6 +2,8 @@ package kr.dbp.naemom.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,9 +11,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
+import kr.dbp.naemom.service.ProductService;
 import kr.dbp.naemom.service.SearchService;
-import kr.dbp.naemom.vo.CalendarVO;
 import kr.dbp.naemom.vo.CourseVO;
+import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.ProductVO;
 
 
@@ -20,9 +23,16 @@ public class SearchController {
 	
 	@Autowired
 	SearchService searchService;
+	@Autowired
+	ProductService productService;
 	
 	@RequestMapping(value = "/searchList/searchMain")
-	public ModelAndView searchMain(ModelAndView mv, Criteria cri) {
+	public ModelAndView searchMain(ModelAndView mv, Criteria cri, HttpSession session) {
+		MemberVO user =(MemberVO)session.getAttribute("user");
+		if(cri!=null && cri.getSearch()!=null  && cri.getSearch().trim().length() != 0) {
+			if(user == null)productService.insertKeyword(cri.getSearch(), 0);
+			else if(user != null)productService.insertKeywordWithId(cri.getSearch(), 0,user.getMe_id());
+		}
 		if(cri == null) cri = new Criteria();
 		cri.setPerPageNum(4);
 		ArrayList<ProductVO> landmark = searchService.getProduct(cri,1);
@@ -42,7 +52,12 @@ public class SearchController {
 
 
 	@RequestMapping(value = "/searchList/searchDetailList")
-	public ModelAndView searchRe(ModelAndView mv, Criteria cri) {
+	public ModelAndView searchRe(ModelAndView mv, Criteria cri, HttpSession session) {
+		MemberVO user =(MemberVO)session.getAttribute("user");
+		if(cri!=null && cri.getSearch()!=null  && cri.getSearch().trim().length() != 0) {
+			if(user == null)productService.insertKeyword(cri.getSearch(), 0);
+			else if(user != null)productService.insertKeywordWithId(cri.getSearch(), 0,user.getMe_id());
+		}
 		if(cri == null) cri = new Criteria();
 		ArrayList<ProductVO> pList =  searchService.getProduct(cri, cri.getPc_category());
 		int totalCount = searchService.getTotalCount(cri.getPc_category());

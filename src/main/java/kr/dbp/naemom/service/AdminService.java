@@ -6,7 +6,9 @@ import java.util.Map;
 
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.BuyListVO;
+import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseVO;
+import kr.dbp.naemom.vo.Hash_tagVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.ReportManageVO;
 import kr.dbp.naemom.vo.ReportVO;
@@ -37,7 +39,7 @@ public interface AdminService {
 
 	ArrayList<ReportManageVO> getReportList(String id, Criteria cri);
 
-	ArrayList<BuyListVO> getBuyList(String id, Criteria cri);
+	ArrayList<Buy_listVO> getBuyList(String id, Criteria cri);
 
 	int getReportCount(String id);
 
@@ -68,6 +70,39 @@ public interface AdminService {
 	boolean deleteComment(int num);
 
 	ArrayList<ReportVO> getReportByType(int num, String type);
+
+	ArrayList<Hash_tagVO> getHashList(int pd_num);
+
+	boolean deleteHashtag(int parseInt);
+
+	boolean insertHashtag(int pd_num, String[] list);
+
+	ArrayList<Buy_listVO> getAllBuyList(Criteria cri);
+
+	int getBuyListCount();
+
+	Buy_listVO getBuyListByNum(String bl_num);
+
+	void updateBuyList(String bl_num);
+
+	void addVisit(String id);
+
+	void updateVisit(String id);
+
+	boolean getVisit(String id);
+
+
+	ArrayList<Buy_listVO> getAllBuyListByState(Criteria cri, String state);
+
+	int getBuyListCountByState(String state);
+
+	String getAttendance(String me_id);
+
+	void insertAttendance(String me_id);
+
+	boolean insertAtMile(String me_id);
+
+
 
 
 }

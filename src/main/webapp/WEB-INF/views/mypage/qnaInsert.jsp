@@ -3,7 +3,7 @@
     pageEncoding="UTF-8"%>
 
 <style>
-form{
+.body-bottom > form{
 width:80%;
 margin: 0 auto;
 padding:30px;
@@ -15,7 +15,7 @@ padding:30px;
 	<div class="form-group">
 		<div class="search-img"></div>
 		<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#search-modal">문의상품검색</button>
-		<input type="hidden" class="form-control" id="pd_num" name="qa_pd_num">
+		<input type="hidden" class="form-control" id="pd_num" name="qa_pd_num" value="0">
 	</div>	
 	<select class="form-control select-category">
 		<option value="0">대분류 선택</option>

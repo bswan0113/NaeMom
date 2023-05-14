@@ -53,12 +53,15 @@
 				</div>
 				<br>				
 				<button type="submit" class="btn-submit" id="join">회원가입</button>
-				
+				<input type="hidden" name="me_registered_address">
 			</form>    
 			
 	
 	
 <script>
+
+
+
 var email_auth_cd = '';
 $(document).ready(function() {
 $('#email_auth_btn').click(function() {
@@ -314,6 +317,7 @@ function showMessage(message, success) {
               
               $("[name=me_post]").val(data.zonecode);
               $("[name=me_street_address]").val(fullRoadAddr);
+              $("[name=me_registered_address]").val(data.jibunAddress);
               
               /* document.getElementById('signUpUserPostNo').value = data.zonecode; //5자리 새우편번호 사용
               document.getElementById('signUpUserCompanyAddress').value = fullRoadAddr;

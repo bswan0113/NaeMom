@@ -4,25 +4,31 @@ package kr.dbp.naemom.controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.dbp.naemom.service.HomeService;
+import kr.dbp.naemom.utils.Fortune;
+import kr.dbp.naemom.utils.UseGPT;
 import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
+import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.ProductVO;
 
 
@@ -31,11 +37,11 @@ public class HomeController {
 	
 	@Autowired
 	HomeService homeService;
-		
+	
 	
 	@RequestMapping(value = "/")
-	public ModelAndView home(ModelAndView mv,HttpServletRequest request, HttpServletResponse response) {
-
+	public ModelAndView home(ModelAndView mv,HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		MemberVO user =(MemberVO)session.getAttribute("user");
 		ArrayList<ProductVO> plist = homeService.getCheckedList();
 		ArrayList<FileVO> flist = homeService.getFileList();
 		ArrayList<FileVO> files = new ArrayList<FileVO>();
@@ -74,7 +80,7 @@ public class HomeController {
 		//축제 
 		ArrayList<ProductVO> festivalList = homeService.getFestivalList();
 		ArrayList<FileVO> festivalFiles = homeService.getFestivalImgList();
-		
+		mv.addObject("user",user);
 		mv.addObject("files", files);
 		mv.addObject("flist",flist);
 		mv.addObject("plist", plist);
@@ -137,6 +143,24 @@ public class HomeController {
 		mv.addObject("flist", flist);
 		mv.setViewName("redirect:/");
 		return mv;
+	}
+	
+	@RequestMapping(value = "/gpt/ask", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> askGpt(@RequestParam("ask") String ask, HttpSession session) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		MemberVO user =(MemberVO)session.getAttribute("user");
+		map.put("res", UseGPT.getAnswer(ask,user));
+	    return map;
+	}
+	
+	
+	@RequestMapping(value = "/fortune", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, String> fortune() {
+	    Map<String, String> response = new HashMap<String, String>();
+	    response.put("message", Fortune.fortune());
+	    return response;
 	}
 
 

@@ -20,6 +20,8 @@ public class PayDTO {
 	String add_mile;
 	String[] sb_num;
     
+	String reContent;
+	
     
     
     public static class Extra {

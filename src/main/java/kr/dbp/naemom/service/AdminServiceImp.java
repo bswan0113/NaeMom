@@ -1,8 +1,6 @@
 package kr.dbp.naemom.service;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,12 +9,16 @@ import org.springframework.stereotype.Service;
 import kr.dbp.naemom.dao.AdminDAO;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.BuyListVO;
+import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseVO;
+import kr.dbp.naemom.vo.Hash_tagVO;
 import kr.dbp.naemom.vo.MemberVO;
+import kr.dbp.naemom.vo.MileageVO;
 import kr.dbp.naemom.vo.ReportManageVO;
 import kr.dbp.naemom.vo.ReportVO;
 import kr.dbp.naemom.vo.ReviewCommentVO;
 import kr.dbp.naemom.vo.ReviewVO;
+import kr.dbp.naemom.vo.VisitedVO;
 import kr.dbp.naemom.vo.qnaVO;
 import kr.dbp.naemom.vo.qna_AnswerVO;
 
@@ -94,8 +96,8 @@ public class AdminServiceImp implements AdminService{
 	}
 
 	@Override
-	public ArrayList<BuyListVO> getBuyList(String id, Criteria cri) {
-		if(id==null||id.trim().length()<=0) return new ArrayList<BuyListVO>();
+	public ArrayList<Buy_listVO> getBuyList(String id, Criteria cri) {
+		if(id==null||id.trim().length()<=0) return new ArrayList<Buy_listVO>();
 		return adminDao.getBuyList(id, cri);
 	}
 
@@ -182,6 +184,110 @@ public class AdminServiceImp implements AdminService{
 		if(num<=0) return null;
 		if(type==null || type.trim().length()<=0)return null;
 		return adminDao.getReportByType(num, type);
+	}
+
+	@Override
+	public ArrayList<Hash_tagVO> getHashList(int pd_num) {
+		return adminDao.getHashtag(pd_num);
+	}
+
+	@Override
+	public boolean deleteHashtag(int parseInt) {
+		return adminDao.deletehashTag(parseInt) != 0;
+	}
+
+	@Override
+	public boolean insertHashtag(int pd_num, String[] list) {
+		if(pd_num<1) return false;
+		if(list ==null || list.length<1) return false;
+		
+		for(String hash : list) {
+			if(!adminDao.insertHashtag(pd_num,hash))return false;
+		}
+		return true;
+	}
+
+	@Override
+	public ArrayList<Buy_listVO> getAllBuyList(Criteria cri) {
+		//String state = "결제완료";
+		return adminDao.selectAllBuyList(cri);
+	}
+
+	@Override
+	public int getBuyListCount() {
+		//String state = "결제완료";
+		return adminDao.selectCountBuyList();
+	}
+	@Override
+	public ArrayList<Buy_listVO> getAllBuyListByState(Criteria cri,String state) {
+		return adminDao.selectAllBuyListBystate(cri,state);
+	}
+
+	@Override
+	public int getBuyListCountByState(String state) {
+		return adminDao.selectCountBuyListBystate(state);
+	}
+
+	@Override
+	public Buy_listVO getBuyListByNum(String bl_num) {
+		
+		return adminDao.selectBuyListByNum(bl_num);
+	}
+
+	@Override
+	public void updateBuyList(String bl_num) {
+		//buy_list 수정
+		String state = "결제취소";
+		adminDao.updateBuyList(bl_num,state);
+		//order_list 삭제
+		adminDao.deleteOrderList(bl_num);
+		//옵션삭제
+		adminDao.deleteRoomOption(bl_num);
+		adminDao.deleteFoodOption(bl_num);
+		//적립마일리지 삭제
+		MileageVO mi = adminDao.selectMileage(bl_num);
+		adminDao.updateMember(mi);
+		adminDao.deleteMileage(bl_num);
+  }	
+  
+  @Override
+	public void addVisit(String id) {
+		adminDao.addVisit(id);
+		
+	}
+
+	//수정할 수도 안할 수도
+	@Override
+	public void updateVisit(String id) {
+		if(id==null || id.trim().length()<=0) return;
+		VisitedVO visit = adminDao.getVisit(id);
+		if(visit ==null)return;
+		adminDao.updateVisit(visit.getVi_num());
+		
+		
+	}
+
+	@Override
+	public boolean getVisit(String id) {
+		if(id==null || id.trim().length()<=0) return false;
+		VisitedVO visit = adminDao.getVisit(id);		
+		return visit == null;
+
+	}
+
+	@Override
+	public String getAttendance(String me_id) {
+		return adminDao.getAttendance(me_id);
+	}
+
+	@Override
+	public void insertAttendance(String me_id) {
+		adminDao.insetAttendance(me_id);
+	}
+
+	@Override
+	public boolean insertAtMile(String me_id) {
+		return adminDao.insertAtMile(me_id);
 	}
 	
 	

@@ -9,7 +9,7 @@
    border: 1px solid #dae1e6;
    margin: 0 auto;
    margin-top: 50px;
-   min-width:1200px;
+   width:1350px;
  }
  .search-container{
    width: 80%;
@@ -23,7 +23,14 @@
  padding:20px;
  }
 
-
+.item-link{
+width:150px;
+display:inline-block;
+text-align:center;
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
+}
 
 .item-img{
 width:100px;
@@ -35,14 +42,14 @@ height:100px;
 <form action="<c:url value='/admin/list/productList'></c:url>">
   <div class="search-container">
     <div class="search-filter">
-		<select class="select-category form-control" name="pc_category">
+		<select class="select-category form-control mb-3" name="pc_category">
 		  <option value="0" <c:if test="${pm.cri.pc_category == '0'}">selected</c:if>>카테고리 선택</option>
 		  <option value="1" <c:if test="${pm.cri.pc_category == '1'}">selected</c:if>>여행지</option>
 		  <option value="2" <c:if test="${pm.cri.pc_category == '2'}">selected</c:if>>음식점</option>
 		  <option value="3" <c:if test="${pm.cri.pc_category == '3'}">selected</c:if>>숙박</option>
 		  <option value="4" <c:if test="${pm.cri.pc_category == '4'}">selected</c:if>>축제</option>
 		</select>
-		<select class="search-select form-control" name="searchFilter">
+		<select class="search-select form-control mb-3" name="searchFilter">
 		  <option value="0" <c:if test="${pm.cri.searchFilter == '0'}">selected</c:if>>검색필터선택</option>
 		  <option value="1" <c:if test="${pm.cri.searchFilter == '1'}">selected</c:if>>내용</option>
 		  <option value="2" <c:if test="${pm.cri.searchFilter == '2'}">selected</c:if>>제목</option>
@@ -51,7 +58,7 @@ height:100px;
     </div>
       <div class="form-group mr-2">
         <label for="searchInput" class="sr-only">검색어 입력</label>
-        <input type="text" class="form-control" id="searchInput" placeholder="검색어 입력" value="${pm.cri.search}" name="search">
+        <input type="text" class="form-control" id="searchInput" placeholder="검색어 입력" value="${pm.cri.search}" name="search" style="width:960px">
       </div>
       <button type="submit" class="btn btn-primary" id="search-btn">검색</button>
   </div>
@@ -66,6 +73,7 @@ height:100px;
       	<a class="item-link" href="<c:url value='/product/detail/detailLayoutTMP/${item.pd_num}'></c:url>">${item.pd_title}</a>
         <a href="<c:url value='/admin/insert/updateProduct/${item.pd_num}'></c:url>"class="btn btn-dark product-update" data-num="${item.pd_num}">수정</a>
         <button class="btn btn-dark product-delete" data-num="${item.pd_num}">삭제</button>
+        <a class="btn btn-dark" href="<c:url value='/admin/insert/hashtag/${item.pd_num}/${item.pd_title}'></c:url>">해쉬태그 등록</a>
         <c:if test="${item.pd_pc_num==1}">
          <a class="btn btn-dark" href="<c:url value='/admin/insert/optionLandMark/'></c:url>${item.pd_num}">옵션관리</a>
         </c:if>

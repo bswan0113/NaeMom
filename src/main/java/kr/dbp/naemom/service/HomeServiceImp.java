@@ -19,8 +19,7 @@ import kr.dbp.naemom.vo.ProductVO;
 @Service
 public class HomeServiceImp implements HomeService {
 	
-//	String uploadPath = "D:\\uploadfiles";
-	String uploadPath = "/Users/hyunkyulee/final/Uploadfiles";
+	String uploadPath = "D:\\uploadfiles";
 
 	@Autowired
 	HomeDAO homeDao;
@@ -151,6 +150,11 @@ public class HomeServiceImp implements HomeService {
 		String fi_category = "게시글 썸네일";
 		String fi_table = "product";
 		return homeDao.selectFestivalImgList(fi_category, fi_table);
+	}
+
+	@Override
+	public ArrayList<ProductVO> getProductListByScore() {
+		return homeDao.getProductListByScore();
 	}
 
 	

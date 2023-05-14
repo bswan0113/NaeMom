@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.dbp.naemom.dao.NoteDAO">
+  
+	<select id="getNoteByUser" resultType="kr.dbp.naemom.vo.NoteVO">
+		select * from note where nt_receiver =#{id}  LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	<select id="getNoteBySend" resultType="kr.dbp.naemom.vo.NoteVO">
+		select * from note where nt_sender =#{id}  LIMIT #{cri.pageStart}, #{cri.perPageNum}
+	</select>
+	
+	
+	<select id="getTotalCountNoteByUser" resultType="Integer">
+		select count(*) from note where nt_receiver =#{id}
+	</select>
+	
+	
+	<select id="getTotalCountNoteBySend" resultType="Integer">
+		select count(*) from note where nt_sender =#{id}
+	</select>
+	
+	<update id="noteRead">
+		update note set nt_is_read =1 where nt_num=#{nt_num}
+	</update>
+	
+	<delete id="deleteNote">
+		delete from note where nt_num=#{nt_num}
+	</delete> 
+	
+	<insert id="sendNote">
+		insert note(nt_receiver, nt_sender, nt_content) values(#{nt.nt_receiver}, #{nt.nt_sender}, #{nt.nt_content})
+	</insert>
+</mapper>

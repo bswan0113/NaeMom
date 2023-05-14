@@ -45,16 +45,31 @@
 let pd_num =$('.container-fluid').data('pd_num');
 
 
-
-
 $('#saveOption').click(function(){
 	let optionItem= [];
-  $('.option-item').each(function(index) {
-	    let age = $(this).find('input[name="fo_age"]').val();
-	    let price = $(this).find('input[name="fo_price"]').val();
+	let res = false;
+	  $('.option-item').each(function(index) {
+		    let age = $(this).find('input[name="fo_age"]').val();
+		    let price = $(this).find('input[name="fo_price"]').val();
 
-	  optionItem.push(createOptionItem(age,price));
-	  });
+		    if(age.trim().length == 0){
+		    	alert('구분을 입력해주세요.');
+		    	return;
+		    }
+		    if(price.trim().length == 0){
+		    	alert('가격을 입력해주세요.');
+		    	return;
+		    }			    
+		    if (!/^\d+$/.test(price)) {
+		        alert('가격의 값이 잘못되었습니다.');
+		        vali = false;
+		        return false;
+		    }
+		  optionItem.push(createOptionItem(age,price));
+		  res=true;
+		  });
+	  if(!res)return;	  
+	  
   ajaxPost(true,optionItem,"<c:url value='/insert/option/festival'></c:url>",function(data){
   	if(data.res) {
 		alert('추가성공!');
@@ -104,6 +119,20 @@ $('.saved-list').on('click', '.update-item', function() {
 			fo_age : age,
 			fo_price : price
 	}
+
+    if(age.trim().length == 0){
+    	alert('구분을 입력해주세요.');
+    	return;
+    }
+    if(price.trim().length == 0){
+    	alert('가격을 입력해주세요.');
+    	return;
+    }			    
+    if (!/^\d+$/.test(price)) {
+        alert('가격의 값이 잘못되었습니다.');
+        vali = false;
+        return false;
+    }
 	
 	 ajaxPost(true,fo,"<c:url value='/update/option/festival'></c:url>",function(data){
 	    	if(data.res) {
