@@ -16,8 +16,10 @@
 	<resources mapping="/resources/**" location="/resources/" />
 
 
+
 	<!-- <resources mapping="/download/**" location="file:/Users/hyunkyulee/final/Uploadfiles/" /> -->
 	<resources mapping="/download/**" location="file:///D:/uploadfiles/" />
+
 
 
 

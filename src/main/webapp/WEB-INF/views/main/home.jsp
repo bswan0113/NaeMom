@@ -37,7 +37,7 @@
 	                            <span class="contents-title">${product_checked.pd_title}</span>
 	                        </div>
 	                        <span class="content">${product_checked.pd_street_address}</span>
-	                        <a href="<c:url value='/product/detail/${product_checked.pd_num}'></c:url>" class="content-btn">둘러보기</a>
+	                        <a href="<c:url value='/product/detail/detailLayoutTMP/${product_checked.pd_num}'></c:url>" class="content-btn">둘러보기</a>
 	                    </div>
                 </div>
                 </c:forEach>

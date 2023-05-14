@@ -59,7 +59,7 @@ if (member != null) {
 			</div>
 			<div class="box-quickMenu clearfix">
 				<div class="box-menu">
-					<a href="#" class="btn-quick"><i class="fas fa-map-marked-alt"></i>
+					<a href="<c:url value="/map"></c:url>" class="btn-quick"><i class="fas fa-map-marked-alt"></i>
 					<span class="text-quick">여행지도</span>
 					</a>
 				</div>
