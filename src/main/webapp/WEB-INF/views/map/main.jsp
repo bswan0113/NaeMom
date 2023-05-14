@@ -218,9 +218,7 @@ body {
 }
 
 /* 사이드바 바디 */
-.menu-content {
-	
-}
+
 
 .search-text{
 	text-align:center; 
@@ -236,6 +234,7 @@ body {
   cursor: pointer;
   width: 100%;
   font-size: 20px;
+  height: 50px;
 }
 
 .select_product:hover {
@@ -248,6 +247,27 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.product-table {
+width: 100%;
+border-collapse: collapse;
+ table-layout: fixed; 
+  width: 400px;
+}
+
+.product-list td {
+padding: 10px;
+border: 1px solid #ccc;
+height: 200px; 
+overflow: hidden
+}
+
+.product-table td:last-child {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 
 </style>
 <div id="sidebar">
@@ -280,7 +300,9 @@ body {
 			<thead>
 			</thead>
 			<tbody class="productList">
-				<tr class="select_product">  
+				<tr class="select_product">
+					<td></td>
+					<td></td>
 				</tr>
 			</tbody>
 		</table>
