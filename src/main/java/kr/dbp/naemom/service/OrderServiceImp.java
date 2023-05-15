@@ -277,13 +277,13 @@ public class OrderServiceImp implements OrderService{
 		for(Order_listVO tmp : bl.getOrderlist()) {
 			if(tmp.getOl_table().equals("restraunt_option") && bl.getBl_num().equals(tmp.getOl_bl_num())) {
 				Option_restrauntVO food = orderDao.selectFoodOptionByTableKey(tmp.getOl_table_key());
-				orderDao.insertFoodOption(tmp,food,bl.getBl_me_id());
+				orderDao.insertFoodOption(tmp,food,bl.getBl_me_id(),bl.getBl_num());
 			}
 			if(tmp.getOl_table().equals("accomodation_option") && bl.getBl_num().equals(tmp.getOl_bl_num())) {
 				Option_accomodationVO home = orderDao.selectHomeOptionByTableKey(tmp.getOl_table_key());
 				LocalDate date = LocalDate.parse(tmp.getOl_date());
 				date = date.plusDays(tmp.getOl_amount());
-				orderDao.insertHomeOption(tmp,home,bl.getBl_me_id(),date);
+				orderDao.insertHomeOption(tmp,home,bl.getBl_me_id(),date,bl.getBl_num());
 			}
 		}
 		
@@ -381,6 +381,12 @@ public class OrderServiceImp implements OrderService{
 			}
 		}
 		return 0;
+	}
+
+	@Override
+	public void updateBuyListByReceipt(String bl_num, String receipt_id) {
+		orderDao.updateBuyListByReceipt(bl_num, receipt_id);
+		
 	}
 
 

@@ -6,12 +6,14 @@ import org.apache.ibatis.annotations.Param;
 
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.BuyListVO;
+import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
 import kr.dbp.naemom.vo.Member_profileVO;
 import kr.dbp.naemom.vo.MileageVO;
+import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.Qna_Sub_categoryVO;
 import kr.dbp.naemom.vo.ReviewVO;
 import kr.dbp.naemom.vo.WishVO;
@@ -63,7 +65,7 @@ public interface MyPageDAO {
 
 	Integer getexpirationMileage(@Param("me_id")String me_id);
 
-	ArrayList<BuyListVO> getBuyList(@Param("me_id")String me_id, @Param("cri")Criteria cri);
+	ArrayList<Buy_listVO> getBuyList(@Param("me_id")String me_id, @Param("cri")Criteria cri);
 
 	int getBuyListCount(@Param("me_id")String me_id);
 
@@ -72,6 +74,17 @@ public interface MyPageDAO {
 	ArrayList<CourseItemVO> getCourseItem(@Param("co_num")int co_num);
 
 	int changeEmail(@Param("me_ma_email")String email, @Param("me_id")String userId);
+
+	int updateBuyCancel(@Param("bl_num")String bl_num, @Param("me_id")String me_id, @Param("state")String state);
+
+	ArrayList<ProductVO> getProductByuserPrefer(@Param("pd_pc_category")int table, @Param("limit_start")int count);
+
+
+	int selectCourseListCount(@Param("me_id")String me_id);
+
+	int getUnreadMailCount(@Param("id")String me_id);
+
+
 
 
 

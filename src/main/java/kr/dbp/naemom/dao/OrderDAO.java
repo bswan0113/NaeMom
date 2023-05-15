@@ -79,10 +79,10 @@ public interface OrderDAO {
 	Option_accomodationVO selectHomeOptionByTableKey(@Param("ol_table_key")int ol_table_key);
 
 	void insertFoodOption(@Param("tmp")Order_listVO tmp, @Param("food")Option_restrauntVO food, 
-			@Param("me_id")String me_id);
+			@Param("me_id")String me_id,@Param("bl_num")String bl_num);
 
 	void insertHomeOption(@Param("tmp")Order_listVO tmp, @Param("home")Option_accomodationVO home,
-			@Param("me_id")String me_id,  @Param("date")LocalDate date);
+			@Param("me_id")String me_id,  @Param("date")LocalDate date, @Param("bl_num")String bl_num);
 
 	Reservation_roomVO selectReservRoom(@Param("ao_num")int ao_num, @Param("checkIn")LocalDate date,
 			@Param("checkOut")String string);
@@ -90,6 +90,8 @@ public interface OrderDAO {
 	int selectReservFood(@Param("pd_num")int reo_pd_num, @Param("date")String sb_date, @Param("time")int sb_time);
 
 	int selectBasketCheck(@Param("item")Shopping_basketVO item, @Param("pd_num")int pd_num);
+
+	void updateBuyListByReceipt(@Param("bl_num")String bl_num, @Param("receipt_id")String receipt_id);
 
 	
 

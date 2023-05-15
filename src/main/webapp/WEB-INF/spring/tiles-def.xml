@@ -26,6 +26,10 @@
     	<put-attribute name="header" value="/WEB-INF/views/layout/adminHeader.jsp" />
     </definition>
     
+    <definition name=".root4" template="/WEB-INF/views/layout/mapLayout.jsp">
+    	<put-attribute name="header" value="/WEB-INF/views/layout/mapHeader.jsp" />
+    </definition>
+    
     
  
     
@@ -42,6 +46,10 @@
     
    	<definition name="/product/*/*" extends="product">      
       <put-attribute name="body" value="/WEB-INF/views/product/{1}/{2}.jsp" />
+    </definition>
+    
+   	<definition name="/map/*" extends=".root4">      
+      <put-attribute name="body" value="/WEB-INF/views/map/{1}.jsp" />
     </definition>
     
 </tiles-definitions>

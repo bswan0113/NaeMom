@@ -25,11 +25,12 @@
 		</div>
 		<div class="row">
 		<label for="me_birthday"  class="col-3">생년월일:</label>
-		<input type="text" id="me_birthday" name="me_birthday" required class="col-9">
+		<input type="text" id="me_birthday" name="me_birthday" required class="col-9" placeholder="0000-00-00">
 		</div>
 		<button type="submit" class="btn-findid">아이디 검색</button><br>	
-		<a href="findpw" id="findpw"><button type="button">비밀번호 찾기</button></a>
 		<a href="login" id="login"><button type="button">로그인</button></a>
+		<a href="findpw" id="findpw"><button type="button">비밀번호 찾기</button></a>
+	
 	</form>
 	<div id="result"></div>
 
@@ -69,7 +70,7 @@
 			}
 			
 			let data = $(this).serialize()
-			console.log(data);
+			
 			
 			$.ajax({
 				async:false,

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import kr.dbp.naemom.service.AdminService;
 import kr.dbp.naemom.service.MemberService;
 import kr.dbp.naemom.vo.MemberVO;
 
@@ -14,6 +15,9 @@ public class LoginRedirectInterceptor extends HandlerInterceptorAdapter  {
 	
 	@Autowired
 	MemberService memberService;
+	@Autowired
+	AdminService adminService;
+	
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, 
@@ -23,12 +27,18 @@ public class LoginRedirectInterceptor extends HandlerInterceptorAdapter  {
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
 		if(user != null) {
+			if(adminService.getAttendance(user.getMe_id())==null) {
+				adminService.insertAttendance(user.getMe_id());
+			}
 			String url = (String)session.getAttribute("prevURL");
 			if(url != null) {
 				response.sendRedirect(url);
 				session.removeAttribute("prevURL");
 				
 				return false;
+			}			
+			if(!adminService.getVisit(session.getId())) {
+				adminService.updateVisit(session.getId());
 			}
 		}
 		return true;

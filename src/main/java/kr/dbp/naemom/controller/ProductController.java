@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.ProductService;
+import kr.dbp.naemom.utils.ApiKey;
 import kr.dbp.naemom.utils.MessageUtils;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.MemberVO;
@@ -99,11 +100,6 @@ public class ProductController {
 		mv.setViewName("/admin/insert/updateProduct");
 		return mv;
 	}
-	@RequestMapping(value="/admin/home/home")
-	public ModelAndView adminMain(ModelAndView mv) {
-		mv.setViewName("/admin/home/home");
-		return mv;
-	}
 
 	@RequestMapping(value="/admin/insert/insertProduct", method=RequestMethod.GET)
 	public ModelAndView insertProductget(ModelAndView mv, ProductVO product) {
@@ -135,22 +131,23 @@ public class ProductController {
 
 		MemberVO user =(MemberVO)session.getAttribute("user");
 		if(cri!=null && cri.getSearch()!=null  && cri.getSearch().trim().length() != 0) {
-			
-			productService.insertKeyword(cri.getSearch(), pd_num);
+			if(user == null)productService.insertKeyword(cri.getSearch(), pd_num);
+			else if(user != null)productService.insertKeywordWithId(cri.getSearch(), pd_num,user.getMe_id());
 		}
-		
 
 		ProductVO product= productService.getProduct(pd_num);
 		ArrayList<FileVO> files = productService.getFiles(pd_num);
 		ArrayList<ProductVO> randomProduct = productService.getRandomProduct();
 		ArrayList<FileVO> random = productService.getThumbNailByRandomProduct(randomProduct);
-		WishVO wish = productService.getWish(user.getMe_id(), pd_num);
+		if(user != null) {
+			WishVO wish = productService.getWish(user.getMe_id(), pd_num);
+			mv.addObject("wish",wish);
+		}
 		Double rating =productService.getRatingAvg(pd_num);
 		
 		Cookie[] cookies = request.getCookies();
 		Cookie abuseCheck = null;
 		ArrayList<String> check = new ArrayList<String>();
-		
 		if (cookies != null && cookies.length > 0){
 			for(int i=0; i<cookies.length; i++) {
 				check.add(cookies[i].getName());
@@ -160,6 +157,7 @@ public class ProductController {
             		abuseCheck= new Cookie("viewcount"+pd_num+cookies[i].getValue(), session.getId());
             		abuseCheck.setMaxAge(60 * 60 * 24);
             		response.addCookie(abuseCheck);
+            		break;
             	}
             	
             }
@@ -188,10 +186,11 @@ public class ProductController {
 		        option.set(i, optReo);
 		    }
 		}
+		mv.addObject("apikey", new ApiKey().getKakaoGunwo());
 		mv.addObject("hash", getHashtag(pd_num));
 		mv.addObject("user", user);
 		mv.addObject("option",option);
-		mv.addObject("wish",wish);
+
 		mv.addObject("randomProduct", randomProduct);
 		mv.addObject("random", random);
 		mv.addObject("files", files);

@@ -6,24 +6,14 @@
 
 <script src="<c:url value='/resources/js/home.js'></c:url>"></script>
 <link rel="stylesheet" href="<c:url value='/resources/css/home.css?ver=1.3'></c:url>">
-<c:if test="${user.me_authority>9}">
-	<a class="admin fas fa-cog" href="<c:url value='/admin/home/home'></c:url>">관리자페이지</a>
-</c:if>
+<div class="form-group gpt-box">
+	<input class="form-control gpt-ask" type="search" placeholder="gpt에게 질문하세요!">
+	<button class="btn btn-success btn-gpt" style="width:100%;">질문하기</button>
+	<div class="res-gpt" style="border:2px solid white; min-height:88px; line-height:40px; background:#dae1e6; padding:4px;">
+	</div>
+</div>
 <div class="main-container-first">
     <div class="first-title title">
-    <c:if test="${user == null}">
-			<li class="nav-item">
-				<a class="nav-link" href="<c:url value='/signup'></c:url>">회원가입</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="<c:url value='/login'></c:url>">로그인</a>
-			</li>
-		</c:if>
-		<c:if test="${user != null }">
-			<li class="nav-item">
-				<a class="nav-link" href="<c:url value='/logout'></c:url>">로그아웃</a>
-			</li>
-		</c:if>
         <h2>메인</h2>
     </div>
     <div class="btn-container">
@@ -44,7 +34,7 @@
 	                            <span class="contents-title">${product_checked.pd_title}</span>
 	                        </div>
 	                        <span class="content">${product_checked.pd_street_address}</span>
-	                        <a href="<c:url value='/product/detail/${product_checked.pd_num}'></c:url>" class="content-btn">둘러보기</a>
+	                        <a href="<c:url value='/product/detail/detailLayoutTMP/${product_checked.pd_num}'></c:url>" class="content-btn">둘러보기</a>
 	                    </div>
                 </div>
                 </c:forEach>
@@ -161,6 +151,22 @@
 <!-- swiper -->
 <script>
 
+$(document).on("click", ".btn-gpt", function() {
+	  let ask = $('.gpt-ask').val();
+	  $('.res-gpt').text("답변중입니다. 잠시 기다려주세요.");
+	  $.ajax({
+		aysnc:false,
+	    url: "<c:url value='/gpt/ask'></c:url>",
+	    method: "POST",
+	    data: {
+	      ask: ask
+	    },
+	    success: function(data) {
+	    	$('.res-gpt').text(data.res);
+	    },
+	  });
+	  
+	});
  
 var swiper = new Swiper(".mySwiper", {
     slidesPerView: 3,

@@ -5,7 +5,8 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -16,8 +17,10 @@
 	<resources mapping="/resources/**" location="/resources/" />
 
 
+
 	<!-- <resources mapping="/download/**" location="file:/Users/hyunkyulee/final/Uploadfiles/" /> -->
 	<resources mapping="/download/**" location="file:///D:/uploadfiles/" />
+
 
 
 
@@ -40,7 +43,6 @@
 	        </beans:list>
 	    </beans:property>
 	</beans:bean>
-		
 	
 	<context:component-scan base-package="kr.dbp.naemom.*" />
 		<!-- 인터셉터 등록 -->
@@ -54,11 +56,17 @@
 		class="kr.dbp.naemom.interceptor.AutoLoginInterceptor"></beans:bean>
 		<beans:bean id="loginRedirectInterceptor" 
 		class="kr.dbp.naemom.interceptor.LoginRedirectInterceptor"></beans:bean>
+		<beans:bean id="memberInterceptor" 
+		class="kr.dbp.naemom.interceptor.MemberInterceptor"></beans:bean>	
 
 		<beans:bean id="mypageInterceptor" 
 		class="kr.dbp.naemom.interceptor.MypageInterceptor"></beans:bean>
 	<!-- 어느 url에서 인터셉터들이 동작할 건지를 설정 -->
 	<interceptors>
+	    <interceptor>
+	        <mapping path="/**"/>
+	        <beans:ref bean="baseInterceptor"/>
+	    </interceptor>
 		<interceptor>
 			<mapping path="/**"/>
 			<beans:ref bean="autoLoginInterceptor"/>
@@ -66,10 +74,6 @@
 		<interceptor>
 	        <mapping path="/mypage/**"/>
 	        <beans:ref bean="mypageInterceptor"/>
-	    </interceptor>
-	    <interceptor>
-	        <mapping path="/**"/>
-	        <beans:ref bean="baseInterceptor"/>
 	    </interceptor>
 	    <interceptor>
 	        <mapping path="/admin/**"/>
@@ -82,9 +86,18 @@
 		<interceptor>
 			<mapping path="/**"/>
 			<beans:ref bean="loginRedirectInterceptor"/>
-		</interceptor>
-
-	</interceptors>	
+		</interceptor>		
+	
+		<interceptor>
+        	<mapping path="/login"/>
+        	<mapping path="/signup"/>
+        	<mapping path="/findid"/>
+        	<mapping path="/findpw"/>
+        	
+        	<beans:ref bean="memberInterceptor"/>
+  		  </interceptor>
+    
+	</interceptors>		
 	
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
     <!-- 업로드 최대 크기 10Mb -->

@@ -152,6 +152,11 @@ public class HomeServiceImp implements HomeService {
 		return homeDao.selectFestivalImgList(fi_category, fi_table);
 	}
 
+	@Override
+	public ArrayList<ProductVO> getProductListByScore() {
+		return homeDao.getProductListByScore();
+	}
+
 	
 	
 

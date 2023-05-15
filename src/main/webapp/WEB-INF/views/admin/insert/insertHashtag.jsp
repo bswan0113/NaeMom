@@ -4,7 +4,7 @@
 
 <style>
   /* container style */
-    .container {
+    .containerTest {
         margin: 50px auto;
         max-width: 800px;
         border: 1px solid #ccc;
@@ -24,9 +24,10 @@
     /* list styles */
     .ori-list {
         margin-bottom: 20px;
+        display: flex; flex-wrap: wrap;
     }
 
-    .ori-list h5 {
+    .containerTest saveHash {
         font-size: 18px;
         color: #555;
         margin-bottom: 10px;
@@ -42,7 +43,7 @@
         color:#ccc;
         font-weight:bold;
         font-size:22px;
-        width:200px;
+        width:auto;
     }
 
     .ori-list div:hover {
@@ -69,14 +70,14 @@
 
 </style>  
    
-    <div class="container">
+    <div class="containerTest">
     	<h4>${title}</h4>
+   		<h5 class="saveHash">저장 목록</h5>
     	<div class="ori-list">
-    		<h5>저장 목록</h5>
     		<c:forEach items="${regi}" var="hash">
     			<div>
     			&#35;${hash.hg_name}
-    			<button class="btn btn-danger delete-btn" data-num="${hash.hg_num}">삭제</button>
+    			<button class="btn btn-danger delete-btn ml-3" data-num="${hash.hg_num}">삭제</button>
     			</div> 
     		</c:forEach>
     	</div>
@@ -118,9 +119,17 @@ $(document).on("click",".save-btn",function(){
 	let pd_num =${pd_num};
 	let list = [];
 	let input = $('.insert-input');
+	let empty = false;
 	input.each(function(){
+		if($(this).val().trim().length == 0){
+			empty=true;
+		}
 		list.push($(this).val());
 	})
+	if(empty){
+		alert('입력되지 않은 항목이 있습니다.')
+		return;
+	}
 	
 	
 	$.ajax({
