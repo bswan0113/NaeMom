@@ -64,7 +64,7 @@ public class ProductController {
 			}
 		}
 		else {
-			mv.setViewName("redirect:/admin/home/home");
+			mv.setViewName("redirect:/admin/home/main");
 		}
 		return mv;
 	}	

@@ -204,7 +204,8 @@ function execPostCode() {
 
            // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-           var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+           if(data.roadAdress != null)var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+           if(data.jibunAddress != null)var fullRoadAddr = data.jibunAddress; 
            var extraRoadAddr = ''; // 도로명 조합형 주소 변수
 
            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
@@ -225,12 +226,8 @@ function execPostCode() {
                fullRoadAddr += extraRoadAddr;
            }
 
-           // 우편번호와 주소 정보를 해당 필드에 넣는다.
-           console.log(data.zonecode);
-           console.log(fullRoadAddr);
            
-           
-           $("[name=pd_street_address]").val(fullRoadAddr);
+           $("[name=pd_street_address]").val(data.roadAddress);
            $("[name=pd_registerd_address]").val(data.jibunAddress);
            $("[name=me_post]").val(fullRoadAddr);
            /* document.getElementById('signUpUserPostNo').value = data.zonecode; //5자리 새우편번호 사용
