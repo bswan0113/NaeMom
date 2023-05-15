@@ -30,7 +30,9 @@ public class MypageInterceptor extends HandlerInterceptorAdapter  {
 	        if (session.getAttribute("user") != null) {
 
 	            MemberVO user =(MemberVO)session.getAttribute("user");
-
+	            if(user.getMe_session_limit()==null) {
+	            	user.setMe_session_limit(new Date());
+	            }
 	            java.util.Date visit = user.getMe_session_limit();
 	            Calendar calendar = Calendar.getInstance();
 	            calendar.setTime(visit);
