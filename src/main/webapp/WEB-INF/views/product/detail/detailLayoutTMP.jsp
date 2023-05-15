@@ -1214,19 +1214,15 @@ $("#ao-option").on("change", function(){
 	let file = $('#ao-option option:selected').data("file");
 	let ao_price = $('#ao-option option:selected').data("ao_price");
 	
-	console.log(file);
-	
+	let name = $('<span>').text(ao_name);
+	let capacity = $('<span>').text("최대인원 : "+ao_capacity);
+	let room_number = $('<span>').text("호실 : "+ao_room_number);
+	let price = $('<span>').text("가격 : "+ ao_price);
+	let room_detail = $('<p>').text(ao_room_detail);
+	let img = $('<img>').attr("src", "<c:url value='/download"+file+"'></c:url>").attr("width", 400).attr("height", 400);
 
-	option='';
-	option+= '<span>'+ao_name+'</span><br>'+
-	'<img height="400" width="400" src="/download/'+file+'"><br>'+
-				'<span> 호실 : '+ao_room_number+'</span><br>'+
-				'<span> 최대인원 : '+ao_capacity+'명</span><br>'+
-				'<span> 가격 : '+ao_price+'원</span><br>'+
-				'<p>'+ao_room_detail+'</p><br>';
 	
-				
-	$('#ao-detail').html(option);	
+	$('#ao-detail').append(img,"<br>",name,"<br>",capacity,"<br>",room_number,"<br>",price,"<br>",room_detail);	
 
   });
   

@@ -18,7 +18,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import kr.dbp.naemom.service.ProductService;
+import kr.dbp.naemom.service.ProductServiceImp;
 import kr.dbp.naemom.vo.MemberVO;
+import kr.dbp.naemom.vo.ProductVO;
 import kr.dbp.naemom.vo.qnaVO;
 
 public class UseGPT {
@@ -32,22 +35,19 @@ public class UseGPT {
 	    	return usegpt(ask);
 	}
 	
-	public static String getAnswerForAdmin(qnaVO qna) {
+	public static String getAnswerForAdmin(qnaVO qna,ProductVO pr) {
 		String category = qna.getQa_qs_category();
 		String title = qna.getQa_title();
 		String content = qna.getQa_content();
-		String ask="우리는 여행사이트야. 우리 사이트 이용자의 문의내용에 대답해줘.{"; 
-//		ProductService service = new ProductServiceImp();
-//		ProductVO pr = service.getProduct(qna.getQa_pd_num());
-//		String product =pr.getPd_title();
-//		if(product!=null) {
-//			ask+="상품명 : ["+product+"]";
-//			
-//			System.out.println(product);
-//			}
+		String ask="우리는 여행사이트야. 우리 사이트 이용자의 문의내용에 대답해줘.{";
+		
+		if(pr!=null) {
+		String product =pr.getPd_title();
+			ask+="상품명 : ["+product+"]";
+			
+			}
 		
 		ask+="문의 구분 : ["+category+"] 문의 제목 : ["+title+"] 문의내용 : ["+content+"]}";
-		System.out.println(ask);
 		return usegpt(ask);
 	}
 	
@@ -71,6 +71,7 @@ public class UseGPT {
 	         String requestBody = objectMapper.writeValueAsString(requestMap);
 
             request.setEntity(new StringEntity(requestBody, "UTF-8"));
+            System.out.println("request요청 완료");
             HttpResponse response = httpClient.execute(request);
             HttpEntity responseEntity = response.getEntity();
             String jsonResponse= EntityUtils.toString(responseEntity, "UTF-8");
