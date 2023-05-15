@@ -62,6 +62,7 @@ public class MyPageController {
 	@RequestMapping(value = "/mypage/profile", method = RequestMethod.POST)
 	public ModelAndView myPagePost(ModelAndView mv, MemberVO member, HttpSession session, HttpServletResponse response) {
 		boolean res = myPageService.updateMember(member);
+		System.out.println(res);
 		if(!res) {
 			MessageUtils.alertAndMovePage(response, 
 					"회원정보 수정 실패!!", 

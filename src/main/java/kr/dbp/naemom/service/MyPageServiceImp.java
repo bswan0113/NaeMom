@@ -54,15 +54,12 @@ public class MyPageServiceImp implements MyPageService{
 		if(member==null) return false;
 		String pw = passwordEncoder.encode(member.getMe_pw());
 		member.setMe_pw(pw);
-		System.out.println(member);
-		if(member.getMe_authority()<1 ||
-				member.getMe_birthday()==null||
+		if(member.getMe_birthday()==null||
 				member.getMe_nickname().trim().length()<=0||
 				member.getMe_registered_address().trim().length()<=0||
 				member.getMe_phone().trim().length()<=0||
 				member.getMe_street_address().trim().length()<=0
 				) return false;
-		
 		
 			return myPageDao.updateMember(member)>=0;
 	}
