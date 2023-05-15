@@ -11,7 +11,6 @@ import kr.dbp.naemom.dao.MyPageDAO;
 import kr.dbp.naemom.dao.ProductDAO;
 import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.utils.UploadFileUtils;
-import kr.dbp.naemom.vo.BuyListVO;
 import kr.dbp.naemom.vo.Buy_listVO;
 import kr.dbp.naemom.vo.CourseItemVO;
 import kr.dbp.naemom.vo.CourseVO;

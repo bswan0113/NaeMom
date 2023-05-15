@@ -128,7 +128,8 @@
     if (idValue === '') {
       isValid = false;
     }
-    if($('#pw').val().trim().length==0){
+    if($('[name=me_pw]').val().trim().length==0){
+    	console.log($('[name=me_pw]').val());
     	alert('기존비밀번호 또는 바꿀 비밀번호를 입력해주세요!');
     	isValid = false;
     	return;
