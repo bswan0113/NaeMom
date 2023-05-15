@@ -40,7 +40,7 @@ import kr.dbp.naemom.vo.qna_AnswerVO;
 public class AdminController {
 	
 	@Autowired
-	AdminService adminService;
+	AdminService adminService;	
 	
 	String api = new ApiKey().getBootpayKim();
 	
