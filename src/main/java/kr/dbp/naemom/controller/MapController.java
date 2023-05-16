@@ -33,19 +33,12 @@ public class MapController {
 	public ModelAndView home(ModelAndView mv) {
 		ArrayList<ProductVO> plist = mapService.getProductList();
 		ArrayList<FileVO> flist = mapService.getFileList();
-		ArrayList<FileVO> files = new ArrayList<FileVO>();
+//		ArrayList<FileVO> files = new ArrayList<FileVO>();
 		ArrayList<ProductCategoryVO> clist = mapService.getProductCategory();
-
-		
-		for (int i = 0; i < flist.size(); i++) {
-		    if (flist.get(i).getFi_category().equals("게시글 썸네일")) {
-		        files.add(flist.get(i));
-		    }
-		}
 		
 		mv.addObject("clist",clist);
 		mv.addObject("flist",flist);
-		mv.addObject("files", files);
+//		mv.addObject("files", files);
 		mv.addObject("plist", plist);
 		mv.setViewName("map/main");
 		return mv;

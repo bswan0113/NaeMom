@@ -16,10 +16,11 @@
     <div class="first-title title">
         <h2>메인</h2>
     </div>
+    <c:if test="${user.me_authority >= 9}">
     <div class="btn-container">
     	<a href="/naemom/main/insert/" class="insertContent-btn btn btn-secondary">등록하기</a>
     </div>
-    
+    </c:if>
     <div class="swiper first-contents">
         <div class="swiper-container mySwiper">
             <div class="swiper-wrapper contents-wraper">
@@ -48,9 +49,11 @@
 	<div class="second-title title">
         <h2>배너</h2>
     </div>
+    <c:if test="${user.me_authority >= 9}">
     <div class="btn-container">
     	<a href="/naemom/main/addimage/" class="addimage-btn btn btn-secondary">이미지 등록하기</a>
     </div>
+    </c:if>
     <div class="banner-box">
         <div class="swiper-container bannerSwiper">
             <div class="swiper-wrapper">
@@ -88,10 +91,10 @@
 									<em>${course.co_me_id }</em>
 								</span>
 							</a>
-							<c:forEach items="${files}" var="fi">
+							<c:forEach items="${courseFiles}" var="fi">
 								<c:forEach items="${items}" var="item">
-									<c:if test="${fi.fi_table_key == item.ci_pd_num && co.co_num == item.ci_co_num && item.ci_index == 1}">
-										<img src="<c:url value='/download${fi.fi_name }'></c:url>" alt="" class="course_item_img">
+									<c:if test="${fi.fi_table_key == item.ci_pd_num && course.co_num == item.ci_co_num && item.ci_index == 1}">
+										<img src="<c:url value='/download${fi.fi_name}'></c:url>" alt="" class="course_item_img">
 									</c:if>
 								</c:forEach>
 							</c:forEach>
@@ -171,6 +174,9 @@ $(document).on("click", ".btn-gpt", function() {
 var swiper = new Swiper(".mySwiper", {
     slidesPerView: 3,
     loop: true,
+    autoplay: { 
+        delay: 9000, 
+    },
     spaceBetween: 30,
     keyboard: {
       enabled: true,

@@ -51,7 +51,7 @@ public class ProductController {
 				case 3: category="optionAccomodation";
 					break;
 				case 4: category="optionFestival";
-					break;
+				break;
 				default:
 					mv.setViewName("/admin/insert/insertProduct");
 					return mv;

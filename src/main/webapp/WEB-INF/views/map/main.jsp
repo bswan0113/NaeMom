@@ -347,7 +347,7 @@ var positions = [];
 </c:forEach>
 
 var files = [];
-<c:forEach items="${files}" var="fi">
+<c:forEach items="${flist}" var="fi">
 	var obj = {
 			fiNum : "${fi.fi_num}",
 			fiName : "${fi.fi_name}",
@@ -624,7 +624,7 @@ var productList = [];
 			pd_pc_num: "${item.pd_pc_num}",
 			pdNum : "${item.pd_num}",
 			title : "${item.pd_title}",
-			content : "${item.pd_content}",
+			content : `${item.pd_content}`,
 			address : "${item.pd_street_address}"
 	};
 	productList.push(obj);

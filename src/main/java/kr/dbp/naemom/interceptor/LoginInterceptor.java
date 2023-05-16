@@ -30,11 +30,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter  {
 	throws Exception{
 		HttpSession session = request.getSession();
 		Cookie[] cookies = request.getCookies();
-		for(Cookie cookie : cookies) {
-			if(!cookie.getName().equals("clientCookie")) {
-				response.addCookie(cookie);
-			}
-		}
+//		for(Cookie cookie : cookies) {
+//			if(!cookie.getName().equals("clientCookie")) {
+//				response.addCookie(cookie);
+//			}
+//		}
 		MemberVO guestUser = new MemberVO();
 		guestUser.setMe_session_id(session.getId());
 		return true;

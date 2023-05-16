@@ -9,7 +9,7 @@
   	</select>
   	
   	<select id="getFileList" resultType="kr.dbp.naemom.vo.FileVO">
-  		select * from file
+  		select * from file where fi_category = '게시글 썸네일' and fi_table = 'product'
   	</select>
   	
   	<select id="getFile" resultType="kr.dbp.naemom.vo.FileVO">
