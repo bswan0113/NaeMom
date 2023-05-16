@@ -34,7 +34,7 @@ public interface HomeService {
 
 	ArrayList<FileVO> selectImage();
 
-	void deleteFileChecked(int[] fc_checked);
+	void deleteFileChecked(int[] imgCheckbox);
 
 	void insertFileChecked(int[] fc_checked);
 
@@ -51,6 +51,8 @@ public interface HomeService {
 	ArrayList<FileVO> getFestivalImgList();
 
 	ArrayList<ProductVO> getProductListByScore();
+
+	void deleteFileByEvent(int fi_num);
 
 
 

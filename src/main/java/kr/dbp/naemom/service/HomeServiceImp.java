@@ -104,8 +104,8 @@ public class HomeServiceImp implements HomeService {
 	
 	// 기존 이미지 지우기
 	@Override
-	public void deleteFileChecked(int[] fc_checked) {
-		homeDao.deleteFileChecked(fc_checked);
+	public void deleteFileChecked(int[] imgCheckbox) {
+		homeDao.deleteFileChecked(imgCheckbox);
 		
 	}
 
@@ -156,6 +156,15 @@ public class HomeServiceImp implements HomeService {
 	@Override
 	public ArrayList<ProductVO> getProductListByScore() {
 		return homeDao.getProductListByScore();
+	}
+
+	@Override
+	public void deleteFileByEvent(int fi_num) {
+		if(fi_num == 0)
+			return;
+		String fi_category = "이벤트 이미지";
+		String fi_table = "event";
+		homeDao.deleteFileByEvent(fi_num, fi_category, fi_table);
 	}
 
 	

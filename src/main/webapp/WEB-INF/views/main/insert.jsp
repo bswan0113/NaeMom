@@ -49,7 +49,6 @@ h1{
 		</div>
 		<br><hr>
 		<button type="submit" class="btn btn-success btn-insert">등록하기</button>
-		<button type="button" class="btn btn-danger btn-cancel">등록취소</button>
 		<br><hr>
 	</form>
 </div>

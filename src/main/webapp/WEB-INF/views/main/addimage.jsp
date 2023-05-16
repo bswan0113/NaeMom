@@ -91,13 +91,16 @@ label img {
 	  </form>
 		<br><hr>
 		<form action="<c:url value='/main/addimage'/>" method="post" enctype="multipart/form-data">
-		<div class="form-group">
-			<input type="file" name="files" class="form-control">
-		</div>
-		<button class="btn btn-secondary" type="submit" >파일저장</button>
-		<button class="btn btn-danger">등록취소</button>
-	</form>
-	
+		  <div class="form-group" id="file-input-container">
+		    <input type="file" name="files" class="form-control">
+		  </div>
+		  <button class="btn btn-secondary" type="submit">파일저장</button>
+		</form>
+		<form action="<c:url value='/main/addimage/deleteimage'/>" method="post">
+		    <button class="btn btn-danger" type="submit" name="fi_num" value="${file.fi_num}">등록취소</button>
+		</form>
+
+		
 </div>
 <script>
 var swiper = new Swiper(".mySwiper", {
@@ -147,6 +150,36 @@ $(document).ready(function(){
     });
   });
 });
+
+$('input[name="files"]').change(function() {
+    var newFileInput = '<input type="file" name="files" class="form-control">';
+
+    $('#file-input-container').append(newFileInput);
+ });
+
+$(document).on('click', '#btn-delete', function() {
+    var checkedList = [];
+    $('input[name="imgCheckbox"]:checked').each(function() {
+      checkedList.push($(this).val());
+    });
+
+    if (checkedList.length > 0) {
+      $.ajax({
+        type: "POST",
+        url: "<c:url value='/main/addimage/deleteimage'/>",
+        data: { imgCheckbox: checkedList },
+        success: function(response) {
+          console.log(response);
+          // 성공적으로 삭제된 후 추가 동작을 수행합니다.
+        },
+        error: function(xhr, status, error) {
+          console.log(xhr.responseText);
+          // 에러 처리를 합니다.
+        }
+      });
+    }
+  });
+
 
 </script>
 

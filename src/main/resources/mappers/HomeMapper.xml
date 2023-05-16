@@ -58,9 +58,15 @@
   		select * from file WHERE `file`.`fi_table` = 'Event';;
   	</select>
   	
-  	<delete id="deleteFileChecked">
-  		delete from file_checked
-  	</delete>
+  	<delete id="deleteFileChecked" parameterType="int[]">
+	  DELETE FROM file
+	  WHERE fi_num IN
+	  <foreach item="item" collection="array" open="(" separator="," close=")">
+	    #{item}
+	  </foreach>
+	</delete>
+  	
+	
   	
   	<insert id="insertFileChecked">
   		insert into file_checked (fc_fi_num) values
@@ -120,4 +126,10 @@
      	select pd_title, pd_num from product order by pd_score limit 0,10
      </select>
      
+     <delete id="deleteFileByEvent">
+     	DELETE FROM file
+		  WHERE fi_num = #{fi_num}
+		    AND fi_category = #{fi_category}
+		    AND fi_table = #{fi_table}
+     </delete>
 </mapper>
