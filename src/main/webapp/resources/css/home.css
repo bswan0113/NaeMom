@@ -253,9 +253,28 @@ a:hover, a:visited{
     margin: 0 auto;
     padding: 0 0 27px 0;
     flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: center;
     flex-direction: row;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+}
+.cos-title-name{
+  font-size: 30px;
+}
+.box_listSort{
+	width: 1190px;
+	padding-bottom: 20px; 
+	border-bottom: 1px solid #ccc;
+}
+.sort_list{
+	float: right; 
+	padding-right: 48px;
+}
+
+
+.box_cosList{
+	width: 1190px; 
+	display: flex; 
+	flex-wrap: wrap;
 	padding-bottom: 20px; 
 	border-bottom: 1px solid #ccc;
 }
@@ -335,33 +354,33 @@ a:hover, a:visited{
 	object-fit: cover; 
 	object-position: top;
 }
-.box_cosList .course_list >ul{
+.main-container-fourth .course_list >ul{
 	border: 1px solid #e5e4e4; 
 	padding: 0 20px 16px 40px;
 }
-.box_cosList .course_list > ul li:first-child {
+.main-container-fourth .course_list > ul li:first-child {
    padding-top: 20px;
 }
-.box_cosList .course_list > ul li{
-	background: url('/contextPath/resources/img/courseImg/line_leftobj.png') 0 0 repeat-y;
-	line-height: 20px;
+.main-container-fourth .course_list > ul li{
+	background: url('/resources/img/courseImg/line_leftobj.png') 0 0 repeat-y; 
+	line-height: 20px; 
 	padding: 10px 0;
 }
 
-.box_cosList .course_list > ul li:last-child{
-	background: url('/contextPath/resources/img/courseImg/line_leftobj.png') 0 0 no-repeat;
+.main-container-fourth .course_list > ul li:last-child{
+	background: url('/resources/img/courseImg/line_leftobj.png') 0 0 no-repeat;
 }
 
-.box_cosList .course_list > ul li > span{
-	display: block;
-	margin-left: -5px;
-	padding-left: 20px;
-	background: url('/contextPath/resources/img/courseImg/ico_leftobj.png') 0 50% no-repeat;
-	color: #000;
+.main-container-fourth .course_list > ul li > span{
+	display: block; 
+	margin-left: -5px; 
+	padding-left: 20px; 
+	background: url('/resources/img/courseImg/ico_leftobj.png') 0 50% no-repeat;
+	color: #000; 
 	font-size: 16px;
 }
 
-.box_cosList .course_list > ul li > span a{
+.main-container-fourth .course_list > ul li > span a{
 	text-decoration: none; 
 	color: #333;
 }

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.WebUtils;
 
 import kr.dbp.naemom.dao.ProductDAO;
 import kr.dbp.naemom.pagination.Criteria;
@@ -32,7 +33,8 @@ public class ProductServiceImp implements ProductService{
 	ProductDAO productDao;
 	
 
-	String uploadPath = "D:\\uploadfiles";
+//	String uploadPath = "D:\\uploadfiles";
+	String uploadPath = "/Users/hyunkyulee/final/Uploadfiles/";
 
 
 	@Override
@@ -383,19 +385,20 @@ public class ProductServiceImp implements ProductService{
 
 	@Override
 	public void recentlyCookie(int pd_num, HttpServletRequest request, HttpServletResponse response) {
-		Cookie[] cookies = request.getCookies();
+//		Cookie[] cookies = request.getCookies();
 		Cookie currentProduct = null;
 		String cookieName = "recentProducts";
 		String recentProducts = null;
 		int cookieMaxAge = 60 * 60 * 24;
-		if (cookies == null || cookies.length == 0)
-			return;
-		for(int i=0; i<cookies.length; i++) {
-			if(cookieName.equals(cookies[i].getName())) {
-				currentProduct = cookies[i];
-				break;
-			}
-		}
+//		if (cookies == null || cookies.length == 0)
+//			return;
+//		for(int i=0; i<cookies.length; i++) {
+//			if(cookieName.equals(cookies[i].getName())) {
+//				currentProduct = cookies[i];
+//				break;
+//			}
+//		}
+		currentProduct = WebUtils.getCookie(request, cookieName);
 		if(currentProduct == null) {
 		    currentProduct = new Cookie(cookieName, String.valueOf(""));
 		}
