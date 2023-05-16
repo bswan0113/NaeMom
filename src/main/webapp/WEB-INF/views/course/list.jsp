@@ -112,6 +112,9 @@
 	.content_null_box{
 		width : 1190px; height : 300px; text-align:center; padding-top:100px;
 	}
+	.btn_checked_sort{
+		color: #fff; background-color: #28a745; border-color: #28a745;
+	}
   </style>
   
 </head>
@@ -120,9 +123,9 @@
 		<label class="cos-title-name ml-5">코스제목</label>
 		<div class="box_listSort clearfix">
 			<div class="sort_list">
-				<button type="button" class="btn btn-outline-success" onclick="location.href='/naemom/course/list?orderBy=co_num'">최신순</button>
-				<button type="button" class="btn btn-outline-success" onclick="location.href='/naemom/course/list?orderBy=co_up'">추천순</button>
-				<button type="button" class="btn btn-outline-success" onclick="location.href='/naemom/course/list?orderBy=co_views'">조회순</button>
+				<button type="button" class="btn btn-outline-success <c:if test="${pm.cri.orderBy == 'co_num'}">btn_checked_sort</c:if>" onclick="location.href='/naemom/course/list?orderBy=co_num'">최신순</button>
+				<button type="button" class="btn btn-outline-success <c:if test="${pm.cri.orderBy == 'co_up'}">btn_checked_sort</c:if>" onclick="location.href='/naemom/course/list?orderBy=co_up'">추천순</button>
+				<button type="button" class="btn btn-outline-success <c:if test="${pm.cri.orderBy == 'co_views'}">btn_checked_sort</c:if>" onclick="location.href='/naemom/course/list?orderBy=co_views'">조회순</button>
 			</div>
 		</div>
 		<div class="box_cosList clearfix">
@@ -214,6 +217,7 @@
 	
 	
 <script>
+	console.log('${pm.cri.orderBy}');
 	$('.btn_date').click(function(){
 		
 		

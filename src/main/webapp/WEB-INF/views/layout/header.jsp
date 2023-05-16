@@ -115,31 +115,33 @@ if (member != null) {
 		</div>
 	</div>
 	<!-- 검색모달 -->
-<div class="modal common-modal" id="modal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-		    <div class="modal-header">
-		    오늘의 운세
-		    </div>
-		
-		    <!-- Modal body -->
-		    <div class="modal-body" style="height:200px;">
-		    	<img id="fortune-cookie"alt="포츈쿠키" src="<c:url value ='/resources/img/fortune-cookie.jpg'></c:url>" width="250" height="auto">
-		    </div>
-		
-		    <!-- Modal footer -->
-		    <div class="modal-footer">
-		      <button type="button" class="btn btn-dark" data-dismiss="modal">닫기</button>
-		    </div>
+	<div class="modal common-modal" id="modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+			    <div class="modal-header">
+			    오늘의 운세
+			    </div>
+			
+			    <!-- Modal body -->
+			    <div class="modal-body" style="height:200px;">
+			    	<img id="fortune-cookie"alt="포츈쿠키" src="<c:url value ='/resources/img/fortune-cookie.jpg'></c:url>" width="250" height="auto">
+			    </div>
+			
+			    <!-- Modal footer -->
+			    <div class="modal-footer">
+			      <button type="button" class="btn btn-dark btn_modal_close" data-dismiss="modal">닫기</button>
+			    </div>
+			</div>
 		</div>
 	</div>
-</div>
 
 	<script>
 		$('.lucky').click(function(e){
+			$('.header').css('padding-right','17px');
 			e.preventDefault();
 			let id = "<%= meId %>";
 			if(id==''){
+				$('.header').css('padding-right','0');
 				alert('로그인이 필요한 서비스입니다!');				
 				return false;
 			}
@@ -161,6 +163,12 @@ if (member != null) {
 			
 		
 		});
+		$('.btn_modal_close').click(function(){
+			$('.header').css('padding-right','0');
+		})
+		
+		
+		
 		function showWaitImage(){
 			let img =$('#fortune-cookie');
 			img.addClass('shake');
