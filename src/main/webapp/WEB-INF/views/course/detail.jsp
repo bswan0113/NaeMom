@@ -199,6 +199,12 @@
 	    text-overflow: ellipsis;
 	    white-space: nowrap;
 	  }
+	  .cos_text .sub_content > p{
+	    overflow: hidden;
+	    padding-top: 5px;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	  }
 	  .cos_text .tag{
 	    overflow: hidden;
 	    padding-top: 5px;

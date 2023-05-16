@@ -585,6 +585,10 @@
    			$('input[name=payType]:checked').each(function(){
    				method = $(this).val();
    			})
+   			if(method == ''){
+   				alert('결제수단을 선택해주세요.');
+   				return false;
+   			}
    			let use_mile = $('.use_mile').text();
    			let addMile = $('.addMile').text();
    			//결제전 insert buy_list
@@ -610,7 +614,7 @@
    			  "name": order_name,
    			  "order_id": order_id,
    			  "pg": "nicepay",
-   			  "method": "kakao",
+   			  "method": method,
    			  "tax_free": 0,   			  
    			  "extra": {
    			    "open_type": "iframe",

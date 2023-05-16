@@ -20,6 +20,9 @@
 		  white-space: nowrap;
 		  text-overflow: ellipsis;
 		}
+		.btn-disabled{
+			pointer-events:none; opacity: .6;
+		}
 	
 	    </style>
 	<div class="container">
@@ -47,7 +50,8 @@
 							</c:if>
 						</td>
 						<td class="qna_title">${qna.qa_title}</td>
-						<td><a class="btn btn-success" href="<c:url value='/admin/list/qnaAnswer/${qna.qa_num}'></c:url>">답변등록</a></td>
+						
+						<td><a class="btn btn-success <c:if test="${qna.qa_state == 1}">btn-disabled</c:if>" href="<c:url value='/admin/list/qnaAnswer/${qna.qa_num}'></c:url>">답변등록</a></td>
 						<td>${qna.qa_qs_category}</td>
 						<td>${qna.qa_me_id}</td>
 						<td>${qna.qa_registerd_date_str}</td>

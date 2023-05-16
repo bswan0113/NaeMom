@@ -299,6 +299,7 @@
 	        </li>
 	      </ul>
 	      <div class="input-group">
+	      	<input type="hidden">
 	        <input type="text" class="form-control product_search" placeholder="상품검색" name="search">
 	        <div class="input-group-append">
 	          <button class="btn btn-success btn_product_search" type="button" >검색</button>
@@ -336,6 +337,12 @@
 	</form>
   </div>
   <script>
+  //엔터시 submit 막기
+  document.addEventListener('keydown', function(event) {
+	  if (event.keyCode === 13) {
+	    event.preventDefault();
+	  };
+	}, true);
   $(document).ready(function(){
 	
 	  let array = [];
@@ -524,6 +531,7 @@
       	'<span>'+tag.hg_name+'  </span>'
       return str;
   }
+  
   //검색했을때 상품리스트
   function searchProductTable(product,pdCategory){
 	  str='';
