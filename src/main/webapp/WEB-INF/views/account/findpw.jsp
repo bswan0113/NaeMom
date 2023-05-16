@@ -80,7 +80,7 @@
 			}
 
 			let data = $(this).serialize();
-			console.log(data);
+			
 
 			$.ajax({
 				async:false,

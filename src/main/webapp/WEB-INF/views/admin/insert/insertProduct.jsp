@@ -226,11 +226,8 @@ function execPostCode() {
                fullRoadAddr += extraRoadAddr;
            }
 
-           // 우편번호와 주소 정보를 해당 필드에 넣는다.
-           console.log(data.zonecode);
-           console.log(fullRoadAddr);
            
-           
+
            $("[name=pd_street_address]").val(data.roadAddress);
            $("[name=pd_registerd_address]").val(data.jibunAddress);
            $("[name=me_post]").val(fullRoadAddr);

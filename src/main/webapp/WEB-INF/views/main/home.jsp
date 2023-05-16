@@ -6,13 +6,10 @@
 
 <script src="<c:url value='/resources/js/home.js'></c:url>"></script>
 <link rel="stylesheet" href="<c:url value='/resources/css/home.css?ver=1.3'></c:url>">
-<c:if test="${user.me_authority>9}">
-	<a class="admin fas fa-cog" href="<c:url value='/admin/home/main'></c:url>">관리자페이지</a>
-</c:if>
 <div class="form-group gpt-box">
 	<input class="form-control gpt-ask" type="search" placeholder="gpt에게 질문하세요!">
 	<button class="btn btn-success btn-gpt" style="width:100%;">질문하기</button>
-	<div class="res-gpt" style="border:2px solid white; height:88px; line-height:40px; background:#dae1e6; padding:4px;">
+	<div class="res-gpt" style="border:2px solid white; min-height:88px; line-height:40px; background:#dae1e6; padding:4px;">
 	</div>
 </div>
 <div class="main-container-first">

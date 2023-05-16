@@ -124,7 +124,7 @@ if (member != null) {
 		
 		    <!-- Modal body -->
 		    <div class="modal-body" style="height:200px;">
-		    	<img id="fortune-cookie"alt="포츈쿠키" src="resources/img/fortune-cookie.jpg" width="250" height="auto">
+		    	<img id="fortune-cookie"alt="포츈쿠키" src="<c:url value ='/resources/img/fortune-cookie.jpg'></c:url>" width="250" height="auto">
 		    </div>
 		
 		    <!-- Modal footer -->
