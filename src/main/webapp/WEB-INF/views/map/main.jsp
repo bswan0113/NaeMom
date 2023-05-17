@@ -513,17 +513,11 @@ function searchSuccess(data,e){
 	  $('.search-text').hide();
 	  $('.product-table').html(str);
 	  $('.product-table').show();
-	  /* $('.select_product').click(function(){
-	  	  let pd_nums = $(this).find('.find_pdNum').text(); 
-		  ajaxPost(products, '<c:url value="/map/selectProduct"></c:url>', searchProductTable);
-	  }) */
+	  
 	 
 	  
 }
-/* $(document).on('click','.select_product', function(){
-	let pd_nums = $(this).find('.find_pdNum').text(); 
-	  ajaxPost(products, '<c:url value="/map/selectProduct"></c:url>', searchProductTable);
-}) */
+
 
 
 function searchProductTable(product,pdCategory){
