@@ -546,17 +546,6 @@ selectReviewList(cri);
 
 let starRate=0;
 
-
-$(document).on("submit","#reserve-form",function(e){
-	e.preventDefault();
-	if("${user.me_id}" == ''){
-		alert("로그인해주세요!");
-		return;
-	}
-	
-	$(this).unbind();
-})
-
 $(document).on("click",".like-btns",function(){
 	if("${user.me_id}" == ''){
 		alert("로그인해주세요!");
