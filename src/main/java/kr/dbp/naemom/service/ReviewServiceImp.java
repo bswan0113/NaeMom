@@ -24,8 +24,8 @@ public class ReviewServiceImp implements ReviewService {
 	@Autowired
 	ReviewDAO reviewDao;
 	
-//	String uploadPath = "D:\\uploadfiles";
-	String uploadPath = "/Users/hyunkyulee/final/Uploadfiles/";
+	String uploadPath = "D:\\uploadfiles";
+//	String uploadPath = "/Users/hyunkyulee/final/Uploadfiles/";
 
 	@Override
 	public int insertReview(ReviewVO review) {

@@ -37,8 +37,8 @@ public class MyPageServiceImp implements MyPageService{
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
 	
-	String uploadPath = "/Users/hyunkyulee/final/Uploadfiles/";
-//	String uploadPath = "D:\\uploadfiles";
+//	String uploadPath = "/Users/hyunkyulee/final/Uploadfiles/";
+	String uploadPath = "D:\\uploadfiles";
 	
 	@Override
 	public MemberVO getUserInfo(MemberVO user) {

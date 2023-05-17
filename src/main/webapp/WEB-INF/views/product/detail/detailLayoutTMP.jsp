@@ -139,7 +139,7 @@
 				</c:if>			
 			</c:if>
 		</div>
-		<form method="post"  id="reserve-form"action="<c:url value='/option/opList'></c:url>">
+		<form method="post"  id="reserve-form" action="<c:url value='/option/opList'></c:url>">
 			<input type="hidden" name="pd_num" value="${product.pd_num}">
 			<input type="hidden" name="pd_pc_num" value="${product.pd_pc_num}">
 			<button class="btn btn-dark">예약하러가기</button>

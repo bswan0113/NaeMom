@@ -168,14 +168,24 @@
 	    height: 164.5px;
 	  }
 	  .cos-list .cos-item .cos_text{
-	    min-height: 94px;
+	    max-height: 165px;
 	    padding-left: 340px;
 	    padding-right: 20px;
+	    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+	  }
+	  .cos-list .cos-item .cos_text div{
+	  	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+	  }
+	  .cos-list .cos-item .cos_text div span{
+		overflow: hidden; text-overflow: ellipsis; white-space: nowrap !important;
 	  }
 	  .cos-list .cos_item_origin .cos_text_origin{
 	  	min-height: 94px;
 	    padding-left: 500px;
 	    padding-right: 20px;
+	  }
+	  .title-area{
+	  	margin-bottom: 10px;
 	  }
 	  .title-area >a{
 	    float: left; 
@@ -678,7 +688,7 @@ async function addMarkers() {
           markers.push(marker); 
           if(markers.length == 1){
 	          $('.products_distance').text(0);
-	          $('[name=co_total_distance]').val($('.products_distance').text(0));
+	          $('[name=co_total_distance]').val(0);
           }
           if (markers.length > 1) { 
             var linePath = [markers[markers.length - 2].getPosition(), coords]; 

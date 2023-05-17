@@ -106,6 +106,12 @@ padding:10px;
   text-overflow: ellipsis;
  
 }
+.result-content-box > div{
+	padding:10px;
+ white-space: normal;
+   overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .result-content-box p {
   overflow: hidden;
@@ -175,7 +181,7 @@ width:325px;
 	                	<div class="de-result-top">
 		                    <a class="img-link" href="<c:url value='/product/detail/detailLayoutTMP/${p.pd_num}?search=${pm.cri.search}'></c:url>"><img src="<c:url value='/download${p.file.fi_name}'></c:url>" alt="" width="200px" height="200px"></a>
 		                    <div class="result-content-box">
-		                    <p>${p.pd_content}</p>
+		                    	${p.pd_content}
 		                    </div>
 	                    </div>
 	                    <hr>
