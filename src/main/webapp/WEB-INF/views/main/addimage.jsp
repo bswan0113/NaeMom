@@ -73,34 +73,32 @@ label img {
 <h1 class="text-primary">이벤트 이미지 페이지</h1> <br><hr>
 <div class="container-fluid mt-6 mb-6">
 	<form action="<c:url value='/main/addimage/uploadimage'/>" method="post">
-	 <div class="swiper mySwiper">
-	    <div class="swiper-wrapper">
-	      <c:forEach items="${flist}" var="file" varStatus="status">
-		      <div class="swiper-slide">
-			      <input type="checkbox" id="imgCheckbox${status.index}" name="imgCheckbox" value="${file.fi_num}" />
-				  <label for="imgCheckbox${status.index}"><img src="<c:url value='/download${file.fi_name}'></c:url>" /></label>
-		      </div>
-	      </c:forEach>
-	    </div>
-	    <div class="swiper-button-next"></div>
-	    <div class="swiper-button-prev"></div>
-	    <div class="swiper-pagination"></div>
-	  </div>
-		<br><hr>
-		<button class="btn btn-success btn-insert" type="submit">출력</button>
-	  </form>
-		<br><hr>
-		<form action="<c:url value='/main/addimage'/>" method="post" enctype="multipart/form-data">
-		  <div class="form-group" id="file-input-container">
-		    <input type="file" name="files" class="form-control">
-		  </div>
-		  <button class="btn btn-secondary" type="submit">파일저장</button>
-		</form>
-		<form action="<c:url value='/main/addimage/deleteimage'/>" method="post">
-		    <button class="btn btn-danger" type="submit" name="fi_num" value="${file.fi_num}">등록취소</button>
-		</form>
-
-		
+		<div class="swiper mySwiper">
+			<div class="swiper-wrapper">
+     			<c:forEach items="${flist}" var="file" varStatus="status">
+					<div class="swiper-slide">
+						<input type="checkbox" id="imgCheckbox${status.index}" name="imgCheckbox" value="${file.fi_num}" />
+						<label for="imgCheckbox${status.index}"><img src="<c:url value='/download${file.fi_name}'></c:url>" /></label>
+					</div>
+				</c:forEach>
+			</div>
+		<div class="swiper-button-next"></div>
+		<div class="swiper-button-prev"></div>
+		<div class="swiper-pagination"></div>
+		</div>
+	<br><hr>
+	<button class="btn btn-success btn-insert" type="submit">출력</button>
+	</form>
+	<br><hr>
+	<form action="<c:url value='/main/addimage'/>" method="post" enctype="multipart/form-data">
+		<div class="form-group" id="file-input-container">
+			<input type="file" name="files" class="form-control">
+		</div>
+	  	<button class="btn btn-secondary" type="submit">파일저장</button>
+	</form>
+	<form action="<c:url value='/main/addimage/deleteimage'/>" method="post">
+		<button class="btn btn-danger" type="submit" id="btn-delete" name="delete-file" value="${file.fi_num}">파일삭제</button>
+	</form>
 </div>
 <script>
 var swiper = new Swiper(".mySwiper", {
@@ -123,9 +121,9 @@ var swiper = new Swiper(".mySwiper", {
   });
  
 $(document).ready(function(){
-		
+	var checkedList = [];	
   $('input[name="imgCheckbox"]').each(function() {
-    var pdNum = $(this).val();
+    var fiNum = $(this).val();
     if ($.inArray(fiNum, checkedList) !== -1) {
       $(this).prop('checked', true);
     }
@@ -159,26 +157,15 @@ $('input[name="files"]').change(function() {
 
 $(document).on('click', '#btn-delete', function() {
     var checkedList = [];
+    var str = "";
     $('input[name="imgCheckbox"]:checked').each(function() {
-      checkedList.push($(this).val());
+      /* checkedList.push($(this).val()); */
+      str += '<input type = "hidden" name="fi_num" value="'+$(this).val()+'">'
+      
     });
-
-    if (checkedList.length > 0) {
-      $.ajax({
-        type: "POST",
-        url: "<c:url value='/main/addimage/deleteimage'/>",
-        data: { imgCheckbox: checkedList },
-        success: function(response) {
-          console.log(response);
-          // 성공적으로 삭제된 후 추가 동작을 수행합니다.
-        },
-        error: function(xhr, status, error) {
-          console.log(xhr.responseText);
-          // 에러 처리를 합니다.
-        }
-      });
-    }
-  });
+	$(this).after(str);
+    
+});
 
 
 </script>

@@ -31,7 +31,7 @@ public interface HomeDAO {
 
 	ArrayList<FileVO> selectImage();
 
-	void deleteFileChecked(int[] imgCheckbox);
+	void deleteFileChecked(int[] fc_checked);
 
 	void insertFileChecked(int[] fc_checked);
 
@@ -51,7 +51,7 @@ public interface HomeDAO {
 
 	ArrayList<ProductVO> getProductListByScore();
 
-	void deleteFileByEvent(int fi_num, @Param("fi_category")String fi_category, @Param("fi_table")String fi_table);
+	void deleteFileByEvent(@Param("fi_num") int[] fi_num, @Param("fi_category") String fi_category, @Param("fi_table") String fi_table);
 
 
 	

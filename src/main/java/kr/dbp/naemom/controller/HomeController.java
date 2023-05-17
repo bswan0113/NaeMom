@@ -136,7 +136,7 @@ public class HomeController {
 	//이벤트 등록 페이지 이미지 보내기
 	@RequestMapping(value = "/main/addimage/uploadimage", method = RequestMethod.POST)
 	public ModelAndView uploadImage(ModelAndView mv,FileVO file,int[] imgCheckbox) {
-//		homeService.deleteFileChecked(imgCheckbox);
+		homeService.deleteFileChecked(imgCheckbox);
 		homeService.insertFileChecked(imgCheckbox);			
 		ArrayList<FileVO> flist = homeService.selectImage();
 		mv.addObject("flist", flist);
@@ -146,7 +146,7 @@ public class HomeController {
 	
 	// 이벤트 등록 페이지 이미지 삭제
 	@RequestMapping(value = "/main/addimage/deleteimage", method = RequestMethod.POST)
-	public ModelAndView deleteImage(ModelAndView mv, Integer fi_num) {
+	public ModelAndView deleteImage(ModelAndView mv, int[] fi_num) {
 	    homeService.deleteFileByEvent(fi_num);
 	    ArrayList<FileVO> flist = homeService.selectImage();
 	    mv.addObject("flist", flist);

@@ -55,6 +55,14 @@ h1{
 <script src="https://code.jquery.com/jquery-3.5.1.js">
 alert(1);
 $(document).ready(function() {
+	$("#keyword").keyup(function() {
+        var k = $(this).val();
+        $("#user-table > tbody > tr").hide();
+        var temp = $("#user-table > tbody > tr > td:nth-child(5n+2):contains('" + k + "'), td:nth-child(5n+1):contains('" + k + "')");
+
+        $(temp).parent().show();
+    })
+
 	$('#keyword').keydown(function(event) {
     	if (event.keyCode === 13) {
       	event.preventDefault();
@@ -107,7 +115,7 @@ $(document).ready(function() {
 	  });
 }); */
 </script>
-<script>
+<!-- <script>
 
 $(document).ready(function(){
 	$("#keyword").keyup(function() {
@@ -119,5 +127,5 @@ $(document).ready(function(){
     })
 });
 
-</script>
+</script> -->
 
