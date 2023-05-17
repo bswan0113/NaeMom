@@ -92,7 +92,7 @@ label img {
 	<br><hr>
 	<form action="<c:url value='/main/addimage'/>" method="post" enctype="multipart/form-data">
 		<div class="form-group" id="file-input-container">
-			<input type="file" name="files" class="form-control">
+			<input type="file" id="file" name="files" class="form-control">
 		</div>
 	  	<button class="btn btn-secondary" type="submit">파일저장</button>
 	</form>
@@ -128,7 +128,7 @@ $(document).ready(function(){
       $(this).prop('checked', true);
     }
   });
-  
+  console.log($('#file').length);
   $(".btn-insert").click(function() {
     var checkedList = [];
     $('input[name="imgCheckbox"]:checked').each(function() {
