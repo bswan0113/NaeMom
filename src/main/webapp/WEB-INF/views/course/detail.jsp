@@ -170,9 +170,19 @@
 	    height: 164.5px;
 	  }
 	  .cos-list .cos-item .cos_text{
-	    min-height: 94px;
+	    max-height: 165px;
 	    padding-left: 340px;
 	    padding-right: 20px;
+	    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+	  }
+	  .cos-list .cos-item .cos_text div{
+	  	overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+	  }
+	  .cos-list .cos-item .cos_text div span{
+		overflow: hidden; text-overflow: ellipsis; white-space: nowrap !important;
+	  }
+	  .title-area{
+	  	margin-bottom: 10px;
 	  }
 	  .cos-list .cos_item_origin .cos_text_origin{
 	  	min-height: 94px;
