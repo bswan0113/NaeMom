@@ -56,11 +56,13 @@ h1{
 $(document).ready(function() {
 	
 
-	$('#keyword').keydown(function(event) {
+/* 	$('#keyword').keydown(function(event) {
     	if (event.keyCode === 13) {
       	event.preventDefault();
     	};
-  	});
+  	}); */
+  	
+  	
 
 	$('input[name="pdc_checked"]').each(function() {
 		var pdNum = $(this).val();
@@ -106,7 +108,7 @@ $(document).ready(function() {
 			}
 
 	  });
-}); */
+});  */
 </script>
 <script>
 

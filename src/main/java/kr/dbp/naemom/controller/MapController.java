@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.dbp.naemom.pagination.Criteria;
+import kr.dbp.naemom.pagination.PageMaker;
 import kr.dbp.naemom.service.MapService;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
@@ -33,12 +35,9 @@ public class MapController {
 	public ModelAndView home(ModelAndView mv) {
 		ArrayList<ProductVO> plist = mapService.getProductList();
 		ArrayList<FileVO> flist = mapService.getFileList();
-//		ArrayList<FileVO> files = new ArrayList<FileVO>();
 		ArrayList<ProductCategoryVO> clist = mapService.getProductCategory();
-		
 		mv.addObject("clist",clist);
 		mv.addObject("flist",flist);
-//		mv.addObject("files", files);
 		mv.addObject("plist", plist);
 		mv.setViewName("map/main");
 		return mv;
@@ -60,25 +59,41 @@ public class MapController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/map/searchProduct", method=RequestMethod.POST)
-	public Map<String, Object> mapSearchProduct(@RequestBody ProductVO product,HttpServletResponse response) {
+	public Map<String, Object> mapSearchProduct(@RequestBody Criteria cri,HttpServletResponse response) {
+		cri.setPerPageNum(10);
+		cri.setOrderBy("pd_num");
 		Map<String, Object> map = new HashMap<String, Object>();
-		ArrayList<ProductVO> products = mapService.getSearchProduct(product);
+		ArrayList<ProductVO> plist = mapService.getProductListCri(cri);
+//		ArrayList<ProductVO> products = mapService.getSearchProduct(product);
 		ArrayList<ProductCategoryVO> pdCategory = mapService.getProductCategory();
-		map.put("products", products);
+		int totalCount = mapService.getTotalCountBoard(cri);
+		int displayPageNum = 3;
+		PageMaker pm = new PageMaker(totalCount, displayPageNum, cri);
+		map.put("plist", plist);
+//		map.put("products", products);
 		map.put("pdCategory", pdCategory);
+		map.put("pm", pm);
 		return map;
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/map/selectProduct", method=RequestMethod.POST)
-	public Map<String, Object> mapSelectProduct(@RequestBody int pd_num) {
+	public Map<String, Object> mapSelectProduct(@RequestBody int pd_num,Criteria cri) {
+		cri.setPerPageNum(4);
+		cri.setOrderBy("pd_num");
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<ProductVO> plist = mapService.getSelectProduct(pd_num);
 		ArrayList<ProductCategoryVO> clist = mapService.getProductCategory();
+		ArrayList<ProductVO> plistCri = mapService.getProductListCri(cri);
 		FileVO file = mapService.getProductImg(pd_num);
+		int totalCount = mapService.getTotalCountBoard(cri);
+		int displayPageNum = 3;
+		PageMaker pm = new PageMaker(totalCount, displayPageNum, cri);
 		map.put("clist", clist);
 		map.put("file", file);
 		map.put("plist", plist);
+		map.put("pm", pm);
+		map.put("plistCri", plistCri);
 		return map;
 	}
 

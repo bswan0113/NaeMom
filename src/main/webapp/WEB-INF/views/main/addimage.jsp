@@ -128,7 +128,6 @@ $(document).ready(function(){
       $(this).prop('checked', true);
     }
   });
-  console.log($('#file').length);
   $(".btn-insert").click(function() {
     var checkedList = [];
     $('input[name="imgCheckbox"]:checked').each(function() {

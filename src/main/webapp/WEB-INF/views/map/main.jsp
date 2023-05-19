@@ -307,7 +307,23 @@ overflow: hidden
 			</tbody>
 		</table>
 	</div>
+	<ul class="pagination justify-content-center mt-5">
+
+	</ul>
+	<!-- <li class="page-item <c:if test="${!pm.prev }"> disabled</c:if>">
+			<a href="<c:url value='/map?page=${pm.startPage-1}&search=${pm.cri.search }&type=${pm.cri.type }'></c:url>" class="page-link">이전</a>
+		</li>
+		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" var="i">
+			<li class="page-item <c:if test="${i==pm.cri.page }"> active</c:if>">
+				<a href="<c:url value='/map?page=${i}&search=${pm.cri.search }&type=${pm.cri.type }'></c:url>" class="page-link">${i}</a>
+			</li>
+		</c:forEach>
+		
+		<li class="page-item <c:if test="${!pm.next }"> disabled</c:if>">
+			<a href="<c:url value='/map?page=${pm.endPage+1}&search=${pm.cri.search }&type=${pm.cri.type }'></c:url>" class="page-link">다음</a>
+		</li> -->
 </div>
+
 <div id="map" style="float: right"></div>
 
 <script type="text/javascript"
@@ -464,7 +480,6 @@ positions.forEach(function(position, index) {
   });
 });
 
-	
 
 
 <!-- 사이드 바 -->
@@ -477,7 +492,11 @@ $(document).ready(function(){
 	  </c:forEach>
 	 	
 });
-
+let cri = {
+		page: 1, 
+		orderBy : 'pd_num',
+		search : ''
+}
 $('.btn-search').click(function(){
 	  let product_search = $('.product-search').val();
 	  $('.productList').empty();
@@ -486,38 +505,76 @@ $('.btn-search').click(function(){
 		    return;
 	  }
 	  
-	  let product = {
+	  /* let product = {
 			  pd_title : product_search,
 			  pd_street_address: product_search
-	  }
-	 	console.log(product);
-	  ajaxPost(product, '<c:url value="/map/searchProduct"></c:url>', searchSuccess);
+	  } */
+	  cri.search = product_search
+	  console.log(cri);
+	  ajaxPost(cri, '<c:url value="/map/searchProduct"></c:url>', searchSuccess);
 	  
 	  
 });
 
+$('.prev-page').click(function(e){
+	 $('.productList').empty();
+	 
+	 ajaxPost(cri, '<c:url value="/map/searchProduct"></c:url>', searchSuccess);
+	 
+})
+
+
 function searchSuccess(data,e){
 	console.log(data);
 	  let str = '';
+	  var pm = data.pm;
 	  if(data.product == ''){
 		  alert('일치하는 상품이 없습니다.')
 		  return;
 	  }
 	  
-	  for(i = 0; i<data.products.length; i++){
+	  for(i = 0; i<data.plist.length; i++){
 		  for(j=0; j<data.pdCategory.length;j++){
-		  	str += searchProductTable(data.products[i],data.pdCategory[j]);
+		  	str += searchProductTable(data.plist[i],data.pdCategory[j]);
 		  }
 	  }
 	  
 	  $('.search-text').hide();
 	  $('.product-table').html(str);
 	  $('.product-table').show();
-	  
+	  var pageMakerHtml = drawPageMaker(pm, '<c:url value="/map"></c:url>');
+	  $('.pagination').html(pageMakerHtml);
 	 
 	  
 }
+var url = '<c:url value="/map"></c:url>'
+function drawPageMaker(pm,url) {
+	console.log(pm);
+	  var str = '';
+	  var currentPage = pm.cri.page;
+	  var totalPages = pm.totalCount;
+	  var startPage = pm.startPage;
+	  var endPage = pm.endPage;
+	  
+	  // 이전 페이지 링크
+	  str += '<li class="page-item' + (currentPage === 1 ? ' disabled' : '') + '">';
+	  str += '<a href="" class="page-link prev-page" data-num ="'+(startPage -1)+'">이전</a>';
+	  str += '</li>';
 
+	  // 페이지 번호 링크
+	  for (var i = startPage; i <= endPage; i++) {
+	    str += '<li class="page-item' + (currentPage === i ? ' active' : '') + '">';
+	    str += '<a href="" class="page-link page-num" data-num ="'+ i +'">' + i + '</a>';
+	    str += '</li>';
+	  }
+
+	  // 다음 페이지 링크
+	  str += '<li class="page-item' + (currentPage === totalPages ? ' disabled' : '') + '">';
+	  str += '<a href="" class="page-link next-page" data-num="'+(endPage +1)+'">다음</a>';
+	  str += '</li>';
+
+	  return str;
+}
 
 
 function searchProductTable(product,pdCategory){
@@ -541,6 +598,7 @@ function searchProductTable(product,pdCategory){
 			'<td class="find_pdNum" style="display:none;">'+product.pd_num+'</td>'+
 		'</tr>'
 	}
+	
 	return str;
 }; 
 
@@ -571,6 +629,7 @@ $(document).on('click','.menu-li', function() {
 	var pcNum = $(this).data('num');
 	// 해당 카테고리에 맞는 상품 목록 출력
 	getProductList(pcNum);
+	
 });
 
 
@@ -578,6 +637,9 @@ function getProductList(pcNum) {
 	ajaxPost(pcNum, '<c:url value="/map/selectProduct"></c:url>', function(data) {
 		var productTable = generateProductTable(data.plist);
 		$('.product-table').html(productTable);
+		var pm = data.pm;
+		var pageMakerHtml = drawPageMaker(pm, '<c:url value="/map"></c:url>');
+		  $('.pagination').html(pageMakerHtml);
 	});
 
 }
