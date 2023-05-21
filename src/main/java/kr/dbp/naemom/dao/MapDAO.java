@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.FileVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
@@ -11,6 +12,8 @@ import kr.dbp.naemom.vo.ProductVO;
 public interface MapDAO {
 
 	ArrayList<ProductVO> selectGetProductList();
+	
+	ArrayList<ProductVO> selectGetProductListCri(@Param("cri")Criteria cri);
 
 	ArrayList<FileVO> getFileList();
 
@@ -27,5 +30,9 @@ public interface MapDAO {
 	FileVO selectProductImg(@Param("pd_num")int pd_num, @Param("fi_category")String fi_category, @Param("fi_table")String fi_table);
 
 	ArrayList<ProductVO> selectSearchProductAddress(ProductVO product);
+
+	int selectTotalCountProduct(@Param("cri")Criteria cri);
+
+	
 
 }

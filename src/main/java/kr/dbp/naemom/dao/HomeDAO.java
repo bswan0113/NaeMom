@@ -51,6 +51,8 @@ public interface HomeDAO {
 
 	ArrayList<ProductVO> getProductListByScore();
 
+	void deleteFileByEvent(@Param("fi_num") int[] fi_num, @Param("fi_category") String fi_category, @Param("fi_table") String fi_table);
+
 
 	
 }

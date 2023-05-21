@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.dbp.naemom.dao.MapDAO;
+import kr.dbp.naemom.pagination.Criteria;
 import kr.dbp.naemom.vo.FileVO;
-import kr.dbp.naemom.vo.Hash_tagVO;
 import kr.dbp.naemom.vo.ProductCategoryVO;
 import kr.dbp.naemom.vo.ProductVO;
 
@@ -20,6 +20,12 @@ public class MapServiceImp implements MapService {
 	@Override
 	public ArrayList<ProductVO> getProductList() {
 		return mapDao.selectGetProductList();
+	}
+	
+	@Override
+	public ArrayList<ProductVO> getProductListCri(Criteria cri) {
+		cri = cri == null ? new Criteria() : cri;
+		return mapDao.selectGetProductListCri(cri);
 	}
 
 	@Override
@@ -64,6 +70,12 @@ public class MapServiceImp implements MapService {
 	@Override
 	public ArrayList<ProductVO> getSearchProductAddress(ProductVO product) {
 		return mapDao.selectSearchProductAddress(product);
+	}
+
+	@Override
+	public int getTotalCountBoard(Criteria cri) {
+		cri = cri == null ? new Criteria() : cri;
+		return mapDao.selectTotalCountProduct(cri);
 	}
 
 }

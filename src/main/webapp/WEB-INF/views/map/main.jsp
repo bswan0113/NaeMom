@@ -307,11 +307,27 @@ overflow: hidden
 			</tbody>
 		</table>
 	</div>
+	<ul class="pagination justify-content-center mt-5">
+
+	</ul>
+	<!-- <li class="page-item <c:if test="${!pm.prev }"> disabled</c:if>">
+			<a href="<c:url value='/map?page=${pm.startPage-1}&search=${pm.cri.search }&type=${pm.cri.type }'></c:url>" class="page-link">이전</a>
+		</li>
+		<c:forEach begin="${pm.startPage }" end="${pm.endPage }" var="i">
+			<li class="page-item <c:if test="${i==pm.cri.page }"> active</c:if>">
+				<a href="<c:url value='/map?page=${i}&search=${pm.cri.search }&type=${pm.cri.type }'></c:url>" class="page-link">${i}</a>
+			</li>
+		</c:forEach>
+		
+		<li class="page-item <c:if test="${!pm.next }"> disabled</c:if>">
+			<a href="<c:url value='/map?page=${pm.endPage+1}&search=${pm.cri.search }&type=${pm.cri.type }'></c:url>" class="page-link">다음</a>
+		</li> -->
 </div>
+
 <div id="map" style="float: right"></div>
 
 <script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7d3f638bdeedf08d5afccc6accd5e919&libraries=services"></script>
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a4892ded4168085c45112a15300a460c&libraries=services"></script>
 <script>
 var container = document.getElementById('map');
 
@@ -464,7 +480,6 @@ positions.forEach(function(position, index) {
   });
 });
 
-	
 
 
 <!-- 사이드 바 -->
@@ -477,7 +492,11 @@ $(document).ready(function(){
 	  </c:forEach>
 	 	
 });
-
+let cri = {
+		page: 1, 
+		orderBy : 'pd_num',
+		search : ''
+}
 $('.btn-search').click(function(){
 	  let product_search = $('.product-search').val();
 	  $('.productList').empty();
@@ -486,44 +505,89 @@ $('.btn-search').click(function(){
 		    return;
 	  }
 	  
-	  let product = {
-			  pd_title : product_search,
-			  pd_street_address: product_search
-	  }
-	 	console.log(product);
-	  ajaxPost(product, '<c:url value="/map/searchProduct"></c:url>', searchSuccess);
+	  
+	  cri.search = product_search
+	  console.log(cri);
+	  ajaxPost(cri, '<c:url value="/map/searchProduct"></c:url>', searchSuccess);
 	  
 	  
+});
+
+/* $('.prev-page').click(function(e){
+    e.preventDefault();
+    if (cri.page > 1) {
+        cri.page--;
+        ajaxPost(cri, '<c:url value="/map/searchProduct"></c:url>', searchSuccess);
+    }
+}); */
+
+/* $('.next-page').click(function(e){
+    e.preventDefault();
+    if (cri.page < pm.totalCount) {
+        cri.page++;
+        ajaxPost(cri, '<c:url value="/map/searchProduct"></c:url>', searchSuccess);
+    }
+}); */
+
+$(document).on('click', '.page-num, .prev-page, .next-page',function(e) {
+    e.preventDefault();
+    var pageNum = parseInt($(this).data('num'));
+    if (pageNum !== cri.page) {
+        cri.page = pageNum;
+        ajaxPost(cri, '<c:url value="/map/searchProduct"></c:url>', searchSuccess);
+    }
 });
 
 function searchSuccess(data,e){
 	console.log(data);
 	  let str = '';
+	  var pm = data.pm;
 	  if(data.product == ''){
 		  alert('일치하는 상품이 없습니다.')
 		  return;
 	  }
 	  
-	  for(i = 0; i<data.products.length; i++){
+	  for(i = 0; i<data.plist.length; i++){
 		  for(j=0; j<data.pdCategory.length;j++){
-		  	str += searchProductTable(data.products[i],data.pdCategory[j]);
+		  	str += searchProductTable(data.plist[i],data.pdCategory[j]);
 		  }
 	  }
-	  
+	  console.log(pm);
 	  $('.search-text').hide();
 	  $('.product-table').html(str);
 	  $('.product-table').show();
-	  /* $('.select_product').click(function(){
-	  	  let pd_nums = $(this).find('.find_pdNum').text(); 
-		  ajaxPost(products, '<c:url value="/map/selectProduct"></c:url>', searchProductTable);
-	  }) */
+	  var pageMakerHtml = drawPageMaker(pm, '<c:url value="/map"></c:url>');
+	  $('.pagination').html(pageMakerHtml);
 	 
 	  
 }
-/* $(document).on('click','.select_product', function(){
-	let pd_nums = $(this).find('.find_pdNum').text(); 
-	  ajaxPost(products, '<c:url value="/map/selectProduct"></c:url>', searchProductTable);
-}) */
+var url = '<c:url value="/map"></c:url>'
+function drawPageMaker(pm,url) {
+	  var str = '';
+	  var currentPage = pm.cri.page;
+	  var totalPages = pm.totalCount;
+	  var startPage = pm.startPage;
+	  var endPage = pm.endPage;
+	  console.log(pm.prev);
+	  // 이전 페이지 링크
+	  str += '<li class="page-item' + (pm.prev ? '' : ' disabled') + '">';
+	  str += '<a href="" class="page-link prev-page" data-num ="'+(startPage -1)+'">이전</a>';
+	  str += '</li>';
+
+	  // 페이지 번호 링크
+	  for (var i = startPage; i <= endPage; i++) {
+	    str += '<li class="page-item' + (currentPage === i ? ' active' : '') + '">';
+	    str += '<a href="" class="page-link page-num" data-num ="'+ i +'">' + i + '</a>';
+	    str += '</li>';
+	  }
+
+	  // 다음 페이지 P링크
+	  str += '<li class="page-item' + (pm.next ? '' : ' disabled') + '">';
+	  str += '<a href="" class="page-link next-page" data-num="'+(endPage +1)+'">다음</a>';
+	  str += '</li>';
+
+	  return str;
+}
 
 
 function searchProductTable(product,pdCategory){
@@ -547,6 +611,7 @@ function searchProductTable(product,pdCategory){
 			'<td class="find_pdNum" style="display:none;">'+product.pd_num+'</td>'+
 		'</tr>'
 	}
+	
 	return str;
 }; 
 
@@ -568,7 +633,63 @@ $(document).on('click','.select_product',function() {
 
 
 
-//각각의 메뉴를 클릭했을 때 해당 카테고리에 맞는 상품 목록 출력
+ //각각의 메뉴를 클릭했을 때 해당 카테고리에 맞는 상품 목록 출력
+$(document).on('click','.menu-li', function(e) {
+	e.preventDefault();
+	$('.search-text').val(''); 
+	$('.product-list').empty(); // 기존 상품 목록 삭제
+	$('.search-text').css('display', 'none');
+	// 클릭한 메뉴의 pc_num 값을 가져옴
+	var pcNum = $(this).data('num');
+	// 해당 카테고리에 맞는 상품 목록 출력
+	getProductList(cri, pcNum);
+});
+
+
+function getProductList(cri, pcNum) {
+	//여기에서 피씨넘을 가져와야 해요. 피씨넘을 넘겨주는데 값이 없어서 에러 발
+	/* var cri = {
+	        page: 1,
+	        orderBy: 'pd_num',
+	        search: '',
+	        pcNum: pcNum
+	    }; */
+	    
+	cri.pc_num = pcNum;
+	cri.page = 1;
+	cri.search = '';
+	console.log(cri);
+	ajaxPost(cri, '<c:url value="/map/selectProduct"></c:url>', function(data) {
+		console.log(data);
+		var pm = data.pm;
+		var productTable = generateProductTable(data.plistCri);
+		$('.product-table').html(productTable);
+		var pageMakerHtml = drawPageMaker(pm, '<c:url value="/map"></c:url>');
+		  $('.pagination').html(pageMakerHtml);
+	});
+
+}
+
+
+function generateProductTable(productList) {
+	var str = '';
+	for (var i = 0; i < productList.length; i++) {
+		
+		var product = productList[i];
+		var pdCategory = getCategory(product.pd_pc_num);
+		str +=
+			'<tr class="select_product">'+
+				'<td>'+product.pd_title+'</td>'+
+				'<td>'+product.pd_content+'</td>'+
+				'<input type="hidden" class="pd_address" value="' + product.pd_street_address + '">' +
+				'<td class="find_pdNum" style="display:none;">'+product.pd_num+'</td>'+
+			'</tr>';
+		
+	}
+	return str;
+} 
+
+/*  //각각의 메뉴를 클릭했을 때 해당 카테고리에 맞는 상품 목록 출력
 $(document).on('click','.menu-li', function() {
 	$('.search-text').val(''); 
 	$('.product-list').empty(); // 기존 상품 목록 삭제
@@ -605,9 +726,8 @@ function generateProductTable(productList) {
 		
 	}
 	return str;
-}
-
-
+} 
+ */
 
 function getCategory(pcNum) {
 	for (var i = 0; i < categoryList.length; i++) {

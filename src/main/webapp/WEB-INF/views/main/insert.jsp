@@ -49,18 +49,20 @@ h1{
 		</div>
 		<br><hr>
 		<button type="submit" class="btn btn-success btn-insert">등록하기</button>
-		<button type="button" class="btn btn-danger btn-cancel">등록취소</button>
 		<br><hr>
 	</form>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.js">
-alert(1);
 $(document).ready(function() {
-	$('#keyword').keydown(function(event) {
+	
+
+/* 	$('#keyword').keydown(function(event) {
     	if (event.keyCode === 13) {
       	event.preventDefault();
     	};
-  	});
+  	}); */
+  	
+  	
 
 	$('input[name="pdc_checked"]').each(function() {
 		var pdNum = $(this).val();
@@ -106,7 +108,7 @@ $(document).ready(function() {
 			}
 
 	  });
-}); */
+});  */
 </script>
 <script>
 

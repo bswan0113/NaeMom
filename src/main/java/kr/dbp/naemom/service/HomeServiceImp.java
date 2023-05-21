@@ -77,11 +77,11 @@ public class HomeServiceImp implements HomeService {
 	// 이벤트 이미지
 	@Override
 	public void addImage(MultipartFile files) {
-		if(files==null) 
+		if(files==null || files.getOriginalFilename().length() == 0) {
 			return;
+		}
 		String fileName="";
 		try {
-			System.out.println(files.getOriginalFilename());
 			fileName=UploadFileUtils.uploadFile(uploadPath, files.getOriginalFilename(), files.getBytes());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -156,6 +156,15 @@ public class HomeServiceImp implements HomeService {
 	@Override
 	public ArrayList<ProductVO> getProductListByScore() {
 		return homeDao.getProductListByScore();
+	}
+
+	@Override
+	public void deleteFileByEvent(int[] fi_num) {
+		if(fi_num == null)
+			return;
+		String fi_category = "이벤트 이미지";
+		String fi_table = "event";
+		homeDao.deleteFileByEvent(fi_num, fi_category, fi_table);
 	}
 
 	

@@ -8,6 +8,16 @@
   		select * from product
   	</select>
   	
+  	<select id="selectGetProductListCri" resultType="kr.dbp.naemom.vo.ProductVO">
+  		select * from product
+  			where (pd_title like concat('%',#{cri.search},'%') or pd_street_address like concat('%',#{cri.search},'%')) 
+  			<if test="cri.pc_num != 0">
+  				and pd_pc_num = #{cri.pc_num}
+  			</if>
+  			order by ${cri.orderBy} desc
+  			limit #{cri.pageStart}, #{cri.perPageNum}
+  	</select>
+  	
   	<select id="getFileList" resultType="kr.dbp.naemom.vo.FileVO">
   		select * from file where fi_category = '게시글 썸네일' and fi_table = 'product'
   	</select>
@@ -38,6 +48,15 @@
   	<select id="selectProductImg" resultType="kr.dbp.naemom.vo.FileVO">
   		select * from file where fi_table_key = #{pd_num} and fi_category like concat('%',#{fi_category},'%') 
   			and fi_table = #{fi_table}
+  	</select>
+  	
+  	<select id="selectTotalCountProduct" resultType = "int">
+  		select count(*) from product
+  			where (pd_title like concat('%',#{cri.search},'%') or pd_street_address like concat('%',#{cri.search},'%'))
+  			<if test="cri.pc_num != 0">
+  				and pd_pc_num = #{cri.pc_num}
+  			</if> 
+  			
   	</select>
   	
 </mapper>

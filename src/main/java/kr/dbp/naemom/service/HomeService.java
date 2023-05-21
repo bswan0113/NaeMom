@@ -52,6 +52,9 @@ public interface HomeService {
 
 	ArrayList<ProductVO> getProductListByScore();
 
+	void deleteFileByEvent(int[] fi_num);
+
+
 
 
 	
