@@ -11,6 +11,9 @@
   	<select id="selectGetProductListCri" resultType="kr.dbp.naemom.vo.ProductVO">
   		select * from product
   			where (pd_title like concat('%',#{cri.search},'%') or pd_street_address like concat('%',#{cri.search},'%')) 
+  			<if test="cri.pc_num != 0">
+  				and pd_pc_num = #{cri.pc_num}
+  			</if>
   			order by ${cri.orderBy} desc
   			limit #{cri.pageStart}, #{cri.perPageNum}
   	</select>
@@ -49,7 +52,10 @@
   	
   	<select id="selectTotalCountProduct" resultType = "int">
   		select count(*) from product
-  			where (pd_title like concat('%',#{cri.search},'%') or pd_street_address like concat('%',#{cri.search},'%')) 
+  			where (pd_title like concat('%',#{cri.search},'%') or pd_street_address like concat('%',#{cri.search},'%'))
+  			<if test="cri.pc_num != 0">
+  				and pd_pc_num = #{cri.pc_num}
+  			</if> 
   			
   	</select>
   	

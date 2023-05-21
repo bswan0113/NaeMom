@@ -60,7 +60,7 @@ public class MapController {
 	@ResponseBody
 	@RequestMapping(value = "/map/searchProduct", method=RequestMethod.POST)
 	public Map<String, Object> mapSearchProduct(@RequestBody Criteria cri,HttpServletResponse response) {
-		cri.setPerPageNum(10);
+		cri.setPerPageNum(3);
 		cri.setOrderBy("pd_num");
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<ProductVO> plist = mapService.getProductListCri(cri);
@@ -78,20 +78,18 @@ public class MapController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/map/selectProduct", method=RequestMethod.POST)
-	public Map<String, Object> mapSelectProduct(@RequestBody int pd_num,Criteria cri) {
-		cri.setPerPageNum(4);
+	public Map<String, Object> mapSelectProduct(@RequestBody Criteria cri) {
+		cri.setPerPageNum(3);
 		cri.setOrderBy("pd_num");
 		Map<String, Object> map = new HashMap<String, Object>();
-		ArrayList<ProductVO> plist = mapService.getSelectProduct(pd_num);
 		ArrayList<ProductCategoryVO> clist = mapService.getProductCategory();
 		ArrayList<ProductVO> plistCri = mapService.getProductListCri(cri);
-		FileVO file = mapService.getProductImg(pd_num);
+		FileVO file = mapService.getProductImg(cri.getPc_num());
 		int totalCount = mapService.getTotalCountBoard(cri);
 		int displayPageNum = 3;
 		PageMaker pm = new PageMaker(totalCount, displayPageNum, cri);
 		map.put("clist", clist);
 		map.put("file", file);
-		map.put("plist", plist);
 		map.put("pm", pm);
 		map.put("plistCri", plistCri);
 		return map;

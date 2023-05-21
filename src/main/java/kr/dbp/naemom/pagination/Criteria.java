@@ -18,6 +18,8 @@ public class Criteria {
 		private String orderBy;
 		
 		private int rc_re_num;
+		//여기에 피시넘 추까햬야햬요 끄럐야 아까 꺼끼써 쩐쏭햬써 빠ㄸ을쑤 잇어
+		private int pc_num;
 
 		//Criteria 디폴트 생성자 : 현재 페이지를 1페이지로, 한 페이지에 10개의 컨텐츠
 		public Criteria() {
