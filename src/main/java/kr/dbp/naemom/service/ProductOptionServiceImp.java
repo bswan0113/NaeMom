@@ -39,7 +39,7 @@ public class ProductOptionServiceImp implements ProductOptionService{
 			item.setFo_num(fo_pd_num);
 			if(item.getFo_age()== null) return false;
 			if(item.getFo_pd_num()<=0) return false;
-			if(item.getFo_price()<=0) return false;
+		
 			productOptionDao.insertFestivalOption(item);
 		}
 		
@@ -51,8 +51,7 @@ public class ProductOptionServiceImp implements ProductOptionService{
 		if(festival==null||
 				festival.getFo_age()==null||
 				festival.getFo_num()<=0||
-				festival.getFo_pd_num()<=0||
-				festival.getFo_price()<0 
+				festival.getFo_pd_num()<=0
 		)return false;
 		
 		return productOptionDao.updateFestival(festival);
@@ -66,7 +65,7 @@ public class ProductOptionServiceImp implements ProductOptionService{
 				item.setLo_num(la_pd_num);
 				if(item.getLo_age()== null) return false;
 				if(item.getLo_pd_num()<=0) return false;
-				if(item.getLo_price()<=0) return false;
+			
 				productOptionDao.insertLandmarkOption(item);
 			}
 		
@@ -83,8 +82,7 @@ public class ProductOptionServiceImp implements ProductOptionService{
 		if(landmark==null||
 				landmark.getLo_age()==null||
 				landmark.getLo_num()<=0||
-				landmark.getLo_pd_num()<=0||
-				landmark.getLo_price()<0 
+				landmark.getLo_pd_num()<=0
 		)return false;
 		
 		return productOptionDao.updateLandmark(landmark);
@@ -156,7 +154,7 @@ public class ProductOptionServiceImp implements ProductOptionService{
 		        option.setReo_num(num);
 		        if(option.getReo_content() == null || option.getReo_content().trim().length() <= 0 ||
 		                option.getReo_name() == null || option.getReo_name().trim().length() <= 0 ||
-		                option.getReo_pd_num() <= 0 || option.getReo_price() <= 0) {
+		                option.getReo_pd_num() <= 0){
 		            return false;
 		        }
 		        if(!productOptionDao.insertRestrauntOption(option)) {
@@ -201,8 +199,7 @@ public class ProductOptionServiceImp implements ProductOptionService{
 			if(restraunt.getReo_content().trim().length()<=0||
 					restraunt.getReo_name().trim().length()<=0||
 					restraunt.getReo_num()<=0||
-					restraunt.getReo_pd_num()<=0||
-					restraunt.getReo_price()<=0) return false;
+					restraunt.getReo_pd_num()<=0) return false;
 			return productOptionDao.updateRestraunt(restraunt);
 		}
 
@@ -239,7 +236,7 @@ public class ProductOptionServiceImp implements ProductOptionService{
 		        option.setAo_pd_num(pd_num);
 		        if(option.getAo_room_detail() == null || option.getAo_room_detail().trim().length() <= 0 ||
 		                option.getAo_name() == null || option.getAo_name().trim().length() <= 0 ||
-		                option.getAo_pd_num() <= 0 || option.getAo_price() <= 0||
+		                option.getAo_pd_num() <= 0 ||
 		                option.getAo_room_number() == null ||
 		                option.getAo_capacity() <=0) {
 		            return false;
@@ -284,7 +281,7 @@ public class ProductOptionServiceImp implements ProductOptionService{
 		public boolean updateAccomodation(Option_accomodationVO option) {
 		  if(option.getAo_room_detail() == null || option.getAo_room_detail().trim().length() <= 0 ||
 	                option.getAo_name() == null || option.getAo_name().trim().length() <= 0 ||
-	                option.getAo_pd_num() <= 0 || option.getAo_price() <= 0||
+	                option.getAo_pd_num() <= 0 ||
 	                option.getAo_room_number() == null ||
 	                option.getAo_capacity() <=0 ||
 	                option.getAo_num()<=0) {

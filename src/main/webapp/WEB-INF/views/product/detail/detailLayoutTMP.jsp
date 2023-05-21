@@ -77,7 +77,14 @@
 							<c:forEach items="${option}" var="opt">
 								<tr>
 									<td>${opt.lo_age}</td>
-									<td>${opt.lo_price}원</td>
+									<td>
+									  <c:if test="${opt.lo_price > 0}">
+									    ${opt.lo_price}원
+									  </c:if>
+									  <c:if test="${opt.lo_price == 0}">
+									    무료
+									  </c:if>
+									</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -93,7 +100,14 @@
 							<span>${opt.reo_name}</span><br>
 							<img alt="" src='"<c:url value="/download'+${opt.file.fi_name}'"></c:url>" height="300" width="300"'><br>
 							<p>${opt.reo_content}</p><br>
-							<span>${opt.reo_price}원</span>
+							<span>
+							  <c:if test="${opt.reo_price > 0}">
+							    ${opt.reo_price}원
+							  </c:if>
+							  <c:if test="${opt.reo_price == 0}">
+							    무료
+							  </c:if>
+							</span>
 							<hr>
 						</div>
 					</c:forEach>
@@ -130,7 +144,14 @@
 								<c:forEach items="${option}" var="opt">
 									<tr>
 										<td>${opt.fo_age}</td>
-										<td>${opt.fo_price}원</td>
+										<td>
+										  <c:if test="${opt.fo_price > 0}">
+										    ${opt.fo_price}원
+										  </c:if>
+										  <c:if test="${opt.fo_price == 0}">
+										    무료
+										  </c:if>
+										</td>
 									</tr>
 								</c:forEach>
 							</tbody>
