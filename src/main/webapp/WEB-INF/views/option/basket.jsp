@@ -272,7 +272,7 @@
 					</div>
 					<div class="option_select_box3">
 						<label>상세설명 : </label>
-						<span class="option_detail">${pr.pd_content }</span>
+						<span class="option_detail">${pr.pd_subtitle}</span>
 					</div>
 				</c:if>
 				</c:forEach>
