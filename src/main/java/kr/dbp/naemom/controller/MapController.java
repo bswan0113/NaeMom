@@ -60,7 +60,7 @@ public class MapController {
 	@ResponseBody
 	@RequestMapping(value = "/map/searchProduct", method=RequestMethod.POST)
 	public Map<String, Object> mapSearchProduct(@RequestBody Criteria cri,HttpServletResponse response) {
-		cri.setPerPageNum(3);
+		cri.setPerPageNum(10);
 		cri.setOrderBy("pd_num");
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<ProductVO> plist = mapService.getProductListCri(cri);
@@ -79,7 +79,7 @@ public class MapController {
 	@ResponseBody
 	@RequestMapping(value = "/map/selectProduct", method=RequestMethod.POST)
 	public Map<String, Object> mapSelectProduct(@RequestBody Criteria cri) {
-		cri.setPerPageNum(3);
+		cri.setPerPageNum(10);
 		cri.setOrderBy("pd_num");
 		Map<String, Object> map = new HashMap<String, Object>();
 		ArrayList<ProductCategoryVO> clist = mapService.getProductCategory();

@@ -507,27 +507,12 @@ $('.btn-search').click(function(){
 	  
 	  
 	  cri.search = product_search
-	  console.log(cri);
+	  
 	  ajaxPost(cri, '<c:url value="/map/searchProduct"></c:url>', searchSuccess);
 	  
 	  
 });
 
-/* $('.prev-page').click(function(e){
-    e.preventDefault();
-    if (cri.page > 1) {
-        cri.page--;
-        ajaxPost(cri, '<c:url value="/map/searchProduct"></c:url>', searchSuccess);
-    }
-}); */
-
-/* $('.next-page').click(function(e){
-    e.preventDefault();
-    if (cri.page < pm.totalCount) {
-        cri.page++;
-        ajaxPost(cri, '<c:url value="/map/searchProduct"></c:url>', searchSuccess);
-    }
-}); */
 
 $(document).on('click', '.page-num, .prev-page, .next-page',function(e) {
     e.preventDefault();
@@ -539,7 +524,6 @@ $(document).on('click', '.page-num, .prev-page, .next-page',function(e) {
 });
 
 function searchSuccess(data,e){
-	console.log(data);
 	  let str = '';
 	  var pm = data.pm;
 	  if(data.product == ''){
@@ -552,7 +536,6 @@ function searchSuccess(data,e){
 		  	str += searchProductTable(data.plist[i],data.pdCategory[j]);
 		  }
 	  }
-	  console.log(pm);
 	  $('.search-text').hide();
 	  $('.product-table').html(str);
 	  $('.product-table').show();
@@ -568,7 +551,6 @@ function drawPageMaker(pm,url) {
 	  var totalPages = pm.totalCount;
 	  var startPage = pm.startPage;
 	  var endPage = pm.endPage;
-	  console.log(pm.prev);
 	  // 이전 페이지 링크
 	  str += '<li class="page-item' + (pm.prev ? '' : ' disabled') + '">';
 	  str += '<a href="" class="page-link prev-page" data-num ="'+(startPage -1)+'">이전</a>';
@@ -658,7 +640,6 @@ function getProductList(cri, pcNum) {
 	cri.pc_num = pcNum;
 	cri.page = 1;
 	cri.search = '';
-	console.log(cri);
 	ajaxPost(cri, '<c:url value="/map/selectProduct"></c:url>', function(data) {
 		console.log(data);
 		var pm = data.pm;
@@ -689,45 +670,6 @@ function generateProductTable(productList) {
 	return str;
 } 
 
-/*  //각각의 메뉴를 클릭했을 때 해당 카테고리에 맞는 상품 목록 출력
-$(document).on('click','.menu-li', function() {
-	$('.search-text').val(''); 
-	$('.product-list').empty(); // 기존 상품 목록 삭제
-	$('.search-text').css('display', 'none');
-	// 클릭한 메뉴의 pc_num 값을 가져옴
-	var pcNum = $(this).data('num');
-	// 해당 카테고리에 맞는 상품 목록 출력
-	getProductList(pcNum);
-});
-
-
-function getProductList(pcNum) {
-	ajaxPost(pcNum, '<c:url value="/map/selectProduct"></c:url>', function(data) {
-		var productTable = generateProductTable(data.plist);
-		$('.product-table').html(productTable);
-	});
-
-}
-
-
-function generateProductTable(productList) {
-	var str = '';
-	for (var i = 0; i < productList.length; i++) {
-		
-		var product = productList[i];
-		var pdCategory = getCategory(product.pd_pc_num);
-		str +=
-			'<tr class="select_product">'+
-				'<td>'+product.pd_title+'</td>'+
-				'<td>'+product.pd_content+'</td>'+
-				'<input type="hidden" class="pd_address" value="' + product.pd_street_address + '">' +
-				'<td class="find_pdNum" style="display:none;">'+product.pd_num+'</td>'+
-			'</tr>';
-		
-	}
-	return str;
-} 
- */
 
 function getCategory(pcNum) {
 	for (var i = 0; i < categoryList.length; i++) {
