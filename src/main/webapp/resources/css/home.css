@@ -459,3 +459,13 @@ a:hover, a:visited{
 .festival-info .festival-content{
 	font-size: 14px;
 }
+
+.btn-pin:after{
+    font-size: 25px;
+    margin-left: -5px;
+}
+
+.btn-pun:after{
+    font-size: 25px;
+    margin-right: -5px;
+}

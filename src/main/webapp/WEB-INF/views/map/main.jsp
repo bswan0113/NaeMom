@@ -357,6 +357,7 @@ var positions = [];
 	var obj = {
 			pdNum : "${item.pd_num}",
 			title : "${item.pd_title}",
+			subtitle : "${item.pd_subtitle}",
 			address : "${item.pd_street_address}"
 	}
 	positions.push(obj);
@@ -588,7 +589,7 @@ function searchProductTable(product,pdCategory){
 		str +=
 		'<tr class="select_product">'+
 			'<td>'+product.pd_title+'</td>'+
-			'<td>'+product.pd_content+'</td>'+
+			'<td>'+product.pd_subtitle+'</td>'+
 			'<input type="hidden" class="pd_address" value="' + product.pd_street_address + '">' +
 			'<td class="find_pdNum" style="display:none;">'+product.pd_num+'</td>'+
 		'</tr>'
@@ -661,7 +662,7 @@ function generateProductTable(productList) {
 		str +=
 			'<tr class="select_product">'+
 				'<td>'+product.pd_title+'</td>'+
-				'<td>'+product.pd_content+'</td>'+
+				'<td>'+product.pd_subtitle+'</td>'+
 				'<input type="hidden" class="pd_address" value="' + product.pd_street_address + '">' +
 				'<td class="find_pdNum" style="display:none;">'+product.pd_num+'</td>'+
 			'</tr>';
@@ -686,7 +687,7 @@ var productList = [];
 			pd_pc_num: "${item.pd_pc_num}",
 			pdNum : "${item.pd_num}",
 			title : "${item.pd_title}",
-			content : `${item.pd_content}`,
+			content : `${item.pd_subtitle}`,
 			address : "${item.pd_street_address}"
 	};
 	productList.push(obj);

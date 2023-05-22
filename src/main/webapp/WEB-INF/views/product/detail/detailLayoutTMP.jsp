@@ -131,7 +131,6 @@
 			</c:if>			
 			<c:if test="${product.pd_pc_num==4}">
 				<c:if test="${option!=null}">
-					<c:forEach items="${option}" var="opt">
 						<strong>요금표</strong>
 						<table class="table">
 							<thead>
@@ -156,7 +155,6 @@
 								</c:forEach>
 							</tbody>
 						</table>
-					</c:forEach>
 				</c:if>			
 			</c:if>
 		</div>
