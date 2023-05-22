@@ -70,13 +70,14 @@
 
 		}
 		.option_detail{
-			display: block;
-			overflow: hidden;
-	    width: 490px;
-	    text-overflow: ellipsis;
-	    white-space: nowrap;
+			display: block; overflow: hidden; width: 490px; text-overflow: ellipsis; white-space: nowrap;
 		}
-
+		.option_detail div{
+			overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+		}
+		.option_detail div span{
+			overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+		}
 	    .select_product_box{
 	      float: right; border: 1px solid black; width: 380px; padding: 20px;
 	      margin-top: 100px; border-radius: 10px;
@@ -211,7 +212,7 @@
 					</div>
 					<div class="option_select_box3">
 						<label>상세설명 : </label>
-						<span class="option_detail">${list.pd_content }</span>
+						<span class="option_detail">${list.pd_subtitle }</span>
 					</div>
 				</div>
       		</li>
@@ -259,7 +260,7 @@
 					</div>
 					<div class="option_select_box3">
 						<label>상세설명 : </label>
-						<span class="option_detail">${list.pd_content }</span>
+						<span class="option_detail">${list.pd_subtitle }</span>
 					</div>
 				</div>
       		</li>
@@ -302,7 +303,7 @@
 					</div>
 					<div class="option_select_box3">
 						<label>상세설명 : </label>
-						<span class="option_detail">${list.pd_content }</span>
+						<span class="option_detail">${list.pd_subtitle }</span>
 					</div>
 				</div>
       		</li>

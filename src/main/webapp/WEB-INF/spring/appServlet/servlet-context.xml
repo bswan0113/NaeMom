@@ -18,9 +18,9 @@
 
 
 
-	<resources mapping="/download/**" location="file:/Users/hyunkyulee/final/Uploadfiles/" />
+	<!-- <resources mapping="/download/**" location="file:/Users/hyunkyulee/final/Uploadfiles/" /> -->
 	
-	<!-- <resources mapping="/download/**" location="file:///D:/uploadfiles/" /> -->
+	<resources mapping="/download/**" location="file:///D:/uploadfiles/" />
 
 
 
