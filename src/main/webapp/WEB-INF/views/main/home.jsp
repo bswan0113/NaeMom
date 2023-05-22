@@ -126,6 +126,7 @@
 			<c:forEach items="${festivalList}" var="festivalList" varStatus="vs">
 				<c:if test="${vs.index <= 2}">
 				<div class="col-12 col-sm-6 col-md-4 p-2 ">
+				<a href="<c:url value='/product/detail/detailLayoutTMP/${festivalList.pd_num }'></c:url>">
 					<div class="festival-box">
 						<c:forEach items="${festivalFiles}" var="file">
 						<c:if test="${file.fi_table_key == festivalList.pd_num}">
@@ -143,6 +144,7 @@
 							</div>
 						</div>
 					</div>
+				</a>
 				</div>
 				</c:if>
 			</c:forEach>
@@ -216,7 +218,6 @@ function getCookie(name) {
 }
 	
     var recentProduct = getCookie("recentProducts");
-    console.log(recentProduct);
     if (recentProduct != null && recentProduct != "") {
         // recentProduct 쿠키가 존재하는 경우
     document.write("<div class="+"main-container-third"+">");
