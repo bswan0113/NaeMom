@@ -6,19 +6,10 @@
 
 <script src="<c:url value='/resources/js/home.js'></c:url>"></script>
 <link rel="stylesheet" href="<c:url value='/resources/css/home.css?ver=1.3'></c:url>">
-<div class="form-group gpt-box">
-	<input class="form-control gpt-ask" type="search" placeholder="gpt에게 질문하세요!">
-	<button class="btn btn-success btn-gpt" style="width:100%;">질문하기</button>
-	<div class="res-gpt" style="border:2px solid white; min-height:88px; line-height:40px; background:#dae1e6; padding:4px;">
-	</div>
-</div>
 <div class="main-container-first">
-    <div class="first-title title">
-        <h2>메인</h2>
-    </div>
     <c:if test="${user.me_authority >= 9}">
     <div class="btn-container">
-    	<a href="/naemom/main/insert/" class="insertContent-btn btn btn-secondary">등록하기</a>
+    	<a href="/naemom/main/insert/" class="insertContent-btn btn btn-secondary" style="margin-bottom: 30px;">등록하기</a>
     </div>
     </c:if>
     <div class="swiper first-contents">
@@ -40,34 +31,12 @@
                 </div>
                 </c:forEach>
             </div>
-            <button class="swiper-button-prev btn-prev"></button>
-            <button class="swiper-button-next btn-next"></button>
+            <button class="swiper-button-prev btn-prev btn-pin" style="border: 1px solid white;width: 50px;height: 50px;border-radius: 50px;background: #fea600e3;--swiper-navigation-size: 50px;color: white;"></button>
+            <button class="swiper-button-next btn-next btn-pun" style="border: 1px solid white;width: 50px;height: 50px;border-radius: 50px;background: #fea600e3;--swiper-navigation-size: 50px;color: white;"></button>
         </div>
     </div>
 </div>
-<div class="main-container-second">
-	<div class="second-title title">
-        <h2>배너</h2>
-    </div>
-    <c:if test="${user.me_authority >= 9}">
-    <div class="btn-container">
-    	<a href="/naemom/main/addimage/" class="addimage-btn btn btn-secondary">이미지 등록하기</a>
-    </div>
-    </c:if>
-    <div class="banner-box">
-        <div class="swiper-container bannerSwiper">
-            <div class="swiper-wrapper">
-            	<c:forEach items="${flist}" var="file_checked">
-                <div class="swiper-slide banner-img" style="min-width: 1190px;">
-                    <a href="#">
-                    	<img class="" style="width:100%; height:100%; object-fit: contain;" src="<c:url value='/download${file_checked.fi_name}'></c:url>">
-                    </a>
-                </div>
-                </c:forEach>
-            </div>
-        </div>
-    </div>
-</div>
+
 <div class="main-container-fourth">
 	<div class="second-title title">
         <h2>내맘대로 코스</h2>
@@ -117,9 +86,9 @@
 		</c:forEach>
     </div>
 </div>
-<div  class="main-container-fifth">
+<div class="main-container-fifth">
 	<div class="second-title title">
-        <h2>내맘대로 축제</h2>
+        <h2 style="margin-top : 30px; margin-bottom : 50px;">내맘대로 축제</h2>
     </div>
 	<div class="container mb-5 pb-5 mt-3 festival-container">
 		<div class="row">
@@ -150,9 +119,33 @@
 			</c:forEach>
 		</div>
 	</div>
-
 </div>
-
+<div class="form-group gpt-box">
+	<input class="form-control gpt-ask" type="search" placeholder="gpt에게 질문하세요!">
+	<button class="btn btn-success btn-gpt" style="width:100%;">질문하기</button>
+	<div class="res-gpt" style="border:2px solid white; min-height:88px; line-height:40px; background:#dae1e6; padding:4px;">
+	</div>
+</div>
+<div class="main-container-second">
+    <c:if test="${user.me_authority >= 9}">
+    <div class="btn-container">
+    	<a href="/naemom/main/addimage/" class="addimage-btn btn btn-secondary">이미지 등록하기</a>
+    </div>
+    </c:if>
+    <div class="banner-box">
+        <div class="swiper-container bannerSwiper">
+            <div class="swiper-wrapper">
+            	<c:forEach items="${flist}" var="file_checked">
+                <div class="swiper-slide banner-img" style="min-width: 1190px;">
+                    <a href="#">
+                    	<img class="" style="width:100%; height:100%; object-fit: contain;" src="<c:url value='/download${file_checked.fi_name}'></c:url>">
+                    </a>
+                </div>
+                </c:forEach>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- swiper -->
 <script>
 
