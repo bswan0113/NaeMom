@@ -126,6 +126,8 @@ float:left;
 .search-item-content {
     height: 120px;
     padding: 10px;
+    overflow:hidden;
+    line-height:22px;
 
 }
 .search-item-content>p{
