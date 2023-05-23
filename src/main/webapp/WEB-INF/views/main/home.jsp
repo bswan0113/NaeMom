@@ -133,7 +133,7 @@
     </div>
     </c:if>
     <div class="banner-box">
-        <div class="swiper-container bannerSwiper">
+        <div class="swiper-container bannerSwiper" style="min-width: 1190px;">
             <div class="swiper-wrapper">
             	<c:forEach items="${flist}" var="file_checked">
                 <div class="swiper-slide banner-img" style="min-width: 1190px;">
